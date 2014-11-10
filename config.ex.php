@@ -1,7 +1,8 @@
 <?php
 
 // config file needs to be located
-// in the root directory of aod_rct
+// above the root directory of aod_rct
+// ex. /public_html/.../
 
 define('DB_HOST', '');
 define('DB_NAME', '');
