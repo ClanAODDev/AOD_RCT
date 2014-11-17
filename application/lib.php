@@ -1,7 +1,5 @@
 <?php
-
 include "modules/vbfunctions.php";
-
 
 if (DEBUG_MODE) {
     error_reporting(E_ALL);
