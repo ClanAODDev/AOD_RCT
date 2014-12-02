@@ -2,11 +2,11 @@
 <div id="push"></div>
 </div><!-- end wrap -->
 
-<div id="footer">
+<div id="footer" class="navbar navbar-inverse">
 	<div class="container">
 		<p>
-			<small class="text-muted">Copright &copy; Angels of Death 2005-2014. All rights reserved.</small>
-			<small class="text-muted pull-right">Developed by Guybrush</small>
+			<small>Copright &copy; Angels of Death 2005-2014. All rights reserved.</small>
+			<small class="pull-right">Developed by Guybrush</small>
 		</p>
 	</div>
 </div>
