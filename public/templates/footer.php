@@ -1,3 +1,7 @@
+<div class="margin-top-50"></div>
+<div id="push"></div>
+</div><!-- end wrap -->
+
 <div id="footer">
 	<div class="container">
 		<p>

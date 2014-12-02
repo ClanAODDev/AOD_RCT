@@ -11,6 +11,22 @@ else {
 }
 
 
+function isLoggedIn() {
+    if (!isset($_SESSION['user_id']) && (!isset($_SESSION['credentials']))) {
+
+    }
+}
+
+function define_pages() {
+
+    // build page rules for routing system
+    $rules = array(
+        'moderator' => "/moderator",
+        'home' => "/"
+        );
+    
+    return $rules;
+}
 
 function generateUrl($arg, $val)
 {
@@ -56,7 +72,6 @@ function get_games() {
     if(dbConnect()) {
 
         try {
-
             $query = "SELECT id, short_name, full_name, subforum, description FROM games ORDER BY full_name";
             $query = $pdo->prepare($query);
             $query->execute();

@@ -22,7 +22,8 @@ $gameid = (isset($_GET['game']) && (!empty($_GET['game']))) ? $_GET['game'] : NU
 
 </head>
 <body>
-
+	<div id="wrap">
+		<div class="push-top"></div>
 
 
 
