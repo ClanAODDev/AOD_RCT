@@ -6,7 +6,6 @@
  * of the BF4 division within AOD
  **/
 
-// include functions lib and config (place above public)
 include "../config.php";
 include "application/lib.php";
 
@@ -16,6 +15,7 @@ define( 'VIEWS', dirname( __FILE__ ) . '/application/views/' );
 $uri = rtrim( dirname($_SERVER["SCRIPT_NAME"]), '/' );
 $uri = '/' . trim( str_replace( $uri, '', $_SERVER['REQUEST_URI'] ), '/' );
 $uri = urldecode( $uri );
+
 
 $rules = define_pages();
 
@@ -45,7 +45,6 @@ if (isLoggedIn()) {
 	include(TEMPLATES . "footer.php");
 	exit;
 }
-
 
 
 ?>
