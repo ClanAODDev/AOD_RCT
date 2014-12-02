@@ -26,10 +26,6 @@ include 'public/templates/navigation.php';
 
 	$games = get_games();
 
-
-
-
-
 	// if user is not logged in
 	if (!isset($_SESSION['user_name'])) {
 
@@ -71,11 +67,7 @@ include 'public/templates/navigation.php';
 	// User is logged in
 	}
 
-
-
-
 /*
-
 	// if user is not logged in
 	if (!isset($_GET['game'])) {
 
