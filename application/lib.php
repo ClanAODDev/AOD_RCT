@@ -12,8 +12,7 @@ else {
 
 
 function isLoggedIn() {
-    return true;
-    exit;
+
     if (!isset($_SESSION['user_id']) && (!isset($_SESSION['credentials']))) {
 
     }
