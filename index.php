@@ -39,6 +39,7 @@ if (isLoggedIn()) {
 	exit;
 
 } else {
+	
 	include(TEMPLATES . "header.php");
 	include(TEMPLATES . "navigation.php");
 	include(VIEWS . "login.php");

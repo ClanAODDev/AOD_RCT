@@ -2,6 +2,12 @@
 
 $out = NULL;
 
+if (isLoggedIn()) {
+
+	header('Location: ./');
+
+} else {
+
 
 $out .= "
 <div class='container game-select fade-in '>
@@ -32,6 +38,7 @@ $out .= "
 
 ";
 
+}
 
 
 

@@ -12,6 +12,8 @@ else {
 
 
 function isLoggedIn() {
+    return true;
+    exit;
     if (!isset($_SESSION['user_id']) && (!isset($_SESSION['credentials']))) {
 
     }
@@ -21,7 +23,8 @@ function define_pages() {
 
     // build page rules for routing system
     $rules = array(
-        'moderator' => "/moderator",
+        'login' => "/login",
+        'recruit' => "/recruit",
         'home' => "/"
         );
     
@@ -65,7 +68,7 @@ function dbConnect()
 }
 
 
-function get_games() {
+function getGames() {
 
     global $pdo;
 
