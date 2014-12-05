@@ -224,12 +224,6 @@ function createUser($user, $email, $credential) {
     if (dbConnect()) {
         try {
             
-            /*          
-            $cost  = 10;
-            $salt  = strstr(base64_encode(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM)), '+', '.');
-            $salt  = sprintf("$2a$%02d$", $cost) . $salt;
-            $hash  = crypt($credential, $salt);
-            */
             $hash = hasher($credential);
             
             $user  = strtolower($user);
@@ -254,7 +248,7 @@ function createUser($user, $email, $credential) {
 }
 
 
-function validatePassword($hash, $user) {
+function validatePassword($pass, $user) {
     global $pdo;
     $user = strtolower($user);
     
@@ -271,8 +265,8 @@ function validatePassword($hash, $user) {
             echo 'ERROR: ' . $e->getMessage();
         }
     }
-    
-    if (crypt($hash, $user->credential) === $user->credential) {
+
+    if ($pass == hasher($pass, $user->credential)) {
         return true;
     } else {
         return false;

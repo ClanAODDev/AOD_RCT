@@ -29,8 +29,10 @@ if (!$userexists) {
 
 		$data['success'] = true;
 		$data['message'] = 'You have been logged in';  
+		
 		session_start();  
-		$_SESSION['username'] = $username;  
+		$_SESSION['username'] = $user;
+		$_SESSION['loggedIn'] = true;
 	}
 
 }
