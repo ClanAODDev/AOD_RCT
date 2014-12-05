@@ -16,7 +16,7 @@ $userexists = userExists($user);
 
 if (!$userexists) { 
 	$data['success'] = false;
-	$data['message'] = 'Your credentials are incorrect (usr';
+	$data['message'] = 'Your credentials are incorrect';
 
 } else {
 
