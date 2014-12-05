@@ -43,7 +43,8 @@ function define_pages() {
         'player'    => "/player/(?'id'\d+)",
         'game'      => "/game/(?'game'bf4|wf|aa|a3)",
         'register'     => "/register",
-        'recruit'   => "/recruit",
+        'register'     => "/register",
+        'logout'   => "/logout",
         'home'      => "/"
         );
     

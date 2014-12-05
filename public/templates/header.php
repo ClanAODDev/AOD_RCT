@@ -35,12 +35,13 @@
 						<li data-toggle="pill"><a href="#">About</a></li>
 						<li><a href="#about" data-toggle="pill">Something</a></li>
 						<li><a href="#contact" data-toggle="pill">Help</a></li>
+						<li><a href="#" data-toggle="pill" class="logout-btn">Logout</a></li>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li><a href="#" data-toggle="pill">Action</a></li>
 								<li><a href="#" data-toggle="pill">Another action</a></li>
-								<li><a href="#" data-toggle="pill">Something else here</a></li>
+
 								<li class="divider"></li>
 								<li><a href="#">Separated link</a></li>
 							</ul>
