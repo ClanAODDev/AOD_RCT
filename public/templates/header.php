@@ -29,6 +29,7 @@
 				</div>
 
 				<?php if (isLoggedIn()) { ?>
+				
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav navbar-right">
 						<li data-toggle="pill"><a href="#">About</a></li>
@@ -47,6 +48,15 @@
 					</ul>
 
 				</div><!--/.nav-collapse -->
-				<?php } ?>
+
+				<?php } else { ?>
+
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li><a>Not logged in</a></li>
+					</ul>
+				</div>
+
+				<?php } ?>		
 			</div>
 		</div>
