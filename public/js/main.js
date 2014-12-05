@@ -18,7 +18,7 @@ $(function() {
             $(this).serialize(),
             function(data) {
                 if (data['success'] === true) {
-                    alert('User successfully logged in');
+                    location.reload();
                 } else if (data['success'] === false) {
                     alert('ERROR: ' + data['message']);
                 }

@@ -15,18 +15,31 @@ else {
 
 function isLoggedIn() {
 
-    if (!isset($_SESSION['user_id']) && (!isset($_SESSION['credentials']))) {
-
+    if (!isset($_SESSION['username'])) {
+        return false;
+    } else {
+        return true;
     }
 }
 
 function define_pages() {
 
+/*
+    'picture'   => "/picture/(?'text'[^/]+)/(?'id'\d+)",    // '/picture/some-text/51'
+    'album'     => "/album/(?'album'[\w\-]+)",              // '/album/album-slug'
+    'category'  => "/category/(?'category'[\w\-]+)",        // '/category/category-slug'
+    'page'      => "/page/(?'page'about|contact)",          // '/page/about', '/page/contact'
+    'post'      => "/(?'post'[\w\-]+)",                     // '/post-slug'
+    'home'      => "/"
+*/
+
+
     // build page rules for routing system
     $rules = array(
-        'login' => "/login",
-        'recruit' => "/recruit",
-        'home' => "/"
+        'game'      => "/game/(?'game'bf4|wf|aa|a3)",
+        'login'     => "/login",
+        'recruit'   => "/recruit",
+        'home'      => "/"
         );
     
     return $rules;

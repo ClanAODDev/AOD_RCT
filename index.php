@@ -6,6 +6,8 @@
  * of the BF4 division within AOD
  **/
 
+session_start();
+
 include "application/lib.php";
 
 define( 'TEMPLATES', dirname( __FILE__ ) . '/public/templates/' );
@@ -38,7 +40,8 @@ if (isLoggedIn()) {
 	exit;
 
 } else {
-	
+
+	// show login page	
 	include(TEMPLATES . "header.php");
 	include(TEMPLATES . "navigation.php");
 	include(VIEWS . "login.php");

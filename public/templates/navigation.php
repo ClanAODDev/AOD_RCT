@@ -7,7 +7,7 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="./"><strong>AOD</strong> <small>Squad Management</small></a>
+			<a class="navbar-brand" href="/aod_rct"><strong>AOD</strong> <small>Squad Management</small></a>
 		</div>
 		<div class="navbar-collapse collapse">
 			<ul class="nav navbar-nav navbar-right">

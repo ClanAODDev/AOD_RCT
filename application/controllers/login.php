@@ -1,5 +1,6 @@
 <?php
 
+session_start();
 include "../lib.php";
 
 $forum = "http://www.clanaod.net/forums/";
@@ -20,7 +21,9 @@ if ($_POST) {
 	} else {
 
 		// not providing a message because there's no error to report
+		$_SESSION['username'] = $user;
 		$data['success'] = true;
+
 	}
 
 } 

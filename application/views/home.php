@@ -2,6 +2,11 @@
 
 // we are assuming you are logged in at this point
 
+// variables for dig
+$player = (isset($_GET['player']) && (!empty($_GET['player']))) ? $_GET['player'] : NULL;
+$gameid = (isset($_GET['game']) && (!empty($_GET['game']))) ? $_GET['game'] : NULL;
+
+
 $out = NULL;
 
 $out .= "
@@ -15,6 +20,7 @@ $out .= "
 	</div>
 </div>
 ";
+
 
 echo $out;
 
