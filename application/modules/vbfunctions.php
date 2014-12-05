@@ -18,7 +18,7 @@
  */
 
 require_once "vBulletinModule.php";
-requireOnce "curl_agents.php";
+require_once "curl_agents.php";
 
 /**
  * A simple class which contains POST/GET/login functions for a vBulletin forum
