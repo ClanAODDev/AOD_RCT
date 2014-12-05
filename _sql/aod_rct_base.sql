@@ -43,3 +43,16 @@
   `email` text NOT NULL,
   PRIMARY KEY (`id`)
 );
+
+ DROP TABLE IF EXISTS `users`;
+ CREATE TABLE `users` (
+  `id` int(30) NOT NULL AUTO_INCREMENT,
+  `username` text NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `role` tinyint(4) NOT NULL,
+  `ip` varchar(255) NOT NULL,
+  `last_logged` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `credential` varchar(255) NOT NULL,
+  `date_joined` timestamp NOT NULL,
+  PRIMARY KEY (`id`)
+)
