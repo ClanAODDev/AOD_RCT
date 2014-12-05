@@ -21,6 +21,11 @@ $(function() {
                     $('#login-panel').fadeOut();
                     $('.msg').removeClass('alert-danger').addClass('alert alert-success').html("<i class=\"fa fa-check-square-o\"></i> <small>" + data['message'] + "</small>").slideDown();
                     $('.status-text').delay(1500).html("<small>You will now be redirected to the admin panel...</small>").fadeIn();
+
+                    setTimeout(function() {
+                        window.location.href = "/aod_rct";
+                    }, 4000);
+                    
                 } else if (data['success'] === false) {
                     $('.msg').addClass('alert alert-danger').html("<i class=\"fa fa-times-circle\"></i> <small>" + data['message'] + "</small>").slideDown();
 
@@ -44,7 +49,7 @@ $(function() {
                     setTimeout(function() {
                         window.location.href = "/aod_rct";
                     }, 4000);
-                    
+
                 } else if (data['success'] === false) {
                     $('.msg').addClass('alert alert-danger').html("<i class=\"fa fa-times-circle\"></i> <small>" + data['message'] + "</small>").slideDown();
 
