@@ -6,7 +6,6 @@
  * of the BF4 division within AOD
  **/
 
-include "../config.php";
 include "application/lib.php";
 
 define( 'TEMPLATES', dirname( __FILE__ ) . '/public/templates/' );
