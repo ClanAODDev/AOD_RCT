@@ -8,11 +8,10 @@ if (isLoggedIn()) {
 
 } else {
 
-	$out .= "
-
+	$out .= "	
 	<div class='container game-select fade-in' style='z-index: 5;'>
 		<div class='panel panel-default'>
-			<div class='panel-heading'>Leader Login</div>
+			<div class='panel-heading'>Leader Account Creation</div>
 			<div class='panel-body'>
 				<form class='form' role='form' id='login'>
 
@@ -21,18 +20,24 @@ if (isLoggedIn()) {
 						<input type='text' class='form-control' id='user' name='user' placeholder='Username' required />
 					</div>
 
+					<div class='form-group'>
+					<label class='sr-only' for='email'>E-mail</label>
+						<input type='text' class='form-control' id='email' name='email' placeholder='Email' required />
+					</div>
+
 					<div class=\"form-group\">
 						<label class='sr-only' for='password'>Email</label>
 						<input type='password' class='form-control' id='password' name='password' placeholder='Password' required />
 					</div>
-					<button type='submit' class='btn btn-primary'>Login</button>
 
+					<button type='reset' class='btn btn-default'>Reset</button>
+					<button type='submit' class='btn btn-primary'>Register</button>
+					
 				</form>
 			</div>
-			<div class='panel-footer text-muted'><small>Don't have an account? <a href='./register/'>Create one</a>.</small></div>
+			<div class='panel-footer text-muted'><small>Your username should be the one you use for the AOD Forums, without the AOD prefix.</small></div>
 		</div>
 	</div>
-
 
 	";
 

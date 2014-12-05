@@ -1,14 +1,12 @@
 <?php
 
-// variables for dig
-$player = (isset($_GET['player']) && (!empty($_GET['player']))) ? $_GET['player'] : NULL;
-$gameid = (isset($_GET['game']) && (!empty($_GET['game']))) ? $_GET['game'] : NULL;
-
 $out = NULL;
 
 var_dump($params);
+die;
 
 if (!is_null($gameid)) {
+
 
 	$info = get_game_info($gameid);
 
