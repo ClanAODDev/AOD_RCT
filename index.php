@@ -25,7 +25,6 @@ if (isLoggedIn()) {
 	foreach ( $rules as $action => $rule ) {
 		if ( preg_match( '~^'.$rule.'$~i', $uri, $params ) ) {
 			include(TEMPLATES . "header.php");
-			include(TEMPLATES . "navigation.php");
 			include(VIEWS . $action . ".php");
 			include(TEMPLATES . "footer.php");
 			exit;
@@ -34,7 +33,6 @@ if (isLoggedIn()) {
 
 	// if no page is found, show the 404 page
 	include(TEMPLATES . "header.php");
-	include(TEMPLATES . "navigation.php");
 	include(TEMPLATES . "404.html");
 	include(TEMPLATES . "footer.php");
 	exit;
@@ -43,7 +41,6 @@ if (isLoggedIn()) {
 
 	// show login page	
 	include(TEMPLATES . "header.php");
-	include(TEMPLATES . "navigation.php");
 	include(VIEWS . "login.php");
 	include(TEMPLATES . "footer.php");
 	exit;
