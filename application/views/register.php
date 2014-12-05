@@ -22,7 +22,7 @@ if (isLoggedIn()) {
 
 					<div class='form-group'>
 						<label class='sr-only' for='email'>E-mail</label>
-						<input type='text' class='form-control' id='email' name='email' placeholder='Email' required />
+						<input type='email' class='form-control' id='email' name='email' placeholder='Email' required />
 					</div>
 
 					<div class=\"form-group\">
