@@ -195,16 +195,43 @@ function userExists($string) {
     }
 }
 
+function hasher($info, $encdata = false) 
+{ 
+  $strength = "10"; 
+  
+  //if encrypted data is passed, check it against input ($info) 
+  if ($encdata) { 
+    if (substr($encdata, 0, 60) == crypt($info, "$2a$".$strength."$".substr($encdata, 60))) { 
+      return true; 
+    } else { 
+      return false; 
+    } 
+  } else { 
+
+    //make a salt and hash it with input, and add salt to end 
+    $salt = ""; 
+    for ($i = 0; $i < 22; $i++) { 
+      $salt .= substr("./ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", mt_rand(0, 63), 1); 
+    } 
+    //return 82 char string (60 char hash & 22 char salt) 
+    return crypt($info, "$2a$".$strength."$".$salt).$salt; 
+  } 
+} 
 
 function createUser($user, $email, $credential) {
     global $pdo;
     
     if (dbConnect()) {
         try {
+            
+            /*          
             $cost  = 10;
             $salt  = strstr(base64_encode(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM)), '+', '.');
             $salt  = sprintf("$2a$%02d$", $cost) . $salt;
             $hash  = crypt($credential, $salt);
+            */
+            $hash = hasher($credential);
+            
             $user  = strtolower($user);
             $query = $pdo->prepare("INSERT INTO users ( username, credential, email, ip, date_joined) VALUES ( :user, :pass, :email, :ip, CURRENT_TIMESTAMP() )");
 
