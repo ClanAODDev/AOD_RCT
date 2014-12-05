@@ -30,7 +30,8 @@ if (!$userexists) {
 		$data['success'] = true;
 		$data['message'] = 'You have been logged in';  
 		
-		session_start();  
+		session_start();
+		updateLoggedInTime($user);  
 		$_SESSION['username'] = $user;
 		$_SESSION['loggedIn'] = true;
 	}

@@ -218,6 +218,24 @@ function hasher($info, $encdata = false)
   } 
 } 
 
+function updateLoggedInTime($user) {
+     global $pdo;
+    
+    if (dbConnect()) {
+        try {
+            
+            $user  = strtolower($user);
+            $query = $pdo->prepare("UPDATE users SET last_logged = CURRENT_TIMESTAMP() WHERE username = :user");
+            $query->execute(array( ':user' => $user ));            
+        }
+        catch (PDOException $e) {
+            echo 'ERROR: ' . $e->getMessage();
+        }
+    } else {
+        return false;
+    }
+}
+
 function createUser($user, $email, $credential) {
     global $pdo;
     
