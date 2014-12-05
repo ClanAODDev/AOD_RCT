@@ -18,9 +18,36 @@ $(function() {
             $(this).serialize(),
             function(data) {
                 if (data['success'] === true) {
-                    location.reload();
+                    $('#login-panel').fadeOut();
+                    $('.msg').removeClass('alert-danger').addClass('alert alert-success').html("<i class=\"fa fa-check-square-o\"></i> <small>" + data['message'] + "</small>").slideDown();
+                    $('.status-text').delay(1500).html("<small>You will now be redirected to the admin panel...</small>").fadeIn();
                 } else if (data['success'] === false) {
-                    alert('ERROR: ' + data['message']);
+                    $('.msg').addClass('alert alert-danger').html("<i class=\"fa fa-times-circle\"></i> <small>" + data['message'] + "</small>").slideDown();
+
+                }
+            }, "json");
+
+    });
+
+
+
+    $('#register').submit(function(e) {
+        e.preventDefault();
+        $.post("/aod_rct/application/controllers/register.php",
+            $(this).serialize(),
+            function(data) {
+                if (data['success'] === true) {
+                    $('#register-panel').fadeOut();
+                    $('.msg').removeClass('alert-danger').addClass('alert alert-success').html("<i class=\"fa fa-check-square-o\"></i> <small>" + data['message'] + "</small>").slideDown();
+                    $('.status-text').delay(1500).html("<small>You will now be redirected to the login form...</small>").fadeIn();
+
+                    setTimeout(function() {
+                        window.location.href = "/aod_rct";
+                    }, 2000);
+                    
+                } else if (data['success'] === false) {
+                    $('.msg').addClass('alert alert-danger').html("<i class=\"fa fa-times-circle\"></i> <small>" + data['message'] + "</small>").slideDown();
+
                 }
             }, "json");
 

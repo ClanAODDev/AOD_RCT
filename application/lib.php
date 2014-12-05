@@ -160,6 +160,102 @@ function get_game_threads($gid) {
 }
 
 
+function userExists($string) {
+    global $pdo;
+    
+    if (dbConnect()) {
+        if (isset($string)) {
+            $string = strtolower($string);
+            
+            try {
+                $sth = $pdo->prepare('SELECT count(*) FROM users WHERE username= :username LIMIT 1');
+                $sth->bindParam(':username', $string);
+                $sth->execute();
+                $count = $sth->fetchColumn();
+                
+            }
+            catch (PDOException $e) {
+                echo 'ERROR: ' . $e->getMessage();
+            }
+            
+            if ($count > 0) {
+                return true;
+            } else {
+                return false;
+            }
+            
+            
+            if (!$count) {
+                die('Could not get data (userexists): ' . mysql_error());
+            }
+            
+        } else {
+            die('Cant connect to mysql (userexists)');
+        }
+    }
+}
+
+
+function createUser($user, $email, $credential) {
+    global $pdo;
+    
+    if (dbConnect()) {
+        try {
+            $cost  = 10;
+            $salt  = strstr(base64_encode(mcrypt_create_iv(16, MCRYPT_DEV_URANDOM)), '+', '.');
+            $salt  = sprintf("$2a$%02d$", $cost) . $salt;
+            $hash  = crypt($credential, $salt);
+            $user  = strtolower($user);
+            $query = $pdo->prepare("INSERT INTO users ( username, credential, email, ip, date_joined) VALUES ( :user, :pass, :email, :ip, CURRENT_TIMESTAMP() )");
+
+            var_dump($hash);
+            die;
+            $query->execute(array(
+                ':user' => $user,
+                ':pass' => $hash,
+                ':email' => $email,
+                ':ip' => $_SERVER['REMOTE_ADDR']
+                ));
+            return $pdo->lastInsertId();
+            
+        }
+        catch (PDOException $e) {
+            echo 'ERROR: ' . $e->getMessage();
+        }
+        
+    } else {
+        return false;
+    }
+}
+
+
+function validatePassword($hash, $user) {
+    global $pdo;
+    $user = strtolower($user);
+    
+    if (dbConnect()) {
+        try {
+            $sth = $pdo->prepare('SELECT credential FROM users WHERE username = :username LIMIT 1');
+            $sth->bindParam(':username', $user);
+            $sth->execute();
+
+            $user = $sth->fetch(PDO::FETCH_OBJ);
+
+        }
+        catch (PDOException $e) {
+            echo 'ERROR: ' . $e->getMessage();
+        }
+    }
+    
+    if (crypt($hash, $user->credential) === $user->credential) {
+        return true;
+    } else {
+        return false;
+    }
+    
+}
+
+
 
 function checkThread($player, $thread) {
 

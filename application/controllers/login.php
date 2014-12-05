@@ -1,25 +1,40 @@
 <?php
 
 include "../lib.php";
-
-$forum = "http://www.clanaod.net/forums/";
-$vb = new vBForumFunctions($forum);
 $data = NULL;
+
+
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
 
 $user = $_POST['user'];
 $pass = $_POST['password'];
 
-/*if(!$vb->login($user, $pass)) {
-	$data['success'] = false;
-	$data['message'] = 'Login information was incorrect';
-} else {
-	session_start();
-	$data['success'] = true;
-	$_SESSION['loggedIn'] = true;
-	$_SESSION['username'] = $user;
-}*/
 
-sleep(2);
+$userexists = userExists($user);
+
+if (!$userexists) { 
+	$data['success'] = false;
+	$data['message'] = 'Your credentials are incorrect (usr';
+
+} else {
+
+	if (!validatePassword($pass, $user)) {
+
+		$data['success'] = false;
+		$data['message'] = 'Your credentials are incorrect';    
+
+	} else {
+
+		$data['success'] = true;
+		$data['message'] = 'You have been logged in';  
+		session_start();  
+		$_SESSION['username'] = $username;  
+	}
+
+}
+
 
 echo json_encode($data);
 exit;

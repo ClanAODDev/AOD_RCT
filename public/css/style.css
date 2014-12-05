@@ -12,6 +12,10 @@ body {
 	height: 55px;
 }
 
+.msg, .status-text {
+	display: none;
+}
+
 
 
 ul.nav {
