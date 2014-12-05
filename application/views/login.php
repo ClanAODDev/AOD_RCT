@@ -12,7 +12,7 @@ if (isLoggedIn()) {
 
 	<div class='container game-select fade-in' style='z-index: 5;'>
 		<div class='panel panel-default'>
-			<div class='panel-heading'>Leader Login</div>
+			<div class='panel-heading'><i class=\"fa fa-user\" aria-hidden=\"true\"></i> Leader Login</div>
 			<div class='panel-body'>
 				<form class='form' role='form' id='login'>
 

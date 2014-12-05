@@ -9,7 +9,8 @@
 
 	<link rel="stylesheet" type="text/css" href="/aod_rct/public/css/cyborg.min.css">		
 	<link rel="stylesheet" type="text/css" href="/aod_rct/public/css/style.css">		
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>	
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">	
 
 </head>
 <body>
