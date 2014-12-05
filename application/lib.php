@@ -12,14 +12,19 @@ else {
     ini_set('display_errors', 0);
 }
 
+if (isLoggedIn()) {
+    $curUser = ucwords(str_replace('aod_', '', $_SESSION['username']));    
+}
+
 
 function isLoggedIn() {
 
-    if (!isset($_SESSION['username'])) {
-        return false;
-    } else {
-        return true;
+    if (isset($_SESSION['loggedIn'])) {
+        if ($_SESSION['loggedIn'] === true) {
+            return true;
+        } 
     }
+    return false;
 }
 
 function define_pages() {
@@ -32,12 +37,12 @@ function define_pages() {
     'post'      => "/(?'post'[\w\-]+)",                     // '/post-slug'
     'home'      => "/"
 */
-
-
+    
     // build page rules for routing system
     $rules = array(
+        'player'    => "/player/(?'id'\d+)",
         'game'      => "/game/(?'game'bf4|wf|aa|a3)",
-        'login'     => "/login",
+        'register'     => "/register",
         'recruit'   => "/recruit",
         'home'      => "/"
         );

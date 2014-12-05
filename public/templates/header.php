@@ -15,7 +15,7 @@
 <body>
 	<div id="wrap">
 		<div class="push-top"></div>
-		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
 			<div class="container">
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
@@ -26,6 +26,8 @@
 					</button>
 					<a class="navbar-brand" href="/aod_rct"><strong>AOD</strong> <small>Squad Management</small></a>
 				</div>
+
+				<?php if (isLoggedIn()) { ?>
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav navbar-right">
 						<li data-toggle="pill"><a href="#">About</a></li>
@@ -44,5 +46,6 @@
 					</ul>
 
 				</div><!--/.nav-collapse -->
+				<?php } ?>
 			</div>
 		</div>

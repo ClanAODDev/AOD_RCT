@@ -1,33 +1,27 @@
 <?php
 
-session_start();
 include "../lib.php";
 
 $forum = "http://www.clanaod.net/forums/";
 $vb = new vBForumFunctions($forum);
+$data = NULL;
 
-if ($_POST) {
+$user = $_POST['user'];
+$pass = $_POST['password'];
 
-	// may want to consider sanitizing, but since we aren't recording yet... TODO
-	$user = $_POST['user'];
-	$pass = $_POST['password'];
+/*if(!$vb->login($user, $pass)) {
+	$data['success'] = false;
+	$data['message'] = 'Login information was incorrect';
+} else {
+	session_start();
+	$data['success'] = true;
+	$_SESSION['loggedIn'] = true;
+	$_SESSION['username'] = $user;
+}*/
 
-	// validate credentials, ensure user can login
-	if(!$vb->login($user, $pass)) {
-
-		$data['success'] = false;
-		$data['message'] = 'Login information was incorrect';
-
-	} else {
-
-		// not providing a message because there's no error to report
-		$_SESSION['username'] = $user;
-		$data['success'] = true;
-
-	}
-
-} 
+sleep(2);
 
 echo json_encode($data);
+exit;
 
 ?>
