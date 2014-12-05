@@ -18,6 +18,7 @@
  */
 
 require_once "vBulletinModule.php";
+requireOnce "curl_agents.php";
 
 /**
  * A simple class which contains POST/GET/login functions for a vBulletin forum
@@ -51,7 +52,7 @@ class vBForumFunctions {
 		curl_setopt($ch, CURLOPT_HEADER, $info);
 		//I will not deny the forums the right to block this, it can be done easily through settings.
 		//You are however free to change this.
-		curl_setopt($ch, CURLOPT_USERAGENT, 'vBulletin PHP Web API 1.0');
+		curl_setopt($ch, CURLOPT_USERAGENT, random_user_agent());
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 		//If we are logged in/need to login, use the cookie file
