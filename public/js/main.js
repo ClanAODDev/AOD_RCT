@@ -1,5 +1,4 @@
 $(function() {
-
     loadThreadCheck();
     /*	var auto_refresh = setInterval(loadThreadCheck, 8000);*/
 
@@ -23,7 +22,7 @@ $(function() {
             $(this).serialize(),
             function(data) {
                 if (data['success'] === true) {
-                    $('#login-panel').effect( "clip" );
+                    $('#login-panel').effect("clip");
                     $('.msg').removeClass('alert-danger').addClass('alert alert-success').html("<i class=\"fa fa-check-square-o\"></i> <small>" + data['message'] + "</small>").delay(1000).fadeIn();
                     $('.status-text').delay(1500).html("<small>You will now be redirected to the admin panel...</small>").fadeIn();
 
@@ -33,7 +32,7 @@ $(function() {
 
                 } else if (data['success'] === false) {
                     $('.msg').addClass('alert alert-danger').html("<i class=\"fa fa-times-circle\"></i> <small>" + data['message'] + "</small>");
-                    $('.msg').effect( "bounce" );
+                    $('.msg').effect("bounce");
 
                 }
             }, "json");
@@ -48,7 +47,7 @@ $(function() {
             $(this).serialize(),
             function(data) {
                 if (data['success'] === true) {
-                    $('#register-panel').effect( "clip" );
+                    $('#register-panel').effect("clip");
                     $('.msg').removeClass('alert-danger').addClass('alert alert-success').html("<i class=\"fa fa-check-square-o\"></i> <small>" + data['message'] + "</small>").delay(1000).fadeIn();
                     $('.status-text').delay(1500).html("<small>You will now be redirected to the login form...</small>").fadeIn();
 
@@ -58,7 +57,7 @@ $(function() {
 
                 } else if (data['success'] === false) {
                     $('.msg').addClass('alert alert-danger').html("<i class=\"fa fa-times-circle\"></i> <small>" + data['message'] + "</small>");
-                    $('.msg').effect( "bounce" );
+                    $('.msg').effect("bounce");
 
                 }
             }, "json");
@@ -67,6 +66,26 @@ $(function() {
 
 
     $('.fade-in').fadeIn('slow');
+
+
+    $('.count-animated').each(function() {
+        var $this = $(this);
+        jQuery({
+            Counter: 0
+        }).animate({
+            Counter: $this.text()
+        }, {
+            duration: 2000,
+            easing: "easeOutQuart",
+            step: function() {
+                if ($this.hasClass('percentage')) {
+                    $this.text(Math.ceil(this.Counter) + "%");
+                } else {
+                    $this.text(Math.ceil(this.Counter));
+                }
+            }
+        });
+    });
 });
 
 
