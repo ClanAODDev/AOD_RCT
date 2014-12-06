@@ -293,8 +293,6 @@ function validatePassword($pass, $user) {
     
 }
 
-
-
 function checkThread($player, $thread) {
 
     $ch = curl_init();

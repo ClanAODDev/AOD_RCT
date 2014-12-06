@@ -16,7 +16,9 @@ body {
 	display: none;
 }
 
-
+.alert {
+    box-sizing: content-box !important;
+}
 
 ul.nav {
 	margin-bottom: 0 !important;

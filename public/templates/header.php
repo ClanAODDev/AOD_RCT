@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=.0, maximum-scale=1.0, user-scalable=no">
 	
 	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="/aod_rct/public/css/cyborg.min.css">		
@@ -25,25 +26,20 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="/aod_rct"><strong>AOD</strong> <small>Squad Management</small></a>
+					<a class="navbar-brand" href="/aod_rct"><i class="fa fa-check-square-o"></i> <strong>AOD</strong> <small>Game Management</small></a>
 				</div>
 
 				<?php if (isLoggedIn()) { ?>
 				
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav navbar-right">
-						<li data-toggle="pill"><a href="#">About</a></li>
-						<li><a href="#about" data-toggle="pill">Something</a></li>
-						<li><a href="#contact" data-toggle="pill">Help</a></li>
-						<li><a href="#" data-toggle="pill" class="logout-btn">Logout</a></li>
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">User CP<span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li><a href="#" data-toggle="pill">Action</a></li>
 								<li><a href="#" data-toggle="pill">Another action</a></li>
-
 								<li class="divider"></li>
-								<li><a href="#">Separated link</a></li>
+								<li><a href="#" data-toggle="pill" class="logout-btn">Logout</a></li>
 							</ul>
 						</li>
 					</ul>
@@ -54,7 +50,7 @@
 
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav navbar-right">
-						<li><a>Not logged in</a></li>
+						<li><a class="text-muted">Not logged in</a></li>
 					</ul>
 				</div>
 

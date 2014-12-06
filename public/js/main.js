@@ -23,8 +23,8 @@ $(function() {
             $(this).serialize(),
             function(data) {
                 if (data['success'] === true) {
-                    $('#login-panel').fadeOut();
-                    $('.msg').removeClass('alert-danger').addClass('alert alert-success').html("<i class=\"fa fa-check-square-o\"></i> <small>" + data['message'] + "</small>").slideDown();
+                    $('#login-panel').effect( "clip" );
+                    $('.msg').removeClass('alert-danger').addClass('alert alert-success').html("<i class=\"fa fa-check-square-o\"></i> <small>" + data['message'] + "</small>").delay(1000).fadeIn();
                     $('.status-text').delay(1500).html("<small>You will now be redirected to the admin panel...</small>").fadeIn();
 
                     setTimeout(function() {
@@ -32,7 +32,8 @@ $(function() {
                     }, 4000);
 
                 } else if (data['success'] === false) {
-                    $('.msg').addClass('alert alert-danger').html("<i class=\"fa fa-times-circle\"></i> <small>" + data['message'] + "</small>").slideDown();
+                    $('.msg').addClass('alert alert-danger').html("<i class=\"fa fa-times-circle\"></i> <small>" + data['message'] + "</small>");
+                    $('.msg').effect( "shake" );
 
                 }
             }, "json");
@@ -47,8 +48,8 @@ $(function() {
             $(this).serialize(),
             function(data) {
                 if (data['success'] === true) {
-                    $('#register-panel').fadeOut();
-                    $('.msg').removeClass('alert-danger').addClass('alert alert-success').html("<i class=\"fa fa-check-square-o\"></i> <small>" + data['message'] + "</small>").slideDown();
+                    $('#register-panel').effect( "clip" );
+                    $('.msg').removeClass('alert-danger').addClass('alert alert-success').html("<i class=\"fa fa-check-square-o\"></i> <small>" + data['message'] + "</small>").delay(1000).fadeIn();
                     $('.status-text').delay(1500).html("<small>You will now be redirected to the login form...</small>").fadeIn();
 
                     setTimeout(function() {
@@ -56,7 +57,8 @@ $(function() {
                     }, 4000);
 
                 } else if (data['success'] === false) {
-                    $('.msg').addClass('alert alert-danger').html("<i class=\"fa fa-times-circle\"></i> <small>" + data['message'] + "</small>").slideDown();
+                    $('.msg').addClass('alert alert-danger').html("<i class=\"fa fa-times-circle\"></i> <small>" + data['message'] + "</small>");
+                    $('.msg').effect( "shake" );
 
                 }
             }, "json");
