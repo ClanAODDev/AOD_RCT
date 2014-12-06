@@ -12,12 +12,12 @@ if (isLoggedIn()) {
 				<p>This is the squad administration tool for the AOD organization. Leaders will be able to manage individual squad members, view activity trends of their respective divisions, and clan leaders will be able to see activity clan-wide and across divisions.</p>
 			</div>
 
-			<div class='panel panel-warning'>
+			<div class='panel panel-info'>
 				<div class='panel-heading'>
-					<strong>Under Construction</strong>
+					<strong>Platoons section now added</strong>
 				</div>
 				<div class='panel-body'>
-					Application is currently being developed. More tools and services will soon be available for use.
+					Users can now access platoon data via the navigation bar. Eventually this data will cater specifically to the user logged in. For now, all data is visible.
 				</div>
 			</div>
 
