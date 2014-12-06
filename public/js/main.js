@@ -13,12 +13,12 @@ $(function() {
 
     $('.logout-btn').click(function(e) {
         e.preventDefault();
-        window.location.href = "/aod_rct/logout";
+        window.location.href = "/logout";
     });
 
     $('#login').submit(function(e) {
         e.preventDefault();
-        $.post("/aod_rct/application/controllers/login.php",
+        $.post("/application/controllers/login.php",
             $(this).serialize(),
             function(data) {
                 if (data['success'] === true) {
@@ -43,7 +43,7 @@ $(function() {
 
     $('#register').submit(function(e) {
         e.preventDefault();
-        $.post("/aod_rct/application/controllers/register.php",
+        $.post("/application/controllers/register.php",
             $(this).serialize(),
             function(data) {
                 if (data['success'] === true) {
@@ -98,7 +98,7 @@ function loadThreadCheck() {
     $(".thread-results").html('<img src="public/images/loading.gif" class="margin-top-20" />');
 
     $.ajax({
-        url: "/aod_rct/application/check_threads.php",
+        url: "/application/check_threads.php",
         data: {
             player: player,
             game: game

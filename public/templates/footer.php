@@ -14,7 +14,7 @@
 <!-- <input type="hidden" id="player" name="player" value="<?php //echo $player; ?>" />
 <input type="hidden" id="game" name="game" value="<?php //echo $gameid; ?>" /> -->
 
-<script type="text/javascript" src="/aod_rct/public/js/main.js"></script>
+<script type="text/javascript" src="/public/js/main.js"></script>
 
 </body>
 </html>
