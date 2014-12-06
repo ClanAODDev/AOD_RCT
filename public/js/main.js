@@ -27,7 +27,7 @@ $(function() {
                     $('.status-text').delay(1500).html("<small>You will now be redirected to the admin panel...</small>").fadeIn();
 
                     setTimeout(function() {
-                        window.location.href = "/aod_rct";
+                        window.location.href = "/";
                     }, 4000);
 
                 } else if (data['success'] === false) {
@@ -52,7 +52,7 @@ $(function() {
                     $('.status-text').delay(1500).html("<small>You will now be redirected to the login form...</small>").fadeIn();
 
                     setTimeout(function() {
-                        window.location.href = "/aod_rct";
+                        window.location.href = "/";
                     }, 4000);
 
                 } else if (data['success'] === false) {
