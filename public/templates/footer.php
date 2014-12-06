@@ -6,7 +6,7 @@
 	<div class="container">
 		<p>
 			<small class="text-muted">Copright &copy; Angels of Death 2005-2015. All rights reserved.</small>
-			<small class="text-muted pull-right">Developed by Guybrush, Sc0rp10n66</small>
+			<small class="text-muted pull-right">Developed by Guybrush</small>
 		</p>
 	</div>
 </div>

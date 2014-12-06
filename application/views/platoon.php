@@ -4,15 +4,10 @@
 	// either an admin or is actually a part of the platoon
 	// being requested, else reject request
 
-ini_set('display_errors',1);
-ini_set('display_startup_errors',1);
-error_reporting(-1);
-
 $out = NULL;
+$platoon = $params['platoon'];
 
-var_dump($params);
-
-if ($platoon_id = get_platoon_id_from_number($params['platoon'])[0]) {
+if ($platoon_id = get_platoon_id_from_number($platoon)) {
 
 	$platoon_info = get_platoon_info($platoon_id);
 	$platoon_name = (!is_null($platoon_info['name'])) ? "Members of " . $platoon_info['name'] : "Members of Platoon " . $$params['platoon'][0];
@@ -23,8 +18,6 @@ if ($platoon_id = get_platoon_id_from_number($params['platoon'])[0]) {
 
 	$first_day_of_last_month = date("Y-m-d", strtotime("first day of previous month"));
 	$last_day_of_last_month = date("Y-m-d", strtotime("last day of previous month"));
-
-
 
 	$out .= "
 	<div class='container margin-top-20'>
@@ -97,7 +90,6 @@ if ($platoon_id = get_platoon_id_from_number($params['platoon'])[0]) {
 	}
 
 	echo $out;
-	
 
 
 	?>

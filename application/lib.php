@@ -435,7 +435,7 @@ function get_platoon_id_from_number($platoon_number) {
 
         try {
 
-            $query = "SELECT id FROM platoon WHERE number=".$platoon_number;
+            $query = "SELECT id FROM platoon WHERE `number` = " . $platoon_number;
             $query = $pdo->prepare($query);
             $query->execute();
             $query = $query->fetch();
@@ -444,7 +444,7 @@ function get_platoon_id_from_number($platoon_number) {
             return false;
         }
     }
-    return $query;  
+    return $query[0];  
 }
 
 function count_total_games($member_id,$date) {
@@ -496,7 +496,5 @@ function count_aod_games($member_id,$date) {
     }
     return $query[0]['games'];  
 }
-
-
 
 ?>
