@@ -42,7 +42,7 @@ function define_pages() {
     $rules = array(
         'player'    => "/player/(?'id'\d+)",
         'game'      => "/game/(?'game'bf4|wf|aa|a3)",
-        'platoon'     => "/platoon",
+        'player'    => "/platoon/(?'platoon'\d+)",
         'register'     => "/register",
         'logout'   => "/logout",
         'home'      => "/"
@@ -221,10 +221,10 @@ function hasher($info, $encdata = false)
 
 function updateLoggedInTime($user) {
    global $pdo;
-   
+
    if (dbConnect()) {
     try {
-        
+
         $user  = strtolower($user);
         $query = $pdo->prepare("UPDATE users SET last_logged = CURRENT_TIMESTAMP() WHERE username = :user");
         $query->execute(array( ':user' => $user ));            
@@ -242,7 +242,7 @@ function createUser($user, $email, $credential) {
     
     if (dbConnect()) {
         try {
-            
+
             $hash = hasher($credential);
             
             $user  = strtolower($user);
@@ -441,10 +441,10 @@ function count_total_games($member_id,$date) {
     global $pdo;
 
     if(dbConnect()) {
-        
+
         $first_day_of_month = date("Y-m-d", strtotime("first day of".$date));
         $last_day_of_month = date("Y-m-d", strtotime("last day of".$date));
-        
+
         #SELECT YEAR(TRUNC_HOUR(CONVERT_TZ(datetime,'+00:00','-06:00'))) AS year, MONTH(TRUNC_HOUR(CONVERT_TZ(datetime,'+00:00','-06:00'))) AS month, DAY(TRUNC_HOUR(CONVERT_TZ(datetime,'+00:00','-06:00'))) AS day, HOUR(TRUNC_HOUR(CONVERT_TZ(datetime,'+00:00','-06:00'))) AS hour, COUNT(DISTINCT member_id) AS games FROM activity WHERE server LIKE 'AOD%' GROUP BY TRUNC_HOUR(CONVERT_TZ(datetime,'+00:00','-06:00')) ORDER BY year, month, day, hour
         #SELECT DATE_FORMAT(TRUNC_HOUR(CONVERT_TZ(datetime,'+00:00','-06:00')), '%m/%d/%Y') AS date, HOUR(TRUNC_HOUR(CONVERT_TZ(datetime,'+00:00','-06:00'))) AS hour, COUNT(DISTINCT member_id) AS games FROM activity WHERE server LIKE 'AOD%' GROUP BY TRUNC_HOUR(CONVERT_TZ(datetime,'+00:00','-06:00')) ORDER BY date, hour
         
@@ -469,7 +469,7 @@ function count_aod_games($member_id,$date) {
     global $pdo;
 
     if(dbConnect()) {
-        
+
         $first_day_of_month = date("Y-m-d", strtotime("first day of".$date));
         $last_day_of_month = date("Y-m-d", strtotime("last day of".$date));     
         
