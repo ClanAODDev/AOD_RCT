@@ -1,92 +1,152 @@
-html,
-body {
-	height: 100%;
-	/* The html and body elements cannot have any padding or margin. */
+/**
+ * fonts
+ */
+ @font-face {
+ 	font-family: 'bebasregular';
+ 	src: url('../fonts/BEBAS___-webfont.eot');
+ 	src: url('../fonts/BEBAS___-webfont.eot?#iefix') format('embedded-opentype'),
+ 	url('../fonts/BEBAS___-webfont.woff') format('woff'),
+ 	url('../fonts/BEBAS___-webfont.ttf') format('truetype'),
+ 	url('../fonts/BEBAS___-webfont.svg#bebasregular') format('svg');
+ }
+
+@font-face {
+    font-family: 'dincond-light';
+    src: url('../fonts/din-light-webfont.eot');
+    src: url('../fonts/din-light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/din-light-webfont.woff2') format('woff2'),
+         url('../fonts/din-light-webfont.woff') format('woff'),
+         url('../fonts/din-light-webfont.ttf') format('truetype'),
+         url('../fonts/din-light-webfont.svg#dincond-lightregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
 }
 
-* {
-	font-family: 'Open Sans', sans-serif;
-}		
+@font-face {
+    font-family: 'dincond-black';
+    src: url('../fonts/din-black-webfont.eot');
+    src: url('../fonts/din-black-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/din-black-webfont.woff2') format('woff2'),
+         url('../fonts/din-black-webfont.woff') format('woff'),
+         url('../fonts/din-black-webfont.ttf') format('truetype'),
+         url('../fonts/din-black-webfont.svg#dincond-blackregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
 
-.push-top {
-	height: 55px;
-}
-
-.msg, .status-text {
-	display: none;
-}
-
-.alert {
-    box-sizing: content-box !important;
-}
-
-ul.nav {
-	margin-bottom: 0 !important;
-}
-
-
-.margin-top-20 {
-	margin-top: 20px;
-}
-
-.margin-top-50 {
-	margin-top: 50px;
-}
-
-
-.game-select {
-	display: inline-block;
-	position: fixed;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	width: 350px;
-	height: 320px;
-	margin: auto;
-	text-align: center;
-	z-index: -2;
-}
-
-.game-select label {
-	font-weight: normal;
-	font-size: 12px;
 }
 
 
 
-#wrap {
-	min-height: 100%;
-	height: auto !important;
-	height: 100%;
-	/* Negative indent footer by it's height */
-	margin: 0 auto -60px;
-}
+/**
+ * main styles
+ */
 
-/* Set the fixed height of the footer here */
-#push,
-#footer {
-	height: 60px;
-}
-#footer {
-	z-index: 1;
-	padding-top:10px;
-}
-
-.disclaimer {
-	margin-top: -60px;
-}
+ html,
+ body {
+ 	height: 100%;
+ 	/* The html and body elements cannot have any padding or margin. */
+ }
 
 
-.fade-in {
-	display: none;
-}
 
 
-.center {
-	text-align: center;
-	margin-left: auto; 
-	margin-right: auto; 
-	margin-bottom: auto; 
-	margin-top: auto;
-}
+ .push-top {
+ 	height: 55px;
+ }
+
+ .msg, .status-text {
+ 	display: none;
+ }
+
+ .alert {
+ 	box-sizing: content-box !important;
+ }
+
+ ul.nav {
+ 	margin-bottom: 0 !important;
+ }
+
+
+ .margin-top-20 {
+ 	margin-top: 20px;
+ }
+
+ .margin-top-50 {
+ 	margin-top: 50px;
+ }
+
+
+ .game-select {
+ 	display: inline-block;
+ 	position: fixed;
+ 	top: 0;
+ 	bottom: 0;
+ 	left: 0;
+ 	right: 0;
+ 	width: 350px;
+ 	height: 320px;
+ 	margin: auto;
+ 	text-align: center;
+ 	z-index: -2;
+ }
+
+ .game-select label {
+ 	font-weight: normal;
+ 	font-size: 12px;
+ }
+
+
+
+ #wrap {
+ 	min-height: 100%;
+ 	height: auto !important;
+ 	height: 100%;
+ 	/* Negative indent footer by it's height */
+ 	margin: 0 auto -60px;
+ }
+
+ /* Set the fixed height of the footer here */
+ #push,
+ #footer {
+ 	height: 60px;
+ }
+ #footer {
+ 	z-index: 1;
+ 	padding-top:10px;
+ }
+
+ .disclaimer {
+ 	margin-top: -60px;
+ }
+
+
+ .fade-in {
+ 	display: none;
+ }
+
+
+ .center {
+ 	text-align: center;
+ 	margin-left: auto; 
+ 	margin-right: auto; 
+ 	margin-bottom: auto; 
+ 	margin-top: auto;
+ }
+
+
+ .border-bottom {
+ 	border-bottom: 1px solid rgba(0,0,0,.08);
+ }
+
+ h2.pull-right {
+ 	padding-top: 10px;
+ }
+
+
+ .count-detail-big {
+ 	font-family: 'dincond-black';
+ 	font-size: 68px;
+ 	text-align: center;
+ 	color: #999;
+ }
