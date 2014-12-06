@@ -9,7 +9,7 @@ if (isLoggedIn()) {
 	$out = NULL;
 	$platoon = $params['platoon'];
 
-	echo $platoon;
+
 
 	$right_now = new DateTime("now");
 
@@ -19,7 +19,7 @@ if (isLoggedIn()) {
 
 	$out .= "
 	<div class='container fade-in margin-top-20'>
-		<div class='row'>
+		<div class='row'>{$platoon}
 
 			<div class='panel panel-warning'>
 
