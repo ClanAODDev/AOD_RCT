@@ -55,4 +55,4 @@
   `credential` varchar(255) NOT NULL,
   `date_joined` timestamp NOT NULL,
   PRIMARY KEY (`id`)
-)
+);
