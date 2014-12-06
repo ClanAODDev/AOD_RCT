@@ -42,7 +42,7 @@ function define_pages() {
     $rules = array(
         'player'    => "/player/(?'id'\d+)",
         'game'      => "/game/(?'game'bf4|wf|aa|a3)",
-        'player'    => "/platoon/(?'platoon'\d+)",
+        'platoon'    => "/(?'game'bf4|wf|aa|a3)/platoon/(?'platoon'\d+)",
         'register'     => "/register",
         'logout'   => "/logout",
         'home'      => "/"
@@ -104,6 +104,36 @@ function getGames() {
             echo "ERROR:" . $e->getMessage();
         }
     }
+    return $query;  
+}
+
+
+function get_member_info($name) {
+
+    global $pdo;
+
+    if(dbConnect()) {
+
+        if (!is_null($gid)) {
+
+            try {
+
+                $query = "SELECT member_id, forum_name, game_id, subforum, description FROM games WHERE id = {$gid}";
+                $query = $pdo->prepare($query);
+                $query->execute();
+
+            } catch (PDOException $e) {
+                echo "ERROR:" . $e->getMessage();
+            }
+
+        } else {
+
+            return false;
+            exit;
+        }
+
+    }
+
     return $query;  
 }
 
@@ -376,7 +406,7 @@ function get_platoons() {
     return $query;  
 }
 
-function get_platoon_name($platoon_id) {
+function get_platoon_info($platoon_id) {
 
     global $pdo;
 
@@ -384,7 +414,7 @@ function get_platoon_name($platoon_id) {
 
         try {
 
-            $query = "SELECT `name` FROM platoon WHERE id=".$platoon_id;
+            $query = "SELECT `name`, `number` FROM platoon WHERE id = {$platoon_id}";
             $query = $pdo->prepare($query);
             $query->execute();
             $query = $query->fetchAll();
@@ -393,28 +423,9 @@ function get_platoon_name($platoon_id) {
             echo "ERROR:" . $e->getMessage();
         }
     }
-    return $query[0]['name'];  
+    return $query;  
 }
 
-function get_platoon_number($platoon_id) {
-
-    global $pdo;
-
-    if(dbConnect()) {
-
-        try {
-
-            $query = "SELECT `number` FROM platoon WHERE id=".$platoon_id;
-            $query = $pdo->prepare($query);
-            $query->execute();
-            $query = $query->fetchAll();
-
-        } catch (PDOException $e) {
-            echo "ERROR:" . $e->getMessage();
-        }
-    }
-    return $query[0]['number'];  
-}
 
 function get_platoon_id_from_number($platoon_number) {
 
@@ -424,16 +435,16 @@ function get_platoon_id_from_number($platoon_number) {
 
         try {
 
-            $query = "SELECT `id` FROM platoon WHERE number=".$platoon_number;
+            $query = "SELECT id FROM platoon WHERE number=".$platoon_number;
             $query = $pdo->prepare($query);
             $query->execute();
-            $query = $query->fetchAll();
+            $query = $query->fetch();
 
         } catch (PDOException $e) {
             echo "ERROR:" . $e->getMessage();
         }
     }
-    return $query[0]['id'];  
+    return $query;  
 }
 
 function count_total_games($member_id,$date) {
