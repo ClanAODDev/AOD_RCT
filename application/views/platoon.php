@@ -6,6 +6,8 @@
 
 	$out = NULL;
 
+	var_dump($params);
+
 	if ($platoon_id = get_platoon_id_from_number($params['platoon'])[0]) {
 
 		$platoon_info = get_platoon_info($platoon_id);
