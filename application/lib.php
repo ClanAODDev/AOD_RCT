@@ -138,19 +138,20 @@ function get_member_info($name) {
 }
 
 
-function get_game_info($gid) {
+function get_game_info($gname) {
 
     global $pdo;
 
     if(dbConnect()) {
 
-        if (!is_null($gid)) {
+        if (!is_null($gname)) {
 
             try {
 
-                $query = "SELECT id, short_name, full_name, subforum, description FROM games WHERE id = {$gid}";
+                $query = "SELECT `id`, `short_name`, `full_name`, `subforum`, `description` FROM `games` WHERE short_name = '$gname'";
                 $query = $pdo->prepare($query);
                 $query->execute();
+                $query = $query->fetch();
 
             } catch (PDOException $e) {
                 echo "ERROR:" . $e->getMessage();
@@ -159,7 +160,6 @@ function get_game_info($gid) {
         } else {
 
             return false;
-            exit;
         }
 
     }
@@ -180,7 +180,7 @@ function get_game_threads($gid) {
             $query = "SELECT thread_url, thread_title FROM games_threads WHERE game_id = {$gid} || game_id = 0";
             $query = $pdo->prepare($query);
             $query->execute();
-            $query = $query->fetchAll();
+            $query = $query->fetch();
 
         } catch (PDOException $e) {
             echo "ERROR:" . $e->getMessage();
@@ -417,7 +417,7 @@ function get_platoon_info($platoon_id) {
             $query = "SELECT `name`, `number` FROM platoon WHERE id = {$platoon_id}";
             $query = $pdo->prepare($query);
             $query->execute();
-            $query = $query->fetchAll();
+            $query = $query->fetch();
 
         } catch (PDOException $e) {
             echo "ERROR:" . $e->getMessage();
@@ -441,7 +441,7 @@ function get_platoon_id_from_number($platoon_number) {
             $query = $query->fetch();
 
         } catch (PDOException $e) {
-            echo "ERROR:" . $e->getMessage();
+            return false;
         }
     }
     return $query;  
