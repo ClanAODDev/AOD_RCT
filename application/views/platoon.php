@@ -1,7 +1,5 @@
 <?php
 
-if (isLoggedIn()) {
-
 	// eventually need to check if the current user is 
 	// either an admin or is actually a part of the platoon
 	// being requested, else reject request
@@ -93,7 +91,7 @@ if (isLoggedIn()) {
 		}
 
 		echo $out;
-	}
+	
 
 
 	?>
