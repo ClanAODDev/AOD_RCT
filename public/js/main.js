@@ -33,7 +33,7 @@ $(function() {
 
                 } else if (data['success'] === false) {
                     $('.msg').addClass('alert alert-danger').html("<i class=\"fa fa-times-circle\"></i> <small>" + data['message'] + "</small>");
-                    $('.msg').effect( "shake" );
+                    $('.msg').effect( "bounce" );
 
                 }
             }, "json");
@@ -58,7 +58,7 @@ $(function() {
 
                 } else if (data['success'] === false) {
                     $('.msg').addClass('alert alert-danger').html("<i class=\"fa fa-times-circle\"></i> <small>" + data['message'] + "</small>");
-                    $('.msg').effect( "shake" );
+                    $('.msg').effect( "bounce" );
 
                 }
             }, "json");
