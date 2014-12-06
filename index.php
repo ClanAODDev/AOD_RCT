@@ -17,9 +17,7 @@ $uri = rtrim( dirname($_SERVER["SCRIPT_NAME"]), '/' );
 $uri = '/' . trim( str_replace( $uri, '', $_SERVER['REQUEST_URI'] ), '/' );
 $uri = urldecode( $uri );
 
-
 $rules = define_pages();
-
 
 foreach ( $rules as $action => $rule ) {
 	
@@ -47,7 +45,6 @@ foreach ( $rules as $action => $rule ) {
 			exit;
 
 		}
-
 	} 
 }
 
@@ -56,6 +53,5 @@ include(TEMPLATES . "header.php");
 include(TEMPLATES . "404.html");
 include(TEMPLATES . "footer.php");
 exit;
-
 
 ?>
