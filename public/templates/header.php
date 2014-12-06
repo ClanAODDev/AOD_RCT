@@ -10,10 +10,10 @@
 	
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
+	<link rel="stylesheet" type="text/css" href="/public/css/style.css">
 	<link rel="stylesheet" type="text/css" href="/public/css/cyborg.min.css">				
 	<link href='//fonts.googleapis.com/css?family=Open+Sans:200,400,700,800' rel='stylesheet' type='text/css'>
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">	
-	<link rel="stylesheet" type="text/css" href="/public/css/style.css">
 
 </head>
 <body>
