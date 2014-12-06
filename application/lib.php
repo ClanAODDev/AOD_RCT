@@ -108,33 +108,39 @@ function getGames() {
 }
 
 
-function get_member_info($name) {
+/**
+ * get_user_info grabs data specifically pertaining to the user logged in
+ * @param  [varchar] $name the user's forum name
+ * @return [array] $query an array containing member data
+ */
+function get_user_info($name) {
 
     global $pdo;
 
     if(dbConnect()) {
 
-        if (!is_null($gid)) {
+        try {
 
-            try {
+            $sth = $pdo->prepare("SELECT member_id, forum_name, rank_id, role, email, last_logged FROM member 
+            LEFT JOIN rank on member.rank_id = rank.id
+            LEFT join users on member.forum_name = users.username
+            WHERE member.forum_name = :username");
 
-                $query = "SELECT member_id, forum_name, game_id, subforum, description FROM games WHERE id = {$gid}";
-                $query = $pdo->prepare($query);
-                $query->execute();
+            $sth->bindParam(':username', $name);
+            $sth->execute();
+            $query = $sth->fetch();
 
-            } catch (PDOException $e) {
-                echo "ERROR:" . $e->getMessage();
-            }
-
-        } else {
-
-            return false;
-            exit;
+        } catch (PDOException $e) {
+            echo "ERROR:" . $e->getMessage();
         }
 
     }
 
     return $query;  
+}
+
+function get_user_avatar($forum_id, $type) {
+    return "<div class='pull-right navbar-text'><img src='http://www.clanaod.net/forums/image.php?type={$type}&u={$forum_id}' class='img-thumbnail' /></div>";
 }
 
 

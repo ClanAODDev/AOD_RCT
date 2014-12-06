@@ -23,52 +23,55 @@ if ($platoon_id = get_platoon_id_from_number($platoon)) {
 	$members = get_platoon_members($platoon_id);
 	$member_count = count($members);
 
-
 	$overall_aod_percent = array();
 	$overall_aod_games = array();
 
 
 	// build members table
 	$members_table = "
-	<table class='table table-striped table-hover table-condensed margin-top-20'>
-		<tr>
-			<td><b>Member</b></td>
-			<td><b>Rank</b></td>
-			<td><b>AOD Games</b></td>
-			<td><b>Total Games</b></td>
-			<td><b>Percent AOD</b></td>
-		</tr>";;
+	<table class='table table-striped table-hover margin-top-20' id='members-table'>
+		<thead>
+			<tr>
+				<th><b>Member</b></th>
+				<th><b>Rank</b></th>
+				<th><b>AOD Games</b></th>
+				<th><b>Total Games</b></th>
+				<th><b>Percent AOD</b></th>
+			</tr>
+		</thead>
+		<tbody>";
 
-		foreach ($members as $row) {
+			foreach ($members as $row) {
 
-			$total_games = count_total_games($row['member_id'], $first_day_of_last_month);
-			$aod_games = count_aod_games($row['member_id'], $first_day_of_last_month);
-			$percent_aod = (($aod_games)/($total_games))*100;
+				$total_games = count_total_games($row['member_id'], $first_day_of_last_month);
+				$aod_games = count_aod_games($row['member_id'], $first_day_of_last_month);
+				$percent_aod = (($aod_games)/($total_games))*100;
 
-			// push to overall
-			$overall_aod_games[] = $aod_games;
-			$overall_aod_percent[] = $percent_aod;
+				// push to overall
+				$overall_aod_games[] = $aod_games;
+				$overall_aod_percent[] = $percent_aod;
 
-			if ($percent_aod <= 50) { 
-				$percent_class = "danger"; 
-			} else if ($percent_aod <= 75) { 
-				$percent_class = "warning"; 
-			} else {
-				$percent_class = NULL;
+				if ($percent_aod <= 50) { 
+					$percent_class = "text-danger"; 
+				} else if ($percent_aod <= 75) { 
+					$percent_class = "text-warning"; 
+				} else {
+					$percent_class = "text-success";
+				}
+
+				$members_table .= "
+				<tr>
+					<td>".$row['forum_name']."</td>
+					<td>".$row['abbr']."</td>
+					<td>".$aod_games."</td>
+					<td>".$total_games."</td>
+					<td class='{$percent_class}'>".number_format((float)$percent_aod, 2, '.', '')."%</td>
+				</tr>
+				";
 			}
 
 			$members_table .= "
-			<tr>
-				<td>".$row['forum_name']."</td>
-				<td>".$row['abbr']."</td>
-				<td>".$aod_games."</td>
-				<td>".$total_games."</td>
-				<td class='{$percent_class}'>".number_format((float)$percent_aod, 2, '.', '')."%</td>
-			</tr>
-			";
-		}
-
-		$members_table .= "
+		</tbody>
 	</table>";
 
 	// calculate percentages
@@ -99,6 +102,8 @@ if ($platoon_id = get_platoon_id_from_number($platoon)) {
 			</div>
 
 		</div>
+
+		<p><small><strong>Note</strong>: Data displayed includes information from {$first_day_of_last_month} to {$last_day_of_last_month}</small></p>
 
 		<div class='row border-bottom'>
 

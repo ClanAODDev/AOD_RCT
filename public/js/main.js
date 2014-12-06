@@ -68,6 +68,7 @@ $(function() {
     $('.fade-in').fadeIn('slow');
 
 
+
     $('.count-animated').each(function() {
         var $this = $(this);
         jQuery({
@@ -85,6 +86,12 @@ $(function() {
                 }
             }
         });
+    });
+
+
+    $('#members-table').DataTable({
+        paging: false,
+        ordering: false
     });
 });
 

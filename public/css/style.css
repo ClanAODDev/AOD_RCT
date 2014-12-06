@@ -10,14 +10,14 @@
  	url('../fonts/BEBAS___-webfont.svg#bebasregular') format('svg');
  }
 
-@font-face {
+ @font-face {
     font-family: 'dincond-light';
     src: url('../fonts/din-light-webfont.eot');
     src: url('../fonts/din-light-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/din-light-webfont.woff2') format('woff2'),
-         url('../fonts/din-light-webfont.woff') format('woff'),
-         url('../fonts/din-light-webfont.ttf') format('truetype'),
-         url('../fonts/din-light-webfont.svg#dincond-lightregular') format('svg');
+    url('../fonts/din-light-webfont.woff2') format('woff2'),
+    url('../fonts/din-light-webfont.woff') format('woff'),
+    url('../fonts/din-light-webfont.ttf') format('truetype'),
+    url('../fonts/din-light-webfont.svg#dincond-lightregular') format('svg');
     font-weight: normal;
     font-style: normal;
 
@@ -27,10 +27,10 @@
     font-family: 'dincond-black';
     src: url('../fonts/din-black-webfont.eot');
     src: url('../fonts/din-black-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fonts/din-black-webfont.woff2') format('woff2'),
-         url('../fonts/din-black-webfont.woff') format('woff'),
-         url('../fonts/din-black-webfont.ttf') format('truetype'),
-         url('../fonts/din-black-webfont.svg#dincond-blackregular') format('svg');
+    url('../fonts/din-black-webfont.woff2') format('woff2'),
+    url('../fonts/din-black-webfont.woff') format('woff'),
+    url('../fonts/din-black-webfont.ttf') format('truetype'),
+    url('../fonts/din-black-webfont.svg#dincond-blackregular') format('svg');
     font-weight: normal;
     font-style: normal;
 
@@ -50,105 +50,115 @@
 
  .danger {
     background-color: rgba(255, 41, 28, .1);
- }
+}
+
+.navbar-text img {
+    max-height:30px;
+    width:auto;
+    vertical-align:middle;
+}
+
+.push-top {
+  height: 55px;
+}
+
+.msg, .status-text {
+  display: none;
+}
+
+.alert {
+  box-sizing: content-box !important;
+}
+
+table.dataTable thead th, table.dataTable thead td, table.dataTable.no-footer, table.dataTable tbody th, table.dataTable tbody td {
+    border: none !important;
+    padding: 10px 0 10px 10px !important;
+}
+
+ul.nav {
+  margin-bottom: 0 !important;
+}
 
 
- .push-top {
- 	height: 55px;
- }
+.margin-top-20 {
+  margin-top: 20px;
+}
 
- .msg, .status-text {
- 	display: none;
- }
-
- .alert {
- 	box-sizing: content-box !important;
- }
-
- ul.nav {
- 	margin-bottom: 0 !important;
- }
+.margin-top-50 {
+  margin-top: 50px;
+}
 
 
- .margin-top-20 {
- 	margin-top: 20px;
- }
+.game-select {
+  display: inline-block;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 350px;
+  height: 320px;
+  margin: auto;
+  text-align: center;
+  z-index: -2;
+}
 
- .margin-top-50 {
- 	margin-top: 50px;
- }
-
-
- .game-select {
- 	display: inline-block;
- 	position: fixed;
- 	top: 0;
- 	bottom: 0;
- 	left: 0;
- 	right: 0;
- 	width: 350px;
- 	height: 320px;
- 	margin: auto;
- 	text-align: center;
- 	z-index: -2;
- }
-
- .game-select label {
- 	font-weight: normal;
- 	font-size: 12px;
- }
+.game-select label {
+  font-weight: normal;
+  font-size: 12px;
+}
 
 
 
- #wrap {
- 	min-height: 100%;
- 	height: auto !important;
- 	height: 100%;
- 	/* Negative indent footer by it's height */
- 	margin: 0 auto -60px;
- }
+#wrap {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  /* Negative indent footer by it's height */
+  margin: 0 auto -60px;
+}
 
- /* Set the fixed height of the footer here */
- #push,
- #footer {
- 	height: 60px;
- }
- #footer {
- 	z-index: 1;
- 	padding-top:10px;
- }
+/* Set the fixed height of the footer here */
+#push,
+#footer {
+  height: 60px;
+}
+#footer {
+  z-index: 1;
+  padding-top:10px;
+}
 
- .disclaimer {
- 	margin-top: -60px;
- }
-
-
- .fade-in {
- 	display: none;
- }
+.disclaimer {
+  margin-top: -60px;
+}
 
 
- .center {
- 	text-align: center;
- 	margin-left: auto; 
- 	margin-right: auto; 
- 	margin-bottom: auto; 
- 	margin-top: auto;
- }
+.fade-in {
+  display: none;
+}
 
 
- .border-bottom {
- 	border-bottom: 1px solid rgba(0,0,0,.08);
- }
+.center {
+  text-align: center;
+  margin-left: auto; 
+  margin-right: auto; 
+  margin-bottom: auto; 
+  margin-top: auto;
+}
 
- h2.pull-right {
- 	padding-top: 10px;
- }
+
+.border-bottom {
+  border-bottom: 1px solid rgba(0,0,0,.08);
+}
+
+h2.pull-right {
+  padding-top: 10px;
+}
 
 
- .count-detail-big {
- 	font-family: 'dincond-black';
- 	font-size: 68px;
- 	text-align: center;
- 	color: #999;
- }
+.count-detail-big {
+  font-family: 'dincond-black';
+  font-size: 68px;
+  text-align: center;
+  color: #999;
+}
