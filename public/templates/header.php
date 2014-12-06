@@ -28,7 +28,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="/aod_rct"><i class="fa fa-check-square-o"></i> <strong>AOD</strong> <small>Squad Management</small></a>
+					<a class="navbar-brand" href="/"><i class="fa fa-check-square-o"></i> <strong>AOD</strong> <small>Squad Management</small></a>
 				</div>
 
 				<?php if (isLoggedIn()) { ?>

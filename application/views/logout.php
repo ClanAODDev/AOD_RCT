@@ -3,11 +3,11 @@
 if (isLoggedIn()) {
 
 	session_destroy();
-	header('Location: /aod_rct');
+	header('Location: /');
 
 } else {
 
-	header('Location: /aod_rct');
+	header('Location: /');
 }
 
 ?>

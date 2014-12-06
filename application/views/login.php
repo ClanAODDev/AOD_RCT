@@ -4,7 +4,7 @@ $out = NULL;
 
 if (isLoggedIn()) {
 
-	header('Location: /aod_rct');
+	header('Location: /');
 
 } else {
 
