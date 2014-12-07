@@ -199,6 +199,10 @@ h2.pull-right {
  cursor: not-allowed; 
 }
 
+.developer {
+  color: purple;
+}
+
 
 .dropdown-menu > .disabled > a {
  pointer-events: none;
@@ -207,7 +211,6 @@ h2.pull-right {
 .dropdown-menu>.disabled>a, .dropdown-menu>.disabled>a:hover, .dropdown-menu>.disabled>a:focus {
   color: #bbb !important;
 }
-
 
 
 /**

@@ -174,7 +174,7 @@ function get_user_info($name) {
 
         try {
 
-            $sth = $pdo->prepare("SELECT member_id, forum_name, rank_id, role, email, last_logged FROM member 
+            $sth = $pdo->prepare("SELECT users.id as userid, member_id, forum_name, rank_id, role, email, last_logged FROM member 
                 LEFT JOIN rank on member.rank_id = rank.id
                 LEFT join users on member.forum_name = users.username
                 WHERE member.forum_name = :username");
@@ -192,6 +192,71 @@ function get_user_info($name) {
     
     return $query;
 }
+
+function onlineUsers() {
+    global $pdo;
+    
+    if (isLoggedIn()) {
+        if (dbConnect()) {
+            try {
+                // grab active users in past 2 minutes
+                $sth = $pdo->prepare('SELECT username, role FROM users WHERE last_seen >= CURRENT_TIMESTAMP - INTERVAL 1 MINUTE ORDER BY last_seen DESC ');
+                $sth->execute();
+                $users = $sth->fetchAll();
+            }
+            catch (PDOException $e) {
+                echo 'ERROR: ' . $e->getMessage();
+            }
+            
+        }
+        return $users;
+    } 
+}
+
+function updateUserStatus($id) {
+    global $pdo;
+
+    if (dbConnect()) {
+
+        try {
+            $stmt = $pdo->prepare('UPDATE users SET last_seen = CURRENT_TIMESTAMP() WHERE id = :id');
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt ->execute();
+
+        } catch(PDOException $e) {
+            echo 'ERROR: ' . $e->getMessage();
+        }
+    }
+}
+
+
+function userColor($user, $level) {
+
+    switch ($level) {
+        case 5:
+        $span = "<span class='developer tool' title='Developer'>". $user ."</span>";
+        break;
+        case 4:
+        $span = "<span class='text-danger tool' title='Administrator'>". $user ."</span>";
+        break;
+        case 3:
+        $span = "<span class='text-warning tool' title='Division Commander'>". $user ."</span>";
+        break;
+        case 2:
+        $span = "<span class='text-info tool' title='Platoon Leader'>". $user ."</span>";
+        break;
+        case 1:
+        $span = "<span class='text-primary tool' title='Squad Leader'>". $user ."</span>";
+        break;
+        default:
+        $span = "<span class='text-muted tool' title='Guest'>". $user ."</span>";
+        break;
+    }
+
+    return $span;
+}
+
+
 
 function get_user_avatar($forum_id, $type = "thumb") {
     return "<div class='pull-right navbar-text'><img src='http://www.clanaod.net/forums/image.php?type={$type}&u={$forum_id}' class='img-thumbnail' /></div>";
@@ -328,6 +393,9 @@ function getUserRoleName($role) {
         break;
         case 4:
         $role = "Administrator";
+        break;
+        case 5:
+        $role = "Developer";
         break;
     }
     return $role;

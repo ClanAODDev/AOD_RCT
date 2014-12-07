@@ -7,6 +7,7 @@
 	<script src="/public/js/jquery-2.1.1.min.js"></script>
 	<script src="/public/js/jquery-ui.min.js"></script>
 	<script src="/public/js/jquery.easing.min.js"></script>
+	<script src="/public/js/jquery.powertip.min.js"></script>
 
 	<script src="/public/js/bootstrap.min.js"></script>
 	<script src="/public/js/jquery.dataTables.min.js"></script>
@@ -14,6 +15,7 @@
 
 	<link rel="stylesheet" type="text/css" href="/public/css/style.css">
 	<link rel="stylesheet" type="text/css" href="/public/css/cyborg.min.css">				
+	<link rel="stylesheet" type="text/css" href="/public/css/jquery.powertip.min.css">				
 
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">	
 	<link href="//cdn.datatables.net/1.10.4/css/jquery.dataTables.min.css" rel="stylesheet">
@@ -106,7 +108,7 @@
 							<ul class="dropdown-menu" role="menu">
 								<li class="disabled"><a href="#" disabled><?php echo $curUser . " (". getUserRoleName($userRole). ")"; ?></a></li>
 								<li class="divider"></li>
-								<li><a href="#" data-toggle="pill"><i class="fa fa-user pull-right"></i> Profile information</a></li>
+								<li><a href="#" data-toggle="pill"><i class="fa fa-user pull-right"></i> Profile</a></li>
 								<li><a href="#" data-toggle="pill"><i class="fa fa-cog pull-right"></i> Settings</a></li>
 								<li class="divider"></li>
 								<li class="text-danger"><a href="#" data-toggle="pill" class="logout-btn"><i class="fa fa-lock pull-right"></i> Logout</a></li>

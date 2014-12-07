@@ -67,8 +67,6 @@ $(function() {
 
     $('.fade-in').fadeIn('slow');
 
-
-
     $('.count-animated').each(function() {
         var $this = $(this);
         jQuery({
@@ -100,20 +98,35 @@ $(function() {
     $("#members-table_info").parent().removeClass("col-sm-6");
     $("#members-table_info").parent().addClass("col-md-12 text-center");
 
-    $('[data-toggle="tooltip"]').tooltip()
-});
 
+    // update users online
+    (function() {
+        $.post("/application/controllers/users_online.php", function(list) {
+            $(".userList").html(list);
+            $('.tool').powerTip({
+                placement: 'n',
+                smartPlacement: true
+            });
+        });
+
+        setTimeout(arguments.callee, 20000);
+    }())
+});
 
 
 function loadThreadCheck() {
 
-    /*  var player = document.getElementById("player").value,
-        game = document.getElementById("game").value;
+    /*  var player = document.getElementById("
+            player ").value,
+        game = document.getElementById("
+            game ").value;
 
-    $(".thread-results").html('<img src="public/images/loading.gif" class="margin-top-20" />');
+    $(".thread - results ").html('<img src="
+            public / images / loading.gif " class="
+            margin - top - 20 " />');
 
     $.ajax({
-        url: "/application/check_threads.php",
+        url: " / application / check_threads.php ",
         data: {
             player: player,
             game: game
@@ -126,7 +139,7 @@ function loadThreadCheck() {
     })
 
     .done(function(html) {
-        $(".thread-results").empty().prepend(html);
+        $(".thread - results ").empty().prepend(html);
     });
 */
 }
