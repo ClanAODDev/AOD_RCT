@@ -174,10 +174,10 @@ function get_user_info($name) {
 
         try {
 
-            $sth = $pdo->prepare("SELECT users.id as userid, member_id, forum_name, rank_id, role, email, last_logged FROM member 
+            $sth = $pdo->prepare("SELECT users.id as userid, member_id, username, forum_name, rank_id, role, email, last_logged FROM users 
+                LEFT join member on users.username = member.forum_name
                 LEFT JOIN rank on member.rank_id = rank.id
-                LEFT join users on member.forum_name = users.username
-                WHERE member.forum_name = :username");
+                WHERE users.username = :username");
             
             $sth->bindParam(':username', $name);
             $sth->execute();
