@@ -18,11 +18,15 @@ if (isLoggedIn()) {
 
 	if ($online_users) {
 
-		$out = '<strong>Users online:  </strong>';
+		$out = 'Users online: ';
+		$usersArray = array();
 
 		foreach ($online_users as $user) {
-			$out .= userColor(ucwords($user['username']), $user['role']);
+			$usersArray[] = userColor(ucwords($user['username']), $user['role']);
 		}
+
+		$users = implode(', ', $usersArray);
+		$out .= $users;
 
 	} else {
 		$out = "No users are currently online.";
