@@ -139,7 +139,7 @@ function get_user_info($name) {
     return $query;  
 }
 
-function get_user_avatar($forum_id, $type) {
+function get_user_avatar($forum_id, $type="thumb") {
     return "<div class='pull-right navbar-text'><img src='http://www.clanaod.net/forums/image.php?type={$type}&u={$forum_id}' class='img-thumbnail' /></div>";
 }
 

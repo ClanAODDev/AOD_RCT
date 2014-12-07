@@ -3,6 +3,7 @@ if (isLoggedIn()) {
 
 	// fetch member data
 	$member_info = get_user_info($curUser);
+	$avatar = get_user_avatar($member_info['member_id']);
 
 	// fetch platoons (need to base on member-info -> game)
 	$platoons = get_platoons();
@@ -15,6 +16,8 @@ if (isLoggedIn()) {
 	<li class="dropdown">
 		<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Platoons  <span class="caret"></span></a>
 		<ul class="dropdown-menu" role="menu">
+			<li classs="disabled"><a>Battlefield 4</a></li>
+			<li class="divider"></li>
 			' . $platoons_items . '
 		</ul>
 	</li>
@@ -60,6 +63,14 @@ if (isLoggedIn()) {
 				
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav navbar-right">
+
+
+						<!-- notifications menu -->
+
+
+						<!-- end notifications menu -->
+
+
 						<?php echo $platoon_dropdown; ?>
 						<li class="dropdown">
 
@@ -72,8 +83,8 @@ if (isLoggedIn()) {
 								<li><a href="#" data-toggle="pill" class="logout-btn">Logout</a></li>
 							</ul>
 						</li>
-					</ul>
 
+					</ul>
 				</div><!--/.nav-collapse -->
 
 				<?php } else { ?>

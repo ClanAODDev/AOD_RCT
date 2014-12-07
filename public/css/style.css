@@ -58,6 +58,14 @@
     vertical-align:middle;
 }
 
+.navbar {
+    margin-bottom: 0 !important;
+}
+
+/* .navbar-nav>li>a, .navbar-brand {
+    line-height: 30px !important;
+} */
+
 .push-top {
   height: 55px;
 }
@@ -128,6 +136,12 @@ ul.nav {
   padding-top:10px;
 }
 
+#login-panel, #register-panel, .msg {
+    width: 300px;
+    margin: 0 auto;
+    margin-bottom: 15px;
+}
+
 .disclaimer {
   margin-top: -60px;
 }
@@ -162,3 +176,14 @@ h2.pull-right {
   text-align: center;
   color: #999;
 }
+
+
+.hr {
+  margin-top: -20px;
+  margin-bottom: -20px;
+}
+
+
+/**
+ * dropdown notif stuff
+ */
