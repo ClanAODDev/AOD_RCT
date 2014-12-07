@@ -437,7 +437,6 @@ function createUser($user, $email, $credential) {
 
             $hash = hasher($credential);
             
-            $user  = strtolower($user);
             $query = $pdo->prepare("INSERT INTO users ( username, credential, email, ip, date_joined) VALUES ( :user, :pass, :email, :ip, CURRENT_TIMESTAMP() )");
             
             $query->execute(array(

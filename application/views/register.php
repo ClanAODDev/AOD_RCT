@@ -10,8 +10,8 @@ if (isLoggedIn()) {
 
 	$out .= "	
 	<div class='container register-form fade-in' style='z-index: 5;'>
-		<div class='panel panel-default' id='register-panel'>
-			<div class='panel-heading'><i class=\"fa fa-pencil-square\" aria-hidden=\"true\"></i> Leader Account Creation</div>
+		<div class='panel panel-primary' id='register-panel'>
+			<div class='panel-heading text-left'><small><strong>AOD</strong> Leader Registration<i class='fa fa-user pull-right fa-2x'></i></small></div>
 			<div class='panel-body'>
 				<form class='form' role='form' id='register'>  
 
