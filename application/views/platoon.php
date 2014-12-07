@@ -74,13 +74,14 @@ if ($platoon_id = get_platoon_id_from_number($platoon)) {
 		</tbody>
 	</table>";
 
-		// calculate percentages
+	// calculate percentages
+	$overall_aod_percent = array_diff($overall_aod_percent, array(0));
 	$overall_aod_percent = array_sum($overall_aod_percent) / count($overall_aod_percent);
 	$overall_aod_games = array_sum($overall_aod_games);
 
+	
 
-		// build page structure
-
+	// build page structure
 	$out .= "
 	<div class='container margin-top-20 fade-in'>
 		<div class='row'>
@@ -131,6 +132,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon)) {
 				<div class='panel panel-primary'>
 					<div class='panel-heading'>Percentage AOD Games</div>
 					<div class='panel-body count-detail-big'><span class='count-animated percentage'>{$overall_aod_percent}</span></div>
+					
 				</div>
 			</div>
 
