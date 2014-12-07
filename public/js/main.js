@@ -109,7 +109,7 @@ $(function() {
             });
         });
 
-        setTimeout(arguments.callee, 20000);
+        setTimeout(arguments.callee, 10000);
     }())
 });
 

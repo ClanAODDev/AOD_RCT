@@ -17,7 +17,7 @@ if (DEBUG_MODE) {
 }
 
 if (isLoggedIn()) {
-    $curUser = ucwords(str_replace('aod_', '', $_SESSION['username']));
+    $curUser = str_replace('aod_', '', $_SESSION['username']);
 }
 
 if (isLoggedIn()) {
@@ -200,7 +200,7 @@ function onlineUsers() {
         if (dbConnect()) {
             try {
                 // grab active users in past 2 minutes
-                $sth = $pdo->prepare('SELECT username, role FROM users WHERE last_seen >= CURRENT_TIMESTAMP - INTERVAL 5 MINUTE ORDER BY last_seen DESC ');
+                $sth = $pdo->prepare('SELECT username, role FROM users WHERE last_seen >= CURRENT_TIMESTAMP - INTERVAL 15 MINUTE ORDER BY last_seen DESC ');
                 $sth->execute();
                 $users = $sth->fetchAll();
             }
