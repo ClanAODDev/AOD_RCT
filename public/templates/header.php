@@ -4,16 +4,17 @@
 
 	<meta name="viewport" content="width=device-width, initial-scale=.0, maximum-scale=1.0, user-scalable=no">
 	
-	<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-	<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
-	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-	<script src="//cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
-	<script src="//cdn.datatables.net/plug-ins/9dcbecd42ad/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+	<script src="/public/js/jquery-2.1.1.min.js"></script>
+	<script src="/public/js/jquery-ui.min.js"></script>
+	<script src="/public/js/jquery.easing.min.js"></script>
+
+	<script src="/public/js/bootstrap.min.js"></script>
+	<script src="/public/js/jquery.dataTables.min.js"></script>
+	<script src="/public/js/dataTables.bootstrap.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="/public/css/style.css">
 	<link rel="stylesheet" type="text/css" href="/public/css/cyborg.min.css">				
-	<link href='//fonts.googleapis.com/css?family=Open+Sans:200,400,700,800' rel='stylesheet' type='text/css'>
+
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">	
 	<link href="//cdn.datatables.net/1.10.4/css/jquery.dataTables.min.css" rel="stylesheet">
 
