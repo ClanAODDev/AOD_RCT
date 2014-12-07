@@ -1,30 +1,3 @@
-<?php
-if (isLoggedIn()) {
-
-	// fetch member data
-	$member_info = get_user_info($curUser);
-	$avatar = get_user_avatar($member_info['member_id']);
-
-	// fetch platoons (need to base on member-info -> game)
-	$platoons = get_platoons();
-
-	foreach ($platoons as $row) {
-		$platoons_items .= "<li><a href='/bf4/platoon/{$row['number']}''>".$row['number']." - ".$row['name']."</a></li>";
-	}
-
-	$platoon_dropdown = '
-	<li class="dropdown">
-		<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Platoons  <span class="caret"></span></a>
-		<ul class="dropdown-menu" role="menu">
-			<li classs="disabled"><a>Battlefield 4</a></li>
-			<li class="divider"></li>
-			' . $platoons_items . '
-		</ul>
-	</li>
-	';
-}
-?>
-
 <html>
 <head>
 	<title>AOD | Squad Management</title>
@@ -36,6 +9,7 @@ if (isLoggedIn()) {
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 	<script src="//cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js"></script>
+	<script src="//cdn.datatables.net/plug-ins/9dcbecd42ad/integration/bootstrap/3/dataTables.bootstrap.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="/public/css/style.css">
 	<link rel="stylesheet" type="text/css" href="/public/css/cyborg.min.css">				
@@ -66,21 +40,75 @@ if (isLoggedIn()) {
 
 
 						<!-- notifications menu -->
-
-
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+								<span class="count">7</span> Notifications
+							</a>
+							<div class="popup dropdown-menu">
+								<ul class="activity">
+									<li>
+										<i class="fa fa-clock-o fa-2x text-danger"></i>
+										<div>You have <a href="#">3 recruits</a> awaiting promotion!
+											<span>14 minutes ago</span>
+										</div>
+									</li>
+									<li>
+										<i class="fa fa-angle-double-up fa-2x text-success"></i>
+										<div>
+											<a href="#">CupOHemlock</a> promoted <a href="#">GinaLou</a> to Master Super General
+											<span>14 minutes ago</span>
+										</div>
+									</li>
+									<li>
+										<i class="fa fa-comment text-primary fa-2x"></i>
+										<div>
+											<a href="#">Redguard</a> posted a <a href="#">comment</a> on Platoon 2's <a href="#">discussion feed</a>
+											<span>35 minutes ago</span>
+										</div>
+									</li>
+									<li>
+										<i class="fa fa-flag fa-2x text-danger"></i>
+										<div><a href="#">Guybrush</a> removed <a href="#">JoeSchmoe</a> from <a href="#">Platoon 2</a>
+											<span>About 2 hours ago</span>
+										</div>
+									</li>
+									<li>
+										<i class="fa fa-angle-double-up fa-2x text-success"></i>
+										<div>
+											<a href="#">CupOHemlock</a> promoted <a href="#">GinaLou</a> to Master Super General
+											<span>14 minutes ago</span>
+										</div>
+									</li>
+									<li>
+										<i class="fa fa-comment text-primary fa-2x"></i>
+										<div>
+											<a href="#">Redguard</a> posted a <a href="#">comment</a> on Platoon 2's <a href="#">discussion feed</a>
+											<span>35 minutes ago</span>
+										</div>
+									</li>
+									<li>
+										<i class="fa fa-flag fa-2x text-danger"></i>
+										<div><a href="#">Guybrush</a> removed <a href="#">JoeSchmoe</a> from <a href="#">Platoon 2</a>
+											<span>About 2 hours ago</span>
+										</div>
+									</li>
+								</ul>
+							</div>
+						</li>
 						<!-- end notifications menu -->
 
 
 						<?php echo $platoon_dropdown; ?>
 						<li class="dropdown">
 
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">User CP<span class="caret"></span>
-							</a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">User CP<span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
-								<li><a href="#" data-toggle="pill">Action</a></li>
-								<li><a href="#" data-toggle="pill">Another action</a></li>
+								<li class="disabled"><a href="#" disabled><?php echo $curUser . " (". getUserRoleName($userRole). ")"; ?></a></li>
 								<li class="divider"></li>
-								<li><a href="#" data-toggle="pill" class="logout-btn">Logout</a></li>
+								<li><a href="#" data-toggle="pill"><i class="fa fa-user pull-right"></i> Profile information</a></li>
+								<li><a href="#" data-toggle="pill"><i class="fa fa-cog pull-right"></i> Settings</a></li>
+								<li class="divider"></li>
+								<li class="text-danger"><a href="#" data-toggle="pill" class="logout-btn"><i class="fa fa-lock pull-right"></i> Logout</a></li>
 							</ul>
 						</li>
 

@@ -16,47 +16,39 @@ if (isLoggedIn()) {
 
 		";
 
-
-
 		
 		$out .="
 		<div class='row'>
 			";
 
-
-			// left side alerts
-			$out .= "
-			<div class='col-lg-5 '>
-				<div class='panel panel-default'>
-					<div class='panel-heading'>
-						<strong>Platoons section now added</strong>
-					</div>
-					<div class='panel-body'>
-						Users can now access platoon data via the navigation bar. Eventually this data will cater specifically to the user logged in. For now, all data is visible.
-					</div>
-				</div>
-			</div> <!-- end col -->
-			";
-
-
-			// right side shortcuts
+			// shortcuts
 			$out .="
-			<div class='col-lg-5'>
+			<div class='col-md-12'>
 				<div class='panel panel-default'>
 					<div class='panel-heading'>
-						<strong>Platoons section now added</strong>
+						<h4><i class=\"fa fa-suitcase\"></i> Control Panel Action</h4>
 					</div>
 					<div class='panel-body'>
-						Users can now access platoon data via the navigation bar. Eventually this data will cater specifically to the user logged in. For now, all data is visible.
+
+						<div class='btn-toolbar' role='toolbar' aria-label='Toolbar with button groups'>
+							<div class='btn-group' role='group' aria-label='First group'>
+								<button type='button' class='btn btn-default'><i class=\"fa fa-suitcase fa-2x\"></i> <br />Add new session</button>
+								<button type='button' class='btn btn-primary'><i class=\"fa fa-suitcase fa-2x\"></i> <br />Add new session</button>
+								<button type='button' class='btn btn-default'><i class=\"fa fa-suitcase fa-2x\"></i> <br />Add new session</button>
+								<button type='button' class='btn btn-success'><i class=\"fa fa-suitcase fa-2x\"></i> <br />Add new session</button>
+								<button type='button' class='btn btn-warning'><i class=\"fa fa-suitcase fa-2x\"></i> <br />Add new session</button>
+								<button type='button' class='btn btn-danger'><i class=\"fa fa-suitcase fa-2x\"></i> <br />Add new session</button>
+								<button type='button' class='btn btn-default'><i class=\"fa fa-suitcase fa-2x\"></i> <br />Add new session</button>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div> <!-- end col -->
 		</div> <!-- end end row -->
 
 
-
 		<div class='row'>
-		
+
 			<div class='col-lg-4'>
 				<div class='bs-component'>
 					<div class='panel panel-default'>
@@ -138,24 +130,21 @@ if (isLoggedIn()) {
 			</div>
 
 
-
-
-
-
-
-
-
 			";
 
 
-
-
-
-
-
-
-
-
+			$out .= "
+			<div class='col-lg-6'>
+				<div class='panel panel-default'>
+					<div class='panel-heading'>
+						<h4>Recent Activity</h4>
+					</div>
+					<div class='panel-body'>
+						Users can now access platoon data via the navigation bar. Eventually this data will cater specifically to the user logged in. For now, all data is visible.
+					</div>
+				</div>
+			</div> <!-- end col -->
+			";
 
 			$out .=" 
 		</div> <!-- end container -->
