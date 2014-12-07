@@ -31,8 +31,10 @@ $(function() {
                     }, 4000);
 
                 } else if (data['success'] === false) {
+                    console.log(data);
                     $('.msg').addClass('alert alert-danger').html("<i class=\"fa fa-times-circle\"></i> <small>" + data['message'] + "</small>");
                     $('.msg').effect("bounce");
+
 
                 }
             }, "json");

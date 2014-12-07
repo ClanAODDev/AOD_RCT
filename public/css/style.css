@@ -127,6 +127,47 @@ ul.nav {
 }
 
 
+.register-form {
+  display: inline-block;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 350px;
+  height: 410px;
+  margin: auto;
+  text-align: center;
+  z-index: -2;
+}
+
+.register-form label {
+  font-weight: normal;
+  font-size: 12px;
+}
+
+.login-form {
+  display: inline-block;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 350px;
+  height: 300px;
+  margin: auto;
+  text-align: center;
+  z-index: -2;
+}
+
+.login-form label {
+  font-weight: normal;
+  font-size: 12px;
+}
+
+
+
+
 
 #wrap {
   min-height: 100%;
