@@ -104,7 +104,7 @@ $(function() {
         $.post("/application/controllers/users_online.php", function(list) {
             $(".userList").html(list);
             $('.tool').powerTip({
-                placement: 'n',
+                placement: 'ne',
                 smartPlacement: true
             });
         });

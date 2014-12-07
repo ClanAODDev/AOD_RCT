@@ -36,16 +36,18 @@
 					<a class="navbar-brand" href="/"><i class="fa fa-check-square-o"></i> <strong>AOD</strong> <small>Squad Management</small></a>
 				</div>
 
-				<?php if (isLoggedIn()) { ?>
+				<?php if (isLoggedIn() && ($userRole > 0)) { ?>
 				
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav navbar-right">
+
+						<?php echo $platoon_dropdown; ?>
 
 
 						<!-- notifications menu -->
 						<li class="dropdown">
 							<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-								<span class="count">7</span> Notifications
+								<span class="count">100+</span> Notifications <span class="caret"></span>
 							</a>
 							<div class="popup dropdown-menu">
 								<ul class="activity">
@@ -63,18 +65,26 @@
 										</div>
 									</li>
 									<li>
-										<i class="fa fa-comment text-primary fa-2x"></i>
-										<div>
-											<a href="#">Redguard</a> posted a <a href="#">comment</a> on Platoon 2's <a href="#">discussion feed</a>
-											<span>35 minutes ago</span>
-										</div>
-									</li>
-									<li>
-										<i class="fa fa-flag fa-2x text-danger"></i>
-										<div><a href="#">Guybrush</a> removed <a href="#">JoeSchmoe</a> from <a href="#">Platoon 2</a>
+										<i class="fa fa-user fa-2x text-success"></i>
+										<div><a href="#">31drew31</a> added <a href="#">Rct Jonesgirl</a> to <a href="#">Platoon 1</a>
 											<span>About 2 hours ago</span>
 										</div>
 									</li>
+									<li>
+										<i class="fa fa-comment text-primary fa-2x"></i>
+										<div>
+											<a href="#">Redguard</a> posted a <a href="#">comment</a> on Platoon 2's <a href="#">discussion feed</a>
+											<span>5 minutes ago</span>
+										</div>
+									</li>
+
+									<li>
+										<i class="fa fa-flag fa-2x text-danger"></i>
+										<div><a href="#">Guybrush</a> removed <a href="#">JoeSchmoe</a> from <a href="#">Platoon 2</a>
+											<span>About 7 hours ago</span>
+										</div>
+									</li>
+
 									<li>
 										<i class="fa fa-angle-double-up fa-2x text-success"></i>
 										<div>
@@ -100,10 +110,27 @@
 						</li>
 						<!-- end notifications menu -->
 
-
-						<?php echo $platoon_dropdown; ?>
 						<li class="dropdown">
 
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">User CP<span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li class="disabled"><a href="#" disabled><?php echo $curUser . " (". getUserRoleName($userRole). ")"; ?></a></li>
+								<li class="divider"></li>
+								<li><a href="#" data-toggle="pill"><i class="fa fa-user pull-right text-default"></i> Profile</a></li>
+								<li><a href="#" data-toggle="pill"><i class="fa fa-cogs pull-right text-default"></i> Settings</a></li>
+								<li class="divider"></li>
+								<li class="text-danger"><a href="#" data-toggle="pill" class="logout-btn"><i class="fa fa-lock pull-right text-danger"></i> Logout</a></li>
+							</ul>
+						</li>
+
+					</ul>
+				</div><!--/.nav-collapse -->
+
+				<?php } else if (isLoggedIn()) { ?>
+
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">User CP<span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<li class="disabled"><a href="#" disabled><?php echo $curUser . " (". getUserRoleName($userRole). ")"; ?></a></li>
@@ -114,15 +141,14 @@
 								<li class="text-danger"><a href="#" data-toggle="pill" class="logout-btn"><i class="fa fa-lock pull-right"></i> Logout</a></li>
 							</ul>
 						</li>
-
 					</ul>
-				</div><!--/.nav-collapse -->
+				</div>
 
 				<?php } else { ?>
 
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav navbar-right">
-						<li><a class="text-muted">Not logged in</a></li>
+						<li class="navbar-text">Not logged in</li>
 					</ul>
 				</div>
 

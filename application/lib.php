@@ -16,16 +16,15 @@ if (DEBUG_MODE) {
     ini_set('display_errors', 0);
 }
 
-if (isLoggedIn()) {
-    $curUser = str_replace('aod_', '', $_SESSION['username']);
-}
 
 if (isLoggedIn()) {
 
     // fetch member data
-    $member_info = get_user_info($curUser);
+    $member_info = get_user_info($_SESSION['username']);
     $avatar = get_user_avatar($member_info['member_id']);
     $userRole = $member_info['role'];
+
+    $curUser = $member_info['username'];
     
     // fetch platoons (need to base on member-info -> game)
     $platoons = get_platoons();
