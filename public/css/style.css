@@ -205,7 +205,6 @@ h2.pull-right {
 
 
 .userList span {
-  margin: 5px;
   font-weight: 700;
   opacity: .70;
 }
@@ -346,6 +345,11 @@ h2.pull-right {
   line-height: 16px;
 }
 
+.avatar {
+  max-width: 30px !important;
+  margin-top: -3px;
+  margin-right: -10px;
+}
 
 
 

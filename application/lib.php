@@ -17,14 +17,23 @@ if (DEBUG_MODE) {
 }
 
 
+/**
+ * data collection for user logged in
+ */
+
 if (isLoggedIn()) {
 
-    // fetch member data
+    // fetch member data for current user
     $member_info = get_user_info($_SESSION['username']);
-    $avatar = get_user_avatar($member_info['member_id']);
     $userRole = $member_info['role'];
-
     $curUser = $member_info['username'];
+    $forumId = $member_info['member_id'];
+
+    if (!is_null($member_info['member_id'])) {
+        $avatar = get_user_avatar($member_info['member_id']);
+    } else {
+        $avatar = NULL;
+    }
     
     // fetch platoons (need to base on member-info -> game)
     $platoons = get_platoons();
@@ -258,7 +267,7 @@ function userColor($user, $level) {
 
 
 function get_user_avatar($forum_id, $type = "thumb") {
-    return "<div class='pull-right navbar-text'><img src='http://www.clanaod.net/forums/image.php?type={$type}&u={$forum_id}' class='img-thumbnail' /></div>";
+    return "<img src='http://www.clanaod.net/forums/image.php?type={$type}&u={$forum_id}' class='img-thumbnail avatar' />";
 }
 
 

@@ -73,7 +73,7 @@
 									<li>
 										<i class="fa fa-comment text-primary fa-2x"></i>
 										<div>
-											<a href="#">Redguard</a> posted a <a href="#">comment</a> on Platoon 2's <a href="#">discussion feed</a>
+											<a href="#">Redguard</a> posted a <a href="#">comment</a> on Platoon 2's <a href="#">notes</a>
 											<span>5 minutes ago</span>
 										</div>
 									</li>
@@ -114,12 +114,13 @@
 
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">User CP<span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
-								<li class="disabled"><a href="#" disabled><?php echo $curUser . " (". getUserRoleName($userRole). ")"; ?></a></li>
+								<li class="disabled"><a href="#" disabled><?php echo $curUser ?><span class="pull-right"><?php echo $avatar; ?></span></a></li>
 								<li class="divider"></li>
-								<li><a href="#" data-toggle="pill"><i class="fa fa-user pull-right text-default"></i> Profile</a></li>
-								<li><a href="#" data-toggle="pill"><i class="fa fa-cogs pull-right text-default"></i> Settings</a></li>
+								<li><a href="#" data-toggle="pill"> Profile</a></li>
+								<li><a href="#" data-toggle="pill"> Settings</a></li>
+								<li><a href="http://www.clanaod.net/forums/member.php?u=<?php echo $forumId; ?>" target="_blank"> Forum profile</a></li>
 								<li class="divider"></li>
-								<li class="text-danger"><a href="#" data-toggle="pill" class="logout-btn"><i class="fa fa-lock pull-right text-danger"></i> Logout</a></li>
+								<li><a href="#" data-toggle="pill" class="logout-btn"><i class="fa fa-lock pull-right"></i> Logout</a></li>
 							</ul>
 						</li>
 
@@ -135,10 +136,10 @@
 							<ul class="dropdown-menu" role="menu">
 								<li class="disabled"><a href="#" disabled><?php echo $curUser . " (". getUserRoleName($userRole). ")"; ?></a></li>
 								<li class="divider"></li>
-								<li><a href="#" data-toggle="pill"><i class="fa fa-user pull-right"></i> Profile</a></li>
-								<li><a href="#" data-toggle="pill"><i class="fa fa-cog pull-right"></i> Settings</a></li>
+								<li><a href="#" data-toggle="pill"> Profile</a></li>
+								<li><a href="#" data-toggle="pill"> Settings</a></li>
 								<li class="divider"></li>
-								<li class="text-danger"><a href="#" data-toggle="pill" class="logout-btn"><i class="fa fa-lock pull-right"></i> Logout</a></li>
+								<li><a href="#" data-toggle="pill" class="logout-btn"><i class="fa fa-lock pull-right"></i> Logout</a></li>
 							</ul>
 						</li>
 					</ul>
