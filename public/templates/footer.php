@@ -4,8 +4,8 @@
 
 <div id="footer" class="navbar navbar-default">
 	<div class="container">
-			<small class="text-muted">Copright &copy; Angels of Death 2005-2015. All rights reserved.</small>
-			<small class="text-muted pull-right userList"><img src="https://aod.sitespot.com/public/images/loading_2.gif" /></small>
+			<small class="text-muted col-xs-6">Copright &copy; Angels of Death <span class="hidden-xs">2005-2015. All rights reserved.</span><br /><span class="hidden-xs">Developed by Guybrush, Sc0rp10n66</span></small>
+			<small class="text-muted col-xs-6 text-right userList"><img src="https://aod.sitespot.com/public/images/loading_2.gif" /></small>
 	</div>
 </div>
 

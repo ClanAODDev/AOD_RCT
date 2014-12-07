@@ -200,7 +200,7 @@ function onlineUsers() {
         if (dbConnect()) {
             try {
                 // grab active users in past 2 minutes
-                $sth = $pdo->prepare('SELECT username, role FROM users WHERE last_seen >= CURRENT_TIMESTAMP - INTERVAL 1 MINUTE ORDER BY last_seen DESC ');
+                $sth = $pdo->prepare('SELECT username, role FROM users WHERE last_seen >= CURRENT_TIMESTAMP - INTERVAL 5 MINUTE ORDER BY last_seen DESC ');
                 $sth->execute();
                 $users = $sth->fetchAll();
             }
@@ -240,7 +240,7 @@ function userColor($user, $level) {
         $span = "<span class='text-danger tool' title='Administrator'>". $user ."</span>";
         break;
         case 3:
-        $span = "<span class='text-warning tool' title='Division Commander'>". $user ."</span>";
+        $span = "<span class='text-warning tool' title='Command Staff'>". $user ."</span>";
         break;
         case 2:
         $span = "<span class='text-info tool' title='Platoon Leader'>". $user ."</span>";

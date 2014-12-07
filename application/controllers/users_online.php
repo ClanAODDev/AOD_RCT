@@ -17,6 +17,7 @@ if (isLoggedIn()) {
 	sleep(1);
 
 	if ($online_users) {
+
 		$out = '<strong>Users online:  </strong>';
 
 		foreach ($online_users as $user) {
