@@ -254,6 +254,7 @@ h2.pull-right {
 .userList span {
   font-weight: 700;
   opacity: .70;
+  cursor: pointer;
 }
 
 
