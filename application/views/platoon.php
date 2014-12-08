@@ -93,7 +93,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 
 	// build page structure
 	$out .= "
-	<div class='container margin-top-20 fade-in'>
+	<div class='container fade-in'>
 		<div class='row'>{$breadcrumb}</div>
 
 		<div class='row'>
