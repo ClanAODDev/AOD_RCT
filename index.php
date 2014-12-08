@@ -7,7 +7,7 @@
  **/
 
 session_start();
-
+ob_start();
 include "application/lib.php";
 
 define( 'TEMPLATES', dirname( __FILE__ ) . '/public/templates/' );
@@ -18,6 +18,7 @@ $uri = '/' . trim( str_replace( $uri, '', $_SERVER['REQUEST_URI'] ), '/' );
 $uri = urldecode( $uri );
 
 $rules = define_pages();
+
 
 foreach ( $rules as $action => $rule ) {
 	
@@ -48,10 +49,16 @@ foreach ( $rules as $action => $rule ) {
 	} 
 }
 
+
+
 // if no page is found, show the 404 page
 include(TEMPLATES . "header.php");
 include(TEMPLATES . "404.html");
 include(TEMPLATES . "footer.php");
 exit;
+
+
+ob_flush();
+ob_get_contents();
 
 ?>
