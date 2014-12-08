@@ -240,6 +240,30 @@ function get_user_avatar($forum_id, $type = "thumb") {
 }
 
 
+
+function get_games() {
+
+    global $pdo;
+    
+    if (dbConnect()) {
+
+        try {
+
+            $query = "SELECT full_name, short_name, short_descr FROM games ORDER BY full_name";
+            $query = $pdo->prepare($query);
+            $query->execute();
+            $query = $query->fetchAll();
+            
+        }
+        catch (PDOException $e) {
+            echo "ERROR:" . $e->getMessage();
+        }
+    }
+    return $query;
+}
+
+
+
 function get_game_info($gname) {
 
     global $pdo;
