@@ -75,7 +75,7 @@ if ($userRole == 0) {
 		<div class='col-lg-12'>
 			<div class='panel panel-primary'>
 				<div class='panel-heading'>
-					<h4>Games Listing</h4>
+					<h4><strong>Games Listing</strong></h4>
 				</div>
 				<div class='panel-body'>
 
