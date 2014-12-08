@@ -41,7 +41,13 @@
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav navbar-right">
 
-						
+						<!-- divisions -->
+						<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Divisions <span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<?php echo $game_list ?>								
+							</ul>
+						</li>
 
 
 						<!-- notifications menu -->

@@ -3,7 +3,6 @@
 include_once("config.php");
 include_once("modules/vbfunctions.php");
 
-
 /**
  * data collection for user logged in
  */
@@ -21,8 +20,24 @@ if (isLoggedIn()) {
     } else {
         $avatar = NULL;
     }
-}
 
+    
+
+    /**
+     * generate game list for navigation
+     */
+    
+    $game_list = NULL;
+    $games = get_games();
+    
+    foreach ($games as $game) {
+        $shortname = strtolower($game['short_name']);
+        $longname = $game['full_name'];
+        $shortdescr = $game['short_descr'];
+        $game_list .= "<li><a href='/{$shortname}'>{$longname}</a></li>";
+        // <a href='/{$shortname}' class='list-group-item'><strong>{$longname}</strong><i class='fa fa-angle-double-right pull-right text-muted'></i></a>
+    }
+}
 
 /**
  * primary functions

@@ -1,29 +1,6 @@
 <?php
 
 $out = NULL;
-$game_list = NULL;
-
-$games = get_games();
-
-
-/**
- * generate games list
- */
-foreach ($games as $game) {
-
-	$shortname = strtolower($game['short_name']);
-	$longname = $game['full_name'];
-	$shortdescr = $game['short_descr'];
-
-	$game_list .= "
-	<a href='/{$shortname}' class='list-group-item'><strong>{$longname}</strong><i class='fa fa-angle-double-right pull-right text-muted'></i></a>";
-}
-
-
-/**
-* is user on a guest account?
-*/
-
 
 // begin container
 $out .= "
@@ -105,7 +82,7 @@ $out .= "
 			</div>
 		</div>
 
-		<div class='col-md-3'>
+		<div class='col-md-6'>
 			<div class='panel panel-default'>
 				<div class='panel-heading'><i class='fa fa-users text-muted'></i><strong> Your Squad</strong><span class='text-muted pull-right'>BF4</span></div>
 				<div class='panel-body'>
@@ -116,24 +93,13 @@ $out .= "
 						<li class='list-group-item'> Cdt Snuffy</li>
 						<li class='list-group-item'> Cdt Snuffy</li>
 						<li class='list-group-item'> Pvt Snuffy</li>
-						<li class='list-group-item'> Pfc Snuffy</li>
-						<li class='list-group-item'> Pfc Snuffy</li>
-						<li class='list-group-item'> Pfc Snuffy</li>
+
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<div class='col-md-3'>
-			<div class='panel panel-default'>
-				<div class='panel-heading'><i class=\"fa fa-gamepad text-muted\"></i> <strong>Gaming Divisions</strong></div>
-				<div class='panel-body'>
-					<div class='list-group'>
-						{$game_list}
-					</div>
-				</div>
-			</div>
-		</div>
+	
 	</div>
 
 
