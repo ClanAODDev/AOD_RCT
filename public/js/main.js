@@ -88,11 +88,9 @@ $(function() {
         });
     });
 
-    $('.stat-tool').powerTip({
-                placement: 'n',
-                followMouse: true
-            });
-
+    $('.follow-tool').powerTip({
+        followMouse: true
+    });
 
     $('#members-table').DataTable({
         paging: false,

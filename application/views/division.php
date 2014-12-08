@@ -10,7 +10,7 @@ $platoon_items = NULL;
 // extract game top-level data
 $game_info = get_game_info($params['division']);
 $game_id = $game_info['id'];
-$game_name = $game_info['full_name'] . " Division";
+$game_name = $game_info['full_name'];
 $game_descr = $game_info['description'];
 
 
@@ -19,10 +19,11 @@ $game_descr = $game_info['description'];
 $platoons = get_platoons($game_id);
 
 foreach ($platoons as $row) {
+	$number_with_suffix = ordSuffix($row['number']);
 	$number = $row['number'];
 	$name = $row['name'];
 
-	$platoon_items .= "<a href='/bf4/platoon/{$number}' class='list-group-item'><h4>{$number}. {$name}</h4></a>";
+	$platoon_items .= "<a href='/bf4/platoon/{$number}' class='list-group-item'><strong>{$name}</strong><span class='pull-right text-muted'>{$number_with_suffix} Platoon</span></a>";
 }
 
 if (!empty($platoon_items)) {
@@ -51,7 +52,7 @@ $out .= "
 	<div class='row'>{$breadcrumb}</div>
 	<div class='row'>
 		<div class='col-xs-12'>
-			<h2><strong>{$game_name}</strong></h2>
+			<h2><strong>{$game_name} Division</strong></h2>
 		</div>
 
 		<div class='col-xs-12 hr'><hr /></div>
@@ -65,21 +66,19 @@ $out .= "
 
 	</div>
 
-	<div class='row'>
-		<div class='col-xs-8'>
-			<h3>Platoons</h3>
-		</div>
-
-		<div class='col-xs-8 hr'><hr /></div>
-	</div>
+	
 
 	<div class='row margin-top-20'>
-
-		<div class='col-md-8'>
-			{$platoon_list}
+		<div class='col-md-4 pull-left'>
+			<div class='panel panel-primary'>
+				<div class='panel-heading'>Active Platoons</div>
+				<div class='panel-body'>
+					<div class='list-group'>
+						{$platoon_list}
+					</div></div>
+				</div>
+			</div>
 		</div>
-
-	</div>
 </div>
 ";
 

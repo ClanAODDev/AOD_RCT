@@ -6,6 +6,9 @@ $game_list = NULL;
 $games = get_games();
 
 
+/**
+ * generate games list
+ */
 foreach ($games as $game) {
 
 	$shortname = strtolower($game['short_name']);
@@ -13,14 +16,30 @@ foreach ($games as $game) {
 	$shortdescr = $game['short_descr'];
 
 	$game_list .= "
-	<a href='/{$shortname}' class='list-group-item'>
-		<h4 class='list-group-item-heading'><strong>{$longname}</strong></h4>
-		<p class='list-group-item-text'>{$shortdescr}</p>
-	</a>";
+	<a href='/{$shortname}' class='list-group-item'><strong>{$longname}</strong><i class='fa fa-angle-double-right pull-right text-muted'></i></a>";
 }
 
+
+/**
+* is user on a guest account?
+*/
+
+
+// begin container
 $out .= "
-<div class='container fade-in margin-top-20'>
+<div class='container fade-in margin-top-20'>";
+
+
+	if ($userRole == 0) {
+		$out .= "
+		<div class='alert alert-warning' role='alert'><i class=\"fa fa-exclamation-triangle\"></i> You are currently a guest. You will need to have an administrator approve your account before you can use this application</div>";
+	}
+
+	$out .= "
+	<div class='alert alert-info' role='alert'><i class=\"fa fa-exclamation-triangle\"></i> Application is still very much under construction, so certain features may not be available or fully functional. Please stay patient and check back often!</div>";
+
+
+	$out .="
 	<div class='row'>
 		<div class='col-md-12'>
 			<div class='jumbotron'>
@@ -29,18 +48,6 @@ $out .= "
 			</div>
 		</div> <!-- end col -->
 	</div> <!-- end end row -->";
-
-
-
-/**
-* is user on a guest account?
-*/
-
-if ($userRole == 0) {
-	$out .= "
-	<div class='alert alert-warning' role='alert'><strong>Notice:</strong> You are currently a guest. You will need to have an administrator approve your account before you can use this application</div>";
-}
-
 
 
 	// shortcuts
@@ -67,31 +74,49 @@ if ($userRole == 0) {
 	";
 */
 
-	$out .= "
-	<div class='alert alert-info' role='alert'><strong>Note:</strong> Application is still very much under construction, so certain features may not be available or fully functional. Please stay patient and check back often!</div>";
 
 	$out .= "
+
 	<div class='row'>
-		<div class='col-lg-12'>
-			<div class='panel panel-primary'>
-				<div class='panel-heading'>
-					<h4>Games Listing</h4>
-				</div>
+		<div class='col-md-8'>
+			<div class='panel panel-default'>
+				<div class='panel-heading'><strong>Your Squad</strong><span class='text-muted'> (". ordSuffix(2) . " Platoon, Deity's Demons)</span></div>
 				<div class='panel-body'>
+					<ol class='list-group'>
+						<li class='list-group-item'><strong>Rct Snuffy</strong></li>
+						<li class='list-group-item'><strong>Rct Snuffy</strong></li>
+						<li class='list-group-item list-group-item-info follow-tool' title='Needs reviewing for promotion'><strong>Rct Snuffy</strong></li>
+						<li class='list-group-item'><strong>Rct Snuffy</strong></li>
+						<li class='list-group-item list-group-item-danger follow-tool' title='Inactive for more than 60 days'><strong>Rct Snuffy</strong></li>
+						<li class='list-group-item list-group-item-danger follow-tool' title='Inactive for more than 60 days'><strong>Rct Snuffy</strong></li>
 
-					<div class='list-group'>
-						{$game_list}
-					</div>
-
+					</ol>
 				</div>
 			</div>
-		</div> <!-- end col -->
+		</div>
+
+
+		<div class='col-md-4 pull-right'>
+			<div class='panel panel-primary'>
+				<div class='panel-heading'>Gaming Divisions</div>
+				<div class='panel-body'>
+					<div class='list-group'>
+						{$game_list}
+					</div></div>
+				</div>
+			</div>
+		</div>
 	</div>
+
 	";
 
+
+
 	$out .=" 
-</div> <!-- end container -->
+</div>
 ";
+
+	// end container
 
 echo $out;
 
