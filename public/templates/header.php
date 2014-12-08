@@ -41,7 +41,7 @@
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav navbar-right">
 
-						<?php echo $platoon_dropdown; ?>
+						
 
 
 						<!-- notifications menu -->

@@ -5,19 +5,6 @@ include_once("modules/vbfunctions.php");
 
 
 /**
- * global data declarations
- */
-
-if (DEBUG_MODE) {
-    error_reporting(E_ALL);
-    ini_set('display_errors', 1);
-} else {
-    error_reporting(0);
-    ini_set('display_errors', 0);
-}
-
-
-/**
  * data collection for user logged in
  */
 
@@ -34,24 +21,6 @@ if (isLoggedIn()) {
     } else {
         $avatar = NULL;
     }
-    
-    // fetch platoons (need to base on member-info -> game)
-    $platoons = get_platoons();
-    foreach ($platoons as $row) {
-        $platoons_items .= "<li><a href='/bf4/platoon/{$row['number']}''>".$row['number']." - ".$row['name']."</a></li>";
-    }
-
-    $platoon_dropdown = '
-    <li class="dropdown">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Platoons  <span class="caret"></span></a>
-        <ul class="dropdown-menu" role="menu">
-            <li class="disabled"><a href="#" disabled>Battlefield 4</a></li>
-            <li class="divider"></li>
-            ' . $platoons_items . '
-        </ul>
-    </li>
-    ';
-
 }
 
 
@@ -553,7 +522,7 @@ function get_platoon_members($platoon_id) {
     return $query;
 }
 
-function get_platoons() {
+function get_platoons($gid) {
 
     global $pdo;
     
@@ -561,8 +530,9 @@ function get_platoons() {
 
         try {
 
-            $query = "SELECT * FROM platoon WHERE 1 ORDER BY number";
+            $query = "SELECT * FROM platoon WHERE game_id = :gid ORDER BY number";
             $query = $pdo->prepare($query);
+            $query->bindParam(':gid', $gid);
             $query->execute();
             $query = $query->fetchAll();
             
