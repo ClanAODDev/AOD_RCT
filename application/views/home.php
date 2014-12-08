@@ -68,6 +68,9 @@ if ($userRole == 0) {
 */
 
 	$out .= "
+	<div class='alert alert-info' role='alert'><strong>Note:</strong> Application is still very much under construction, so certain features may not be available or fully functional. Please stay patient and check back often!</div>";
+
+	$out .= "
 	<div class='row'>
 		<div class='col-lg-12'>
 			<div class='panel panel-primary'>
