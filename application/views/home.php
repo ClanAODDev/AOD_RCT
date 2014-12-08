@@ -40,7 +40,7 @@ $out .= "
 
 
 	$out .="
-	<div class='row'>
+	<div class='row visible-lg-block visible-md-block'>
 		<div class='col-md-12'>
 			<div class='jumbotron'>
 				<h1>Howdy <strong>{$curUser}</strong>!</h1>
@@ -85,7 +85,7 @@ $out .= "
 					<ol class='list-group'>
 						<li class='list-group-item'><strong>Rct Snuffy</strong></li>
 						<li class='list-group-item'><strong>Rct Snuffy</strong></li>
-						<li class='list-group-item list-group-item-info follow-tool' title='Needs reviewing for promotion'><strong>Rct Snuffy</strong></li>
+						<li class='list-group-item list-group-item-warning follow-tool' title='Needs reviewing for promotion'><strong>Rct Snuffy</strong></li>
 						<li class='list-group-item'><strong>Rct Snuffy</strong></li>
 						<li class='list-group-item list-group-item-danger follow-tool' title='Inactive for more than 60 days'><strong>Rct Snuffy</strong></li>
 						<li class='list-group-item list-group-item-danger follow-tool' title='Inactive for more than 60 days'><strong>Rct Snuffy</strong></li>
@@ -96,7 +96,7 @@ $out .= "
 		</div>
 
 
-		<div class='col-md-4 pull-right'>
+		<div class='col-md-4'>
 			<div class='panel panel-primary'>
 				<div class='panel-heading'>Gaming Divisions</div>
 				<div class='panel-body'>
