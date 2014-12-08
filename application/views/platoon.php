@@ -85,7 +85,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 	</table>";
 
 	// calculate percentages
-	$overall_aod_percent = array_diff($overall_aod_percent, array(0));
+	$overall_aod_percent = array_diff($overall_aod_percent, array(NULL));
 	$overall_aod_percent = array_sum($overall_aod_percent) / count($overall_aod_percent);
 	$overall_aod_games = array_sum($overall_aod_games);
 
