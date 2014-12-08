@@ -63,8 +63,8 @@ function define_pages() {
     // build page rules for routing system
     $rules = array(
         'player' => "/player/(?'id'\d+)",
-        'division' => "/(?'division'bf4|wf|aa|a3)",
-        'platoon' => "/(?'division'bf4|wf|aa|a3)/platoon/(?'platoon'\d+)",
+        'division' => "/(?'division'bf4|hl)",
+        'platoon' => "/(?'division'bf4|hl)/platoon/(?'platoon'\d+)",
         'register' => "/register",
         'logout' => "/logout",
         'home' => "/"
