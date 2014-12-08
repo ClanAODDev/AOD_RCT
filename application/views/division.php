@@ -4,7 +4,6 @@
 ini_set('display_errors', 1); 
 error_reporting(E_ALL);
 
-
 $out = NULL;
 $platoon_items = NULL;
 
@@ -20,7 +19,10 @@ $game_descr = $game_info['description'];
 $platoons = get_platoons($game_id);
 
 foreach ($platoons as $row) {
-	$platoon_items .= "<li class='list-group-item'><a href='/bf4/platoon/{$row['number']}''>".$row['number'].". ".$row['name']."</a></li>";
+	$number = $row['number'];
+	$name = $row['name'];
+
+	$platoon_items .= "<a href='/bf4/platoon/{$number}' class='list-group-item'><h4>{$number}. {$name}</h4></a>";
 }
 
 if (!empty($platoon_items)) {
@@ -36,17 +38,17 @@ if (!empty($platoon_items)) {
 
 }
 
-	$breadcrumb = "
-	<ul class='breadcrumb'>
+$breadcrumb = "
+<ul class='breadcrumb'>
 	<li><a href='/'>Home</a></li>
 	<li class='active'>{$game_name}</li>
-	</ul>
-	";
+</ul>
+";
 
 // game specific data
 $out .= "
 <div class='container fade-in'>
-<div class='row'>{$breadcrumb}</div>
+	<div class='row'>{$breadcrumb}</div>
 	<div class='row'>
 		<div class='col-xs-12'>
 			<h2><strong>{$game_name}</strong></h2>
