@@ -14,7 +14,7 @@ foreach ($games as $game) {
 
 	$game_list .= "
 	<a href='/{$shortname}' class='list-group-item'>
-		<h4 class='list-group-item-heading'>{$longname}</h4>
+		<h4 class='list-group-item-heading'><strong>{$longname}</strong></h4>
 		<p class='list-group-item-text'>{$shortdescr}</p>
 	</a>";
 }
@@ -75,7 +75,7 @@ if ($userRole == 0) {
 		<div class='col-lg-12'>
 			<div class='panel panel-primary'>
 				<div class='panel-heading'>
-					<h4><strong>Games Listing</strong></h4>
+					<h4>Games Listing</h4>
 				</div>
 				<div class='panel-body'>
 
