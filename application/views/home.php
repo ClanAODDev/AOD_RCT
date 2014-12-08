@@ -70,23 +70,6 @@ if ($userRole == 0) {
 	$out .= "
 	<div class='row'>
 		<div class='col-lg-12'>
-			<div class='panel panel-warning'>
-				<div class='panel-heading'>
-					<h4>Under Construction</h4>
-				</div>
-				<div class='panel-body'>
-					The squad tracker is still under construction. However, some features are still available via the navigation bar.
-				</div>
-			</div>
-		</div> <!-- end col -->
-	</div>
-	";
-
-
-
-	$out .= "
-	<div class='row'>
-		<div class='col-lg-12'>
 			<div class='panel panel-primary'>
 				<div class='panel-heading'>
 					<h4>Games Listing</h4>
