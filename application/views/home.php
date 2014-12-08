@@ -80,7 +80,7 @@ $out .= "
 	<div class='row'>
 		<div class='col-md-8'>
 			<div class='panel panel-default'>
-				<div class='panel-heading'><strong>Your Squad</strong><span class='text-muted'> (". ordSuffix(2) . " Platoon, Deity's Demons)</span></div>
+				<div class='panel-heading'><strong>Your Squad</strong><span class='text-muted'> (". ordSuffix(2) . " Platoon, Deity's Demons)</span><span class='text-muted pull-right'>Squad Leader View</span></div>
 				<div class='panel-body'>
 					<ol class='list-group'>
 						<li class='list-group-item'><strong>Rct Snuffy</strong></li>
