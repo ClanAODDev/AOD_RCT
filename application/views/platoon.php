@@ -84,25 +84,6 @@ if ($platoon_id = get_platoon_id_from_number($platoon)) {
 	// build page structure
 	$out .= "
 	<div class='container margin-top-20 fade-in'>
-		<div class='row'>
-
-			<div class='col-xs-12'>
-				<h2><strong>{$game_name}</strong></h2>
-			</div>
-
-			<div class='col-xs-12 hr'><hr /></div>
-		</div>
-
-		<div class='row margin-top-20'>
-
-			<div class='col-md-12'>
-				<p>{$game_info['description']}</p>
-				<p class='text-muted'><strong>Note</strong>: Data displayed includes information from {$first_day_of_last_month} to {$last_day_of_last_month}</p>
-			</div>
-
-		</div>
-
-
 
 		<div class='row'>
 
