@@ -75,7 +75,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 					<td>".$row['abbr']."</td>
 					<td>".$aod_games."</td>
 					<td>".$total_games."</td>
-					<td><span class='label label-{$percent_class}'>".number_format((float)$percent_aod, 2, '.', '')."%</span></td>
+					<td><span class='label label-{$percent_class} user-color'>".number_format((float)$percent_aod, 2, '.', '')."%</span></td>
 				</tr>
 				";
 			}
