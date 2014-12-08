@@ -14,7 +14,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon)) {
 	$platoon_name = (!is_null($platoon_info['name'])) ? $platoon_info['name'] : $params['platoon'][0];
 
 	$right_now = new DateTime("now");
-	$game_info = get_game_info($params['game']);
+	$game_info = get_game_info($params['division']);
 	$game_name = $game_info['full_name'] . " Division";
 
 	$first_day_of_last_month = date("Y-m-d", strtotime("first day of previous month"));
@@ -45,7 +45,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon)) {
 
 				$total_games = count_total_games($row['member_id'], $first_day_of_last_month);
 				$aod_games = count_aod_games($row['member_id'], $first_day_of_last_month);
-				$percent_aod = (($aod_games)/($total_games))*100;
+				$percent_aod = ($aod_games > 0 ) ? (($aod_games)/($total_games))*100 : NULL;
 
 					// push to overall
 				$overall_aod_games[] = $aod_games;
