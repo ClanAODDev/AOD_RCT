@@ -61,12 +61,12 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 				$overall_aod_games[] = $aod_games;
 				$overall_aod_percent[] = $percent_aod;
 
-				if ($percent_aod <= 50) { 
-					$percent_class = "danger"; 
-				} else if ($percent_aod <= 75) { 
+				if ($percent_aod >= PERCENTAGE_CUTOFF_GREEN) {
+					$percent_class = "success";
+				} else if ($percent_aod >= PERCENTAGE_CUTOFF_AMBER) {
 					$percent_class = "warning"; 
 				} else {
-					$percent_class = "success";
+					$percent_class = "danger"; 
 				}
 
 				$members_table .= "
