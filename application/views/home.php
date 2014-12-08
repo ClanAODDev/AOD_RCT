@@ -78,35 +78,64 @@ $out .= "
 	$out .= "
 
 	<div class='row'>
-		<div class='col-md-8'>
-			<div class='panel panel-default'>
-				<div class='panel-heading'><strong>Your Squad</strong><span class='text-muted'> (". ordSuffix(2) . " Platoon, Deity's Demons)</span><span class='text-muted pull-right'>Squad Leader View</span></div>
-				<div class='panel-body'>
-					<ol class='list-group'>
-						<li class='list-group-item'><strong>Rct Snuffy</strong></li>
-						<li class='list-group-item'><strong>Rct Snuffy</strong></li>
-						<li class='list-group-item list-group-item-warning follow-tool' title='Needs reviewing for promotion'><strong>Rct Snuffy</strong></li>
-						<li class='list-group-item'><strong>Rct Snuffy</strong></li>
-						<li class='list-group-item list-group-item-danger follow-tool' title='Inactive for more than 60 days'><strong>Rct Snuffy</strong></li>
-						<li class='list-group-item list-group-item-danger follow-tool' title='Inactive for more than 60 days'><strong>Rct Snuffy</strong></li>
 
-					</ol>
+		<div class='col-md-6'>
+			<div class='panel panel-default'>
+				<div class='panel-heading'><i class=\"fa fa-bolt text-muted\"></i> <strong>Your Toolbox</strong><span class='text-muted pull-right'><small>Squad Leader View</small></span></div>
+				<div class='panel-body'>
+					<div class='list-group'>
+
+						<a href='#' class='list-group-item'>
+							<h4 class='list-group-item-heading'><strong>Add new recruit</strong></h4>
+							<p class='list-group-item-text'>Start the recruiting process with a brand new candidate</p>
+						</a>
+
+						<a href='#' class='list-group-item'>
+							<h4 class='list-group-item-heading'><strong>Manage your squad</strong></h4>
+							<p class='list-group-item-text'>Promote, demote, or kick members of your squad</p>
+						</a>
+
+						<a href='#' class='list-group-item disabled'>
+							<h4 class='list-group-item-heading'><strong>Review inactive members</strong></h4>
+							<p class='list-group-item-text'>View inactive members and flag for removal (available monthly)</p>
+						</a>
+
+					</div>
 				</div>
 			</div>
 		</div>
 
+		<div class='col-md-3'>
+			<div class='panel panel-default'>
+				<div class='panel-heading'><i class='fa fa-users text-muted'></i><strong> Your Squad</strong><span class='text-muted pull-right'>BF4</span></div>
+				<div class='panel-body'>
+					<div class='list-group'>
+						<li class='list-group-item list-group-item-danger follow-tool' title='Inactive for more than 60 days'> Rct Snuffy<i class='fa fa-exclamation-circle pull-right'></i></li>
+						<li class='list-group-item list-group-item-danger follow-tool' title='Inactive for more than 60 days'> Rct Snuffy<i class='fa fa-exclamation-circle pull-right'></i></li>
+						<li class='list-group-item list-group-item-warning follow-tool' title='Needs reviewing for promotion'> Rct Snuffy<i class='fa fa-exclamation-circle pull-right'></i></li>
+						<li class='list-group-item'> Cdt Snuffy</li>
+						<li class='list-group-item'> Cdt Snuffy</li>
+						<li class='list-group-item'> Pvt Snuffy</li>
+						<li class='list-group-item'> Pfc Snuffy</li>
+						<li class='list-group-item'> Pfc Snuffy</li>
+						<li class='list-group-item'> Pfc Snuffy</li>
+					</div>
+				</div>
+			</div>
+		</div>
 
-		<div class='col-md-4'>
-			<div class='panel panel-primary'>
-				<div class='panel-heading'>Gaming Divisions</div>
+		<div class='col-md-3'>
+			<div class='panel panel-default'>
+				<div class='panel-heading'><i class=\"fa fa-gamepad text-muted\"></i> <strong>Gaming Divisions</strong></div>
 				<div class='panel-body'>
 					<div class='list-group'>
 						{$game_list}
-					</div></div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
 
 	";
 

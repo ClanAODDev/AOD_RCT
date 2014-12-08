@@ -225,9 +225,12 @@ ul.nav {
 h2.pull-right {
   padding-top: 10px;
 }
-
+.striped-bg {
+  background-image: url('/public/images/bg_stripe.png');
+}
 
 .count-detail-big {
+ 
   font-family: 'dincond-black';
   font-size: 68px;
   text-align: center;

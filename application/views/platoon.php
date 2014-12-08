@@ -108,7 +108,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 			<div class='col-md-4'>
 				<div class='panel panel-primary'>
 					<div class='panel-heading'>Total Members</div>
-					<div class='panel-body count-detail-big'><span class='count-animated'>{$member_count}</span></div>
+					<div class='panel-body count-detail-big striped-bg'><span class='count-animated'>{$member_count}</span></div>
 				</div>
 			</div>
 
@@ -116,14 +116,14 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 			<div class='col-md-4'>
 				<div class='panel panel-primary'>
 					<div class='panel-heading'>Total AOD Games</div>
-					<div class='panel-body count-detail-big'><span class='count-animated'>{$overall_aod_games}</span></div>
+					<div class='panel-body count-detail-big striped-bg'><span class='count-animated'>{$overall_aod_games}</span></div>
 				</div>
 			</div>
 
 			<div class='col-md-4'>
 				<div class='panel panel-primary'>
 					<div class='panel-heading'>Percentage AOD Games</div>
-					<div class='panel-body count-detail-big follow-tool' title='Excludes all zero values'><span class='count-animated percentage'>{$overall_aod_percent}</span></div>
+					<div class='panel-body count-detail-big follow-tool striped-bg' title='Excludes all zero values'><span class='count-animated percentage'>{$overall_aod_percent}</span></div>
 
 				</div>
 			</div>
