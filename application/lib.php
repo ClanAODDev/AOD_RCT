@@ -566,7 +566,7 @@ function get_platoon_info($platoon_id) {
 }
 
 
-function get_platoon_id_from_number($platoon_number) {
+function get_platoon_id_from_number($platoon_number, $division) {
 
     global $pdo;
     
@@ -574,8 +574,10 @@ function get_platoon_id_from_number($platoon_number) {
 
         try {
 
-            $query = "SELECT id FROM platoon WHERE `number` = " . $platoon_number;
+            $query = "SELECT id FROM platoon WHERE number = :platoon_num AND game_id = :division";
             $query = $pdo->prepare($query);
+            $query->bindParam(':platoon_num', $platoon_number);
+            $query->bindParam(':division', $division);
             $query->execute();
             $query = $query->fetch();
             

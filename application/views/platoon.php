@@ -7,15 +7,17 @@
 $out = NULL;
 
 $platoon = $params['platoon'];
+$game_info = get_game_info($params['division']);
+$game_name = $game_info['full_name'] . " Division";
+$game_id = $game_info['id'];
 
-if ($platoon_id = get_platoon_id_from_number($platoon)) {
+
+if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 
 	$platoon_info = get_platoon_info($platoon_id);
 	$platoon_name = (!is_null($platoon_info['name'])) ? $platoon_info['name'] : $params['platoon'][0];
 
 	$right_now = new DateTime("now");
-	$game_info = get_game_info($params['division']);
-	$game_name = $game_info['full_name'] . " Division";
 
 	$first_day_of_last_month = date("Y-m-d", strtotime("first day of previous month"));
 	$last_day_of_last_month = date("Y-m-d", strtotime("last day of previous month"));
@@ -25,6 +27,14 @@ if ($platoon_id = get_platoon_id_from_number($platoon)) {
 
 	$overall_aod_percent = array();
 	$overall_aod_games = array();
+
+	$breadcrumb = "
+	<ul class='breadcrumb'>
+		<li><a href='/'>Home</a></li>
+		<li><a href='/{$params['division']}'>{$game_name}</a></li>
+		<li class='active'>{$platoon_name}</li>
+	</ul>
+	";
 
 
 	// build members table
@@ -84,6 +94,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon)) {
 	// build page structure
 	$out .= "
 	<div class='container margin-top-20 fade-in'>
+		<div class='row'>{$breadcrumb}</div>
 
 		<div class='row'>
 

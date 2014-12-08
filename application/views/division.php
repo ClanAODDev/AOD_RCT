@@ -19,14 +19,9 @@ $game_descr = $game_info['description'];
 // generate list of existing platoons for game
 $platoons = get_platoons($game_id);
 
-var_dump($platoons);
-
-
 foreach ($platoons as $row) {
 	$platoon_items .= "<li class='list-group-item'><a href='/bf4/platoon/{$row['number']}''>".$row['number'].". ".$row['name']."</a></li>";
 }
-
-var_dump($platoon_items);
 
 if (!empty($platoon_items)) {
 
@@ -41,11 +36,17 @@ if (!empty($platoon_items)) {
 
 }
 
-
+	$breadcrumb = "
+	<ul class='breadcrumb'>
+	<li><a href='/'>Home</a></li>
+	<li class='active'>{$game_name}</li>
+	</ul>
+	";
 
 // game specific data
 $out .= "
 <div class='container fade-in'>
+<div class='row'>{$breadcrumb}</div>
 	<div class='row'>
 		<div class='col-xs-12'>
 			<h2><strong>{$game_name}</strong></h2>
