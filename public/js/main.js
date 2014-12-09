@@ -93,29 +93,42 @@ $(function() {
     });
 
 
-
     $('#members-table').DataTable({
+        "order": [],
         "columnDefs": [{
             "targets": 'nosearch',
             "searchable": false
         }],
+
         paging: false,
-        ordering: false,
         responsive: true,
+        "bServerSide": false,
         "drawCallback": function(settings) {
             $("#member-footer").empty();
             $("#members-table_info").contents().appendTo("#member-footer");
         },
         "sDom": 'T<"clear">lfrtip',
         "oTableTools": {
+            "sRowSelect": "multi",
+
             "sSwfPath": "/public/swf/copy_csv_xls_pdf.swf",
             "aButtons": [{
+
+                "sExtends": "text",
+                "fnSelect": function(nButton, oConfig, nRow) {
+                    console.log($(nRow).data('id') + " clicked")
+                    $(nRow).contents("<i style='fa fa-check'></i>")
+                },
                 "sExtends": "collection",
                 "sButtonText": "",
-                "aButtons": ["csv", "xls", "pdf"]
+                "aButtons": ["select_all", "select_none", "xls"],
+                "bSelectedOnly": true,
+                "sFileName": "TableTools - *.csv"
             }]
         }
     });
+
+
 
     $("#members-table_filter input").appendTo("#playerFilter").removeClass('input-sm');
     $("#playerFilter input").attr("placeholder", "Search Players");
