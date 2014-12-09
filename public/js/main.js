@@ -76,7 +76,7 @@ $(function() {
         }).animate({
             Counter: $this.text()
         }, {
-            duration: 3000,
+            duration: 1500,
             easing: "easeOutQuart",
             step: function() {
                 if ($this.hasClass('percentage')) {
@@ -92,16 +92,38 @@ $(function() {
         followMouse: true
     });
 
+
+
     $('#members-table').DataTable({
+        "columnDefs": [{
+            "targets": 'nosearch',
+            "searchable": false
+        }],
         paging: false,
-        ordering: false
+        ordering: false,
+        responsive: true,
+        "drawCallback": function(settings) {
+            $("#member-footer").empty();
+            $("#members-table_info").contents().appendTo("#member-footer");
+        },
+        "sDom": 'T<"clear">lfrtip',
+        "oTableTools": {
+            "sSwfPath": "/public/swf/copy_csv_xls_pdf.swf",
+            "aButtons": [{
+                "sExtends": "collection",
+                "sButtonText": "",
+                "aButtons": ["csv", "xls", "pdf"]
+            }]
+        }
     });
 
     $("#members-table_filter input").appendTo("#playerFilter").removeClass('input-sm');
     $("#playerFilter input").attr("placeholder", "Search Players");
     $("#members-table_filter label").remove();
-    $("#members-table_info").contents().appendTo("#member-footer");
-   
+
+    $(".DTTT_container .DTTT_button").removeClass('DTTT_button');
+    $(".DTTT_container").contents().appendTo('#table-actions');
+    $("#table-actions a span").addClass('fa fa-download');
 
 
     // update users online

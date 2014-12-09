@@ -42,10 +42,10 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 		<thead>
 			<tr>
 				<th><b>Member</b></th>
-				<th><b>Rank</b></th>
-				<th><b>AOD Games</b></th>
-				<th><b>Total Games</b></th>
-				<th><b>Percent AOD</b></th>
+				<th class='nosearch'><b>Rank</b></th>
+				<th class='nosearch'><b>AOD Games</b></th>
+				<th class='nosearch'><b>Total Games</b></th>
+				<th class='nosearch'><b>Percent AOD</b></th>
 			</tr>
 		</thead>
 		<tbody>";
@@ -59,7 +59,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 				$overall_aod_percent[] = $percent_aod;
 
 				$members_table .= "
-				<tr>
+				<tr data-id='{$row['id']}'>
 					<td>" . memberColor($row['forum_name'], $row['bf4_position_id']) . "</td>
 					<td>" . $row['abbr'] . "</td>
 					<td>" . $aod_games . "</td>
@@ -79,6 +79,8 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 	$overall_aod_percent = array_sum($overall_aod_percent) / count($overall_aod_percent);
 	$overall_aod_games = array_sum($overall_aod_games);
 
+
+
 	
 
 	// build page structure
@@ -89,7 +91,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 		<div class='row'>
 
 			<div class='col-md-12'>
-				<h3>{$platoon_name}</h3>
+				<h3>{$platoon_name} <small>". ordSuffix($platoon). " Platoon</small></h3>
 			</div>
 			<div class='col-xs-12 hr'><hr /></div>
 		</div>
@@ -130,7 +132,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 			<div class='col-md-12'>
 				<div class='panel panel-default'>
 					<!-- Default panel contents -->
-					<div class='panel-heading'><h4>Platoon Members <span id='playerFilter'></span></h4></div>
+					<div class='panel-heading'><h4><strong>Platoon</strong> <span id='table-actions' class='tool' title='Download table data'></span> <span id='playerFilter'></span></h4></div>
 					{$members_table}
 					<div class='panel-footer text-muted' id='member-footer'></div>
 				</div>
@@ -164,6 +166,5 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 }
 
 echo $out;
-
 
 ?>
