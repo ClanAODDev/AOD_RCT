@@ -22,7 +22,8 @@ if (isLoggedIn()) {
 		$usersArray = array();
 
 		foreach ($online_users as $user) {
-			$usersArray[] = userColor(ucwords($user['username']), $user['role']);
+			$icon = ($user['idle'] == 1) ? '<i class="fa fa-clock-o text-muted"></i>': NULL; 
+			$usersArray[] = $icon . userColor(ucwords($user['username']), $user['role']);
 		}
 
 		$users = implode(', ', $usersArray);

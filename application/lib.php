@@ -205,7 +205,7 @@ function onlineUsers() {
         if (dbConnect()) {
             try {
                 // grab active users in past 2 minutes
-                $sth = $pdo->prepare('SELECT username, role FROM users WHERE last_seen >= CURRENT_TIMESTAMP - INTERVAL 15 MINUTE ORDER BY last_seen DESC ');
+                $sth = $pdo->prepare('SELECT username, role, idle FROM users WHERE last_seen >= CURRENT_TIMESTAMP - INTERVAL 15 MINUTE ORDER BY last_seen DESC ');
                 $sth->execute();
                 $users = $sth->fetchAll();
             }
@@ -220,13 +220,13 @@ function onlineUsers() {
 
 function updateUserStatus($id) {
     global $pdo;
-    $idle = 0;
-
+    
     if (dbConnect()) {
 
         // set cookie, test for idleness
         $cookie_name = 'aod_rct_active_count';
         $cookie_value = 0;
+        $idle = 0;
 
         if(!isset($_COOKIE[$cookie_name])) {
             setcookie($cookie_name, $cookie_value, time() + (86400 * 30), '/');
