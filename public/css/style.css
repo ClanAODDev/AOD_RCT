@@ -83,11 +83,6 @@ table.dataTable thead th, table.dataTable thead td, table.dataTable.no-footer, t
   padding: 10px 0 10px 10px !important;
 }
 
-#playerFilter {
-  width: 200px;
-  float: right;
-  margin-top: -10px;
-}
 
 #members-table_info {
   float: none !important;
@@ -403,6 +398,8 @@ h2.pull-right {
   margin-right: -10px;
 }
 
-#table-actions a, #table-actions a:hover {
-  cursor: pointer;
+div.DTTT_container {
+  display: inline-block;
+  margin: -8px 0 0 0;
+  float:right;
 }

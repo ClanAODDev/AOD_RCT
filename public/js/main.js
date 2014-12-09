@@ -122,8 +122,8 @@ $(function() {
     $("#members-table_filter label").remove();
 
     $(".DTTT_container .DTTT_button").removeClass('DTTT_button');
-    $(".DTTT_container").contents().appendTo('#table-actions');
-    $("#table-actions a span").addClass('fa fa-download');
+    $(".DTTT_container").appendTo('.download-area h4');
+    $(".DTTT_container a").addClass('fa fa-download btn btn-default fa-lg tool').attr('title', 'Download table data');
 
 
     // update users online
