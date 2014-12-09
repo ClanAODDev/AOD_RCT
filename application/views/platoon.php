@@ -110,7 +110,6 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 					<div class='panel-heading'>Total Members</div>
 					<div class='panel-body count-detail-big striped-bg'><span class='count-animated'>{$member_count}</span></div>
 				</div>
-				<small class='text-muted'>*Data based on information from {$first_day_of_last_month} to {$last_day_of_last_month}</small>
 			</div>
 
 
@@ -137,19 +136,16 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 
 			// show user data
 		$out .= "
-		<div class='row'>
-
-			<div class='col-md-12'>
-				<h3>{$platoon_name} <span id='playerFilter'></span></h3>
+		<div class='col-md-12'>
+			<div class='row'>
+				<div class='panel panel-default'>
+					<!-- Default panel contents -->
+					<div class='panel-heading'><h4>Platoon Members <span id='playerFilter'></span></h4></div>
+					{$members_table}
+				</div>
 			</div>
-
-			<div class='col-xs-12 hr'><hr /></div>
-
 		</div>
 		";
-
-			// insert members table
-		$out .= $members_table;
 
 
 		$out .= "

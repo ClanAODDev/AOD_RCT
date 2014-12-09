@@ -297,17 +297,17 @@ function memberColor($user, $level) {
     switch ($level) {
         case 3:
         case 8:
-        $span = "<span class='text-danger tool' title='Administrator'><i class='fa fa-shield member-list-icon'></i> ". $user ."</span>";
+        $span = "<span class='text-danger tool' title='Administrator'><i class='fa fa-shield '></i> ". $user ."</span>";
         break;
         case 2:
         case 1:
-        $span = "<span class='text-warning tool' title='Command Staff'><i class='fa fa-shield member-list-icon'></i> ". $user ."</span>";
+        $span = "<span class='text-warning tool' title='Command Staff'><i class='fa fa-shield '></i> ". $user ."</span>";
         break;
         case 4:
-        $span = "<span class='text-info tool' title='Platoon Leader'><i class='fa fa-shield member-list-icon'></i> ". $user ."</span>";
+        $span = "<span class='text-info tool' title='Platoon Leader'><i class='fa fa-shield '></i> ". $user ."</span>";
         break;
         case 5:
-        $span = "<span class='text-primary tool' title='Squad Leader'><i class='fa fa-shield member-list-icon'></i> ". $user ."</span>";
+        $span = "<span class='text-primary tool' title='Squad Leader'><i class='fa fa-shield '></i> ". $user ."</span>";
         break;
         default:
         $span = $user;
@@ -713,13 +713,6 @@ function count_total_games($member_id, $date) {
         $first_day_of_month = date("Y-m-d", strtotime("first day of" . $date));
         $last_day_of_month  = date("Y-m-d", strtotime("last day of" . $date));
         
-        #SELECT YEAR(TRUNC_HOUR(CONVERT_TZ(datetime,'+00:00','-06:00'))) AS year, MONTH(TRUNC_HOUR(CONVERT_TZ(datetime,'+00:00','-06:00'))) AS month, DAY(TRUNC_HOUR(CONVERT_TZ(datetime,'+00:00','-06:00'))) AS day, HOUR(TRUNC_HOUR(CONVERT_TZ(datetime,'+00:00','-06:00'))) AS hour, COUNT(DISTINCT member_id) AS games FROM activity WHERE server LIKE 'AOD%' GROUP BY TRUNC_HOUR(CONVERT_TZ(datetime,'+00:00','-06:00')) ORDER BY year, month, day, hour
-        #SELECT DATE_FORMAT(TRUNC_HOUR(CONVERT_TZ(datetime,'+00:00','-06:00')), '%m/%d/%Y') AS date, HOUR(TRUNC_HOUR(CONVERT_TZ(datetime,'+00:00','-06:00'))) AS hour, COUNT(DISTINCT member_id) AS games FROM activity WHERE server LIKE 'AOD%' GROUP BY TRUNC_HOUR(CONVERT_TZ(datetime,'+00:00','-06:00')) ORDER BY date, hour
-        
-        # count total games played for all members
-        #SELECT `member_id`, count(*) AS games FROM `activity` where `datetime` between '2014-11-01 00:00:00' and '2014-11-30 23:59:59' GROUP BY `member_id`
-        
-        # count total games played for a single member
         try {
             $query = "SELECT count(*) AS games FROM `activity` where `member_id`=" . $member_id . " AND `datetime` between '" . $first_day_of_month . " 00:00:00' and '" . $last_day_of_month . " 23:59:59'";
             $query = $pdo->prepare($query);
@@ -741,7 +734,7 @@ function count_aod_games($member_id, $date) {
 
         $first_day_of_month = date("Y-m-d", strtotime("first day of" . $date));
         $last_day_of_month  = date("Y-m-d", strtotime("last day of" . $date));
-        
+
         # count total AOD games played for a single member
         try {
             $query = "SELECT count(*) AS games FROM `activity` where `member_id`=" . $member_id . " AND `server` LIKE 'AOD%' AND `datetime` between '" . $first_day_of_month . " 00:00:00' and '" . $last_day_of_month . " 23:59:59'";

@@ -13,12 +13,13 @@
 	<script src="/public/js/jquery.dataTables.min.js"></script>
 	<script src="/public/js/dataTables.bootstrap.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="/public/css/style.css">
 	<link rel="stylesheet" type="text/css" href="/public/css/cyborg.min.css">				
 	<link rel="stylesheet" type="text/css" href="/public/css/jquery.powertip.min.css">				
 
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">	
 	<link href="//cdn.datatables.net/1.10.4/css/jquery.dataTables.min.css" rel="stylesheet">
+	
+	<link rel="stylesheet" type="text/css" href="/public/css/style.css">
 
 </head>
 <body>
@@ -43,7 +44,7 @@
 
 						<!-- divisions -->
 						<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Divisions <span class="caret"></span></a>
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Divisions <span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
 								<?php echo $game_list ?>								
 							</ul>

@@ -86,7 +86,7 @@ table.dataTable thead th, table.dataTable thead td, table.dataTable.no-footer, t
 #playerFilter {
   width: 200px;
   float: right;
-  margin-top: -5px;
+  margin-top: -10px;
 }
 
 #members-table_info {
@@ -259,6 +259,7 @@ h2.pull-right {
   opacity: .70;
   cursor: pointer;
 }
+
 
 
 
@@ -439,3 +440,4 @@ h2.pull-right {
 }
 .controlB ul li a { padding: 10px 20px 4px 20px; display: block; font-weight: bold; white-space: nowrap; color: #626262; }
 .controlB ul li a span { display: block; margin-top: 5px; }
+
