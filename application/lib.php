@@ -144,6 +144,17 @@ function dbConnect() {
     return true;
 }
 
+function getPercentageColor($pct) {
+    if ($pct >= PERCENTAGE_CUTOFF_GREEN) {
+        $percent_class = "success";
+    } else if ($pct >= PERCENTAGE_CUTOFF_AMBER) {
+        $percent_class = "warning"; 
+    } else {
+        $percent_class = "danger"; 
+    }
+    return $percent_class;
+}
+
 
 function getGames() {
 
@@ -618,12 +629,39 @@ function get_platoon_members($pid) {
 
         try {
 
-            #$query = "SELECT * FROM member WHERE status_id=1 AND platoon_id=".$platoon_id." ORDER BY `rank_id` DESC";
             $query = "SELECT member.forum_name, member.member_id,  bf4_position.desc as bf4_position_desc, bf4_position.id as bf4_position_id, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr FROM `member` 
             LEFT JOIN `rank` on member.rank_id = rank.id 
             LEFT JOIN `bf4_position` ON member.bf4_position_id = bf4_position.id 
-            WHERE status_id=1 AND platoon_id= :pid 
+            WHERE status_id = 1 AND platoon_id= :pid
             ORDER BY member.rank_id DESC";
+
+            $query = $pdo->prepare($query);
+            $query->bindParam(':pid', $pid);
+            $query->execute();
+            $query = $query->fetchAll();
+            
+        }
+        catch (PDOException $e) {
+            echo "ERROR:" . $e->getMessage();
+        }
+    }
+    return $query;
+}
+
+function get_squads($pid) {
+
+    global $pdo;
+    
+    if (dbConnect()) {
+
+        try {
+
+            $query = "SELECT member.forum_name, member.member_id,  bf4_position.desc as bf4_position_desc, bf4_position.id as bf4_position_id, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr FROM `member` 
+            LEFT JOIN `rank` on member.rank_id = rank.id 
+            LEFT JOIN `bf4_position` ON member.bf4_position_id = bf4_position.id 
+            WHERE status_id = 1 AND platoon_id= :pid
+            ORDER BY member.rank_id DESC";
+
             $query = $pdo->prepare($query);
             $query->bindParam(':pid', $pid);
             $query->execute();
@@ -658,6 +696,8 @@ function get_platoons($gid) {
     }
     return $query;
 }
+
+
 
 function get_platoon_info($platoon_id) {
 

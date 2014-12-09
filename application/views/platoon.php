@@ -16,18 +16,13 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 
 	$platoon_info = get_platoon_info($platoon_id);
 	$platoon_name = (!is_null($platoon_info['name'])) ? $platoon_info['name'] : $params['platoon'][0];
-
 	$right_now = new DateTime("now");
 
 	$first_day_of_last_month = date("Y-m-d", strtotime("first day of previous month"));
 	$last_day_of_last_month = date("Y-m-d", strtotime("last day of previous month"));
-
-	$members = get_platoon_members($platoon_id);
-	$member_count = count($members);
-
 	$overall_aod_percent = array();
 	$overall_aod_games = array();
-
+	
 	$breadcrumb = "
 	<ul class='breadcrumb'>
 		<li><a href='/'>Home</a></li>
@@ -36,6 +31,10 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 	</ul>
 	";
 
+
+
+	$members = get_platoon_members($platoon_id);
+	$member_count = count($members);
 
 	// build members table
 	$members_table = "
@@ -56,18 +55,8 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 				$total_games = count_total_games($row['member_id'], $first_day_of_last_month);
 				$aod_games = count_aod_games($row['member_id'], $first_day_of_last_month);
 				$percent_aod = ($aod_games > 0 ) ? (($aod_games)/($total_games))*100 : NULL;
-
-					// push to overall
 				$overall_aod_games[] = $aod_games;
 				$overall_aod_percent[] = $percent_aod;
-
-				if ($percent_aod >= PERCENTAGE_CUTOFF_GREEN) {
-					$percent_class = "success";
-				} else if ($percent_aod >= PERCENTAGE_CUTOFF_AMBER) {
-					$percent_class = "warning"; 
-				} else {
-					$percent_class = "danger"; 
-				}
 
 				$members_table .= "
 				<tr>
@@ -75,7 +64,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 					<td>" . $row['abbr'] . "</td>
 					<td>" . $aod_games . "</td>
 					<td>" . $total_games . "</td>
-					<td><span class='label label-{$percent_class} user-color'>".number_format((float)$percent_aod, 2, '.', '')."%</span></td>
+					<td><span class='label label-" . getPercentageColor($percent_aod) . " user-color'>".number_format((float)$percent_aod, 2, '.', '')."%</span></td>
 				</tr>
 				";
 			}
@@ -83,6 +72,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 			$members_table .= "
 		</tbody>
 	</table>";
+
 
 	// calculate percentages
 	$overall_aod_percent = array_diff($overall_aod_percent, array(NULL));
@@ -136,13 +126,15 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 
 			// show user data
 		$out .= "
-		<div class='col-md-12'>
-			<div class='row'>
+		<div class='row'>
+			<div class='col-md-12'>
 				<div class='panel panel-default'>
 					<!-- Default panel contents -->
 					<div class='panel-heading'><h4>Platoon Members <span id='playerFilter'></span></h4></div>
 					{$members_table}
+					<div class='panel-footer text-muted' id='member-footer'></div>
 				</div>
+
 			</div>
 		</div>
 		";

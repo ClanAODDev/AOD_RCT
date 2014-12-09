@@ -100,8 +100,8 @@ $(function() {
     $("#members-table_filter input").appendTo("#playerFilter").removeClass('input-sm');
     $("#playerFilter input").attr("placeholder", "Search Players");
     $("#members-table_filter label").remove();
-    $("#members-table_info").parent().removeClass("col-sm-6");
-    $("#members-table_info").parent().addClass("col-md-12 text-center");
+    $("#members-table_info").contents().appendTo("#member-footer");
+   
 
 
     // update users online
