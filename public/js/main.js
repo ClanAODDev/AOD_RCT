@@ -107,7 +107,7 @@ $(function() {
     // update users online
     (function() {
         var aod_rct_active_count = readCookie('aod_rct_active_count');
-        if (aod_rct_active_count < 30) {
+        if (aod_rct_active_count < 31) {
             $.post("/application/controllers/users_online.php", function(list) {
                 $(".userList").html(list);
                 $('.tool').powerTip({
@@ -117,7 +117,8 @@ $(function() {
             });
             setTimeout(arguments.callee, 20000);
         } else {
-            $(".userList").html('Idle. No longer refreshing.');
+            $(".userList").html('<i class="fa fa-clock-o"></i> Idle. No longer refreshing.');
+            clearTimeout(arguments.callee);
         }
     }())
 
