@@ -71,10 +71,10 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 
 				$members_table .= "
 				<tr>
-					<td>".$row['forum_name']."</td>
-					<td>".$row['abbr']."</td>
-					<td>".$aod_games."</td>
-					<td>".$total_games."</td>
+					<td>" . memberColor($row['forum_name'], $row['bf4_position_id']) . "</td>
+					<td>" . $row['abbr'] . "</td>
+					<td>" . $aod_games . "</td>
+					<td>" . $total_games . "</td>
 					<td><span class='label label-{$percent_class} user-color'>".number_format((float)$percent_aod, 2, '.', '')."%</span></td>
 				</tr>
 				";
