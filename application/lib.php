@@ -29,7 +29,7 @@ if (isLoggedIn()) {
     
     $game_list = NULL;
     $games = get_games();
-    
+
     foreach ($games as $game) {
         $shortname = strtolower($game['short_name']);
         $longname = $game['full_name'];
@@ -220,11 +220,27 @@ function onlineUsers() {
 
 function updateUserStatus($id) {
     global $pdo;
+    $idle = 0;
 
     if (dbConnect()) {
 
+        // set cookie, test for idleness
+        $cookie_name = 'aod_rct_active_count';
+        $cookie_value = 0;
+
+        if(!isset($_COOKIE[$cookie_name])) {
+            setcookie($cookie_name, $cookie_value, time() + (86400 * 30), '/');
+        } else {
+            setcookie($cookie_name, $_COOKIE[$cookie_name]+1, time() + (86400 * 30), '/');
+            if ($_COOKIE[$cookie_name] >= 30) {
+                $idle = 1;
+            }
+        }
+
         try {
-            $stmt = $pdo->prepare('UPDATE users SET last_seen = CURRENT_TIMESTAMP() WHERE id = :id');
+
+            $stmt = $pdo->prepare('UPDATE users SET last_seen = CURRENT_TIMESTAMP(), idle = :idle WHERE id = :id');
+            $stmt->bindParam(':idle', $idle, PDO::PARAM_INT);
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt ->execute();
 
