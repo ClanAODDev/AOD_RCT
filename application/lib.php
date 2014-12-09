@@ -237,7 +237,7 @@ function updateUserStatus($id) {
 
         try {
 
-            $stmt = $pdo->prepare('UPDATE users SET last_seen = CURRENT_TIMESTAMP(), idle = :idle WHERE id = :id');
+            $stmt = $pdo->prepare('UPDATE users SET last_seen = CURRENT_TIMESTAMP(), idle = :idle WHERE id = :id ORDER BY last_seen');
             $stmt->bindParam(':idle', $idle, PDO::PARAM_INT);
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt ->execute();
