@@ -241,11 +241,11 @@ function updateUserActivityStatus($id) {
 
         if(!isset($_COOKIE['aod_rct_active_count'])) {
             setcookie('aod_rct_active_count', 0, time() + (86400 * 30), '/');
+        } else if ($_COOKIE['aod_rct_active_count'] >= 30) {
+            $idle = 1;
         } else {
             setcookie('aod_rct_active_count', $_COOKIE['aod_rct_active_count']+1, time() + (86400 * 30), '/');
-            if ($_COOKIE['aod_rct_active_count'] >= 30) {
-                $idle = 1;
-            }
+            
         }
 
         try {
@@ -260,6 +260,8 @@ function updateUserActivityStatus($id) {
         }
     }
 }
+
+
 
 
 function userColor($user, $level) {
@@ -282,6 +284,33 @@ function userColor($user, $level) {
         break;
         default:
         $span = "<span class='text-muted tool' title='Guest'>". $user ."</span>";
+        break;
+    }
+
+    return $span;
+}
+
+
+
+function memberColor($user, $level) {
+
+    switch ($level) {
+        case 3:
+        case 8:
+        $span = "<span class='text-danger tool' title='Administrator'>". $user ."</span>";
+        break;
+        case 2:
+        case 1:
+        $span = "<span class='text-warning tool' title='Command Staff'>". $user ."</span>";
+        break;
+        case 4:
+        $span = "<span class='text-info tool' title='Platoon Leader'>". $user ."</span>";
+        break;
+        case 5:
+        $span = "<span class='text-primary tool' title='Squad Leader'>". $user ."</span>";
+        break;
+        default:
+        $span = $user;
         break;
     }
 
@@ -565,8 +594,10 @@ function get_members() {
 
         try {
 
-            #$query = "SELECT * FROM member WHERE status_id=1 ORDER BY `rank_id` DESC";
-            $query = "SELECT member.forum_name, member.member_id, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr FROM `member` LEFT JOIN `rank` on member.rank_id = rank.id WHERE status_id=1 ORDER BY member.rank_id DESC";
+            $query = "SELECT member.forum_name, member.member_id, bf4_position.desc as bf4_position_desc, bf4_position.id as bf4_position_id, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr FROM `member` 
+            LEFT JOIN `rank` ON member.rank_id = rank.id 
+            LEFT JOIN `bf4_position` ON member.bf4_position_id = bf4_position.id 
+            WHERE status_id=1 ORDER BY member.rank_id DESC";
             $query = $pdo->prepare($query);
             $query->execute();
             $query = $query->fetchAll();
@@ -579,7 +610,7 @@ function get_members() {
     return $query;
 }
 
-function get_platoon_members($platoon_id) {
+function get_platoon_members($pid) {
 
     global $pdo;
     
@@ -588,8 +619,13 @@ function get_platoon_members($platoon_id) {
         try {
 
             #$query = "SELECT * FROM member WHERE status_id=1 AND platoon_id=".$platoon_id." ORDER BY `rank_id` DESC";
-            $query = "SELECT member.forum_name, member.member_id, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr FROM `member` LEFT JOIN `rank` on member.rank_id = rank.id WHERE status_id=1 AND platoon_id=" . $platoon_id . " ORDER BY member.rank_id DESC";
+            $query = "SELECT member.forum_name, member.member_id,  bf4_position.desc as bf4_position_desc, bf4_position.id as bf4_position_id, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr FROM `member` 
+            LEFT JOIN `rank` on member.rank_id = rank.id 
+            LEFT JOIN `bf4_position` ON member.bf4_position_id = bf4_position.id 
+            WHERE status_id=1 AND platoon_id= :pid 
+            ORDER BY member.rank_id DESC";
             $query = $pdo->prepare($query);
+            $query->bindParam(':pid', $pid);
             $query->execute();
             $query = $query->fetchAll();
             
