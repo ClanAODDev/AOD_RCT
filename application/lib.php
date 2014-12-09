@@ -231,7 +231,7 @@ function forceEndSession() {
     session_destroy();
 }
 
-function updateUserStatus($id) {
+function updateUserActivityStatus($id) {
     global $pdo;
     
     if (dbConnect()) {

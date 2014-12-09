@@ -17,8 +17,9 @@ $uri = rtrim( dirname($_SERVER["SCRIPT_NAME"]), '/' );
 $uri = '/' . trim( str_replace( $uri, '', $_SERVER['REQUEST_URI'] ), '/' );
 $uri = urldecode( $uri );
 
-// reset activity cookie
+// reset activity cookie and update status to idle = 0
 setcookie('aod_rct_active_count', 0, time() + (86400 * 30), '/');
+updateUserActivityStatus($me['userid']);
 
 $rules = define_pages();
 
