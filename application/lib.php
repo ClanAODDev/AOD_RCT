@@ -245,7 +245,7 @@ function updateUserActivityStatus($id) {
             $idle = 1;
         } else {
             setcookie('aod_rct_active_count', $_COOKIE['aod_rct_active_count']+1, time() + (86400 * 30), '/');
-            
+
         }
 
         try {
@@ -297,17 +297,17 @@ function memberColor($user, $level) {
     switch ($level) {
         case 3:
         case 8:
-        $span = "<span class='text-danger tool' title='Administrator'>". $user ."</span>";
+        $span = "<span class='text-danger tool' title='Administrator'><i class='fa fa-shield member-list-icon'></i> ". $user ."</span>";
         break;
         case 2:
         case 1:
-        $span = "<span class='text-warning tool' title='Command Staff'>". $user ."</span>";
+        $span = "<span class='text-warning tool' title='Command Staff'><i class='fa fa-shield member-list-icon'></i> ". $user ."</span>";
         break;
         case 4:
-        $span = "<span class='text-info tool' title='Platoon Leader'>". $user ."</span>";
+        $span = "<span class='text-info tool' title='Platoon Leader'><i class='fa fa-shield member-list-icon'></i> ". $user ."</span>";
         break;
         case 5:
-        $span = "<span class='text-primary tool' title='Squad Leader'>". $user ."</span>";
+        $span = "<span class='text-primary tool' title='Squad Leader'><i class='fa fa-shield member-list-icon'></i> ". $user ."</span>";
         break;
         default:
         $span = $user;
