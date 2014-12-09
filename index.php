@@ -19,7 +19,7 @@ $uri = urldecode( $uri );
 
 // reset activity cookie and update status to idle = 0
 setcookie('aod_rct_active_count', 0, time() + (86400 * 30), '/');
-updateUserActivityStatus($me['userid']);
+updateUserActivityStatus($member_info['userid']);
 
 $rules = define_pages();
 

@@ -8,10 +8,9 @@ ini_set('display_errors', 'On');*/
 if (isLoggedIn()) {
 
 	$online_users = onlineUsers(); 
-	$me = get_user_info($curUser);
 
 	// update current user's last_seen while we're here
-	updateUserActivityStatus($me['userid']);
+	updateUserActivityStatus($member_info['userid']);
 	sleep(3);
 
 	if ($online_users) {
