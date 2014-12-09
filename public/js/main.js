@@ -106,32 +106,32 @@ $(function() {
 
     // update users online
     (function() {
-        var aod_rct_active_count = document.write("n" + readCookie('aod_rct_active_count'));
-        alert(aod_rct_active_count);
-        $.post("/application/controllers/users_online.php", function(list) {
-            $(".userList").html(list);
-            $('.tool').powerTip({
-                placement: 'ne',
-                smartPlacement: true
+        var aod_rct_active_count = readCookie('aod_rct_active_count');
+        if (aod_rct_active_count < 30) {
+            $.post("/application/controllers/users_online.php", function(list) {
+                $(".userList").html(list);
+                $('.tool').powerTip({
+                    placement: 'ne',
+                    smartPlacement: true
+                });
             });
-        });
-        setTimeout(arguments.callee, 20000);
+            setTimeout(arguments.callee, 20000);
+        }
     }())
 
 });
 
-function formatNumber (num) {
+function formatNumber(num) {
     return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
 }
 
 function readCookie(name) {
     var cookiename = name + "=";
     var ca = document.cookie.split(';');
-    for(var i=0;i < ca.length;i++)
-    {
+    for (var i = 0; i < ca.length; i++) {
         var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1,c.length);
-        if (c.indexOf(cookiename) == 0) return c.substring(cookiename.length,c.length);
+        while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+        if (c.indexOf(cookiename) == 0) return c.substring(cookiename.length, c.length);
     }
     return null;
 }
