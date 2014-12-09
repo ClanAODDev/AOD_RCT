@@ -76,13 +76,13 @@ $(function() {
         }).animate({
             Counter: $this.text()
         }, {
-            duration: 2000,
+            duration: 3000,
             easing: "easeOutQuart",
             step: function() {
                 if ($this.hasClass('percentage')) {
-                    $this.text(Math.ceil(this.Counter) + "%");
+                    $this.text(formatNumber(Math.ceil(this.Counter) + "%"));
                 } else {
-                    $this.text(Math.ceil(this.Counter));
+                    $this.text(formatNumber(Math.ceil(this.Counter)));
                 }
             }
         });
@@ -118,6 +118,9 @@ $(function() {
     }())
 });
 
+function formatNumber (num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,")
+}
 
 function loadThreadCheck() {
 

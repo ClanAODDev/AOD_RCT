@@ -110,6 +110,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 					<div class='panel-heading'>Total Members</div>
 					<div class='panel-body count-detail-big striped-bg'><span class='count-animated'>{$member_count}</span></div>
 				</div>
+				<small class='text-muted'>*Data based on information from {$first_day_of_last_month} to {$last_day_of_last_month}</small>
 			</div>
 
 
@@ -126,6 +127,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 					<div class='panel-body count-detail-big follow-tool striped-bg' title='Excludes all zero values'><span class='count-animated percentage'>{$overall_aod_percent}</span></div>
 
 				</div>
+
 			</div>
 
 		</div><!-- end row -->
