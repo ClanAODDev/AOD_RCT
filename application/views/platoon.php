@@ -89,7 +89,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 		<div class='row'>
 
 			<div class='col-md-12'>
-				<h3>Demographics</h3>
+				<h3>{$platoon_name}</h3>
 			</div>
 			<div class='col-xs-12 hr'><hr /></div>
 		</div>
