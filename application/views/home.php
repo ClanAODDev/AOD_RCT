@@ -87,12 +87,12 @@ $out .= "
 				<div class='panel-heading'><i class='fa fa-users text-muted'></i><strong> Your Squad</strong><span class='text-muted pull-right'><small>Battlefield 4</small></span></div>
 				<div class='panel-body'>
 					<div class='list-group'>
-						<li class='list-group-item list-group-item-danger follow-tool' title='Inactive for more than 60 days'> Rct Snuffy<i class='fa fa-exclamation-circle pull-right'></i></li>
-						<li class='list-group-item list-group-item-danger follow-tool' title='Inactive for more than 60 days'> Rct Snuffy<i class='fa fa-exclamation-circle pull-right'></i></li>
-						<li class='list-group-item list-group-item-warning follow-tool' title='Needs reviewing for promotion'> Rct Snuffy<i class='fa fa-exclamation-circle pull-right'></i></li>
-						<li class='list-group-item'> Cdt Snuffy</li>
-						<li class='list-group-item'> Cdt Snuffy</li>
-						<li class='list-group-item'> Pvt Snuffy</li>
+						<a href='#' class='list-group-item list-group-item-danger follow-tool' title='Inactive for more than 60 days'> Rct Snuffy<i class='fa fa-exclamation-circle pull-right'></i></a>
+						<a href='#' class='list-group-item list-group-item-danger follow-tool' title='Inactive for more than 60 days'> Rct Snuffy<i class='fa fa-exclamation-circle pull-right'></i></a>
+						<a href='#' class='list-group-item list-group-item-warning follow-tool' title='Needs reviewing for promotion'> Rct Snuffy<i class='fa fa-exclamation-circle pull-right'></i></a>
+						<a href='#' class='list-group-item'> Cdt Snuffy</a>
+						<a href='#' class='list-group-item'> Cdt Snuffy</a>
+						<a href='#' class='list-group-item'> Pvt Snuffy</a>
 
 					</div>
 				</div>

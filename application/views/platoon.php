@@ -42,7 +42,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 		<thead>
 			<tr>
 				<th><b>Member</b></th>
-				<th class='nosearch'><b>Rank</b></th>
+				<th class='nosearch no-sort'><b>Rank</b></th>
 				<th class='nosearch'><b>AOD Games</b></th>
 				<th class='nosearch'><b>Total Games</b></th>
 				<th class='nosearch'><b>Percent AOD</b></th>
@@ -126,7 +126,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 		";
 
 
-			// show user data
+		// show user data
 		$out .= "
 		<div class='row'>
 			<div class='col-md-12'>

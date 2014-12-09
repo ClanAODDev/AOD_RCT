@@ -95,10 +95,10 @@ $(function() {
 
     $('#members-table').DataTable({
         "order": [],
-        "columnDefs": [{
+        /*        "columnDefs": [{
             "targets": 'nosearch',
             "searchable": false
-        }],
+        }],*/
 
         paging: false,
         responsive: true,
@@ -136,7 +136,7 @@ $(function() {
 
     $(".DTTT_container .DTTT_button").removeClass('DTTT_button');
     $(".DTTT_container").appendTo('.download-area h4');
-    $(".DTTT_container a").addClass('fa fa-download btn btn-default fa-lg tool').attr('title', 'Download table data');
+    $(".DTTT_container a").addClass('btn btn-sm btn-info tool').attr('title', 'Download table data').text("Export");
 
 
     // update users online

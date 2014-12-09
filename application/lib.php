@@ -365,29 +365,45 @@ function get_game_info($gname) {
     
     if (dbConnect()) {
 
-        if (!is_null($gname)) {
+        try {
 
-            try {
+            $query = "SELECT `id`, `short_name`, `full_name`, `subforum`, `description` FROM `games` WHERE short_name = '$gname'";
+            $query = $pdo->prepare($query);
+            $query->execute();
+            $query = $query->fetch();
 
-                $query = "SELECT `id`, `short_name`, `full_name`, `subforum`, `description` FROM `games` WHERE short_name = '$gname'";
-                $query = $pdo->prepare($query);
-                $query->execute();
-                $query = $query->fetch();
-                
-            }
-            catch (PDOException $e) {
-                echo "ERROR:" . $e->getMessage();
-            }
-            
-        } else {
-
-            return false;
         }
-        
+        catch (PDOException $e) {
+            echo "ERROR:" . $e->getMessage();
+        }
+
     }
     
     return $query;
 }
+
+/*
+function getDivisionLeadership($gid) { 
+    global $pdo;
+    
+    if (dbConnect()) {
+
+        $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, 0);
+
+        try {
+            $sql = "SELECT 1; SELECT 2;";
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute();
+
+
+        } catch (PDOException $e) {
+            echo "ERROR:" . $e->getMessage();
+            
+        }
+            return $stmt;
+    }
+
+}*/
 
 
 function get_game_threads($gid) {
@@ -629,7 +645,7 @@ function get_platoon_members($pid) {
 
         try {
 
-            $query = "SELECT member.forum_name, member.member_id,  bf4_position.desc as bf4_position_desc, bf4_position.id as bf4_position_id, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr FROM `member` 
+            $query = "SELECT member.id, member.forum_name, member.member_id,  bf4_position.desc as bf4_position_desc, bf4_position.id as bf4_position_id, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr FROM `member` 
             LEFT JOIN `rank` on member.rank_id = rank.id 
             LEFT JOIN `bf4_position` ON member.bf4_position_id = bf4_position.id 
             WHERE status_id = 1 AND platoon_id= :pid
