@@ -114,7 +114,7 @@ $(function() {
             });
         });
 
-        setTimeout(arguments.callee, 10000);
+        setTimeout(arguments.callee, 20000);
     }())
 });
 
