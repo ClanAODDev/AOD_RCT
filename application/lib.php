@@ -224,15 +224,13 @@ function updateUserStatus($id) {
     if (dbConnect()) {
 
         // set cookie, test for idleness
-        $cookie_name = 'aod_rct_active_count';
-        $cookie_value = 0;
         $idle = 0;
 
-        if(!isset($_COOKIE[$cookie_name])) {
-            setcookie($cookie_name, $cookie_value, time() + (86400 * 30), '/');
+        if(!isset($_COOKIE['aod_rct_active_count'])) {
+            setcookie('aod_rct_active_count', 0, time() + (86400 * 30), '/');
         } else {
-            setcookie($cookie_name, $_COOKIE[$cookie_name]+1, time() + (86400 * 30), '/');
-            if ($_COOKIE[$cookie_name] >= 30) {
+            setcookie('aod_rct_active_count', $_COOKIE['aod_rct_active_count']+1, time() + (86400 * 30), '/');
+            if ($_COOKIE['aod_rct_active_count'] >= 30) {
                 $idle = 1;
             }
         }

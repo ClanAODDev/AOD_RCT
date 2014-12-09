@@ -5,9 +5,7 @@ require_once("../lib.php");
 /*error_reporting(-1);
 ini_set('display_errors', 'On');*/
 
-
 if (isLoggedIn()) {
-
 
 	$online_users = onlineUsers(); 
 	$me = get_user_info($curUser);
@@ -22,7 +20,7 @@ if (isLoggedIn()) {
 		$usersArray = array();
 
 		foreach ($online_users as $user) {
-			$icon = ($user['idle'] == 1) ? '<i class="fa fa-clock-o text-muted"></i>': NULL; 
+			$icon = ($user['idle'] == 1) ? '<i class="fa fa-clock-o text-muted" title="Idle"></i> ': NULL; 
 			$usersArray[] = $icon . userColor(ucwords($user['username']), $user['role']);
 		}
 

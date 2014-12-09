@@ -17,6 +17,9 @@ $uri = rtrim( dirname($_SERVER["SCRIPT_NAME"]), '/' );
 $uri = '/' . trim( str_replace( $uri, '', $_SERVER['REQUEST_URI'] ), '/' );
 $uri = urldecode( $uri );
 
+// reset activity cookie
+setcookie('aod_rct_active_count', 0, time() + (86400 * 30), '/');
+
 $rules = define_pages();
 
 
