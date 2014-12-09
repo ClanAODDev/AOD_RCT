@@ -116,6 +116,8 @@ $(function() {
                 });
             });
             setTimeout(arguments.callee, 20000);
+        } else {
+            $(".userList").html('Idle. No longer refreshing.');
         }
     }())
 
