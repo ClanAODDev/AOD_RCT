@@ -28,6 +28,7 @@ if (isLoggedIn()) {
 		$out = "No users are currently online.";
 	}
 
+	sleep(2);
 	echo $out;
 
 } 

@@ -275,11 +275,8 @@ function updateUserActivityStatus($id) {
 function userColor($user, $level) {
 
     switch ($level) {
-        case 5:
-        $span = "<span class='developer tool' title='Developer'>". $user ."</span>";
-        break;
         case 4:
-        $span = "<span class='text-danger tool' title='Administrator'>". $user ."</span>";
+        $span = "<span class='text-danger tool' title='Clan Admin'>". $user ."</span>";
         break;
         case 3:
         $span = "<span class='text-warning tool' title='Command Staff'>". $user ."</span>";
