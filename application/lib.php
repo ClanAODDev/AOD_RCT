@@ -48,7 +48,7 @@ if (isLoggedIn()) {
         $shortname  = strtolower($game['short_name']);
         $longname   = $game['full_name'];
         $shortdescr = $game['short_descr'];
-        $game_list .= "<li><a href='/{$shortname}'>{$longname}</a></li>";
+        $game_list .= "<li><a href='/divisions/{$shortname}'>{$longname}</a></li>";
         // <a href='/{$shortname}' class='list-group-item'><strong>{$longname}</strong><i class='fa fa-angle-double-right pull-right text-muted'></i></a>
     }
 }
@@ -94,8 +94,8 @@ function define_pages()
     // build page rules for routing system
     $rules = array(
         'player' => "/player/(?'id'\d+)",
-        'division' => "/(?'division'bf4|hl)",
-        'platoon' => "/(?'division'bf4|hl)/platoon/(?'platoon'\d+)",
+        'division' => "/divisions/(?'division'bf4|hl)",
+        'platoon' => "/divisions/(?'division'bf4|hl)/platoons/(?'platoon'\d+)",
         'register' => "/register",
         'logout' => "/logout",
         'home' => "/"

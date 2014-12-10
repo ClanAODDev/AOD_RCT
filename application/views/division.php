@@ -13,6 +13,8 @@ $game_id = $game_info['id'];
 $game_name = $game_info['full_name'];
 $game_descr = $game_info['description'];
 
+/*getDivisionLeadership($game_id);*/
+
 
 
 // generate list of existing platoons for game
@@ -23,7 +25,7 @@ foreach ($platoons as $row) {
 	$number = $row['number'];
 	$name = $row['name'];
 
-	$platoon_items .= "<a href='/bf4/platoon/{$number}' class='list-group-item'><strong>{$name}</strong><span class='pull-right text-muted'>{$number_with_suffix} Platoon</span></a>";
+	$platoon_items .= "<a href='/divisions/bf4/platoons/{$number}' class='list-group-item'><strong>{$name}</strong><span class='pull-right text-muted'>{$number_with_suffix} Platoon</span></a>";
 }
 
 if (!empty($platoon_items)) {
@@ -42,6 +44,7 @@ if (!empty($platoon_items)) {
 $breadcrumb = "
 <ul class='breadcrumb'>
 	<li><a href='/'>Home</a></li>
+	<li><a href='/divisions/'>Divisions</a></li>
 	<li class='active'>{$game_name}</li>
 </ul>
 ";
@@ -84,5 +87,6 @@ $out .= "
 
 
 echo $out;
+
 
 ?>
