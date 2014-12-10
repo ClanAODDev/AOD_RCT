@@ -147,8 +147,8 @@ $(function() {
     $("#members-table_filter label").remove();
 
     $(".DTTT_container .DTTT_button").removeClass('DTTT_button');
-    $(".DTTT_container").appendTo('.download-area h4');
-    $(".DTTT_container a").addClass('btn btn-sm btn-info tool').attr('title', 'Download table data').text("Export");
+    $(".DTTT_container").appendTo('.download-area');
+    $(".DTTT_container a").addClass('btn btn-xs btn-info tool').attr('title', 'Download table data').text("Export").css('margin-top', '5px');
 
     $(".no-sort").removeClass("sorting");
 
