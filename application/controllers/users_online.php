@@ -9,18 +9,16 @@ if (isLoggedIn()) {
 
 	$online_users = onlineUsers(); 
 
-	// update current user's last_seen while we're here
-	updateUserActivityStatus($member_info['userid']);
-	sleep(3);
-
 	if ($online_users) {
 
 		$out = 'Users online: ';
 		$usersArray = array();
+		$icon = '<i class="fa fa-clock-o text-muted" title="Idle"></i>';
 
 		foreach ($online_users as $user) {
-			$icon = ($user['idle'] == 1) ? '<i class="fa fa-clock-o text-muted" title="Idle"></i> ': NULL; 
-			$usersArray[] = $icon . userColor(ucwords($user['username']), $user['role']);
+			$userString = userColor(ucwords($user['username']), $user['role']);
+			$string = ($user['idle'] == 1) ? $icon . ' <span class="text-muted">' . $userString . '</span>' : $userString;
+			$usersArray[] = $string;
 		}
 
 		$users = implode(', ', $usersArray);

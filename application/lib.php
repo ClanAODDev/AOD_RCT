@@ -250,14 +250,13 @@ function updateUserActivityStatus($id) {
         // set cookie, test for idleness
         $idle = 0;
 
-        if(!isset($_COOKIE['aod_rct_active_count'])) {
-            setcookie('aod_rct_active_count', 0, time() + (86400 * 30), '/');
-        } else if ($_COOKIE['aod_rct_active_count'] >= 30) {
+        if ($_COOKIE['aod_rct_active_count'] >= 30) {
             $idle = 1;
         } else {
             setcookie('aod_rct_active_count', $_COOKIE['aod_rct_active_count']+1, time() + (86400 * 30), '/');
-
         }
+
+        echo $idle;
 
         try {
 

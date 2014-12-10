@@ -9,7 +9,6 @@
 session_start();
 ob_start();
 include "application/lib.php";
-setcookie('aod_rct_active_count', 0, time() + (86400 * 30), '/');
 
 define( 'TEMPLATES', dirname( __FILE__ ) . '/public/templates/' );
 define( 'VIEWS', dirname( __FILE__ ) . '/application/views/' );
@@ -17,6 +16,8 @@ define( 'VIEWS', dirname( __FILE__ ) . '/application/views/' );
 $uri = rtrim( dirname($_SERVER["SCRIPT_NAME"]), '/' );
 $uri = '/' . trim( str_replace( $uri, '', $_SERVER['REQUEST_URI'] ), '/' );
 $uri = urldecode( $uri );
+
+setcookie('aod_rct_active_count', 0, time() + (86400 * 30), '/');
 
 // reset activity cookie and update status to idle = 0
 if (isLoggedIn()) { 
