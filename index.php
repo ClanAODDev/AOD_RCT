@@ -23,7 +23,7 @@ $uri = urldecode( $uri );
 
 // reset activity cookie and update status to idle = 0
 if (isLoggedIn()) { 
-	setcookie('aod_rct_active_count');
+	setcookie('aod_rct_active_count', 0);
 }
 
 $rules = define_pages();
@@ -70,6 +70,5 @@ exit;
 ob_flush();
 ob_get_contents();
 
-updateUserActivityStatus($member_info['userid']); 
 
 ?>
