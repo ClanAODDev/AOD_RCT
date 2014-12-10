@@ -181,11 +181,12 @@ $(function() {
                     smartPlacement: true
                 });
             });
-            setTimeout(arguments.callee, 20000);
+            
         } else {
             $(".userList").html('<i class="fa fa-clock-o"></i> Idle. No longer refreshing.');
             clearTimeout(arguments.callee);
         }
+        setTimeout(arguments.callee, 20000);
     }())
 
 });
