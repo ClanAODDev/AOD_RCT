@@ -12,10 +12,10 @@ $out .= "
 		<div class='alert alert-warning' role='alert'><i class=\"fa fa-exclamation-triangle\"></i> You are currently a guest. You will need to have an administrator approve your account before you can use this application</div>";
 	}
 
-	$out .= "
-	<div class='alert alert-info' role='alert'><i class=\"fa fa-exclamation-triangle\"></i> Application is still very much under construction, so certain features may not be available or fully functional. Please stay patient and check back often!</div>";
+	// output alerts
+	$out .= "{$alerts_list}";
 
-
+	// jumbotron permanent or disable-able?
 	$out .="
 	<div class='row visible-lg-block visible-md-block'>
 		<div class='col-md-12'>

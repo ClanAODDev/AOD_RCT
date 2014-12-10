@@ -2,6 +2,19 @@ $(function() {
     loadThreadCheck();
     /*	var auto_refresh = setInterval(loadThreadCheck, 8000);*/
 
+    $(".alert").alert()
+
+
+    $('.alert').bind('closed.bs.alert', function() {
+        var id = $(this).data('id'),
+            user = $(this).data('user');
+
+        $.post("/application/controllers/alertUpdate.php", {
+            id: id, user: user
+        });
+    });
+
+
     $(".container").on("click", ".reload", function() {
         loadThreadCheck();
     });
@@ -127,10 +140,10 @@ $(function() {
             "aButtons": [{
 
                 "sExtends": "text",
-                "fnSelect": function(nButton, oConfig, nRow) {
+                /*                "fnSelect": function(nButton, oConfig, nRow) {
                     console.log($(nRow).data('id') + " clicked")
                     $(nRow).contents("<i style='fa fa-check'></i>")
-                },
+                },*/
                 "sExtends": "collection",
                 "sButtonText": "",
                 "aButtons": ["select_all", "select_none", "xls"],
