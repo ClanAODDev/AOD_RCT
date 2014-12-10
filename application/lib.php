@@ -256,8 +256,6 @@ function updateUserActivityStatus($id) {
             setcookie('aod_rct_active_count', $_COOKIE['aod_rct_active_count']+1, time() + (86400 * 30), '/');
         }
 
-        echo $idle;
-
         try {
 
             $stmt = $pdo->prepare('UPDATE users SET last_seen = CURRENT_TIMESTAMP(), idle = :idle WHERE id = :id');
