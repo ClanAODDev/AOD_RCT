@@ -216,7 +216,7 @@ function onlineUsers() {
         if (dbConnect()) {
             try {
                 // grab active users in past 2 minutes
-                $sth = $pdo->prepare('SELECT username, role, idle FROM users WHERE last_seen >= CURRENT_TIMESTAMP - INTERVAL 15 MINUTE ORDER BY last_seen DESC ');
+                $sth = $pdo->prepare('SELECT username, role, idle FROM users WHERE last_seen >= CURRENT_TIMESTAMP - INTERVAL 15 MINUTE ORDER BY last_seen DESC');
                 $sth->execute();
                 $users = $sth->fetchAll();
             }
@@ -261,7 +261,7 @@ function updateUserActivityStatus($id) {
 
         try {
 
-            $stmt = $pdo->prepare('UPDATE users SET last_seen = CURRENT_TIMESTAMP(), idle = :idle WHERE id = :id ORDER BY last_seen');
+            $stmt = $pdo->prepare('UPDATE users SET last_seen = CURRENT_TIMESTAMP(), idle = :idle WHERE id = :id');
             $stmt->bindParam(':idle', $idle, PDO::PARAM_INT);
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt ->execute();

@@ -11,7 +11,7 @@ if (isLoggedIn()) {
 
 	// update current user's last_seen while we're here
 	updateUserActivityStatus($member_info['userid']);
-	sleep(3);
+	sleep(1);
 
 	if ($online_users) {
 
