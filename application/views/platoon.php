@@ -42,10 +42,11 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 		<thead>
 			<tr>
 				<th><b>Member</b></th>
-				<th class='nosearch no-sort text-center'><b>Rank</b></th>
+				<th class='nosearch text-center' width='90px'><b>Rank</b></th>
 				<th class='nosearch text-center'><b>AOD Games</b></th>
 				<th class='nosearch text-center'><b>Total Games</b></th>
 				<th class='nosearch text-center'><b>Percent AOD</b></th>
+				<th class='col-hidden'><b>Rank Id</b></th>
 			</tr>
 		</thead>
 		<tbody>";
@@ -61,10 +62,11 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 				$members_table .= "
 				<tr data-id='{$row['id']}'>
 					<td>" . memberColor($row['forum_name'], $row['bf4_position_id']) . "</td>
-					<td class='text-center'>" . $row['abbr'] . "</td>
+					<td class='text-center'>" . $row['rank'] . "</td>
 					<td class='text-center'>" . $aod_games . "</td>
 					<td class='text-center'>" . $total_games . "</td>
 					<td class='text-center'><span class='label label-" . getPercentageColor($percent_aod) . " user-color'>".number_format((float)$percent_aod, 2, '.', '')."%</span></td>
+					<td class='text-center'>" . $row['rank_id'] . "</td>
 				</tr>
 				";
 			}

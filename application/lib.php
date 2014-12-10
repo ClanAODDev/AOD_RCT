@@ -657,7 +657,7 @@ function get_platoon_members($pid) {
 
         try {
 
-            $query = "SELECT member.id, member.forum_name, member.member_id,  bf4_position.desc as bf4_position_desc, bf4_position.id as bf4_position_id, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr FROM `member` 
+            $query = "SELECT member.id, member.forum_name, member.member_id,  bf4_position.desc as bf4_position_desc, bf4_position.id as bf4_position_id, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr as rank FROM `member` 
             LEFT JOIN `rank` on member.rank_id = rank.id 
             LEFT JOIN `bf4_position` ON member.bf4_position_id = bf4_position.id 
             WHERE status_id = 1 AND platoon_id= :pid

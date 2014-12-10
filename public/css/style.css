@@ -415,3 +415,12 @@ div.DTTT_container {
 .idle {
   opacity: 0.7;
 }
+
+
+
+/* .DTTT_selected {
+  background: none !important;
+}
+*/
+
+.no-sort { pointer-events: none!important; cursor: default!important; }

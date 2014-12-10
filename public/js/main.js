@@ -98,11 +98,19 @@ $(function() {
 
 
     $('#members-table').DataTable({
+        "autoWidth": false,
         "order": [],
-        /*        "columnDefs": [{
-            "targets": 'nosearch',
+        "columnDefs": [{
+            "targets": 'no-search',
             "searchable": false
-        }],*/
+        }, {
+            "targets": [5],
+            "visible": false,
+            "searchable": false
+        }, {
+            "iDataSort": 5,
+            "aTargets": [1]
+        }],
 
         paging: false,
         responsive: true,
