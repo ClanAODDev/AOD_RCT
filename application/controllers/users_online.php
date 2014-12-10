@@ -20,7 +20,7 @@ if (isLoggedIn()) {
 
 		foreach ($online_users as $user) {
 			$userString = userColor(ucwords($user['username']), $user['role']);
-			$string = ($user['idle'] == 1) ? '<i class="fa fa-clock-o text-muted" title="Idle"></i> <span class="text-muted">{$userString}</span>' : $userString;
+			$string = ($user['idle'] == 1) ? '<i class="fa fa-clock-o text-muted" title="Idle"></i> <span class="text-muted">' . $userString . '</span>' : $userString;
 			$usersArray[] = $string;
 		}
 
