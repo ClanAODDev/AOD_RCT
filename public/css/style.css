@@ -64,6 +64,10 @@
   margin-bottom: 0 !important;
 }
 
+.navbar-nav {
+  margin: 0 !important;
+}
+
 
 
 .push-top {
@@ -222,6 +226,10 @@ h2.pull-right {
 }
 .striped-bg {
   background-image: url('/public/images/bg_stripe.png');
+}
+
+.trans-striped-bg {
+  background-image: url('/public/images/trans_bg_stripe.png');
 }
 
 .count-detail-big {
@@ -407,14 +415,3 @@ div.DTTT_container {
 .idle {
   opacity: 0.7;
 }
-
-
-
-/* .DTTT_selected {
-  background: none !important;
-}
- */
-
-.no-sort::after { display: none!important; }
-
-.no-sort { pointer-events: none!important; cursor: default!important; }

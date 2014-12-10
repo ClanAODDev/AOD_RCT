@@ -282,25 +282,29 @@ function updateUserActivityStatus($id, $isActive=false) {
 }
 
 
-
-
+/**
+ * colors for users online list
+ * @param  string $user user's name
+ * @param  int $level role level
+ * @return string combined role string
+ */
 function userColor($user, $level) {
 
     switch ($level) {
         case 4:
-        $span = "<span class='text-danger tool' title='Clan Admin'>". $user ."</span>";
+        $span = "<span class='text-danger tool-user' title='Clan Admin'>". $user ."</span>";
         break;
         case 3:
-        $span = "<span class='text-warning tool' title='Command Staff'>". $user ."</span>";
+        $span = "<span class='text-warning tool-user' title='Command Staff'>". $user ."</span>";
         break;
         case 2:
-        $span = "<span class='text-info tool' title='Platoon Leader'>". $user ."</span>";
+        $span = "<span class='text-info tool-user' title='Platoon Leader'>". $user ."</span>";
         break;
         case 1:
-        $span = "<span class='text-primary tool' title='Squad Leader'>". $user ."</span>";
+        $span = "<span class='text-primary tool-user' title='Squad Leader'>". $user ."</span>";
         break;
         default:
-        $span = "<span class='text-muted tool' title='Guest'>". $user ."</span>";
+        $span = "<span class='text-muted tool-user' title='Guest'>". $user ."</span>";
         break;
     }
 
@@ -308,7 +312,12 @@ function userColor($user, $level) {
 }
 
 
-
+/**
+ * colors for member tables
+ * @param  string $user user's name
+ * @param  int $level role level
+ * @return string combined role string
+ */
 function memberColor($user, $level) {
 
     switch ($level) {
@@ -511,9 +520,6 @@ function getUserRoleName($role) {
         break;
         case 4:
         $role = "Administrator";
-        break;
-        case 5:
-        $role = "Developer";
         break;
     }
     return $role;

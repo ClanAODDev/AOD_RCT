@@ -92,6 +92,10 @@ $(function() {
         followMouse: true
     });
 
+    $('.tool').powerTip({
+        placement: 'ne'
+    });
+
 
     $('#members-table').DataTable({
         "order": [],
@@ -138,6 +142,8 @@ $(function() {
     $(".DTTT_container").appendTo('.download-area h4');
     $(".DTTT_container a").addClass('btn btn-sm btn-info tool').attr('title', 'Download table data').text("Export");
 
+    $(".no-sort").removeClass("sorting");
+
 
     // update users online
     (function() {
@@ -145,7 +151,7 @@ $(function() {
         if (aod_rct_active_count < 31) {
             $.post("/application/controllers/users_online.php", function(list) {
                 $(".userList").html(list);
-                $('.tool').powerTip({
+                $('.tool-user').powerTip({
                     placement: 'ne',
                     smartPlacement: true
                 });
