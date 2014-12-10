@@ -636,7 +636,7 @@ function createUser($user, $email, $credential)
 }
 
 
-function validatePassword($pass, $user)
+function isDev()
 {
     global $pdo;
     $user = strtolower($user);
@@ -657,6 +657,34 @@ function validatePassword($pass, $user)
     
     if ($pass == hasher($pass, $user->credential)) {
         return true;
+    } else {
+        return false;
+    }
+    
+}
+
+
+function validatePassword($pass, $user)
+{
+    global $pdo;
+    $user = strtolower($user);
+    
+    if (dbConnect()) {
+        try {
+            $sth = $pdo->prepare('SELECT id, credential FROM users WHERE username = :username LIMIT 1');
+            $sth->bindParam(':username', $user);
+            $sth->execute();
+            
+            $user = $sth->fetch(PDO::FETCH_OBJ);
+            
+        }
+        catch (PDOException $e) {
+            echo 'ERROR: ' . $e->getMessage();
+        }
+    }
+    
+    if ($pass == hasher($pass, $user->credential)) {
+        return $user->id;
     } else {
         return false;
     }

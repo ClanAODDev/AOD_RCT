@@ -1,7 +1,8 @@
 <?php
-
-forceEndSession();
-
+if (isLoggedIn()) {
+	forceEndSession();
+	header('Location: /');
+}
 ?>
 
 <div class='container fade-in margin-top-20'>
