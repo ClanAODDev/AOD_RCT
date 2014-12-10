@@ -2,11 +2,9 @@
 session_start();
 require_once("../lib.php");
 
-error_reporting(-1);
-ini_set('display_errors', 'On');
-
 if (isLoggedIn()) {
 
+	setcookie('aod_rct_active_count', $_COOKIE['aod_rct_active_count'] + 1, time() + (86400 * 30), '/');
 	$online_users = onlineUsers(); 
 
 	if ($online_users) {
@@ -28,7 +26,6 @@ if (isLoggedIn()) {
 		$out = "No users are currently online.";
 	}
 
-	// sleep(2);
 	echo $out;
 
 } 

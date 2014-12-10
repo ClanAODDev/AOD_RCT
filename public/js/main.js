@@ -150,7 +150,7 @@ $(function() {
                     smartPlacement: true
                 });
             });
-            setTimeout(arguments.callee, 20000);
+            setTimeout(arguments.callee, 2000);
         } else {
             $(".userList").html('<i class="fa fa-clock-o"></i> Idle. No longer refreshing.');
             clearTimeout(arguments.callee);
@@ -172,6 +172,26 @@ function readCookie(name) {
         if (c.indexOf(cookiename) == 0) return c.substring(cookiename.length, c.length);
     }
     return null;
+}
+
+function setCookie(name, value, expires, path, domain, secure) {
+    cookieStr = name + "=" + escape(value) + "; ";
+
+    if (expires) {
+        expires = setExpiration(expires);
+        cookieStr += "expires=" + expires + "; ";
+    }
+    if (path) {
+        cookieStr += "path=" + path + "; ";
+    }
+    if (domain) {
+        cookieStr += "domain=" + domain + "; ";
+    }
+    if (secure) {
+        cookieStr += "secure; ";
+    }
+
+    document.cookie = cookieStr;
 }
 
 

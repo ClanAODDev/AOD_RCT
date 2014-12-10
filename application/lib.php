@@ -247,23 +247,17 @@ function updateUserActivityStatus($id) {
     
     if (dbConnect()) {
 
-        // set cookie, test for idleness
-        $idle = 0;
-
-        if ($_COOKIE['aod_rct_active_count'] >= 30) {
+        if ($_COOKIE['aod_rct_active_count'] > 30) {
             $idle = 1;
-        } 
-
-        setcookie('aod_rct_active_count', $_COOKIE['aod_rct_active_count'] + 1, time() + (86400 * 30), '/');
-        
+        } else {
+            $idle = 0;
+        }
 
         try {
-
             $stmt = $pdo->prepare('UPDATE users SET last_seen = CURRENT_TIMESTAMP(), idle = :idle WHERE id = :id');
             $stmt->bindParam(':idle', $idle, PDO::PARAM_INT);
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt ->execute();
-
         } catch(PDOException $e) {
             echo 'ERROR: ' . $e->getMessage();
         }
