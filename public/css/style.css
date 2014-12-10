@@ -404,6 +404,10 @@ div.DTTT_container {
   float:right;
 }
 
+.idle {
+  opacity: 0.7;
+}
+
 
 
 /* .DTTT_selected {

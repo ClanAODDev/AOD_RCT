@@ -20,7 +20,10 @@ if (isLoggedIn()) {
 
 		foreach ($online_users as $user) {
 			$icon = ($user['idle'] == 1) ? '<i class="fa fa-clock-o text-muted" title="Idle"></i> ': NULL; 
-			$usersArray[] = $icon . userColor(ucwords($user['username']), $user['role']);
+			$combinedString = $icon . userColor(ucwords($user['username']), $user['role']);
+
+			if ($member_info['idle']) { $combinedString = "<span style='text-muted'>{$combinedString}</span>"; }
+			$usersArray[] = $combinedString;
 		}
 
 		$users = implode(', ', $usersArray);
