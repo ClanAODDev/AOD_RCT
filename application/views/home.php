@@ -58,11 +58,11 @@ $out .= "
 
 		<div class='col-md-6'>
 			<div class='panel panel-default'>
-				<div class='panel-heading'><i class=\"fa fa-bolt text-muted\"></i> <strong>Your Toolbox</strong><span class='text-muted pull-right'><small>Squad Leader View</small></span></div>
+				<div class='panel-heading'><i class=\"fa fa-bolt fa-lg text-muted\"></i> <strong>Your Toolbox</strong><span class='text-muted pull-right'><small>Squad Leader View</small></span></div>
 				<div class='panel-body'>
 					<div class='list-group'>
 
-						<a href='#' class='list-group-item'>
+						<a href='#' class='list-group-item active'>
 							<h4 class='list-group-item-heading'><strong>Add new recruit</strong></h4>
 							<p class='list-group-item-text'>Start the recruiting process with a brand new candidate</p>
 						</a>
@@ -70,6 +70,11 @@ $out .= "
 						<a href='#' class='list-group-item'>
 							<h4 class='list-group-item-heading'><strong>Manage your squad</strong></h4>
 							<p class='list-group-item-text'>Promote, demote, or kick members of your squad</p>
+						</a>
+
+						<a href='#' class='list-group-item'>
+							<h4 class='list-group-item-heading'><strong>Add an existing member</strong></h4>
+							<p class='list-group-item-text'>Add an existing member of AOD to your squad or platoon</p>
 						</a>
 
 						<a href='#' class='list-group-item disabled'>
@@ -84,7 +89,7 @@ $out .= "
 
 		<div class='col-md-6'>
 			<div class='panel panel-default'>
-				<div class='panel-heading'><i class='fa fa-users text-muted'></i><strong> Your Squad</strong><span class='text-muted pull-right'><small>Battlefield 4</small></span></div>
+				<div class='panel-heading'><i class='fa fa-users fa-lg text-muted'></i><strong> Your Squad</strong><span class='text-muted pull-right'><small>Battlefield 4</small></span></div>
 				<div class='panel-body'>
 					<div class='list-group'>
 						<a href='#' class='list-group-item list-group-item-danger follow-tool' title='Inactive for more than 60 days'> Rct Snuffy<i class='fa fa-exclamation-circle pull-right'></i></a>
