@@ -158,7 +158,7 @@
 
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav navbar-right">
-						<li class="navbar-text">Not logged in</li>
+						<li class="navbar-text text-muted">Not logged in</li>
 					</ul>
 				</div>
 

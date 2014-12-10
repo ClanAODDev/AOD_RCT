@@ -2,8 +2,8 @@
 session_start();
 require_once("../lib.php");
 
-/*error_reporting(-1);
-ini_set('display_errors', 'On');*/
+error_reporting(-1);
+ini_set('display_errors', 'On');
 
 if (isLoggedIn()) {
 
@@ -28,7 +28,7 @@ if (isLoggedIn()) {
 		$out = "No users are currently online.";
 	}
 
-	sleep(2);
+	// sleep(2);
 	echo $out;
 
 } 

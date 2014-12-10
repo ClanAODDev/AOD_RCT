@@ -10,6 +10,11 @@ session_start();
 ob_start();
 include "application/lib.php";
 
+
+error_reporting(-1);
+ini_set('display_errors', 'On');
+
+
 define( 'TEMPLATES', dirname( __FILE__ ) . '/public/templates/' );
 define( 'VIEWS', dirname( __FILE__ ) . '/application/views/' );
 
