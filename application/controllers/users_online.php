@@ -19,7 +19,6 @@ if (isLoggedIn()) {
 
 		foreach ($online_users as $user) {
 			$userString = userColor(ucwords($user['username']), $user['role']);
-			echo($user['idle']);
 			$string = ($user['idle'] == 1) ? $icon . ' <span class="text-muted">' . $userString . '</span>' : $userString;
 			$usersArray[] = $string;
 		}

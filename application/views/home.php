@@ -62,7 +62,7 @@ $out .= "
 				<div class='panel-body'>
 					<div class='list-group'>
 
-						<a href='#' class='list-group-item'>
+						<a href='#' class='list-group-item active'>
 							<h4 class='list-group-item-heading'><strong>Add new recruit</strong></h4>
 							<p class='list-group-item-text'>Start the recruiting process with a brand new candidate</p>
 						</a>
