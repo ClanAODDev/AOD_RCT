@@ -20,7 +20,9 @@ if (!$userexists) {
 
 } else {
 
-	if (!validatePassword($pass, $user)) {
+	// valid password returns a user id
+	$id = validatePassword($pass, $user);
+	if (!$id) {
 
 		$data['success'] = false;
 		$data['message'] = 'Your credentials are incorrect';    
@@ -34,6 +36,7 @@ if (!$userexists) {
 		updateLoggedInTime($user);  
 		$_SESSION['username'] = $user;
 		$_SESSION['loggedIn'] = true;
+		$_SESSION['user_id'] = $id;
 	}
 
 }

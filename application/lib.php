@@ -639,12 +639,12 @@ function createUser($user, $email, $credential)
 function isDev()
 {
     global $pdo;
-    $user = strtolower($user);
+    $id = $_SESSION['user_id'];
     
     if (dbConnect()) {
         try {
-            $sth = $pdo->prepare('SELECT credential FROM users WHERE username = :username LIMIT 1');
-            $sth->bindParam(':username', $user);
+            $sth = $pdo->prepare('SELECT developer FROM users WHERE id = :id LIMIT 1');
+            $sth->bindParam(':id', $id);
             $sth->execute();
             
             $user = $sth->fetch(PDO::FETCH_OBJ);
@@ -655,7 +655,7 @@ function isDev()
         }
     }
     
-    if ($pass == hasher($pass, $user->credential)) {
+    if ($user->developer == 1) {
         return true;
     } else {
         return false;
