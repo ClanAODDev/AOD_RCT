@@ -24,6 +24,7 @@ $uri = urldecode( $uri );
 // reset activity cookie and update status to idle = 0
 if (isLoggedIn()) { 
 	setcookie('aod_rct_active_count', 0);
+	updateUserActivityStatus($member_info['userid'], true);
 }
 
 $rules = define_pages();
@@ -67,8 +68,5 @@ include(TEMPLATES . "footer.php");
 exit;
 
 
-ob_flush();
-ob_get_contents();
-
-
+ob_end_flush();
 ?>

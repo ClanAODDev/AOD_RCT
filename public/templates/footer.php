@@ -16,5 +16,3 @@
 
 </body>
 </html>
-
-<?php updateUserActivityStatus($member_info['userid']); ?>

@@ -242,7 +242,7 @@ function forceEndSession() {
     session_destroy();
 }
 
-function updateUserActivityStatus($id) {
+function updateUserActivityStatus($id, $isActive=false) {
     global $pdo;
     
     if (dbConnect()) {
@@ -253,11 +253,28 @@ function updateUserActivityStatus($id) {
             $idle = 0;
         }
 
+        /**
+         * small issue where a set cookie is not readable until
+         * the following page reload. To overcome this, this function
+         * is called twice. Once in users_online (when refreshing the 
+         * user list) and another in the index, which would occur on
+         * page refresh. For page refresh, we know the user is active,
+         * so a "true" argument is provided for $isActive. Otherwise
+         * we treat it as a user list refresh
+         */
+        
         try {
-            $stmt = $pdo->prepare('UPDATE users SET last_seen = CURRENT_TIMESTAMP(), idle = :idle WHERE id = :id');
-            $stmt->bindParam(':idle', $idle, PDO::PARAM_INT);
+
+            if($isActive) {
+                $stmt = $pdo->prepare('UPDATE users SET last_seen = CURRENT_TIMESTAMP(), idle = 1 WHERE id = :id');
+            } else {
+                $stmt = $pdo->prepare('UPDATE users SET last_seen = CURRENT_TIMESTAMP(), idle = :idle WHERE id = :id');
+                $stmt->bindParam(':idle', $idle, PDO::PARAM_INT);
+            }
+            
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt ->execute();
+
         } catch(PDOException $e) {
             echo 'ERROR: ' . $e->getMessage();
         }
