@@ -105,7 +105,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 
 				<div class='panel panel-primary'>
 					<!-- Default panel contents -->
-					<div class='panel-heading download-area'>Platoon members</div>
+					<div class='panel-heading download-area'>Platoon members <span></span></div>
 					<div class='panel-body border-bottom'><div id='playerFilter'></div></div>
 					{$members_table}
 					<div class='panel-footer text-muted text-center' id='member-footer'></div>

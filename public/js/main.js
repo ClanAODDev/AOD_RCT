@@ -10,7 +10,8 @@ $(function() {
             user = $(this).data('user');
 
         $.post("/application/controllers/alertUpdate.php", {
-            id: id, user: user
+            id: id,
+            user: user
         });
     });
 
@@ -110,7 +111,7 @@ $(function() {
     });
 
 
-    $('#members-table').DataTable({
+    var table = $('#members-table').DataTable({
         "autoWidth": false,
         "order": [],
         "columnDefs": [{
@@ -140,10 +141,9 @@ $(function() {
             "aButtons": [{
 
                 "sExtends": "text",
-                /*                "fnSelect": function(nButton, oConfig, nRow) {
+                "fnSelect": function(nButton, oConfig, nRow) {
                     console.log($(nRow).data('id') + " clicked")
-                    $(nRow).contents("<i style='fa fa-check'></i>")
-                },*/
+                },
                 "sExtends": "collection",
                 "sButtonText": "",
                 "aButtons": ["select_all", "select_none", "xls"],
@@ -151,6 +151,10 @@ $(function() {
                 "sFileName": "TableTools - *.csv"
             }]
         }
+    });
+
+    $('#members-table tbody').on('click', 'tr', function() {
+        console.log(table.row(this).data());
     });
 
 
