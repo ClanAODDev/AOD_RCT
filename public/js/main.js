@@ -142,7 +142,7 @@ $(function() {
     // update users online
     (function() {
         var aod_rct_active_count = readCookie('aod_rct_active_count');
-        if (aod_rct_active_count <= 31) {
+        if (aod_rct_active_count < 31) {
             $.post("/application/controllers/users_online.php", function(list) {
                 $(".userList").html(list);
                 $('.tool').powerTip({
