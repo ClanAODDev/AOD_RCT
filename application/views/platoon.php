@@ -42,10 +42,10 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 		<thead>
 			<tr>
 				<th><b>Member</b></th>
-				<th class='nosearch no-sort'><b>Rank</b></th>
-				<th class='nosearch'><b>AOD Games</b></th>
-				<th class='nosearch'><b>Total Games</b></th>
-				<th class='nosearch'><b>Percent AOD</b></th>
+				<th class='nosearch no-sort text-center'><b>Rank</b></th>
+				<th class='nosearch text-center'><b>AOD Games</b></th>
+				<th class='nosearch text-center'><b>Total Games</b></th>
+				<th class='nosearch text-center'><b>Percent AOD</b></th>
 			</tr>
 		</thead>
 		<tbody>";
@@ -61,10 +61,10 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 				$members_table .= "
 				<tr data-id='{$row['id']}'>
 					<td>" . memberColor($row['forum_name'], $row['bf4_position_id']) . "</td>
-					<td>" . $row['abbr'] . "</td>
-					<td>" . $aod_games . "</td>
-					<td>" . $total_games . "</td>
-					<td><span class='label label-" . getPercentageColor($percent_aod) . " user-color'>".number_format((float)$percent_aod, 2, '.', '')."%</span></td>
+					<td class='text-center'>" . $row['abbr'] . "</td>
+					<td class='text-center'>" . $aod_games . "</td>
+					<td class='text-center'>" . $total_games . "</td>
+					<td class='text-center'><span class='label label-" . getPercentageColor($percent_aod) . " user-color'>".number_format((float)$percent_aod, 2, '.', '')."%</span></td>
 				</tr>
 				";
 			}
@@ -87,16 +87,32 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 	$out .= "
 	<div class='container fade-in'>
 		<div class='row'>{$breadcrumb}</div>
-
 		<div class='row'>
-
 			<div class='col-md-12'>
 				<h3>{$platoon_name} <small>". ordSuffix($platoon). " Platoon</small></h3>
 			</div>
 			<div class='col-xs-12 hr'><hr /></div>
-		</div>
+		</div>";
 
+
+
+
+		// show user data
+		$out .= "
 		<div class='row margin-top-20'>
+			<div class='col-md-8'>
+				<div class='panel panel-primary'>
+					<!-- Default panel contents -->
+					<div class='panel-heading download-area'>Platoon members</div>
+					<div class='panel-body border-bottom'><div id='playerFilter'></div></div>
+					{$members_table}
+					<div class='panel-footer text-muted text-center' id='member-footer'></div>
+				</div>
+			</div>
+			";
+
+			$out .= "
+
 			<div class='col-md-4'>
 				<div class='panel panel-primary'>
 					<div class='panel-heading'>Total Members</div>
@@ -121,51 +137,34 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 
 			</div>
 
-		</div><!-- end row -->
+			</div
 
+			";
+
+
+			$out .= "
+		</div><!-- end container -->
 		";
 
-
-		// show user data
-		$out .= "
-		<div class='row'>
-			<div class='col-md-12'>
-				<div class='panel panel-default'>
-					<!-- Default panel contents -->
-					<div class='panel-heading download-area'><h4>Platoon members</h4></div>
-					<div class='panel-body border-bottom'><div id='playerFilter'></div></div>
-					{$members_table}
-					<div class='panel-footer text-muted text-center' id='member-footer'></div>
-				</div>
-
-			</div>
-		</div>
-		";
-
+	} else {
 
 		$out .= "
-	</div><!-- end container -->
-	";
-
-} else {
-
-	$out .= "
-	<div class='container margin-top-50'>
-		<div class='row'>
-			<div class='span5'>
-				<div class='hero-unit center'>
-					<h1>Oops</h1>
-					<p>It looks like the page you were looking for does not yet exist.</p>
-					<a href='/' class='btn btn-large btn-info'><i class='icon-home icon-white'></i> Take Me Home</a>
+		<div class='container margin-top-50'>
+			<div class='row'>
+				<div class='span5'>
+					<div class='hero-unit center'>
+						<h1>Oops</h1>
+						<p>It looks like the page you were looking for does not yet exist.</p>
+						<a href='/' class='btn btn-large btn-info'><i class='icon-home icon-white'></i> Take Me Home</a>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	";
+		";
 
-}
+	}
 
-echo $out;
+	echo $out;
 
-?>
+	?>
