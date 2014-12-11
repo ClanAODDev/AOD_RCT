@@ -146,8 +146,17 @@ $(function() {
                 },
                 "sExtends": "collection",
                 "sButtonText": "",
-                "mColumns": 'visible',
-                "aButtons": ["select_all", "select_none", "xls", "pdf"],
+                "mColumns": "visible",
+                "aButtons": ["select_all", "select_none", {
+                    "sExtends": "pdf",
+                    "sPdfOrientation": "landscape",
+                    "sFileName": "AOD Platoon Data - " + Date.now() + ".pdf",
+                    "mColumns": "visible"
+                }, {
+                    "sExtends": "csv",
+                    "sFileName": "AOD Platoon Data - " + Date.now() + ".csv",
+                    "mColumns": "visible"
+                }],
                 "bSelectedOnly": true
             }]
         }
@@ -181,7 +190,7 @@ $(function() {
                     placement: 'n'
                 });
             });
-            
+
         } else {
             $(".userList").html('<i class="fa fa-clock-o"></i> Idle. No longer refreshing.');
             clearTimeout(arguments.callee);
