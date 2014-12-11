@@ -26,7 +26,7 @@ if (isLoggedIn()) {
     /**
      * generate alerts
      */
-    
+
     $alerts_list = NULL;
     $alerts      = get_alerts($member_info['userid']);
     
@@ -274,7 +274,7 @@ function updateUserActivityStatus($id, $isActive = false)
     global $pdo;
     
     if (dbConnect()) {
-        if ( isset($_COOKIE['active_count']) && ($_COOKIE['active_count'] > 30) ) {
+        if ( isset($_COOKIE['active_count']) && ( $_COOKIE['active_count'] > 20 ) ) {
             $idle = 1;
         } else {
             $idle = 0;
