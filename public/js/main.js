@@ -174,7 +174,7 @@ $(function() {
     (function() {
         var aod_rct_active_count = readCookie('aod_rct_active_count');
         if (aod_rct_active_count < 31) {
-            $.post("/application/controllers/users_online.php", function(list) {
+            $.post("/application/controllers/usersOnline.php", function(list) {
                 $(".userList").html(list);
                 $('.tool-user').powerTip({
                     placement: 'ne',
