@@ -146,9 +146,8 @@ $(function() {
                 },
                 "sExtends": "collection",
                 "sButtonText": "",
-                "aButtons": ["select_all", "select_none", "xls"],
-                "bSelectedOnly": true,
-                "sFileName": "TableTools - *.csv"
+                "aButtons": ["select_all", "select_none", "xls", "pdf"],
+                "bSelectedOnly": true
             }]
         }
     });
