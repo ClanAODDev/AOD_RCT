@@ -25,7 +25,7 @@ foreach ($platoons as $row) {
 	$number = $row['number'];
 	$name = $row['name'];
 
-	$platoon_items .= "<a href='/divisions/bf4/platoons/{$number}' class='list-group-item'><strong>{$name}</strong><span class='pull-right text-muted'>{$number_with_suffix} Platoon</span></a>";
+	$platoon_items .= "<a href='/divisions/bf4/{$number}' class='list-group-item'><strong>{$name}</strong><span class='pull-right text-muted'>{$number_with_suffix} Platoon</span></a>";
 }
 
 if (!empty($platoon_items)) {
