@@ -172,13 +172,13 @@ $(function() {
 
     // update users online
     (function() {
-        var aod_rct_active_count = readCookie('aod_rct_active_count');
-        if (aod_rct_active_count < 31) {
+        var active_count = readCookie('active_count');
+        console.log("Activity counter: " + active_count);
+        if (active_count < 31) {
             $.post("/application/controllers/usersOnline.php", function(list) {
                 $(".userList").html(list);
                 $('.tool-user').powerTip({
-                    placement: 'ne',
-                    smartPlacement: true
+                    placement: 'n'
                 });
             });
             

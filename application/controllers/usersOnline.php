@@ -3,12 +3,8 @@ session_start();
 require_once("../lib.php");
 
 if (isLoggedIn()) {
-
-	setcookie('aod_rct_active_count', $_COOKIE['aod_rct_active_count'] + 1, time() + (86400 * 30), '/');
+	setcookie('active_count', $_COOKIE['active_count'] + 1, time() + (86400 * 30), '/');
 	updateUserActivityStatus($member_info['userid']);
-
-	// time to catch up
-	sleep(2);
 	$online_users = onlineUsers(); 
 
 	if ($online_users) {

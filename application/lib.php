@@ -7,6 +7,10 @@ include_once("modules/vbfunctions.php");
  * data collection for user logged in
  */
 
+
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
 if (isLoggedIn()) {
     
     // fetch member data for current user
@@ -99,7 +103,7 @@ function define_pages()
         'register' => "/register",
         'logout' => "/logout",
         'home' => "/"
-    );
+        );
     
     return $rules;
 }
@@ -120,7 +124,7 @@ function generateUrl($arg, $val)
     } else {
         $string = array(
             $arg => $val
-        );
+            );
     }
     
     return http_build_query($string);
@@ -142,67 +146,67 @@ function ordSuffix($n)
     else
         switch ($u) {
             case 1:
-                return $str . 'st';
+            return $str . 'st';
             case 2:
-                return $str . 'nd';
+            return $str . 'nd';
             case 3:
-                return $str . 'rd';
+            return $str . 'rd';
             default:
-                return $str . 'th';
+            return $str . 'th';
         }
-}
-
-
-function dbConnect()
-{
-    global $pdo;
-    $conn = '';
-    try {
-        $pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     }
-    
-    catch (PDOException $e) {
-        if (DEBUG_MODE)
-            echo "<div class='alert alert-danger'><i class='fa fa-exclamation-circle'></i><strong>Database connection error</strong>: " . $e->getMessage() . "</div>";
-    }
-    
-    return true;
-}
-
-function getPercentageColor($pct)
-{
-    if ($pct >= PERCENTAGE_CUTOFF_GREEN) {
-        $percent_class = "success";
-    } else if ($pct >= PERCENTAGE_CUTOFF_AMBER) {
-        $percent_class = "warning";
-    } else {
-        $percent_class = "danger";
-    }
-    return $percent_class;
-}
 
 
-function getGames()
-{
-    
-    global $pdo;
-    
-    if (dbConnect()) {
-        
+    function dbConnect()
+    {
+        global $pdo;
+        $conn = '';
         try {
-            $query = "SELECT id, short_name, full_name, subforum, description FROM games ORDER BY full_name";
-            $query = $pdo->prepare($query);
-            $query->execute();
-            $query = $query->fetchAll();
-            
+            $pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
+        
         catch (PDOException $e) {
-            echo "ERROR:" . $e->getMessage();
+            if (DEBUG_MODE)
+                echo "<div class='alert alert-danger'><i class='fa fa-exclamation-circle'></i><strong>Database connection error</strong>: " . $e->getMessage() . "</div>";
         }
+        
+        return true;
     }
-    return $query;
-}
+
+    function getPercentageColor($pct)
+    {
+        if ($pct >= PERCENTAGE_CUTOFF_GREEN) {
+            $percent_class = "success";
+        } else if ($pct >= PERCENTAGE_CUTOFF_AMBER) {
+            $percent_class = "warning";
+        } else {
+            $percent_class = "danger";
+        }
+        return $percent_class;
+    }
+
+
+    function getGames()
+    {
+        
+        global $pdo;
+        
+        if (dbConnect()) {
+            
+            try {
+                $query = "SELECT id, short_name, full_name, subforum, description FROM games ORDER BY full_name";
+                $query = $pdo->prepare($query);
+                $query->execute();
+                $query = $query->fetchAll();
+                
+            }
+            catch (PDOException $e) {
+                echo "ERROR:" . $e->getMessage();
+            }
+        }
+        return $query;
+    }
 
 
 /**
@@ -270,13 +274,19 @@ function forceEndSession()
     session_destroy();
 }
 
+function deleteActiveCookie(){
+    unset($_COOKIE['active_count']);
+    setcookie($_COOKIE['active_count'], '', time() - 3600);
+    setcookie('active_count', 0);
+}
+
 function updateUserActivityStatus($id, $isActive = false)
 {
     global $pdo;
     
     if (dbConnect()) {
         
-        if ($_COOKIE['aod_rct_active_count'] > 30) {
+        if ($_COOKIE['active_count'] > 30) {
             $idle = 1;
         } else {
             $idle = 0;
@@ -323,20 +333,20 @@ function userColor($user, $level)
     
     switch ($level) {
         case 4:
-            $span = "<span class='text-danger tool-user' title='Clan Admin'>" . $user . "</span>";
-            break;
+        $span = "<span class='text-danger tool-user' title='Clan Admin'>" . $user . "</span>";
+        break;
         case 3:
-            $span = "<span class='text-warning tool-user' title='Command Staff'>" . $user . "</span>";
-            break;
+        $span = "<span class='text-warning tool-user' title='Command Staff'>" . $user . "</span>";
+        break;
         case 2:
-            $span = "<span class='text-info tool-user' title='Platoon Leader'>" . $user . "</span>";
-            break;
+        $span = "<span class='text-info tool-user' title='Platoon Leader'>" . $user . "</span>";
+        break;
         case 1:
-            $span = "<span class='text-primary tool-user' title='Squad Leader'>" . $user . "</span>";
-            break;
+        $span = "<span class='text-primary tool-user' title='Squad Leader'>" . $user . "</span>";
+        break;
         default:
-            $span = "<span class='text-muted tool-user' title='Guest'>" . $user . "</span>";
-            break;
+        $span = "<span class='text-muted tool-user' title='Guest'>" . $user . "</span>";
+        break;
     }
     
     return $span;
@@ -355,21 +365,21 @@ function memberColor($user, $level)
     switch ($level) {
         case 3:
         case 8:
-            $span = "<span class='text-danger tool' title='Administrator'><i class='fa fa-shield '></i> " . $user . "</span>";
-            break;
+        $span = "<span class='text-danger tool' title='Administrator'><i class='fa fa-shield '></i> " . $user . "</span>";
+        break;
         case 2:
         case 1:
-            $span = "<span class='text-warning tool' title='Command Staff'><i class='fa fa-shield '></i> " . $user . "</span>";
-            break;
+        $span = "<span class='text-warning tool' title='Command Staff'><i class='fa fa-shield '></i> " . $user . "</span>";
+        break;
         case 4:
-            $span = "<span class='text-info tool' title='Platoon Leader'><i class='fa fa-shield '></i> " . $user . "</span>";
-            break;
+        $span = "<span class='text-info tool' title='Platoon Leader'><i class='fa fa-shield '></i> " . $user . "</span>";
+        break;
         case 5:
-            $span = "<span class='text-primary tool' title='Squad Leader'><i class='fa fa-shield '></i> " . $user . "</span>";
-            break;
+        $span = "<span class='text-primary tool' title='Squad Leader'><i class='fa fa-shield '></i> " . $user . "</span>";
+        break;
         default:
-            $span = $user;
-            break;
+        $span = $user;
+        break;
     }
     
     return $span;
@@ -546,20 +556,20 @@ function getUserRoleName($role)
 {
     switch ($role) {
         case 0:
-            $role = "Guest";
-            break;
+        $role = "Guest";
+        break;
         case 1:
-            $role = "Squad Leader";
-            break;
+        $role = "Squad Leader";
+        break;
         case 2:
-            $role = "Platoon Leader";
-            break;
+        $role = "Platoon Leader";
+        break;
         case 3:
-            $role = "Division Commander";
-            break;
+        $role = "Division Commander";
+        break;
         case 4:
-            $role = "Administrator";
-            break;
+        $role = "Administrator";
+        break;
     }
     return $role;
 }
@@ -575,7 +585,7 @@ function updateLoggedInTime($user)
             $query = $pdo->prepare("UPDATE users SET last_logged = CURRENT_TIMESTAMP() WHERE username = :user");
             $query->execute(array(
                 ':user' => $user
-            ));
+                ));
         }
         catch (PDOException $e) {
             echo 'ERROR: ' . $e->getMessage();
@@ -596,7 +606,7 @@ function updateAlert($uid, $alert)
             $query->execute(array(
                 ':alert' => $alert,
                 ':user' => $uid
-            ));
+                ));
         }
         catch (PDOException $e) {
             echo 'ERROR: ' . $e->getMessage();
@@ -622,7 +632,7 @@ function createUser($user, $email, $credential)
                 ':pass' => $hash,
                 ':email' => $email,
                 ':ip' => $_SERVER['REMOTE_ADDR']
-            ));
+                ));
             return $pdo->lastInsertId();
             
         }
@@ -730,18 +740,18 @@ function get_alerts($uid)
                 AND alert_id = alerts.id
                 AND user_id = :user
                 )";
-            $query = $pdo->prepare($query);
-            $query->bindParam(':user', $uid);
-            $query->execute();
-            $query = $query->fetchAll();
-            
-        }
-        
-        catch (PDOException $e) {
-            echo "ERROR:" . $e->getMessage();
-        }
-    }
-    return $query;
+$query = $pdo->prepare($query);
+$query->bindParam(':user', $uid);
+$query->execute();
+$query = $query->fetchAll();
+
+}
+
+catch (PDOException $e) {
+    echo "ERROR:" . $e->getMessage();
+}
+}
+return $query;
 }
 
 
