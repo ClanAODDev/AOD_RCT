@@ -146,6 +146,7 @@ $(function() {
                 },
                 "sExtends": "collection",
                 "sButtonText": "",
+                "mColumns": 'visible',
                 "aButtons": ["select_all", "select_none", "xls", "pdf"],
                 "bSelectedOnly": true
             }]
