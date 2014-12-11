@@ -914,12 +914,15 @@ function count_total_games($member_id, $date)
     
     if (dbConnect()) {
 
-        $first_day_of_month = date("Y-m-d", strtotime("first day of" . $date));
-        $last_day_of_month  = date("Y-m-d", strtotime("last day of" . $date));
+        $first_day_of_month = date("Y-m-d", strtotime("first day of" . $date)) . ' 00:00:00';
+        $last_day_of_month  = date("Y-m-d", strtotime("last day of" . $date)). ' 23:59:59';
         
         try {
-            $query = "SELECT count(*) AS games FROM `activity` where `member_id`=" . $member_id . " AND `datetime` between '" . $first_day_of_month . " 00:00:00' and '" . $last_day_of_month . " 23:59:59'";
+            $query = "SELECT count(*) AS games FROM activity WHERE member_id = :mid AND datetime between :fdlm AND :ldlm";
             $query = $pdo->prepare($query);
+            $query->bindParam(':mid', $member_id);
+            $query->bindParam(':fdlm', $first_day_of_month);
+            $query->bindParam(':ldlm', $last_day_of_month);
             $query->execute();
             $query = $query->fetchAll();
         }
@@ -937,12 +940,12 @@ function count_aod_games($member_id, $date)
     
     if (dbConnect()) {
 
-        $first_day_of_month = date("Y-m-d", strtotime("first day of" . $date));
-        $last_day_of_month  = date("Y-m-d", strtotime("last day of" . $date));
+        $first_day_of_month = date("Y-m-d", strtotime("first day of" . $date)) . ' 00:00:00';
+        $last_day_of_month  = date("Y-m-d", strtotime("last day of" . $date)). ' 23:59:59';
         
         # count total AOD games played for a single member
         try {
-            $query = "SELECT count(*) AS games FROM `activity` where `member_id`=" . $member_id . " AND `server` LIKE 'AOD%' AND `datetime` between '" . $first_day_of_month . " 00:00:00' and '" . $last_day_of_month . " 23:59:59'";
+            $query = "SELECT count(*) AS games FROM activity WHERE member_id = :mid AND server LIKE 'AOD%' AND datetime between :fdlm AND :ldlm";
             $query = $pdo->prepare($query);
             $query->execute();
             $query = $query->fetchAll();
