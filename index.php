@@ -11,9 +11,7 @@ ob_start();
 
 include "application/lib.php";
 
-error_reporting(-1);
-ini_set('display_errors', 'On');
-
+setcookie('aod_rct_active_count', 0);
 define( 'TEMPLATES', dirname( __FILE__ ) . '/public/templates/' );
 define( 'VIEWS', dirname( __FILE__ ) . '/application/views/' );
 
@@ -23,7 +21,7 @@ $uri = urldecode( $uri );
 
 // reset activity cookie and update status to idle = 0
 if (isLoggedIn()) { 
-	setcookie('aod_rct_active_count', 0);
+
 	updateUserActivityStatus($member_info['userid'], true);
 }
 
