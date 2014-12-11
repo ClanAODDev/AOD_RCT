@@ -292,13 +292,8 @@ function updateUserActivityStatus($id, $isActive = false)
         
         try {
 
-            if ($isActive) {
-                $stmt = $pdo->prepare('UPDATE users SET last_seen = CURRENT_TIMESTAMP(), idle = 1 WHERE id = :id');
-            } else {
-                $stmt = $pdo->prepare('UPDATE users SET last_seen = CURRENT_TIMESTAMP(), idle = :idle WHERE id = :id');
-                $stmt->bindParam(':idle', $idle, PDO::PARAM_INT);
-            }
-            
+            $stmt = $pdo->prepare('UPDATE users SET last_seen = CURRENT_TIMESTAMP(), idle = :idle WHERE id = :id');
+            $stmt->bindParam(':idle', $idle, PDO::PARAM_INT);            
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute();
             
