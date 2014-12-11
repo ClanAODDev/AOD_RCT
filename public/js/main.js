@@ -112,6 +112,7 @@ $(function() {
 
 
     var table = $('#members-table').DataTable({
+        "sDom": 'T<"clear">fri',
         "autoWidth": false,
         "order": [],
         "columnDefs": [{
@@ -125,7 +126,7 @@ $(function() {
             "iDataSort": 5,
             "aTargets": [1]
         }],
-
+        stateSave: true,
         paging: false,
         responsive: true,
         "bServerSide": false,
@@ -133,7 +134,7 @@ $(function() {
             $("#member-footer").empty();
             $("#members-table_info").contents().appendTo("#member-footer");
         },
-        "sDom": 'T<"clear">lfrtip',
+
         "oTableTools": {
             "sRowSelect": "multi",
 
