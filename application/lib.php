@@ -26,7 +26,7 @@ if (isLoggedIn()) {
     /**
      * generate alerts
      */
-        
+    
     $alerts_list = NULL;
     $alerts      = get_alerts($member_info['userid']);
     
@@ -776,9 +776,6 @@ function get_members()
 }
 
 
-
-
-
 function get_platoon_members($pid)
 {
 
@@ -947,6 +944,9 @@ function count_aod_games($member_id, $date)
         try {
             $query = "SELECT count(*) AS games FROM activity WHERE member_id = :mid AND server LIKE 'AOD%' AND datetime between :fdlm AND :ldlm";
             $query = $pdo->prepare($query);
+            $query->bindParam(':mid', $member_id);
+            $query->bindParam(':fdlm', $first_day_of_month);
+            $query->bindParam(':ldlm', $last_day_of_month);
             $query->execute();
             $query = $query->fetchAll();
         }
