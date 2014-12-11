@@ -95,7 +95,7 @@ function define_pages()
     $rules = array(
         'player' => "/player/(?'id'\d+)",
         'division' => "/divisions/(?'division'bf4|hl)",
-        'platoon' => "/divisions/(?'division'bf4|hl)/platoons/(?'platoon'\d+)",
+        'platoon' => "/divisions/(?'division'bf4|hl)/(?'platoon'\d+)",
         'register' => "/register",
         'logout' => "/logout",
         'home' => "/"
