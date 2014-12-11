@@ -7,12 +7,8 @@ include_once("modules/vbfunctions.php");
  * data collection for user logged in
  */
 
-
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-
 if (isLoggedIn()) {
-    
+
     // fetch member data for current user
     $member_info = get_user_info($_SESSION['username']);
     $userRole    = $member_info['role'];
@@ -30,8 +26,7 @@ if (isLoggedIn()) {
     /**
      * generate alerts
      */
-    
-    
+        
     $alerts_list = NULL;
     $alerts      = get_alerts($member_info['userid']);
     
@@ -68,7 +63,7 @@ if (isLoggedIn()) {
  */
 function isLoggedIn()
 {
-    
+
     if (isset($_SESSION['loggedIn'])) {
         if ($_SESSION['loggedIn'] === true) {
             return true;
@@ -85,7 +80,7 @@ function isLoggedIn()
  */
 function define_pages()
 {
-    
+
     /*
     'picture'   => "/picture/(?'text'[^/]+)/(?'id'\d+)",    // '/picture/some-text/51'
     'album'     => "/album/(?'album'[\w\-]+)",              // '/album/album-slug'
@@ -165,12 +160,12 @@ function ordSuffix($n)
             $pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         }
-        
+
         catch (PDOException $e) {
             if (DEBUG_MODE)
                 echo "<div class='alert alert-danger'><i class='fa fa-exclamation-circle'></i><strong>Database connection error</strong>: " . $e->getMessage() . "</div>";
         }
-        
+
         return true;
     }
 
@@ -189,17 +184,17 @@ function ordSuffix($n)
 
     function getGames()
     {
-        
+
         global $pdo;
-        
+
         if (dbConnect()) {
-            
+
             try {
                 $query = "SELECT id, short_name, full_name, subforum, description FROM games ORDER BY full_name";
                 $query = $pdo->prepare($query);
                 $query->execute();
                 $query = $query->fetchAll();
-                
+
             }
             catch (PDOException $e) {
                 echo "ERROR:" . $e->getMessage();
@@ -216,13 +211,13 @@ function ordSuffix($n)
  */
 function get_user_info($name)
 {
-    
+
     global $pdo;
     
     if (dbConnect()) {
-        
+
         try {
-            
+
             $sth = $pdo->prepare("SELECT users.id as userid, member_id, username, forum_name, rank_id, role, email, idle, last_logged FROM users 
                 LEFT join member on users.username = member.forum_name
                 LEFT JOIN rank on member.rank_id = rank.id
@@ -274,19 +269,12 @@ function forceEndSession()
     session_destroy();
 }
 
-function deleteActiveCookie(){
-    unset($_COOKIE['active_count']);
-    setcookie($_COOKIE['active_count'], '', time() - 3600);
-    setcookie('active_count', 0);
-}
-
 function updateUserActivityStatus($id, $isActive = false)
 {
     global $pdo;
     
     if (dbConnect()) {
-        
-        if ($_COOKIE['active_count'] > 30) {
+        if ( isset($_COOKIE['active_count']) && ($_COOKIE['active_count'] > 30) ) {
             $idle = 1;
         } else {
             $idle = 0;
@@ -303,7 +291,7 @@ function updateUserActivityStatus($id, $isActive = false)
          */
         
         try {
-            
+
             if ($isActive) {
                 $stmt = $pdo->prepare('UPDATE users SET last_seen = CURRENT_TIMESTAMP(), idle = 1 WHERE id = :id');
             } else {
@@ -330,7 +318,7 @@ function updateUserActivityStatus($id, $isActive = false)
  */
 function userColor($user, $level)
 {
-    
+
     switch ($level) {
         case 4:
         $span = "<span class='text-danger tool-user' title='Clan Admin'>" . $user . "</span>";
@@ -361,7 +349,7 @@ function userColor($user, $level)
  */
 function memberColor($user, $level)
 {
-    
+
     switch ($level) {
         case 3:
         case 8:
@@ -396,13 +384,13 @@ function get_user_avatar($forum_id, $type = "thumb")
 
 function get_games()
 {
-    
+
     global $pdo;
     
     if (dbConnect()) {
-        
+
         try {
-            
+
             $query = "SELECT full_name, short_name, short_descr FROM games ORDER BY full_name";
             $query = $pdo->prepare($query);
             $query->execute();
@@ -420,13 +408,13 @@ function get_games()
 
 function get_game_info($gname)
 {
-    
+
     global $pdo;
     
     if (dbConnect()) {
-        
+
         try {
-            
+
             $query = "SELECT `id`, `short_name`, `full_name`, `subforum`, `description` FROM `games` WHERE short_name = '$gname'";
             $query = $pdo->prepare($query);
             $query->execute();
@@ -468,13 +456,13 @@ return $stmt;
 
 function get_game_threads($gid)
 {
-    
+
     global $pdo;
     
     if (dbConnect()) {
-        
+
         try {
-            
+
             // grab division threads as well as clan threads (id=0)
             $query = "SELECT thread_url, thread_title FROM games_threads WHERE game_id = {$gid} || game_id = 0";
             $query = $pdo->prepare($query);
@@ -540,7 +528,7 @@ function hasher($info, $encdata = false)
             return false;
         }
     } else {
-        
+
         //make a salt and hash it with input, and add salt to end 
         $salt = "";
         for ($i = 0; $i < 22; $i++) {
@@ -580,7 +568,7 @@ function updateLoggedInTime($user)
     
     if (dbConnect()) {
         try {
-            
+
             $user  = strtolower($user);
             $query = $pdo->prepare("UPDATE users SET last_logged = CURRENT_TIMESTAMP() WHERE username = :user");
             $query->execute(array(
@@ -622,7 +610,7 @@ function createUser($user, $email, $credential)
     
     if (dbConnect()) {
         try {
-            
+
             $hash = hasher($credential);
             
             $query = $pdo->prepare("INSERT INTO users ( username, credential, email, ip, date_joined) VALUES ( :user, :pass, :email, :ip, CURRENT_TIMESTAMP() )");
@@ -703,7 +691,7 @@ function validatePassword($pass, $user)
 
 function checkThread($player, $thread)
 {
-    
+
     $ch = curl_init();
     
     curl_setopt($ch, CURLOPT_URL, $thread . "&page=9999999");
@@ -723,13 +711,13 @@ function checkThread($player, $thread)
 
 function get_alerts($uid)
 {
-    
+
     global $pdo;
     
     if (dbConnect()) {
-        
+
         try {
-            
+
             $query = "
             SELECT DISTINCT id, content, type FROM alerts
             WHERE start_date < CURRENT_TIMESTAMP 
@@ -763,13 +751,13 @@ return $query;
 
 function get_members()
 {
-    
+
     global $pdo;
     
     if (dbConnect()) {
-        
+
         try {
-            
+
             $query = "SELECT member.forum_name, member.member_id, bf4_position.desc as bf4_position_desc, bf4_position.id as bf4_position_id, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr FROM `member` 
             LEFT JOIN `rank` ON member.rank_id = rank.id 
             LEFT JOIN `bf4_position` ON member.bf4_position_id = bf4_position.id 
@@ -793,13 +781,13 @@ function get_members()
 
 function get_platoon_members($pid)
 {
-    
+
     global $pdo;
     
     if (dbConnect()) {
-        
+
         try {
-            
+
             $query = "SELECT member.id, member.forum_name, member.member_id,  bf4_position.desc as bf4_position_desc, bf4_position.id as bf4_position_id, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr as rank FROM `member` 
             LEFT JOIN `rank` on member.rank_id = rank.id 
             LEFT JOIN `bf4_position` ON member.bf4_position_id = bf4_position.id 
@@ -821,13 +809,13 @@ function get_platoon_members($pid)
 
 function get_squads($pid)
 {
-    
+
     global $pdo;
     
     if (dbConnect()) {
-        
+
         try {
-            
+
             $query = "SELECT member.forum_name, member.member_id,  bf4_position.desc as bf4_position_desc, bf4_position.id as bf4_position_id, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr FROM `member` 
             LEFT JOIN `rank` on member.rank_id = rank.id 
             LEFT JOIN `bf4_position` ON member.bf4_position_id = bf4_position.id 
@@ -849,13 +837,13 @@ function get_squads($pid)
 
 function get_platoons($gid)
 {
-    
+
     global $pdo;
     
     if (dbConnect()) {
-        
+
         try {
-            
+
             $query = "SELECT * FROM platoon WHERE game_id = :gid ORDER BY number";
             $query = $pdo->prepare($query);
             $query->bindParam(':gid', $gid);
@@ -874,13 +862,13 @@ function get_platoons($gid)
 
 function get_platoon_info($platoon_id)
 {
-    
+
     global $pdo;
     
     if (dbConnect()) {
-        
+
         try {
-            
+
             $query = "SELECT `name`, `number` FROM platoon WHERE id = {$platoon_id}";
             $query = $pdo->prepare($query);
             $query->execute();
@@ -897,13 +885,13 @@ function get_platoon_info($platoon_id)
 
 function get_platoon_id_from_number($platoon_number, $division)
 {
-    
+
     global $pdo;
     
     if (dbConnect()) {
-        
+
         try {
-            
+
             $query = "SELECT id FROM platoon WHERE number = :platoon_num AND game_id = :division";
             $query = $pdo->prepare($query);
             $query->bindParam(':platoon_num', $platoon_number);
@@ -921,11 +909,11 @@ function get_platoon_id_from_number($platoon_number, $division)
 
 function count_total_games($member_id, $date)
 {
-    
+
     global $pdo;
     
     if (dbConnect()) {
-        
+
         $first_day_of_month = date("Y-m-d", strtotime("first day of" . $date));
         $last_day_of_month  = date("Y-m-d", strtotime("last day of" . $date));
         
@@ -944,11 +932,11 @@ function count_total_games($member_id, $date)
 
 function count_aod_games($member_id, $date)
 {
-    
+
     global $pdo;
     
     if (dbConnect()) {
-        
+
         $first_day_of_month = date("Y-m-d", strtotime("first day of" . $date));
         $last_day_of_month  = date("Y-m-d", strtotime("last day of" . $date));
         

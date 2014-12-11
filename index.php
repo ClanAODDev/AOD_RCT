@@ -18,9 +18,12 @@ $uri = rtrim( dirname($_SERVER["SCRIPT_NAME"]), '/' );
 $uri = '/' . trim( str_replace( $uri, '', $_SERVER['REQUEST_URI'] ), '/' );
 $uri = urldecode( $uri );
 
-// reset activity cookie and update status to idle = 0
+// update status to idle = 0
 if (isLoggedIn()) { 
-	deleteActiveCookie();
+	if (isset($_COOKIE['active_count'])) {		
+		setcookie('active_count', 0);
+	}
+	
 	updateUserActivityStatus($member_info['userid'], true);
 }
 

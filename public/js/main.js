@@ -186,7 +186,7 @@ $(function() {
             $(".userList").html('<i class="fa fa-clock-o"></i> Idle. No longer refreshing.');
             clearTimeout(arguments.callee);
         }
-        setTimeout(arguments.callee, 20000);
+        setTimeout(arguments.callee, 30000);
     }())
 
 });
