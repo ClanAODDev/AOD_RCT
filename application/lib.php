@@ -89,16 +89,30 @@ function define_pages()
     'post'      => "/(?'post'[\w\-]+)",                     // '/post-slug'
     'home'      => "/"
     */
+
+   // need to refactor this and fetch from database
+    $divisions = 
+    array(
+        'bf4',
+        'hl'
+        )
+    ;
     
+    // combine divisions for rulesets
+    $divisions = implode("|", $divisions);
+
     // build page rules for routing system
-    $rules = array(
+    $rules = 
+    array(
         'player' => "/player/(?'id'\d+)",
-        'division' => "/divisions/(?'division'bf4|hl)",
-        'platoon' => "/divisions/(?'division'bf4|hl)/(?'platoon'\d+)",
+        'manage' => "/manage/(?'form'player|squad|platoon|division)/(?'id'\d+)",
+        'division' => "/divisions/(?'division'" . $divisions . ")",
+        'platoon' => "/divisions/(?'division'" . $divisions . ")/(?'platoon'\d+)",
         'register' => "/register",
         'logout' => "/logout",
         'home' => "/"
-        );
+        )
+    ;
     
     return $rules;
 }
