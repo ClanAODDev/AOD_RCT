@@ -535,6 +535,11 @@ function hasher($info, $encdata = false)
     }
 }
 
+/**
+ * converts role id into real string
+ * @param  int $role role id (aod.members)
+ * @return string    the real string, contextual position
+ */
 function getUserRoleName($role)
 {
     switch ($role) {
@@ -557,6 +562,11 @@ function getUserRoleName($role)
     return $role;
 }
 
+/**
+ * Updates user's last_logged column for activity tracking purposes
+ * @param  int $user username
+ * @return boolean   only returns false on failure
+ */
 function updateLoggedInTime($user)
 {
     global $pdo;
@@ -578,6 +588,12 @@ function updateLoggedInTime($user)
     }
 }
 
+/**
+ * update alert status when viewed (ajax call)
+ * @param  int $uid   user id
+ * @param  int $alert alert id
+ * @return boolean    only returns false on failure
+ */
 function updateAlert($uid, $alert)
 {
     global $pdo;
@@ -599,6 +615,13 @@ function updateAlert($uid, $alert)
     }
 }
 
+/**
+ * creates a user during registration (ajax call)
+ * @param  string $user       username
+ * @param  string $email      email
+ * @param  string $credential hashed password
+ * @return boolean            returns false only on failure
+ */
 function createUser($user, $email, $credential)
 {
     global $pdo;
@@ -629,6 +652,10 @@ function createUser($user, $email, $credential)
 }
 
 
+/**
+ * verifies if the current user is a developer
+ * @return boolean if dev: true, if not: false
+ */
 function isDev()
 {
     global $pdo;
@@ -657,6 +684,12 @@ function isDev()
 }
 
 
+/**
+ * validates password for login (ajax call)
+ * @param  string $pass user's password
+ * @param  string $user username
+ * @return boolean      returns true on success; false on failure;
+ */
 function validatePassword($pass, $user)
 {
     global $pdo;
