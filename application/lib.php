@@ -91,6 +91,8 @@ function define_pages()
     */
 
    // need to refactor this and fetch from database
+   // will also need to refactor getGames() to rely
+   // on the same function
     $divisions = 
     array(
         'bf4',
@@ -150,9 +152,9 @@ function ordSuffix($n)
     $str = "$n";
     $t   = $n > 9 ? substr($str, -2, 1) : 0;
     $u   = substr($str, -1);
-    if ($t == 1)
+    if ($t == 1) {
         return $str . 'th';
-    else
+    } else {
         switch ($u) {
             case 1:
             return $str . 'st';
@@ -164,58 +166,59 @@ function ordSuffix($n)
             return $str . 'th';
         }
     }
+}
 
 
-    function dbConnect()
-    {
-        global $pdo;
-        $conn = '';
+function dbConnect()
+{
+    global $pdo;
+    $conn = '';
+    try {
+        $pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    }
+
+    catch (PDOException $e) {
+        if (DEBUG_MODE)
+            echo "<div class='alert alert-danger'><i class='fa fa-exclamation-circle'></i><strong>Database connection error</strong>: " . $e->getMessage() . "</div>";
+    }
+
+    return true;
+}
+
+function getPercentageColor($pct)
+{
+    if ($pct >= PERCENTAGE_CUTOFF_GREEN) {
+        $percent_class = "success";
+    } else if ($pct >= PERCENTAGE_CUTOFF_AMBER) {
+        $percent_class = "warning";
+    } else {
+        $percent_class = "danger";
+    }
+    return $percent_class;
+}
+
+
+function getGames()
+{
+
+    global $pdo;
+
+    if (dbConnect()) {
+
         try {
-            $pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        }
+            $query = "SELECT id, short_name, full_name, subforum, description FROM games ORDER BY full_name";
+            $query = $pdo->prepare($query);
+            $query->execute();
+            $query = $query->fetchAll();
 
+        }
         catch (PDOException $e) {
-            if (DEBUG_MODE)
-                echo "<div class='alert alert-danger'><i class='fa fa-exclamation-circle'></i><strong>Database connection error</strong>: " . $e->getMessage() . "</div>";
+            echo "ERROR:" . $e->getMessage();
         }
-
-        return true;
     }
-
-    function getPercentageColor($pct)
-    {
-        if ($pct >= PERCENTAGE_CUTOFF_GREEN) {
-            $percent_class = "success";
-        } else if ($pct >= PERCENTAGE_CUTOFF_AMBER) {
-            $percent_class = "warning";
-        } else {
-            $percent_class = "danger";
-        }
-        return $percent_class;
-    }
-
-
-    function getGames()
-    {
-
-        global $pdo;
-
-        if (dbConnect()) {
-
-            try {
-                $query = "SELECT id, short_name, full_name, subforum, description FROM games ORDER BY full_name";
-                $query = $pdo->prepare($query);
-                $query->execute();
-                $query = $query->fetchAll();
-
-            }
-            catch (PDOException $e) {
-                echo "ERROR:" . $e->getMessage();
-            }
-        }
-        return $query;
-    }
+    return $query;
+}
 
 
 /**
