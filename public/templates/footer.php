@@ -12,7 +12,7 @@
 
 <?php if (isDev()) { ?>
 <div style="height: 200px; width: 100%; overflow: scroll;">
-	<?php var_dump(get_defined_vars()); ?>
+	<?php unset($out); var_dump(get_defined_vars()); ?>
 </div>
 <?php } ?>
 
