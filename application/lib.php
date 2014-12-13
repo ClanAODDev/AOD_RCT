@@ -223,8 +223,8 @@ function getGames()
 
 /**
  * get_user_info grabs data specifically pertaining to the user logged in
- * @param  [varchar] $name the user's forum name
- * @return [array] $query an array containing member data
+ * @param  string $name the user's forum name
+ * @return array $query an array containing member data
  */
 function get_user_info($name)
 {
