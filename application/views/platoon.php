@@ -33,6 +33,11 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 	";
 
 
+	// is current user a squad leader?
+
+
+
+
 
 	$members = get_platoon_members($platoon_id);
 	$member_count = count($members);
@@ -104,7 +109,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 
 			<div class='col-md-8'>			
 
-				<div class='panel panel-primary'>
+				<div class='panel panel-default'>
 					<!-- Default panel contents -->
 					<div class='panel-heading download-area'>Platoon members <span></span></div>
 					<div class='panel-body border-bottom'><div id='playerFilter'></div></div>
@@ -117,17 +122,17 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 			$out .= "
 
 			<div class='col-md-4'>
-				<div class='panel panel-primary'>
+				<div class='panel panel-default'>
 					<div class='panel-heading'>Total Members</div>
 					<div class='panel-body count-detail-big striped-bg'><span class='count-animated'>{$member_count}</span></div>
 				</div>
 
-				<div class='panel panel-primary'>
+				<div class='panel panel-default'>
 					<div class='panel-heading'>Total AOD Games</div>
 					<div class='panel-body count-detail-big striped-bg'><span class='count-animated'>{$overall_aod_games}</span></div>
 				</div>
 
-				<div class='panel panel-primary'>
+				<div class='panel panel-default'>
 					<div class='panel-heading'>Percentage AOD Games</div>
 					<div class='panel-body count-detail-big follow-tool striped-bg' title='Excludes all zero values'><span class='count-animated percentage'>{$overall_aod_percent}</span></div>
 
