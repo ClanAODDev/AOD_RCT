@@ -17,7 +17,7 @@
 	<link rel="stylesheet" type="text/css" href="/public/css/jquery.powertip.min.css">				
 
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">	
-	<link href="//cdn.datatables.net/1.10.4/css/jquery.dataTables.min.css" rel="stylesheet">
+	<link href="/public/css/jquery.dataTables.min.css" rel="stylesheet">
 	<link href="/public/css/dataTables.tableTools.css" rel="stylesheet">
 	
 	<link rel="stylesheet" type="text/css" href="/public/css/style.css">
