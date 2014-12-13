@@ -3,7 +3,12 @@ session_start();
 require_once("../lib.php");
 
 if (isLoggedIn()) {
-	setcookie('active_count', $_COOKIE['active_count'] + 1, time() + (86400 * 30), '/');
+	if (isset($_COOKIE['active_count'])) {
+		setcookie('active_count', $_COOKIE['active_count'] + 1, time() + (86400 * 30), '/');
+	} else {
+		setcookie('active_count', 0, time() + (86400 * 30), '/');
+	}
+	
 	updateUserActivityStatus($member_info['userid']);
 	$online_users = onlineUsers(); 
 
