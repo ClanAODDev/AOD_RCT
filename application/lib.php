@@ -952,4 +952,60 @@ function count_aod_games($member_id, $date)
     return $query[0]['games'];
 }
 
+
+
+
+
+/**
+ * encryption / decryption
+ */
+
+
+/*function encrypt($plain, $key) { 
+        $iv_size        = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC); 
+        $iv                = mcrypt_create_iv($iv_size, MCRYPT_RAND); 
+        $key                = PBKDF2($key, $iv, 1, 32); 
+        $crypted        = mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $key, $plain, 
+MCRYPT_MODE_CBC, $iv); 
+
+        return base64_encode($iv.$crypted); 
+} 
+
+function decrypt($crypted, $key) { 
+        $crypted        = base64_decode($crypted); 
+        $iv                = substr($crypted, 0, 16); 
+        $key                = PBKDF2($key, $iv, 1, 32); 
+        $crypted        = substr($crypted, 16); 
+
+        return mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, $crypted, 
+MCRYPT_MODE_CBC, $iv); 
+} 
+*/
+/** 
+ * PHP PBKDF2 Implementation. 
+ * 
+ * For more information see: http://www.ietf.org/rfc/rfc2898.txt 
+ * 
+ * @param string $p                password 
+ * @param string $s                salt 
+ * @param integer $c                iteration count (use 1000 or higher) 
+ * @param integer $dkl        derived key length 
+ * @param string $algo        hash algorithm 
+ * @return string                        derived key of correct length 
+ */ 
+/*function PBKDF2($p, $s, $c, $dkl, $algo = 'sha1') { 
+        $kb = ceil($dkl / strlen(hash($algo, null, true))); 
+        $dk = ''; 
+        for($block = 1; $block <= $kb; ++$block) { 
+                $ib = $b = hash_hmac($algo, $s.pack('N', $block), $p, true); 
+                for($i = 1; $i < $c; ++$i) 
+                        $ib ^= ($b = hash_hmac($algo, $b, $p, true)); 
+                $dk.= $ib; 
+        } 
+        return substr($dk, 0, $dkl); 
+} 
+
+$crypted = encrypt("Message", "Secret Passphrase"); 
+$plain = decrypt($crypted, "Secret Passphrase"); 
+*/
 ?>
