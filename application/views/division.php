@@ -72,7 +72,7 @@ $out .= "
 	
 
 	<div class='row margin-top-20'>
-		<div class='col-md-4 pull-left'>
+		<div class='col-md-4'>
 			<div class='panel panel-primary'>
 				<div class='panel-heading'>Active Platoons</div>
 				<div class='panel-body'>

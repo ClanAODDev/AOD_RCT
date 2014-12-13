@@ -10,12 +10,6 @@
 </div>
 
 
-<?php if (isDev()) { ?>
-<div style="height: 200px; width: 100%; overflow: scroll;">
-	<?php unset($out); var_dump(get_defined_vars()); ?>
-</div>
-<?php } ?>
-
 <!-- <input type="hidden" id="player" name="player" value="<?php //echo $player; ?>" />
 	<input type="hidden" id="game" name="game" value="<?php //echo $gameid; ?>" /> -->
 
