@@ -36,9 +36,10 @@ $(function() {
             $(this).serialize(),
             function(data) {
                 if (data['success'] === true) {
-                    $('#login-panel').effect("clip");
+                    $('#login-panel').fadeOut();
                     $('.msg').removeClass('alert-danger').addClass('alert alert-success').html("<i class=\"fa fa-check-square-o\"></i> <small>" + data['message'] + "</small>").delay(1000).fadeIn();
                     $('.status-text').delay(1500).html("<small>You will now be redirected to the admin panel...</small>").fadeIn();
+                    
 
                     setTimeout(function() {
                         window.location.href = "/";
@@ -46,6 +47,7 @@ $(function() {
 
                 } else if (data['success'] === false) {
                     console.log(data);
+                    $('#login-panel').addClass('has-error');
                     $('.msg').addClass('alert alert-danger').html("<i class=\"fa fa-times-circle\"></i> <small>" + data['message'] + "</small>");
                     $('.msg').effect("bounce");
 
@@ -63,7 +65,7 @@ $(function() {
             $(this).serialize(),
             function(data) {
                 if (data['success'] === true) {
-                    $('#register-panel').effect("clip");
+                    $('#register-panel').fadeOut();
                     $('.msg').removeClass('alert-danger').addClass('alert alert-success').html("<i class=\"fa fa-check-square-o\"></i> <small>" + data['message'] + "</small>").delay(1000).fadeIn();
                     $('.status-text').delay(1500).html("<small>You will now be redirected to the login form...</small>").fadeIn();
 
@@ -72,6 +74,7 @@ $(function() {
                     }, 4000);
 
                 } else if (data['success'] === false) {
+                    $('#register-panel').addClass('has-error');
                     $('.msg').addClass('alert alert-danger').html("<i class=\"fa fa-times-circle\"></i> <small>" + data['message'] + "</small>");
                     $('.msg').effect("bounce");
 
