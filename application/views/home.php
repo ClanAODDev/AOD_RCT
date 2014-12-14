@@ -39,8 +39,6 @@ $out .= "
 		<div class='alert alert-warning' role='alert'><i class=\"fa fa-exclamation-triangle\"></i> You are currently a guest. You will need to have an administrator approve your account before you can use this application</div>";
 	}
 
-	// output alerts
-	$out .= "{$alerts_list}";
 
 	// jumbotron permanent or disable-able?
 	$out .="
@@ -77,6 +75,10 @@ $out .= "
 	</div> <!-- end end row -->
 	";
 */
+
+
+	// output alerts
+	$out .= "{$alerts_list}";
 
 
 /**
