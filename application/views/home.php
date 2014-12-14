@@ -101,7 +101,7 @@ if (!is_null($my_squad)) {
 
 
 
-	<div class='col-md-6'>
+	<div class='col-md-5'>
 
 		<div class='list-group'>
 
@@ -126,7 +126,7 @@ if (!is_null($my_squad)) {
 			<a href='#' class='list-group-item disabled'>
 				<h4 class='pull-right'><i class='fa fa-flag-checkered text-muted fa-lg'></i></h4>
 				<h4 class='list-group-item-heading'><strong>Review inactive members</strong></h4>
-				<p class='list-group-item-text'>View inactive members and flag for removal (available monthly)</p>
+				<p class='list-group-item-text'>View inactive members and flag for removal</p>
 			</a>
 
 		</div>
@@ -139,7 +139,7 @@ if (!is_null($my_squad)) {
 
 			<div class='list-group'>
 				{$my_squad}
-				
+
 			</div>
 		</div>
 
