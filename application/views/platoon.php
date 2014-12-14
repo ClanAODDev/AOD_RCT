@@ -76,7 +76,6 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 		</tbody>
 	</table>";
 
-
 	// calculate inactives, percentage
 	$min = INACTIVE_MIN;
 	$max = INACTIVE_MAX;
@@ -91,18 +90,11 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 	$inactive_count = count($inactive);
 	$inactive_percent = round((float)($inactive_count / $member_count) * 100 ) . '%';
 
-	
-
-
-
 	// calculate overall percentages
 	$overall_aod_percent = array_diff($overall_aod_percent, array('0.00'));
 	$overall_aod_percent = array_sum($overall_aod_percent) / count($overall_aod_percent);
 	$overall_aod_games = array_sum($overall_aod_games);
 
-
-
-	
 
 	// build page structure
 	$out .= "

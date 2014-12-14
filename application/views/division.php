@@ -13,7 +13,30 @@ $game_id = $game_info['id'];
 $game_name = $game_info['full_name'];
 $game_descr = $game_info['description'];
 
-/*getDivisionLeadership($game_id);*/
+
+// fetch division leaders
+$leaders = get_division_ldrs($game_id);
+if ($leaders[0] && $leaders[1]) {
+	$co = $leaders[0]['abbr'] . " " . $leaders[0]['forum_name'];
+	$co_id = $leaders[0]['id'];
+	$xo = $leaders[1]['abbr'] . " " . $leaders[1]['forum_name'];
+	$xo_id = $leaders[1]['id'];
+
+	$leaders = "
+	<table class='table table-hover table-striped'>
+		<tr>
+			<td><strong>{$co}</strong></td>
+			<td>Division Commander</td>
+		</tr>
+		<tr>
+			<td><strong>{$xo}</strong></td>
+			<td>Division Executive Officer</td>
+		</tr>
+	</table>
+	";
+} else {
+	$leaders = "<li class='list-group-item'>No leadership currently exists for this division.</li>";
+}
 
 
 
@@ -43,7 +66,7 @@ if (!empty($platoon_items)) {
 
 } else {
 
-	$platoon_list = "No platoons currently exist for this division.";
+	$platoon_list = "<li class='list-group-item'>No platoons currently exist for this division.</li>";
 
 }
 
@@ -91,22 +114,12 @@ $out .= "
 		<div class='col-md-4'>
 			<div class='panel panel-primary'>
 				<div class='panel-heading'>Division Command Staff</div>
-
-				<table class='table table-hover table-striped'>
-					<tr>
-						<td><strong>CupOHemlock</strong></td>
-						<td>Division Commander</td>
-					</tr>
-					<tr>
-						<td><strong>RedGuard</strong></td>
-						<td>Division Executive Officer</td>
-					</tr>
-				</table>
+				{$leaders}
 			</div>
 		</div>
 
 	</div>
-	
+
 </div>
 
 

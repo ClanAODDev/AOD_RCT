@@ -33,11 +33,11 @@ if (isLoggedIn()) {
     foreach ($alerts as $alert) {
         $alerts_list .= "
         <div data-id='{$alert['id']}' data-user='{$member_info['userid']}' class='alert-dismissable alert alert-{$alert['type']} fade in' role='alert'>
-        <button type='button' class='close' data-dismiss='alert'><span aria-hidden='true'>&times;</span><span class='sr-only'>Close</span></button>
-        {$alert['content']} </div>
-        ";
-    }
-    
+            <button type='button' class='close' data-dismiss='alert'><span aria-hidden='true'>&times;</span><span class='sr-only'>Close</span></button>
+            {$alert['content']} </div>
+            ";
+        }
+
     /**
      * generate game list for navigation
      */
@@ -890,32 +890,32 @@ function get_platoon_members($pid)
     return $query;
 }
 
-function get_squads($pid)
-{
+function get_division_ldrs($gid) {
 
     global $pdo;
-    
-    if (dbConnect()) {
+    $values = array();
 
+    if (dbConnect()) 
+    {
         try {
 
-            $query = "SELECT member.forum_name, member.member_id,  bf4_position.desc as bf4_position_desc, bf4_position.id as bf4_position_id, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr FROM `member` 
-            LEFT JOIN `rank` on member.rank_id = rank.id 
-            LEFT JOIN `bf4_position` ON member.bf4_position_id = bf4_position.id 
-            WHERE status_id = 1 AND platoon_id= :pid
-            ORDER BY member.rank_id DESC";
-            
-            $query = $pdo->prepare($query);
-            $query->bindParam(':pid', $pid);
-            $query->execute();
-            $query = $query->fetchAll();
-            
-        }
-        catch (PDOException $e) {
+            $sql = "SELECT member.id, member.forum_name, rank.abbr FROM member LEFT JOIN rank on member.rank_id = rank.id WHERE bf4_position_id = 1 AND member.game_id = {$gid}; 
+            SELECT member.id, member.forum_name, rank.abbr FROM member LEFT JOIN rank on member.rank_id = rank.id WHERE bf4_position_id = 2 AND member.game_id = {$gid};";
+
+            $statement = $pdo->query($sql);
+            while($statement->columnCount())
+            {
+
+                $rowset[] = $statement->fetch();
+                $statement->nextRowset();
+            }
+
+        } catch (PDOException $e) {
             return "ERROR:" . $e->getMessage();
         }
+
     }
-    return $query;
+    return $rowset;
 }
 
 function get_platoons($gid)
