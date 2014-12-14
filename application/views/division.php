@@ -23,9 +23,14 @@ $platoons = get_platoons($game_id);
 foreach ($platoons as $row) {
 	$number_with_suffix = ordSuffix($row['number']);
 	$number = $row['number'];
-	$name = $row['name'];
+	$platoon_name = $row['platoon_name'];
+	$platoon_ldr = $row['abbr'] . " " . $row['forum_name'];
 
-	$platoon_items .= "<a href='/divisions/bf4/{$number}' class='list-group-item'><strong>{$name}</strong><span class='pull-right text-muted'>{$number_with_suffix} Platoon</span></a>";
+	$platoon_items .= "
+	<a href='/divisions/bf4/{$number}' class='list-group-item'>
+		<h4 class='list-group-item-heading'><strong>{$platoon_name}</strong></h4>
+		<p class='list-group-item-text'>{$platoon_ldr}</p>
+	</a>";
 }
 
 if (!empty($platoon_items)) {
@@ -72,8 +77,8 @@ $out .= "
 	
 
 	<div class='row margin-top-20'>
-		<div class='col-md-4'>
-			<div class='panel panel-primary'>
+		<div class='col-md-7'>
+			<div class='panel panel-default'>
 				<div class='panel-heading'>Active Platoons</div>
 				<div class='panel-body'>
 					<div class='list-group'>
@@ -82,11 +87,11 @@ $out .= "
 				</div>
 			</div>
 		</div>
-</div>
-";
+	</div>
+	";
 
 
-echo $out;
+	echo $out;
 
 
-?>
+	?>

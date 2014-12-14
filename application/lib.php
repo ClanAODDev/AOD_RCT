@@ -886,7 +886,11 @@ function get_platoons($gid)
 
         try {
 
-            $query = "SELECT * FROM platoon WHERE game_id = :gid ORDER BY number";
+            $query = "SELECT number, name as platoon_name, leader_id, member.forum_name, rank.abbr FROM platoon 
+            LEFT JOIN member on platoon.leader_id = member.member_id
+            LEFT JOIN rank on member.rank_id = rank.id
+            WHERE platoon.game_id = :gid 
+            ORDER BY number";
             $query = $pdo->prepare($query);
             $query->bindParam(':gid', $gid);
             $query->execute();
