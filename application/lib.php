@@ -214,7 +214,7 @@ function getGames()
 
         }
         catch (PDOException $e) {
-            echo "ERROR:" . $e->getMessage();
+            return "ERROR:" . $e->getMessage();
         }
     }
     return $query;
@@ -246,7 +246,7 @@ function get_user_info($name)
             
         }
         catch (PDOException $e) {
-            echo "ERROR:" . $e->getMessage();
+            return "ERROR:" . $e->getMessage();
         }
         
     }
@@ -410,7 +410,7 @@ function get_games()
             
         }
         catch (PDOException $e) {
-            echo "ERROR:" . $e->getMessage();
+            return "ERROR:" . $e->getMessage();
         }
     }
     return $query;
@@ -434,7 +434,7 @@ function get_game_info($gname)
             
         }
         catch (PDOException $e) {
-            echo "ERROR:" . $e->getMessage();
+            return "ERROR:" . $e->getMessage();
         }
         
     }
@@ -457,7 +457,7 @@ $stmt->execute();
 
 
 } catch (PDOException $e) {
-echo "ERROR:" . $e->getMessage();
+return "ERROR:" . $e->getMessage();
 
 }
 return $stmt;
@@ -483,7 +483,7 @@ function get_game_threads($gid)
             
         }
         catch (PDOException $e) {
-            echo "ERROR:" . $e->getMessage();
+            return "ERROR:" . $e->getMessage();
         }
     }
     
@@ -781,7 +781,7 @@ $query = $query->fetchAll();
 }
 
 catch (PDOException $e) {
-    echo "ERROR:" . $e->getMessage();
+    return "ERROR:" . $e->getMessage();
 }
 }
 return $query;
@@ -814,11 +814,49 @@ function get_members()
             
         }
         catch (PDOException $e) {
-            echo "ERROR:" . $e->getMessage();
+            return "ERROR:" . $e->getMessage();
         }
     }
     return $query;
 }
+
+/**
+ * fetches squad members if they are a squad leader
+ * @param  int $mid member id
+ * @return array | string      returns array if squad members
+ */
+function get_my_squad($mid)
+{
+
+    global $pdo, $member_info;
+
+    if ($member_info['bf4_position_id'] == 5) {
+
+        if (dbConnect()) {
+
+            try {
+
+                $query = "SELECT member.id, member.forum_name, member.member_id, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr as rank FROM `member` 
+                LEFT JOIN `rank` on member.rank_id = rank.id 
+                WHERE  member.id = :mid AND status_id = 1
+                ORDER BY member.rank_id DESC";
+
+                $query = $pdo->prepare($query);
+                $query->bindParam(':mid', $mid);
+                $query->execute();
+                $query = $query->fetchAll();
+
+            }
+            catch (PDOException $e) {
+                return "ERROR:" . $e->getMessage();
+            }
+        }
+        return $query;
+    } else {
+        return "You are not a squad leader!";
+    }
+}
+
 
 
 function get_platoon_members($pid)
@@ -843,7 +881,7 @@ function get_platoon_members($pid)
             
         }
         catch (PDOException $e) {
-            echo "ERROR:" . $e->getMessage();
+            return "ERROR:" . $e->getMessage();
         }
     }
     return $query;
@@ -871,7 +909,7 @@ function get_squads($pid)
             
         }
         catch (PDOException $e) {
-            echo "ERROR:" . $e->getMessage();
+            return "ERROR:" . $e->getMessage();
         }
     }
     return $query;
@@ -898,7 +936,7 @@ function get_platoons($gid)
             
         }
         catch (PDOException $e) {
-            echo "ERROR:" . $e->getMessage();
+            return "ERROR:" . $e->getMessage();
         }
     }
     return $query;
@@ -922,7 +960,7 @@ function get_platoon_info($platoon_id)
             
         }
         catch (PDOException $e) {
-            echo "ERROR:" . $e->getMessage();
+            return "ERROR:" . $e->getMessage();
         }
     }
     return $query;
@@ -973,7 +1011,7 @@ function count_total_games($member_id, $date)
             $query = $query->fetchAll();
         }
         catch (PDOException $e) {
-            echo "ERROR:" . $e->getMessage();
+            return "ERROR:" . $e->getMessage();
         }
     }
     return $query[0]['games'];
@@ -1000,7 +1038,7 @@ function count_aod_games($member_id, $date)
             $query = $query->fetchAll();
         }
         catch (PDOException $e) {
-            echo "ERROR:" . $e->getMessage();
+            return "ERROR:" . $e->getMessage();
         }
     }
     return $query[0]['games'];
