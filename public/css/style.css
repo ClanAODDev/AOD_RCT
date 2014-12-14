@@ -172,6 +172,9 @@ ul.nav {
   opacity: .8;
 }
 
+.jumbotron h1 strong {
+  text-shadow: 0 4px 0 rgba(0,0,0,.1);
+}
 
 #wrap {
   min-height: 100%;
@@ -422,3 +425,49 @@ div.DTTT_container {
 */
 
 .no-sort { pointer-events: none!important; cursor: default!important; }
+
+
+
+
+
+/**
+ * 404 page stuff
+ */
+
+.page-404, .page-500 {
+  text-align: center;
+}
+
+
+.page-404 .error-code, .page-500 .error-code {
+  color: #ccc;
+  font-size: 120px;
+  font-weight: 700;
+  line-height: 140px;
+  margin-top: 60px;
+  text-shadow: 0 4px 0 rgba(0, 0, 0, .1);
+}
+.page-404 .error-text, .page-500 .error-text {
+  color: #fff;
+  color: rgba(0, 0, 0, .5);
+  font-size: 20px;
+  font-weight: 600;
+  padding: 0 20px;
+}
+.page-404 .error-text .oops, .page-500 .error-text .oops {
+  font-size: 50px;
+}
+.page-404 .error-text .hr, .page-500 .error-text .hr {
+  background: #fff;
+  background: rgba(0, 0, 0, .2);
+  display: inline-block;
+  height: 5px;
+  margin: 20px 0;
+  width: 40px;
+}
+.page-404 .error-text .solve, .page-500 .error-text .solve {
+  display: inline-block;
+  font-size: 16px;
+  font-weight: 400;
+  margin-top: 15px;
+}
