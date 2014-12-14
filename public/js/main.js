@@ -39,7 +39,7 @@ $(function() {
                     $('#login-panel').fadeOut();
                     $('.msg').removeClass('alert-danger').addClass('alert alert-success').html("<i class=\"fa fa-check-square-o\"></i> <small>" + data['message'] + "</small>").delay(1000).fadeIn();
                     $('.status-text').delay(1500).html("<small>You will now be redirected to the admin panel...</small>").fadeIn();
-                    
+
 
                     setTimeout(function() {
                         window.location.href = "/";
@@ -113,6 +113,13 @@ $(function() {
         placement: 'ne'
     });
 
+    var platoonNum = parseInt($('.platoon-number').text());
+
+    var formattedDate = new Date();
+    var d = formattedDate.getDate();
+    var m = (formattedDate.getMonth() + 1);
+    var y = formattedDate.getFullYear();
+    var nowDate = y + "-" + m + "-" + d;
 
     var table = $('#members-table').DataTable({
         "sDom": 'T<"clear">fri',
@@ -154,11 +161,11 @@ $(function() {
                 "aButtons": ["select_all", "select_none", {
                     "sExtends": "pdf",
                     "sPdfOrientation": "landscape",
-                    "sFileName": "AOD Platoon Data - " + Date.now() + ".pdf",
+                    "sFileName": "AOD Plt " + platoonNum + "_" + nowDate + ".pdf",
                     "mColumns": "visible"
                 }, {
                     "sExtends": "csv",
-                    "sFileName": "AOD Platoon Data - " + Date.now() + ".csv",
+                    "sFileName": "AOD Plt " + platoonNum + "_" + nowDate + ".csv",
                     "mColumns": "visible"
                 }],
                 "bSelectedOnly": true

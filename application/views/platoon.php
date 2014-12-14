@@ -42,9 +42,9 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 			<tr>
 				<th><b>Member</b></th>
 				<th class='nosearch text-center' width='90px'><b>Rank</b></th>
-				<th class='nosearch text-center'><b>AOD Games</b></th>
-				<th class='nosearch text-center'><b>Total Games</b></th>
-				<th class='nosearch text-center'><b>Percent AOD</b></th>
+				<th class='nosearch text-center follow-tool' title='Games on AOD Servers'><b>AOD</b></th>
+				<th class='nosearch text-center'><b>Total</b></th>
+				<th class='nosearch text-center follow-tool' title='Percent Played on AOD Servers'><b>%</b></th>
 				<th class='col-hidden'><b>Rank Id</b></th>
 			</tr>
 		</thead>
@@ -101,8 +101,8 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 	<div class='container fade-in'>
 		<div class='row'>{$breadcrumb}</div>
 		<div class='row'>
-			<div class='col-md-12'>
-				<h3>{$platoon_name} <small>". ordSuffix($platoon). " Platoon</small></h3>
+			<div class='col-md-12 platoon-name'>
+				<h3>{$platoon_name} <small class='platoon-number'>". ordSuffix($platoon). " Platoon</small></h3>
 			</div>
 			<div class='col-xs-12 hr'><hr /></div>
 		</div>";
