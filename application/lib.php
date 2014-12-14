@@ -235,9 +235,10 @@ function get_user_info($name)
 
         try {
 
-            $sth = $pdo->prepare("SELECT users.id as userid, member_id, username, forum_name, rank_id, role, email, idle, last_logged FROM users 
-                LEFT join member on users.username = member.forum_name
-                LEFT JOIN rank on member.rank_id = rank.id
+            $sth = $pdo->prepare("SELECT users.id as userid, member_id, username, forum_name, rank_id, role, email, idle, last_logged, bf4_position_id FROM users 
+                LEFT join member ON users.username = member.forum_name
+                LEFT JOIN bf4_position ON member.bf4_position_id = bf4_position.id
+                LEFT JOIN rank ON member.rank_id = rank.id
                 WHERE users.username = :username");
             
             $sth->bindParam(':username', $name);
@@ -823,7 +824,7 @@ function get_members()
 /**
  * fetches squad members if they are a squad leader
  * @param  int $mid member id
- * @return array | string      returns array if squad members
+ * @return array    returns array if squad members
  */
 function get_my_squad($mid)
 {
@@ -838,7 +839,7 @@ function get_my_squad($mid)
 
                 $query = "SELECT member.id, member.forum_name, member.member_id, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr as rank FROM `member` 
                 LEFT JOIN `rank` on member.rank_id = rank.id 
-                WHERE  member.id = :mid AND status_id = 1
+                WHERE  member.squad_leader_id = :mid AND status_id = 1
                 ORDER BY member.rank_id DESC";
 
                 $query = $pdo->prepare($query);
@@ -853,7 +854,7 @@ function get_my_squad($mid)
         }
         return $query;
     } else {
-        return "You are not a squad leader!";
+        return false;
     }
 }
 

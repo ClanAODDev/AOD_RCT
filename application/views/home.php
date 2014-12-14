@@ -1,6 +1,33 @@
 <?php
 
 $out = NULL;
+$my_squad = NULL;
+
+
+/**
+ * only available for squad leaders
+ */
+if ($member_info['bf4_position_id'] == 5) {
+	$squad_members = get_my_squad($forumId);
+
+	if (count($squad_members)) {
+		foreach ($squad_members as $squad_member) {
+			$name = $squad_member['forum_name'];
+			$id = $squad_member['id'];
+			$rank = $squad_member['rank'];
+
+			$my_squad .= "
+			<a href='/member/{$id}' class='list-group-item'><strong>{$rank} {$name}</strong></a>
+			";
+		}
+	} else {
+		$my_squad .= "<p>Unfortunately it looks like you don't have any squad members! Do you need to <a href='/manage/squad/'>Add Members</a> to your squad?</p>";
+	}
+
+} 
+
+
+
 
 // begin container
 $out .= "
@@ -52,67 +79,88 @@ $out .= "
 */
 
 
+/**
+ * only available for squad leader
+ */
+if (!is_null($my_squad)) {
+
 	$out .= "
 
 	<div class='row'>
 
-		<div class='col-md-6'>
-			<div class='panel panel-default'>
-				<div class='panel-heading'><i class=\"fa fa-bolt fa-lg text-muted\"></i> <strong>Your Toolbox</strong><span class='text-muted pull-right'><small>Squad Leader View</small></span></div>
-				<div class='panel-body'>
-					<div class='list-group'>
 
-						<a href='#' class='list-group-item'>
-							<h4 class='list-group-item-heading'><strong>Add new recruit</strong></h4>
-							<p class='list-group-item-text'>Start the recruiting process with a brand new candidate</p>
-						</a>
-
-						<a href='#' class='list-group-item'>
-							<h4 class='list-group-item-heading'><strong>Manage your squad</strong></h4>
-							<p class='list-group-item-text'>Promote, demote, or kick members of your squad</p>
-						</a>
-
-						<a href='#' class='list-group-item'>
-							<h4 class='list-group-item-heading'><strong>Add an existing member</strong></h4>
-							<p class='list-group-item-text'>Add an existing member of AOD to your squad or platoon</p>
-						</a>
-
-						<a href='#' class='list-group-item disabled'>
-							<h4 class='list-group-item-heading'><strong>Review inactive members</strong></h4>
-							<p class='list-group-item-text'>View inactive members and flag for removal (available monthly)</p>
-						</a>
-
-					</div>
-				</div>
-			</div>
-		</div>
+		<!-- if a squad leader -->
 
 		<div class='col-md-6'>
 			<div class='panel panel-default'>
 				<div class='panel-heading'><i class='fa fa-users fa-lg text-muted'></i><strong> Your Squad</strong><span class='text-muted pull-right'><small>Battlefield 4</small></span></div>
 				<div class='panel-body'>
 					<div class='list-group'>
-						<a href='#' class='list-group-item list-group-item-danger follow-tool' title='Inactive for more than 60 days'> <strong>Rct Snuffy</strong><i class='fa fa-exclamation-circle pull-right'></i></a>
-						<a href='#' class='list-group-item list-group-item-danger follow-tool' title='Inactive for more than 60 days'> <strong>Rct Snuffy</strong><i class='fa fa-exclamation-circle pull-right'></i></a>
-						<a href='#' class='list-group-item list-group-item-warning follow-tool' title='Needs reviewing for promotion'> <strong>Rct Snuffy</strong><i class='fa fa-exclamation-circle pull-right'></i></a>
-						<a href='#' class='list-group-item'> <strong>Cdt Snuffy</strong></a>
-						<a href='#' class='list-group-item'> <strong>Cdt Snuffy</strong></a>
-						<a href='#' class='list-group-item'> <strong>Pvt Snuffy</strong></a>
-
+						{$my_squad}
 					</div>
 				</div>
 			</div>
 		</div>
 
-	
+		<!-- end squad -->
+
+
+
+
+
+		";
+
+	}
+
+
+
+
+	$out .= "
+
+
+
+	<div class='col-md-6'>
+		<div class='panel panel-default'>
+			<div class='panel-heading'><i class=\"fa fa-bolt fa-lg text-muted\"></i> <strong>Your Toolbox</strong><span class='text-muted pull-right'><small>Squad Leader View</small></span></div>
+			<div class='panel-body'>
+				<div class='list-group'>
+
+					<a href='#' class='list-group-item'>
+						<h4 class='list-group-item-heading'><strong>Add new recruit</strong></h4>
+						<p class='list-group-item-text'>Start the recruiting process with a brand new candidate</p>
+					</a>
+
+					<a href='#' class='list-group-item'>
+						<h4 class='list-group-item-heading'><strong>Manage your squad</strong></h4>
+						<p class='list-group-item-text'>Promote, demote, or kick members of your squad</p>
+					</a>
+
+					<a href='#' class='list-group-item'>
+						<h4 class='list-group-item-heading'><strong>Add an existing member</strong></h4>
+						<p class='list-group-item-text'>Add an existing member of AOD to your squad or platoon</p>
+					</a>
+
+					<a href='#' class='list-group-item disabled'>
+						<h4 class='list-group-item-heading'><strong>Review inactive members</strong></h4>
+						<p class='list-group-item-text'>View inactive members and flag for removal (available monthly)</p>
+					</a>
+
+				</div>
+			</div>
+		</div>
 	</div>
 
+</div>
 
-	";
+";
 
 
 
-	$out .=" 
+
+
+
+
+$out .=" 
 </div>
 ";
 
