@@ -32,7 +32,7 @@ if (isLoggedIn()) {
     
     foreach ($alerts as $alert) {
         $alerts_list .= "
-        <div data-id='{$alert['id']}' data-user='{$member_info['userid']}' class='alert alert-{$alert['type']} fade in' role='alert'><i class=\"fa fa-exclamation\"></i> {$alert['content']} <a class='close' data-dismiss='alert' href='#'>&times;</a></div>
+        <div data-id='{$alert['id']}' data-user='{$member_info['userid']}' class='alert-dismissable alert alert-{$alert['type']} fade in' role='alert'><a class='close' data-dismiss='alert' href='#'>&times;</a><i class=\"fa fa-exclamation\"></i> {$alert['content']} </div>
         ";
     }
     
