@@ -78,40 +78,43 @@ $out .= "
 	
 
 	<div class='row margin-top-20'>
-	
+
 		<div class='col-md-8'>
+			<div class='panel panel-primary'>
+				<div class='panel-heading'>Active Platoons</div>
+				<div class='list-group'>
+					{$platoon_list}
+				</div>
+			</div>
+		</div>
+
+		<div class='col-md-4'>
 			<div class='panel panel-primary'>
 				<div class='panel-heading'>Division Command Staff</div>
 
 				<table class='table table-hover table-striped'>
 					<tr>
-						<td><strong>Cupohemlock</strong></td>
+						<td><strong>CupOHemlock</strong></td>
 						<td>Division Commander</td>
 					</tr>
 					<tr>
-						<td><strong>Redguard</strong></td>
+						<td><strong>RedGuard</strong></td>
 						<td>Division Executive Officer</td>
 					</tr>
 				</table>
 			</div>
-
 		</div>
-		<div class='col-md-4'>
-
-			<div class='list-group'>
-				{$platoon_list}
-			</div>
-		</div>
-
 
 	</div>
+	
+</div>
 
 
 
-	";
+";
 
 
-	echo $out;
+echo $out;
 
 
-	?>
+?>
