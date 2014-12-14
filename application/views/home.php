@@ -135,7 +135,7 @@ if (!is_null($my_squad)) {
 		<!-- if a squad leader -->
 
 		<div class='panel panel-primary'>
-			<div class='panel-heading'><strong> Your Squad</strong><span class='pull-right'><small>Battlefield 4</small></span></div>
+			<div class='panel-heading'><strong> Your Squad</strong><span class='pull-right'>Battlefield 4</span></div>
 
 			<div class='list-group'>
 				{$my_squad}

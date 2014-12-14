@@ -23,16 +23,14 @@ if ($leaders[0] && $leaders[1]) {
 	$xo_id = $leaders[1]['id'];
 
 	$leaders = "
-	<table class='table table-hover table-striped'>
-		<tr>
-			<td><strong>{$co}</strong></td>
-			<td>Division Commander</td>
-		</tr>
-		<tr>
-			<td><strong>{$xo}</strong></td>
-			<td>Division Executive Officer</td>
-		</tr>
-	</table>
+	<a href='/member/{$co_id}' class='list-group-item'>
+		<h4 class='list-group-item-heading'><strong>{$co}</strong></h4>
+		<p class='list-group-item-text text-muted'>Division Commander</p>
+	</a>
+	<a href='/member/{$xo_id}' class='list-group-item'>
+		<h4 class='list-group-item-heading'><strong>{$xo}</strong></h4>
+		<p class='list-group-item-text text-muted'>Division Executive Officer</p>
+	</a>
 	";
 } else {
 	$leaders = "<li class='list-group-item'>No leadership currently exists for this division.</li>";
@@ -112,7 +110,7 @@ $out .= "
 		</div>
 
 		<div class='col-md-4'>
-			<div class='panel panel-primary'>
+			<div class='panel panel-info'>
 				<div class='panel-heading'>Division Command Staff</div>
 				{$leaders}
 			</div>
