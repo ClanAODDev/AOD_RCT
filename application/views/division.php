@@ -28,8 +28,9 @@ foreach ($platoons as $row) {
 
 	$platoon_items .= "
 	<a href='/divisions/bf4/{$number}' class='list-group-item'>
+	<h5 class='pull-right text-muted'>{$number_with_suffix} Plt</h5>
 		<h4 class='list-group-item-heading'><strong>{$platoon_name}</strong></h4>
-		<p class='list-group-item-text'>{$platoon_ldr}</p>
+		<p class='list-group-item-text text-muted'>{$platoon_ldr}</p>
 	</a>";
 }
 
@@ -77,7 +78,7 @@ $out .= "
 	
 
 	<div class='row margin-top-20'>
-		<div class='col-md-7'>
+		<div class='col-md-6'>
 			<div class='panel panel-default'>
 				<div class='panel-heading'>Active Platoons</div>
 				<div class='panel-body'>
