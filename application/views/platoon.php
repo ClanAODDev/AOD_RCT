@@ -62,16 +62,22 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 				$total_games = count_total_games($row['member_id'], $first_day_of_last_month);
 				$aod_games = count_aod_games($row['member_id'], $first_day_of_last_month);
 				$percent_aod = ($aod_games > 0 ) ? (($aod_games)/($total_games))*100 : NULL;
+				$percent_aod = number_format((float)$percent_aod, 2, '.', '');
 				$overall_aod_games[] = $aod_games;
 				$overall_aod_percent[] = $percent_aod;
 
+				
+
+
+				// <td class='text-center'><span class='label label-" . getPercentageColor($percent_aod) . " user-color'>".number_format((float)$percent_aod, 2, '.', '')."%</span></td>
 				$members_table .= "
 				<tr data-id='{$row['id']}'>
 					<td>" . memberColor($row['forum_name'], $row['bf4_position_id']) . "</td>
 					<td class='text-center'>" . $row['rank'] . "</td>
 					<td class='text-center'>" . $aod_games . "</td>
 					<td class='text-center'>" . $total_games . "</td>
-					<td class='text-center'><span class='label label-" . getPercentageColor($percent_aod) . " user-color'>".number_format((float)$percent_aod, 2, '.', '')."%</span></td>
+					<td class='text-center'><div class='progress text-center follow-tool' title='{$percent_aod}%' style='width: 100px; margin: 0 auto;'><div class='progress-bar progress-bar-" . getPercentageColor($percent_aod) . " progress-bar-striped' role='progressbar' aria-valuenow='72' aria-valuemin='0' aria-valuemax='50' style='width: ". $percent_aod . "%'><span style='display: none;'>{$percent_aod}%</span></div></div></td>
+		
 					<td class='text-center'>" . $row['rank_id'] . "</td>
 				</tr>
 				";
