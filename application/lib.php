@@ -34,7 +34,7 @@ if (isLoggedIn()) {
         $alerts_list .= "
         <div data-id='{$alert['id']}' data-user='{$member_info['userid']}' class='alert-dismissable alert alert-{$alert['type']} fade in' role='alert'>
         <button type='button' class='close' data-dismiss='alert'><span aria-hidden='true'>&times;</span><span class='sr-only'>Close</span></button>
-        <i class=\"fa fa-exclamation\"></i> {$alert['content']} </div>
+        {$alert['content']} </div>
         ";
     }
     
