@@ -32,13 +32,6 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 	</ul>
 	";
 
-
-	// is current user a squad leader?
-
-
-
-
-
 	$members = get_platoon_members($platoon_id);
 	$member_count = count($members);
 
@@ -66,10 +59,6 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 				$overall_aod_games[] = $aod_games;
 				$overall_aod_percent[] = $percent_aod;
 
-				
-
-
-				// <td class='text-center'><span class='label label-" . getPercentageColor($percent_aod) . " user-color'>".number_format((float)$percent_aod, 2, '.', '')."%</span></td>
 				$members_table .= "
 				<tr data-id='{$row['id']}'>
 					<td>" . memberColor($row['forum_name'], $row['bf4_position_id']) . "</td>
@@ -77,7 +66,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 					<td class='text-center'>" . $aod_games . "</td>
 					<td class='text-center'>" . $total_games . "</td>
 					<td class='text-center'><div class='progress text-center follow-tool' title='{$percent_aod}%' style='width: 100px; margin: 0 auto;'><div class='progress-bar progress-bar-" . getPercentageColor($percent_aod) . " progress-bar-striped' role='progressbar' aria-valuenow='72' aria-valuemin='0' aria-valuemax='50' style='width: ". $percent_aod . "%'><span style='display: none;'>{$percent_aod}%</span></div></div></td>
-		
+
 					<td class='text-center'>" . $row['rank_id'] . "</td>
 				</tr>
 				";
@@ -88,8 +77,26 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 	</table>";
 
 
-	// calculate percentages
-	$overall_aod_percent = array_diff($overall_aod_percent, array(NULL));
+	// calculate inactives, percentage
+	$min = INACTIVE_MIN;
+	$max = INACTIVE_MAX;
+
+	$inactive = array_filter(
+		$overall_aod_percent,
+		function ($value) use($min,$max) {
+			return ($value >= $min && $value <= $max);
+		})
+	;
+
+	$inactive_count = count($inactive);
+	$inactive_percent = round((float)($inactive_count / $member_count) * 100 ) . '%';
+
+	
+
+
+
+	// calculate overall percentages
+	$overall_aod_percent = array_diff($overall_aod_percent, array('0.00'));
 	$overall_aod_percent = array_sum($overall_aod_percent) / count($overall_aod_percent);
 	$overall_aod_games = array_sum($overall_aod_games);
 
@@ -127,12 +134,23 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 
 			$out .= "
 
-			<div class='col-md-4'>
+			<div class='col-md-2'>
 				<div class='panel panel-default'>
 					<div class='panel-heading'>Total Members</div>
 					<div class='panel-body count-detail-big striped-bg'><span class='count-animated'>{$member_count}</span></div>
 				</div>
+			</div>
 
+			<div class='col-md-2'>
+				<div class='panel panel-default'>
+					<div class='panel-heading'>Percent Inactive</div>
+					<div class='panel-body count-detail-big striped-bg follow-tool' title='{$inactive_count} out of {$member_count} with < {$max} AOD games'>
+						<span class='count-animated percentage'>{$inactive_percent}</span>
+					</div>
+				</div>
+			</div>
+
+			<div class='col-md-4'>
 				<div class='panel panel-default'>
 					<div class='panel-heading'>Total AOD Games</div>
 					<div class='panel-body count-detail-big striped-bg'><span class='count-animated'>{$overall_aod_games}</span></div>
