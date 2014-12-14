@@ -44,7 +44,7 @@ $out .= "
 	$out .="
 	<div class='row visible-lg-block visible-md-block'>
 		<div class='col-md-12'>
-			<div class='jumbotron striped-bg'>
+			<div class='jumbotron'>
 				<h1>Howdy <strong>{$curUser}</strong>!</h1>
 				<p>This is the squad administration tool for the AOD organization. Leaders will be able to manage individual squad members, view activity trends of their respective divisions, and clan leaders will be able to see activity clan-wide and across divisions.</p>
 			</div>
