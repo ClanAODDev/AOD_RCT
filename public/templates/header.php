@@ -1,7 +1,7 @@
 <html>
 <head>
 	<title>AOD | Squad Management</title>
-	<meta name="viewport" content="width=device-width, initial-scale=.0, maximum-scale=1.0, user-scalable=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
 	<script src="/public/js/jquery-2.1.1.min.js"></script>
 	<script src="/public/js/jquery-ui.min.js"></script>
