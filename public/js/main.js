@@ -142,17 +142,17 @@ $( "#yourTable" ).selectable(
 
     var table = $('#members-table').DataTable({
         "sDom": 'T<"clear">fri',
-        "autoWidth": false,
+        "autoWidth": true,
         "order": [],
         "columnDefs": [{
             "targets": 'no-search',
             "searchable": false
         }, {
-            "targets": [5],
+            "targets": [3],
             "visible": false,
             "searchable": false
         }, {
-            "iDataSort": 5,
+            "iDataSort": 3,
             "aTargets": [1]
         }],
         stateSave: true,
