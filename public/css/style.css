@@ -176,6 +176,9 @@ ul.nav {
   text-shadow: 0 4px 0 rgba(0,0,0,.1);
 }
 
+#members-table .ui-selecting { background: #FECA40; }
+#members-table .ui-selected { background: #FECA40; }
+
 #wrap {
   min-height: 100%;
   height: auto !important;

@@ -41,7 +41,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 		<thead>
 			<tr>
 				<th><b>Member</b></th>
-				<th class='nosearch text-center' width='90px'><b>Rank</b></th>
+				<th class='nosearch text-center hidden-xs' width='90px'><b>Rank</b></th>
 				<th class='nosearch text-center follow-tool' title='Games on AOD Servers'><b>AOD</b></th>
 				<th class='nosearch text-center'><b>Total</b></th>
 				<th class='nosearch text-center follow-tool' title='Percent Played on AOD Servers'><b>%</b></th>
@@ -62,7 +62,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 				$members_table .= "
 				<tr data-id='{$row['id']}'>
 					<td>" . memberColor($row['forum_name'], $row['bf4_position_id']) . "</td>
-					<td class='text-center'>" . $row['rank'] . "</td>
+					<td class='text-center  hidden-xs'>" . $row['rank'] . "</td>
 					<td class='text-center'>" . $aod_games . "</td>
 					<td class='text-center'>" . $total_games . "</td>
 					<td class='text-center'><div class='progress text-center follow-tool' title='{$percent_aod}%' style='width: 100px; margin: 0 auto;'><div class='progress-bar progress-bar-" . getPercentageColor($percent_aod) . " progress-bar-striped' role='progressbar' aria-valuenow='72' aria-valuemin='0' aria-valuemax='50' style='width: ". $percent_aod . "%'><span style='display: none;'>{$percent_aod}%</span></div></div></td>

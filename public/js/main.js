@@ -121,6 +121,25 @@ $(function() {
     var y = formattedDate.getFullYear();
     var nowDate = y + "-" + m + "-" + d;
 
+
+
+    /*
+$( "#yourTable" ).selectable(
+  {
+     distance: 10,
+     stop: function()
+     {
+       $( this ).find( "tr" ).each(
+         function () {
+           if ( $( this ).hasClass( 'ui-selected' ) )
+             $( this ).addClass( 'row-selected' );
+           else
+             $( this ).removeClass( 'row-selected' );
+         });
+     }
+ });*/
+
+
     var table = $('#members-table').DataTable({
         "sDom": 'T<"clear">fri',
         "autoWidth": false,
@@ -138,7 +157,6 @@ $(function() {
         }],
         stateSave: true,
         paging: false,
-        responsive: true,
         "bServerSide": false,
         "drawCallback": function(settings) {
             $("#member-footer").empty();
@@ -147,7 +165,6 @@ $(function() {
 
         "oTableTools": {
             "sRowSelect": "multi",
-
             "sSwfPath": "/public/swf/copy_csv_xls_pdf.swf",
             "aButtons": [{
 
