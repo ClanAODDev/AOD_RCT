@@ -839,10 +839,10 @@ function get_my_squad($mid)
 
             try {
 
-                $query = "SELECT member.id, member.forum_name, member.member_id, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr as rank FROM `member` 
+                $query = "SELECT member.id, member.forum_name, member.member_id, member.last_activity, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr as rank FROM `member` 
                 LEFT JOIN `rank` on member.rank_id = rank.id 
                 WHERE  member.squad_leader_id = :mid AND status_id = 1
-                ORDER BY member.rank_id DESC";
+                ORDER BY member.last_activity ASC";
 
                 $query = $pdo->prepare($query);
                 $query->bindParam(':mid', $mid);

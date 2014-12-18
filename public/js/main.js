@@ -198,6 +198,16 @@ $( "#yourTable" ).selectable(
     });
 
 
+    // if true, exists and don't show tour
+    var tour_info = readCookie('tour_cookie');
+    if (tour_info) {
+        $('.tour-intro').hide();
+    }
+
+    $('.hide-tour').click(function(){
+        setCookie('tour_cookie', 'true', 99999);
+        $('.tour-intro').fadeOut();
+    });
 
     $("#members-table_filter input").appendTo("#playerFilter").removeClass('input-sm');
     $("#playerFilter input").attr("placeholder", "Search Players");
@@ -246,26 +256,12 @@ function readCookie(name) {
     return null;
 }
 
-function setCookie(name, value, expires, path, domain, secure) {
-    cookieStr = name + "=" + escape(value) + "; ";
-
-    if (expires) {
-        expires = setExpiration(expires);
-        cookieStr += "expires=" + expires + "; ";
-    }
-    if (path) {
-        cookieStr += "path=" + path + "; ";
-    }
-    if (domain) {
-        cookieStr += "domain=" + domain + "; ";
-    }
-    if (secure) {
-        cookieStr += "secure; ";
-    }
-
-    document.cookie = cookieStr;
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + "; " + expires;
 }
-
 
 function loadThreadCheck() {
 

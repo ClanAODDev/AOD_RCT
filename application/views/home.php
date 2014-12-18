@@ -12,12 +12,13 @@ if ($member_info['bf4_position_id'] == 5) {
 
 	if (count($squad_members)) {
 		foreach ($squad_members as $squad_member) {
-			$name = $squad_member['forum_name'];
+			$name = ucwords($squad_member['forum_name']);
 			$id = $squad_member['id'];
 			$rank = $squad_member['rank'];
+			$last_seen = formatTime(strtotime($squad_member['last_activity']));
 
 			$my_squad .= "
-			<a href='/member/{$id}' class='list-group-item'>{$rank} {$name}</a>
+			<a href='/member/{$id}' class='list-group-item'><strong>{$rank} {$name}</strong><small class='pull-right text-muted'>{$last_seen}</small></a>
 			";
 		}
 	} else {
@@ -40,13 +41,13 @@ $out .= "
 	}
 
 
-	// jumbotron permanent or disable-able?
+	// tour jumbo tron
 	$out .="
-	<div class='row visible-lg-block visible-md-block'>
+	<div class='row tour-intro'>
 		<div class='col-md-12'>
 			<div class='jumbotron'>
 				<h1>Howdy <strong>{$curUser}</strong>!</h1>
-				<p>This is the squad administration tool for the AOD organization. Leaders will be able to manage individual squad members, view activity trends of their respective divisions, and clan leaders will be able to see activity clan-wide and across divisions.</p>
+				<p>This is the squad administration tool for the AOD organization. Leaders will be able to manage individual squad members, view activity trends of their respective divisions, and clan leaders will be able to see activity clan-wide and across divisions.</p><p><a class='btn btn-info btn-lg' role='button'>Give me a tour</a> <a class='btn btn-default btn-lg hide-tour' role='button'>Don't show again</a></p>
 			</div>
 		</div> <!-- end col -->
 	</div> <!-- end end row -->";
@@ -135,7 +136,7 @@ if (!is_null($my_squad)) {
 		<!-- if a squad leader -->
 
 		<div class='panel panel-primary'>
-			<div class='panel-heading'><strong> Your Squad</strong><span class='pull-right'>Battlefield 4</span></div>
+			<div class='panel-heading'><strong> Your Squad</strong><span class='pull-right'>Last seen</span></div>
 
 			<div class='list-group'>
 				{$my_squad}
