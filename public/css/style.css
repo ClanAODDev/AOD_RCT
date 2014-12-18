@@ -243,6 +243,7 @@ h2.pull-right {
   font-size: 68px;
   text-align: center;
   color: #999;
+  text-shadow: 0 4px 0 rgba(0,0,0,.1);
 }
 
 
