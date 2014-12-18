@@ -148,12 +148,15 @@ $( "#yourTable" ).selectable(
             "targets": 'no-search',
             "searchable": false
         }, {
-            "targets": [3],
+            "targets": 'col-hidden',
             "visible": false,
             "searchable": false
         }, {
-            "iDataSort": 3,
+            "iDataSort": 5, // sort rank by rank id
             "aTargets": [1]
+        }, {
+            "iDataSort": 6, // sort rank by rank id
+            "aTargets": [3]
         }],
         stateSave: true,
         paging: false,

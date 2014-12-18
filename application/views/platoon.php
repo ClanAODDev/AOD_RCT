@@ -40,11 +40,13 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 	<table class='table table-striped table-hover' id='members-table'>
 		<thead>
 			<tr>
-				<th  width='120px'><b>Member</b></th>
-				<th class='nosearch text-center hidden-xs' width='90px'><b>Rank</b></th>
-
+				<th><b>Member</b></th>
+				<th class='nosearch text-center hidden-xs'><b>Rank</b></th>
+				<th class='text-center'><b>Join Date</b></th>
+				<th class='text-center'><b>Last Active</b></th>
 				<th class='nosearch text-center follow-tool' title='Percent Played on AOD Servers'><b>%</b></th>
 				<th class='col-hidden'><b>Rank Id</b></th>
+				<th class='col-hidden'><b>Last Login Date</b></th>
 			</tr>
 		</thead>
 		<tbody>";
@@ -57,15 +59,21 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 				$percent_aod = number_format((float)$percent_aod, 2, '.', '');
 				$overall_aod_games[] = $aod_games;
 				$overall_aod_percent[] = $percent_aod;
+				$rank = $row['rank'];
+				$joindate = date("Y-m-d", strtotime($row['join_date']));
+				$lastActive = formatTime(strtotime($row['last_activity']));
 
 				$members_table .= "
-				<tr data-id='{$row['id']}'>
+				<tr data-id='{$row['id']}' class=''>
 					<td>" . memberColor($row['forum_name'], $row['bf4_position_id']) . "</td>
-					<td class='text-center  hidden-xs'>" . $row['rank'] . "</td>
+					<td class='text-center hidden-xs'>{$rank}</td>
+					<td class='text-center'>{$joindate}</td>
+					<td class='text-center'>{$lastActive}</td>
 
 					<td class='text-center'><div class='progress text-center follow-tool' title='<small><center>{$aod_games} of {$total_games}<br />{$percent_aod}%</center></small>' style='width: 100px; margin: 0 auto;'><div class='progress-bar progress-bar-" . getPercentageColor($percent_aod) . " progress-bar-striped' role='progressbar' aria-valuenow='72' aria-valuemin='0' aria-valuemax='50' style='width: ". $percent_aod . "%'><span style='display: none;'>{$percent_aod}%</span></div></div></td>
 
-					<td class='text-center'>" . $row['rank_id'] . "</td>
+					<td class='text-center col-hidden'>" . $row['rank_id'] . "</td>
+					<td class='text-center col-hidden'>" . $row['last_activity'] . "</td>
 				</tr>
 				";
 			}
@@ -105,33 +113,29 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 			<div class='col-xs-12 hr'><hr /></div>
 		</div>";
 
-		// show user data
+
+		// demographics
 		$out .= "
 		<div class='row margin-top-20'>
-
-
-			<div class='col-md-8'>			
-
-				<div class='panel panel-default'>
-					<!-- Default panel contents -->
-					<div class='panel-heading download-area'>Platoon members   <small class='text-muted'>({$first_day_of_last_month} - {$last_day_of_last_month})</small><span></span></div>
-					<div class='panel-body border-bottom'><div id='playerFilter'></div></div>
-					{$members_table}
-					<div class='panel-footer text-muted text-center' id='member-footer'></div>
-				</div>
-			</div>
-			";
-
-			$out .= "
-
-			<div class='col-md-2'>
+			<div class='col-md-4'>
 				<div class='panel panel-default'>
 					<div class='panel-heading'>Total Members</div>
-					<div class='panel-body count-detail-big striped-bg'><span class='count-animated'>{$member_count}</span></div>
+					<div class='panel-body count-detail-big striped-bg'><span class='count-animated'>{$member_count}</span>
+					</div>
 				</div>
 			</div>
 
-			<div class='col-md-2'>
+			
+			<div class='col-md-4'>
+				<div class='panel panel-default'>
+					<div class='panel-heading'>Percentage AOD Games</div>
+					<div class='panel-body count-detail-big follow-tool striped-bg' title='Excludes all zero values'><span class='count-animated percentage'>{$overall_aod_percent}</span>
+					</div>
+				</div>
+			</div>
+
+
+			<div class='col-md-4'>
 				<div class='panel panel-default'>
 					<div class='panel-heading'>Percent Inactive</div>
 					<div class='panel-body count-detail-big striped-bg follow-tool' title='{$inactive_count} out of {$member_count} with < {$max} AOD games'>
@@ -139,45 +143,58 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 					</div>
 				</div>
 			</div>
+		</div>
 
-			<div class='col-md-4'>
-				<div class='panel panel-default'>
-					<div class='panel-heading'>Total AOD Games</div>
-					<div class='panel-body count-detail-big striped-bg'><span class='count-animated'>{$overall_aod_games}</span></div>
-				</div>
 
-				<div class='panel panel-default'>
-					<div class='panel-heading'>Percentage AOD Games</div>
-					<div class='panel-body count-detail-big follow-tool striped-bg' title='Excludes all zero values'><span class='count-animated percentage'>{$overall_aod_percent}</span></div>
-
-				</div>
-			</div>
-
-			";
-
-			$out .= "
-		</div><!-- end container -->
 		";
 
-	} else {
-
+		// members data table
 		$out .= "
-		<div class='container margin-top-50'>
-			<div class='row'>
-				<div class='span5'>
-					<div class='hero-unit center'>
-						<h1>Oops</h1>
-						<p>It looks like the page you were looking for does not yet exist.</p>
-						<a href='/' class='btn btn-large btn-info'><i class='icon-home icon-white'></i> Take Me Home</a>
-					</div>
+		<div class='row margin-top-20'>
+
+
+			<div class='col-md-12'>			
+
+				<div class='panel panel-default'>
+					<!-- Default panel contents -->
+					<div class='panel-heading download-area'>Platoon members   <small class='text-muted'>({$first_day_of_last_month} - {$last_day_of_last_month})</small><span></span></div>
+					<div class='panel-body border-bottom'><div id='playerFilter'></div>
 				</div>
+				{$members_table}
+				<div class='panel-footer text-muted text-center' id='member-footer'></div>
 			</div>
 		</div>
 
 		";
 
-	}
 
-	echo $out;
 
-	?>
+
+
+
+		$out .= "
+	</div><!-- end container -->
+	";
+
+} else {
+
+	$out .= "
+	<div class='container margin-top-50'>
+		<div class='row'>
+			<div class='span5'>
+				<div class='hero-unit center'>
+					<h1>Oops</h1>
+					<p>It looks like the page you were looking for does not yet exist.</p>
+					<a href='/' class='btn btn-large btn-info'><i class='icon-home icon-white'></i> Take Me Home</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	";
+
+}
+
+echo $out;
+
+?>

@@ -237,7 +237,7 @@ function get_user_info($name)
 
         try {
 
-            $sth = $pdo->prepare("SELECT users.id as userid, member_id, username, forum_name, rank_id, role, email, idle, last_logged, bf4_position_id FROM users 
+            $sth = $pdo->prepare("SELECT users.id as userid, member_id, username, forum_name, rank_id, role, email, idle, last_logged, bf4_position_id, last_forum_login, last_forum_post, join_date FROM users 
                 LEFT join member ON users.username = member.forum_name
                 LEFT JOIN bf4_position ON member.bf4_position_id = bf4_position.id
                 LEFT JOIN rank ON member.rank_id = rank.id
@@ -871,7 +871,7 @@ function get_platoon_members($pid)
 
         try {
 
-            $query = "SELECT member.id, member.forum_name, member.member_id,  bf4_position.desc as bf4_position_desc, bf4_position.id as bf4_position_id, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr as rank FROM `member` 
+            $query = "SELECT member.id, member.forum_name, member.member_id,  bf4_position.desc as bf4_position_desc, bf4_position.id as bf4_position_id, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr as rank, join_date, last_forum_login, last_forum_post, last_activity, forum_posts FROM `member` 
             LEFT JOIN `rank` on member.rank_id = rank.id 
             LEFT JOIN `bf4_position` ON member.bf4_position_id = bf4_position.id 
             WHERE status_id = 1 AND platoon_id= :pid
@@ -1048,7 +1048,184 @@ function count_aod_games($member_id, $date)
 }
 
 
+function formatTime($ptime)
+{
+    $etime = time() - $ptime;
 
+    if ($etime < 1)
+    {
+        return '0 seconds';
+    }
+
+    $a = array( 365 * 24 * 60 * 60  =>  'year',
+                 30 * 24 * 60 * 60  =>  'month',
+                      24 * 60 * 60  =>  'day',
+                           60 * 60  =>  'hour',
+                                60  =>  'minute',
+                                 1  =>  'second'
+                );
+    $a_plural = array( 'year'   => 'years',
+                       'month'  => 'months',
+                       'day'    => 'days',
+                       'hour'   => 'hours',
+                       'minute' => 'minutes',
+                       'second' => 'seconds'
+                );
+
+    foreach ($a as $secs => $str)
+    {
+        $d = $etime / $secs;
+        if ($d >= 1)
+        {
+            $r = round($d);
+            return $r . ' ' . ($r > 1 ? $a_plural[$str] : $str) . ' ago';
+        }
+    }
+}
+
+
+function prettyPrint( $json )
+{
+    $result = '';
+    $level = 0;
+    $in_quotes = false;
+    $in_escape = false;
+    $ends_line_level = NULL;
+    $json_length = strlen( $json );
+
+    for( $i = 0; $i < $json_length; $i++ ) {
+        $char = $json[$i];
+        $new_line_level = NULL;
+        $post = "";
+        if( $ends_line_level !== NULL ) {
+            $new_line_level = $ends_line_level;
+            $ends_line_level = NULL;
+        }
+        if ( $in_escape ) {
+            $in_escape = false;
+        } else if( $char === '"' ) {
+            $in_quotes = !$in_quotes;
+        } else if( ! $in_quotes ) {
+            switch( $char ) {
+                case '}': case ']':
+                    $level--;
+                    $ends_line_level = NULL;
+                    $new_line_level = $level;
+                    break;
+
+                case '{': case '[':
+                    $level++;
+                case ',':
+                    $ends_line_level = $level;
+                    break;
+
+                case ':':
+                    $post = " ";
+                    break;
+
+                case " ": case "\t": case "\n": case "\r":
+                    $char = "";
+                    $ends_line_level = $new_line_level;
+                    $new_line_level = NULL;
+                    break;
+            }
+        } else if ( $char === '\\' ) {
+            $in_escape = true;
+        }
+        if( $new_line_level !== NULL ) {
+            $result .= "\n".str_repeat( "\t", $new_line_level );
+        }
+        $result .= $char.$post;
+    }
+
+    return $result;
+}
+
+
+function convertRank($text) {
+    switch ($text) {
+        case "Recruit":
+        $id = 1;
+        break;
+        case "Cadet":
+        $id = 2;
+        break;
+        case "Private":
+        $id = 3;
+        break;
+        case "Private First Class":
+        $id = 4;
+        break;
+        case "Specialist":
+        $id = 5;
+        break;
+        case "Trainer":
+        $id = 6;
+        break;
+        case "Lance Corporal":
+        $id = 7;
+        break;
+        case "Corporal":
+        $id = 8;
+        break;
+        case "Sergeant":
+        $id = 9;
+        break;
+        case "Staff Sergeant":
+        $id = 10;
+        break;
+        case "Master Sergeant":
+        $id = 11;
+        break;
+        case "First Sergeant":
+        $id = 12;
+        break;
+        case "Command Sergeant":
+        $id = 13;
+        break;
+        case "Sergeant Major":
+        $id = 14;
+        break;
+    }
+    return $id;
+}
+
+/**
+ * converts textual status to a usable id
+ * @param  string $status text based status
+ * @return [type]         [description]
+ */
+function convertStatus($status) {
+
+    $status = (stristr($status, "LOA")) ? "LOA": $status;
+
+    switch ($status) {
+
+        case "Active":
+        $id = 1;
+        break;
+        case "On Leave":
+        case "Missing in Action":
+        case "LOA":
+        $id = 3;
+        break;
+        case "Retired":
+        $id = 4;
+        break;
+
+    }
+    return $id;
+}
+
+
+function convertDivision($division) {
+    switch ($division) {
+        case "Battlefield 4":
+         $id = 2;
+         break;
+    }
+    return $id;
+}
 
 
 /**
