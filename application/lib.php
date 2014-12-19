@@ -112,6 +112,7 @@ function define_pages()
         'manage' => "/manage/(?'form'player|squad|platoon|division)/(?'id'\d+)",
         'division' => "/divisions/(?'division'" . $divisions . ")",
         'platoon' => "/divisions/(?'division'" . $divisions . ")/(?'platoon'\d+)",
+        'user' => "/user/(?'page'profile|messages|settings)",
         'register' => "/register",
         'logout' => "/logout",
         'home' => "/"
