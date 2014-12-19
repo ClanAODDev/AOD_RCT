@@ -91,32 +91,37 @@ $out .= "
 
 		$out .= "
 		<div class='col-md-5'>
+			<div class='panel panel-info'>
+				<div class='panel-heading'><strong>Quick Tools</strong></div>
 
-			<div class='list-group'>
 
-				<a href='#' class='list-group-item'>
-					<h4 class='pull-right text-success'><i class='fa fa-plus-square fa-lg'></i></h4>
-					<h4 class='list-group-item-heading'><strong>Add new recruit</strong></h4>
-					<p class='list-group-item-text'>Start the recruiting process with a brand new candidate</p>
-				</a>
+				<div class='list-group'>
 
-				<a href='#' class='list-group-item'>
-					<h4 class='pull-right text-success'><i class='fa fa-wrench fa-lg'></i></h4>
-					<h4 class='list-group-item-heading'><strong>Manage your squad</strong></h4>
-					<p class='list-group-item-text'>Promote, demote, or kick members of your squad</p>
-				</a>
+					<a href='#' class='list-group-item'>
+						<h4 class='pull-right text-success'><i class='fa fa-plus-square fa-lg'></i></h4>
+						<h4 class='list-group-item-heading'><strong>Add new recruit</strong></h4>
+						<p class='list-group-item-text'>Start the recruiting process with a brand new candidate</p>
+					</a>
 
-				<a href='#' class='list-group-item'>
-					<h4 class='pull-right text-success'><i class='fa fa-user fa-lg'></i></h4>
-					<h4 class='list-group-item-heading'><strong>Add an existing member</strong></h4>
-					<p class='list-group-item-text'>Add an existing member of AOD to your squad or platoon</p>
-				</a>
+					<a href='#' class='list-group-item'>
+						<h4 class='pull-right text-success'><i class='fa fa-wrench fa-lg'></i></h4>
+						<h4 class='list-group-item-heading'><strong>Manage your squad</strong></h4>
+						<p class='list-group-item-text'>Promote, demote, or kick members of your squad</p>
+					</a>
 
-				<a href='#' class='list-group-item disabled'>
-					<h4 class='pull-right'><i class='fa fa-flag-checkered text-muted fa-lg'></i></h4>
-					<h4 class='list-group-item-heading'><strong>Review inactive members</strong></h4>
-					<p class='list-group-item-text'>View inactive members and flag for removal</p>
-				</a>
+					<a href='#' class='list-group-item'>
+						<h4 class='pull-right text-success'><i class='fa fa-user fa-lg'></i></h4>
+						<h4 class='list-group-item-heading'><strong>Add an existing member</strong></h4>
+						<p class='list-group-item-text'>Add an existing member of AOD to your squad or platoon</p>
+					</a>
+
+					<a href='#' class='list-group-item disabled'>
+						<h4 class='pull-right'><i class='fa fa-flag-checkered text-muted fa-lg'></i></h4>
+						<h4 class='list-group-item-heading'><strong>Review inactive members</strong></h4>
+						<p class='list-group-item-text'>View inactive members and flag for removal</p>
+					</a>
+
+				</div>
 
 			</div>
 
