@@ -445,30 +445,6 @@ function get_game_info($gname)
     return $query;
 }
 
-/*
-function getDivisionLeadership($gid) { 
-global $pdo;
-
-if (dbConnect()) {
-
-$pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, 0);
-
-try {
-$sql = "SELECT 1; SELECT 2;";
-$stmt = $pdo->prepare($sql);
-$stmt->execute();
-
-
-} catch (PDOException $e) {
-return "ERROR:" . $e->getMessage();
-
-}
-return $stmt;
-}
-
-}*/
-
-
 function get_game_threads($gid)
 {
 
@@ -792,6 +768,34 @@ return $query;
 
 
 
+function get_posts($type)
+{
+
+    global $pdo;
+    
+    if (dbConnect()) {
+
+        try {
+
+            $query = "SELECT posts.id, posts.member_id, posts.title, posts.content, posts.date, posts.user, posts.reply_id, posts.type, users.username, users.role
+            FROM posts LEFT JOIN users ON posts.user = users.id WHERE posts.type = :type
+            ORDER BY posts.date DESC";
+            $query = $pdo->prepare($query);
+            $query->bindParam(':type', $type);
+            $query->execute();
+            $query = $query->fetchAll();
+
+        }
+
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+    return $query;
+}
+
+
+
 /**
  * add scorpion's functions
  */
@@ -1058,19 +1062,19 @@ function formatTime($ptime)
     }
 
     $a = array( 365 * 24 * 60 * 60  =>  'year',
-                 30 * 24 * 60 * 60  =>  'month',
-                      24 * 60 * 60  =>  'day',
-                           60 * 60  =>  'hour',
-                                60  =>  'minute',
-                                 1  =>  'second'
-                );
+       30 * 24 * 60 * 60  =>  'month',
+       24 * 60 * 60  =>  'day',
+       60 * 60  =>  'hour',
+       60  =>  'minute',
+       1  =>  'second'
+       );
     $a_plural = array( 'year'   => 'years',
-                       'month'  => 'months',
-                       'day'    => 'days',
-                       'hour'   => 'hours',
-                       'minute' => 'minutes',
-                       'second' => 'seconds'
-                );
+     'month'  => 'months',
+     'day'    => 'days',
+     'hour'   => 'hours',
+     'minute' => 'minutes',
+     'second' => 'seconds'
+     );
 
     foreach ($a as $secs => $str)
     {
@@ -1108,26 +1112,26 @@ function prettyPrint( $json )
         } else if( ! $in_quotes ) {
             switch( $char ) {
                 case '}': case ']':
-                    $level--;
-                    $ends_line_level = NULL;
-                    $new_line_level = $level;
-                    break;
+                $level--;
+                $ends_line_level = NULL;
+                $new_line_level = $level;
+                break;
 
                 case '{': case '[':
-                    $level++;
+                $level++;
                 case ',':
-                    $ends_line_level = $level;
-                    break;
+                $ends_line_level = $level;
+                break;
 
                 case ':':
-                    $post = " ";
-                    break;
+                $post = " ";
+                break;
 
                 case " ": case "\t": case "\n": case "\r":
-                    $char = "";
-                    $ends_line_level = $new_line_level;
-                    $new_line_level = NULL;
-                    break;
+                $char = "";
+                $ends_line_level = $new_line_level;
+                $new_line_level = NULL;
+                break;
             }
         } else if ( $char === '\\' ) {
             $in_escape = true;
@@ -1221,8 +1225,8 @@ function convertStatus($status) {
 function convertDivision($division) {
     switch ($division) {
         case "Battlefield 4":
-         $id = 2;
-         break;
+        $id = 2;
+        break;
     }
     return $id;
 }
