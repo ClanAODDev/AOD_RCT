@@ -25,10 +25,24 @@ $(function() {
         $(this).tab('show');
     });
 
+
     $('.logout-btn').click(function(e) {
         e.preventDefault();
         window.location.href = "/logout";
     });
+    $('.settings-btn').click(function(e) {
+        e.preventDefault();
+        window.location.href = "/user/settings";
+    });
+    $('.profile-btn').click(function(e) {
+        e.preventDefault();
+        window.location.href = "/user/profile";
+    });
+    $('.messages-btn').click(function(e) {
+        e.preventDefault();
+        window.location.href = "/user/messages";
+    });
+
 
     $('#login').submit(function(e) {
         e.preventDefault();
