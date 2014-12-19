@@ -153,10 +153,10 @@ $( "#yourTable" ).selectable(
      }
  });*/
 
+    var selected = new Array();
 
     var table = $('#members-table').DataTable({
-        "sDom": 'T<"clear">fri',
-        "autoWidth": true,
+        "sDom": 'T<"clear">tfrip',
         "order": [],
         "columnDefs": [{
             "targets": 'no-search',
@@ -173,7 +173,8 @@ $( "#yourTable" ).selectable(
             "aTargets": [3]
         }],
         stateSave: true,
-        paging: false,
+        paging: true,
+
         "bServerSide": false,
         "drawCallback": function(settings) {
             $("#member-footer").empty();
@@ -218,11 +219,13 @@ $( "#yourTable" ).selectable(
         $('.tour-intro').hide();
     }
 
-    $('.hide-tour').click(function(){
+    $('.hide-tour').click(function() {
         setCookie('tour_cookie', 'true', 99999);
         $('.tour-intro').fadeOut();
     });
 
+
+    $("#members-table_paginate").addClass('text-center');
     $("#members-table_filter input").appendTo("#playerFilter").removeClass('input-sm');
     $("#playerFilter input").attr("placeholder", "Search Players");
     $("#members-table_filter label").remove();
@@ -272,8 +275,8 @@ function readCookie(name) {
 
 function setCookie(cname, cvalue, exdays) {
     var d = new Date();
-    d.setTime(d.getTime() + (exdays*24*60*60*1000));
-    var expires = "expires="+d.toUTCString();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires=" + d.toUTCString();
     document.cookie = cname + "=" + cvalue + "; " + expires;
 }
 

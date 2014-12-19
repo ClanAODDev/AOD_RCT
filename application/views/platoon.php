@@ -157,9 +157,9 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 
 				<div class='panel panel-default'>
 					<!-- Default panel contents -->
-					<div class='panel-heading download-area'>Platoon members   <small class='text-muted'>({$first_day_of_last_month} - {$last_day_of_last_month})</small><span></span></div>
+					<div class='panel-heading download-area'>Platoon members<span></span></div>
 					<div class='panel-body border-bottom'><div id='playerFilter'></div>
-				</div>
+				</div> 
 				{$members_table}
 				<div class='panel-footer text-muted text-center' id='member-footer'></div>
 			</div>
