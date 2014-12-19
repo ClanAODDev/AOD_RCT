@@ -37,7 +37,9 @@ foreach ( $rules as $action => $rule ) {
 		if (isLoggedIn()) {
 
 			include(TEMPLATES . "header.php");
-			include(VIEWS . $action . ".php");
+			if((@include VIEWS . $action . ".php") === false) {
+				include(TEMPLATES . "404.html");
+			}			
 			include(TEMPLATES . "footer.php");
 			exit;
 
