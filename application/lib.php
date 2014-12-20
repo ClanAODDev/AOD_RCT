@@ -108,7 +108,7 @@ function define_pages()
     // build page rules for routing system
     $rules = 
     array(
-        'player' => "/player/(?'id'\d+)",
+        'member' => "/member/(?'id'\d+)",
         'manage' => "/manage/(?'form'player|squad|platoon|division)/(?'id'\d+)",
         'division' => "/divisions/(?'division'" . $divisions . ")",
         'platoon' => "/divisions/(?'division'" . $divisions . ")/(?'platoon'\d+)",
@@ -393,7 +393,7 @@ function memberColor($user, $level)
 
 function get_user_avatar($forum_id, $type = "thumb")
 {
-    return "<img src='http://www.clanaod.net/forums/image.php?type={$type}&u={$forum_id}' class='img-thumbnail avatar' />";
+    return "<img src='http://www.clanaod.net/forums/image.php?type={$type}&u={$forum_id}' class='img-thumbnail avatar-{$type}' />";
 }
 
 
@@ -999,6 +999,36 @@ function get_platoon_id_from_number($platoon_number, $division)
     return $query[0];
 }
 
+
+
+
+function get_member($mid) {
+    global $pdo;
+
+    if (dbConnect()) {
+
+        try {
+
+            $query = "SELECT member.id, rank.abbr as rank, forum_name, member_id, battlelog_name, bf4db_id, rank_id,  platoon_id, bf4_position_id, squad_leader_id, status_id, game_id, join_date, last_forum_login, last_activity, last_forum_post, forum_posts FROM member 
+            LEFT JOIN users ON users.username = member.forum_name 
+            LEFT JOIN rank ON rank.id = member.rank_id
+            LEFT JOIN status ON status.id = member.status_id WHERE member.id = :mid";
+            $query = $pdo->prepare($query);
+            $query->bindParam(':mid', $mid);
+            $query->execute();
+            $query = $query->fetch();
+
+        }
+        catch (PDOException $e) {
+            return $e->getMessage();
+        }
+    }
+    return $query;
+}
+
+
+
+
 function count_total_games($member_id, $date)
 {
 
@@ -1063,19 +1093,19 @@ function formatTime($ptime)
     }
 
     $a = array( 365 * 24 * 60 * 60  =>  'year',
-       30 * 24 * 60 * 60  =>  'month',
-       24 * 60 * 60  =>  'day',
-       60 * 60  =>  'hour',
-       60  =>  'minute',
-       1  =>  'second'
-       );
-    $a_plural = array( 'year'   => 'years',
-     'month'  => 'months',
-     'day'    => 'days',
-     'hour'   => 'hours',
-     'minute' => 'minutes',
-     'second' => 'seconds'
+     30 * 24 * 60 * 60  =>  'month',
+     24 * 60 * 60  =>  'day',
+     60 * 60  =>  'hour',
+     60  =>  'minute',
+     1  =>  'second'
      );
+    $a_plural = array( 'year'   => 'years',
+       'month'  => 'months',
+       'day'    => 'days',
+       'hour'   => 'hours',
+       'minute' => 'minutes',
+       'second' => 'seconds'
+       );
 
     foreach ($a as $secs => $str)
     {

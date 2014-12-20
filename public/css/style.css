@@ -406,10 +406,13 @@ h2.pull-right {
   line-height: 16px;
 }
 
-.avatar {
+.avatar-thumb{
   max-width: 30px !important;
   margin-top: -3px;
-  margin-right: -10px;
+}
+
+.avatar-large {
+
 }
 
 div.DTTT_container {
