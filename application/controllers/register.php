@@ -10,7 +10,11 @@ $pass = $_POST['password'];
 $passVerify = $_POST['passVerify'];
 $email = $_POST['email'];
 
-if ($pass != $passVerify) {
+if (stristr($user, 'aod_')) {
+	$data['success'] = false;
+	$data['message'] = "Please do not include 'AOD_' to your username";
+
+} else if ($pass != $passVerify) {
 
 	$data['success'] = false;
 	$data['message'] = "Passwords must match.";

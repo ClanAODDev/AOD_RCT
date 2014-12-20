@@ -167,31 +167,14 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 
 		";
 
-
-
-
-
-
 		$out .= "
 	</div><!-- end container -->
 	";
 
 } else {
-
-	$out .= "
-	<div class='container margin-top-50'>
-		<div class='row'>
-			<div class='span5'>
-				<div class='hero-unit center'>
-					<h1>Oops</h1>
-					<p>It looks like the page you were looking for does not yet exist.</p>
-					<a href='/' class='btn btn-large btn-info'><i class='icon-home icon-white'></i> Take Me Home</a>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	";
+	// platoon does not exist for specified game
+	// redirect to 404
+	header('Location: /404/');
 
 }
 

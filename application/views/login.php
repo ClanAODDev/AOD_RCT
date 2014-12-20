@@ -25,7 +25,7 @@ if (isLoggedIn()) {
 						<label class='sr-only' for='password'>Password</label>
 						<input type='password' class='form-control' id='password' name='password' placeholder='Password' required />
 					</div>
-					<button type='submit' class='btn btn-primary'>Log in </button>
+					<button type='submit' class='btn btn-primary login-btn'>Log in </button>
 				</form>
 				
 			</div>

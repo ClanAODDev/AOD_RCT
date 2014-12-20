@@ -50,14 +50,12 @@ $(function() {
             $(this).serialize(),
             function(data) {
                 if (data['success'] === true) {
-                    $('#login-panel').fadeOut();
-                    $('.msg').removeClass('alert-danger').addClass('alert alert-success').html("<i class=\"fa fa-check-square-o\"></i> <small>" + data['message'] + "</small>").delay(1000).fadeIn();
-                    $('.status-text').delay(1500).html("<small>You will now be redirected to the admin panel...</small>").fadeIn();
-
+                    $('.login-btn').removeClass('btn-primary').addClass('btn-success').text('Success!');
+                    $('.msg').fadeOut();
 
                     setTimeout(function() {
                         window.location.href = "/";
-                    }, 4000);
+                    }, 1000);
 
                 } else if (data['success'] === false) {
                     console.log(data);
@@ -79,13 +77,12 @@ $(function() {
             $(this).serialize(),
             function(data) {
                 if (data['success'] === true) {
-                    $('#register-panel').fadeOut();
-                    $('.msg').removeClass('alert-danger').addClass('alert alert-success').html("<i class=\"fa fa-check-square-o\"></i> <small>" + data['message'] + "</small>").delay(1000).fadeIn();
-                    $('.status-text').delay(1500).html("<small>You will now be redirected to the login form...</small>").fadeIn();
+                     $('.register-btn').removeClass('btn-primary').addClass('btn-success').text('Success!');
+                    $('.msg').fadeOut();
 
                     setTimeout(function() {
                         window.location.href = "/";
-                    }, 4000);
+                    }, 1000);
 
                 } else if (data['success'] === false) {
                     $('#register-panel').addClass('has-error');

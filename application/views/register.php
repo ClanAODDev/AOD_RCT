@@ -36,9 +36,9 @@ if (isLoggedIn()) {
 					</div>
 
 					<button type='reset' class='btn btn-default'>Reset</button>
-					<button type='submit' class='btn btn-primary'>Register</button>
+					<button type='submit' class='btn btn-primary register-btn'>Register</button>
 					
-				</form>
+				</form> 
 				
 			</div>
 			<div class='panel-footer text-muted'><small>Your username should be the one you use for the AOD Forums, <strong>without the AOD prefix</strong>.</small></div>
