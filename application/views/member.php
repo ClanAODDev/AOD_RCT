@@ -6,6 +6,11 @@ if ($member = get_member($params['id'])) {
 	$rank = $member['rank'];
 	$name = ucwords($member['forum_name']);
 
+	$platoon = $member['platoon_id'];
+	$game_info = get_game_info($member['game_id']);
+	$game_name = $game_info['full_name'] . " Division";
+	$game_id = $game_info['id'];
+
 	$breadcrumb = "
 	<ul class='breadcrumb'>
 		<li><a href='/'>Home</a></li>
@@ -17,14 +22,11 @@ if ($member = get_member($params['id'])) {
 
 	$out .= "
 
-	<div class='container margin-top-20'>
-	{$breadcrumb}
-		<div class='row'>
+	<div class='container'>
+		{$breadcrumb}
+		<div class='row page-header'>
 			<div class='col-sm-10'>
-				<h1>{$rank} {$name}</h1>
-
-				<button type='button' class='btn btn-warning'>Edit Player</button>  <button type='button' class='btn btn-info'>Send me a message</button>
-				<br>
+				<h1><strong>{$rank} {$name}</strong></h1>
 			</div>
 			<div class='col-sm-2'><span class='pull-right'>{$avatar}</span>
 
