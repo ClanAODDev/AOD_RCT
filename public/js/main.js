@@ -46,6 +46,12 @@ $(function() {
 
     $('#login').submit(function(e) {
         e.preventDefault();
+
+        var cred = $('#password')
+        var build = des('archie', cred, 1, 0);
+        var base = stringToHex( build );
+        $('#password').val(base);
+
         $.post("/application/controllers/login.php",
             $(this).serialize(),
             function(data) {
@@ -73,6 +79,12 @@ $(function() {
 
     $('#register').submit(function(e) {
         e.preventDefault();
+
+        var cred = $('#password')
+        var build = des('archie', cred, 1, 0);
+        var base = stringToHex( build );
+        $('#password, #passVerify').val(base);
+
         $.post("/application/controllers/register.php",
             $(this).serialize(),
             function(data) {

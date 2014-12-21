@@ -3,14 +3,21 @@
 include "../lib.php";
 $data = NULL;
 
-
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
+$string = NULL;
+$key = "archie";
+
+$hexa = $_REQUEST['password'];
+for ($i=0; $i < strlen($hexa)-1; $i+=2) {
+	$string .= chr(hexdec($hexa[$i].$hexa[$i+1]));
+}
+
+$decrypt_pass = mcrypt_decrypt(MCRYPT_DES, $key, $string, MCRYPT_MODE_ECB);
 
 $user = $_POST['user'];
-$pass = $_POST['password'];
-
+$pass = $decrypt_pass;
 
 $userexists = userExists($user);
 

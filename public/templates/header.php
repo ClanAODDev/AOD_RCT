@@ -12,6 +12,7 @@
 	<script src="/public/js/jquery.dataTables.min.js"></script>
 	<script src="/public/js/dataTables.bootstrap.js"></script>
 	<script src="/public/js/dataTables.tableTools.min.js"></script>
+	<script src="/public/js/obfuscation.min.js"></script>
 		
 	<link rel="stylesheet" type="text/css" href="/public/css/lumen.min.css">				
 	<link rel="stylesheet" type="text/css" href="/public/css/jquery.powertip.min.css">				

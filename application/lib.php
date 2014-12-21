@@ -421,8 +421,12 @@ function get_games()
 }
 
 
-
-function get_game_info($gname)
+/**
+ * fetches game information
+ * @param  string|int $game game id | shortname
+ * @return array       array of game info
+ */
+function get_game_info($game)
 {
 
     global $pdo;
@@ -431,8 +435,9 @@ function get_game_info($gname)
 
         try {
 
-            $query = "SELECT `id`, `short_name`, `full_name`, `subforum`, `description` FROM `games` WHERE short_name = '$gname'";
+            $query = "SELECT `id`, `short_name`, `full_name`, `subforum`, `description` FROM `games` WHERE short_name = :game OR id = :game";
             $query = $pdo->prepare($query);
+            $query->bindParam(':game', $game);
             $query->execute();
             $query = $query->fetch();
             
@@ -1011,6 +1016,7 @@ function get_member($mid) {
 
             $query = "SELECT member.id, rank.abbr as rank, forum_name, member_id, battlelog_name, bf4db_id, rank_id,  platoon_id, bf4_position_id, squad_leader_id, status_id, game_id, join_date, last_forum_login, last_activity, last_forum_post, forum_posts FROM member 
             LEFT JOIN users ON users.username = member.forum_name 
+            LEFT JOIN games ON games.id = member.game_id
             LEFT JOIN rank ON rank.id = member.rank_id
             LEFT JOIN status ON status.id = member.status_id WHERE member.id = :mid";
             $query = $pdo->prepare($query);
