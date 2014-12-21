@@ -415,6 +415,14 @@ h2.pull-right {
 
 }
 
+.post{
+  padding: 15px;
+}
+
+.post hr {
+  margin: 5px 0;
+}
+
 div.DTTT_container {
   display: inline-block;
   margin: -8px 0 0 0;

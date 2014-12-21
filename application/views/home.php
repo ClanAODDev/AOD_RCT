@@ -5,7 +5,11 @@ $my_squad = NULL;
 
 
 /**
- * only available for squad leaders
+ * use this to show information dependent on 
+ * user role? 
+ * squad leader -> squad
+ * platoon leader -> squad leaders
+ * division co -> platoon leaders
  */
 if ($member_info['bf4_position_id'] == 5) {
 	$squad_members = get_my_squad($forumId);
@@ -38,13 +42,13 @@ if (!empty($postsArray)) {
 		$title = $post['title'];
 		$authorId = $post['user'];
 		$content = htmlspecialchars_decode($post['content']);
-		$authorAva = get_user_avatar($post['member_id']). "<span style='margin-right: 15px;'></span>";
+		$authorAva = get_user_avatar($post['member_id']);
 		$authorName = userColor($post['username'], $post['role']);
 		$date = formatTime(strtotime($post['date']));
 		$posts .= "
-		<div class='panel panel-default'>
-			<div class='panel-heading'>{$authorAva} {$title}<span class='pull-right text-muted'>Posted {$date} by <a href='/member/{$authorId}'>{$authorName}</a></span></div>
-			<div class='panel-body'>{$content}</div>
+		<div class='post'>
+			<div class='title'>{$authorAva} {$title}<span class='pull-right text-muted'>Posted {$date} by <a href='/member/{$authorId}'>{$authorName}</a></span><hr /></div>
+			<div class='content'>{$content}</div>
 		</div>";
 	}
 } else {
@@ -156,23 +160,28 @@ $out .= "
 
 		$out .= "
 		<div class='col-md-7'>
-			{$posts}
-		</div>";
+			<div class='panel panel-default'>
+			<div class='panel-heading'><strong>Announcements</strong></div>
+				{$posts}
+			</div>
+		</div>
 
-
-
-
-
-		// end row
-		$out .= "
 	</div>";
 
 
 
 
 
+		// end row
+	$out .= "
+</div>";
+
+
+
+
+
 	// end container
-	$out .=" 
+$out .=" 
 </div>
 ";
 
