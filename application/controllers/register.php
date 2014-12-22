@@ -3,22 +3,11 @@
 include "../lib.php";
 
 $data = NULL;
-$string = NULL;
-$key = "archie";
 
-$hexa = $_REQUEST['password'];
-for ($i=0; $i < strlen($hexa)-1; $i+=2) {
-	$string .= chr(hexdec($hexa[$i].$hexa[$i+1]));
-}
-
-$decrypt_pass = mcrypt_decrypt(MCRYPT_DES, $key, $string, MCRYPT_MODE_ECB);
-$decrypt_passVerify = mcrypt_decrypt(MCRYPT_DES, $key, $string, MCRYPT_MODE_ECB);
-
-// handling decryption of credentials
-$pass = $decrypt_pass;
-$passVerify = $decrypt_passVerify;
-
+// values are bound and prepared in PDO
 $user = $_POST['user'];
+$pass = $_POST['password'];
+$passVerify = $_POST['passVerify'];
 $email = $_POST['email'];
 
 if (stristr($user, 'aod_')) {
