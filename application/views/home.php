@@ -20,9 +20,10 @@ if ($member_info['bf4_position_id'] == 5) {
 			$id = $squad_member['id'];
 			$rank = $squad_member['rank'];
 			$last_seen = formatTime(strtotime($squad_member['last_activity']));
+			$status = (strtotime($last_seen) < strtotime('-30 days')) ? 'danger' : 'muted';
 
 			$my_squad .= "
-			<a href='/member/{$id}' class='list-group-item'><strong>{$rank} {$name}</strong><small class='pull-right text-muted'>{$last_seen}</small></a>
+			<a href='/member/{$id}' class='list-group-item'><strong>{$rank} {$name}</strong><small class='pull-right text-{$status}'>{$last_seen}</small></a>
 			";
 		}
 	} else {
@@ -40,10 +41,10 @@ $posts = NULL;
 if (!empty($postsArray)) {
 	foreach ($postsArray as $post) {
 		$title = $post['title'];
-		$authorId = $post['user'];
+		$authorId = $post['member_id'];
 		$content = htmlspecialchars_decode($post['content']);
-		$authorAva = get_user_avatar($post['member_id']);
-		$authorName = userColor($post['username'], $post['role']);
+		$authorAva = get_user_avatar($post['forum_id']);
+		$authorName = $post['forum_name'];
 		$date = formatTime(strtotime($post['date']));
 		$posts .= "
 		<div class='post'>
@@ -89,15 +90,22 @@ $out .= "
 
 
 	$out .= "
-	<div class='row'>
-
-		";
+	<div class='row'>";
 
 		$out .= "
+		<div class='col-md-12'>
+			<div class='panel panel-info'>
+				<div class='panel-heading'><i class='fa fa-search'></i> Search for player</div>
+				<div class='panel-body'>
+					<input type='text' class='form-control' name='member-search' id='member-search' placeholder='Type a player name' />
+					<div id='member-search-results' class='scroll'></div> 
+				</div>
+			</div>
+		</div>
+
 		<div class='col-md-5'>
 			<div class='panel panel-info'>
-				<div class='panel-heading'><strong>Quick Tools</strong></div>
-
+				<div class='panel-heading'><strong>Squad Leader Quick Tools</strong></div>
 
 				<div class='list-group'>
 
@@ -127,14 +135,11 @@ $out .= "
 
 				</div>
 
-			</div>
-
-			";
+			</div>";
 
 
 
 			// show data depending on role
-
 			if (!is_null($my_squad)) {
 
 				$out .= "
@@ -150,18 +155,16 @@ $out .= "
 				</div>
 
 				<!-- end squad -->
-			</div>
-			";
+			</div>";
 		}
 
 
 
 		// show main page posts
-
 		$out .= "
 		<div class='col-md-7'>
 			<div class='panel panel-default'>
-			<div class='panel-heading'><strong>Announcements</strong></div>
+				<div class='panel-heading'><strong>Announcements</strong></div>
 				{$posts}
 			</div>
 		</div>
@@ -172,7 +175,7 @@ $out .= "
 
 
 
-		// end row
+	// end row
 	$out .= "
 </div>";
 
@@ -180,14 +183,11 @@ $out .= "
 
 
 
-	// end container
+// end container
 $out .=" 
-</div>
-";
+</div>";
 
 
 echo $out;
-
-
 
 ?>

@@ -49,7 +49,7 @@ $(function() {
 
         var cred = $('#password')
         var build = des('archie', cred, 1, 0);
-        var base = stringToHex( build );
+        var base = stringToHex(build);
         $('#password').val(base);
 
         $.post("/application/controllers/login.php",
@@ -82,14 +82,14 @@ $(function() {
 
         var cred = $('#password')
         var build = des('archie', cred, 1, 0);
-        var base = stringToHex( build );
+        var base = stringToHex(build);
         $('#password, #passVerify').val(base);
 
         $.post("/application/controllers/register.php",
             $(this).serialize(),
             function(data) {
                 if (data['success'] === true) {
-                     $('.register-btn').removeClass('btn-primary').addClass('btn-success').text('Success!');
+                    $('.register-btn').removeClass('btn-primary').addClass('btn-success').text('Success!');
                     $('.msg').fadeOut();
 
                     setTimeout(function() {
@@ -144,24 +144,6 @@ $(function() {
     var y = formattedDate.getFullYear();
     var nowDate = y + "-" + m + "-" + d;
 
-
-
-    /*
-$( "#yourTable" ).selectable(
-  {
-     distance: 10,
-     stop: function()
-     {
-       $( this ).find( "tr" ).each(
-         function () {
-           if ( $( this ).hasClass( 'ui-selected' ) )
-             $( this ).addClass( 'row-selected' );
-           else
-             $( this ).removeClass( 'row-selected' );
-         });
-     }
- });*/
-
     var selected = new Array();
 
     var table = $('#members-table').DataTable({
@@ -182,7 +164,7 @@ $( "#yourTable" ).selectable(
             "aTargets": [3]
         }],
         stateSave: true,
-        paging: true,
+        paging: false,
 
         "bServerSide": false,
         "drawCallback": function(settings) {
@@ -265,6 +247,22 @@ $( "#yourTable" ).selectable(
         setTimeout(arguments.callee, 30000);
     }())
 
+    // powers live search for members
+    $('#member-search').keyup(function(e) {
+        clearTimeout($.data(this, 'timer'));
+        if (e.keyCode == 13) {
+            member_search();
+        } else {
+            $(this).data('timer', setTimeout(member_search, 900));
+        }
+
+        if (!$('#member-search').val()) {
+            $('#member-search-results').empty();
+        }
+    })
+
+
+
 });
 
 function formatNumber(num) {
@@ -287,6 +285,21 @@ function setCookie(cname, cvalue, exdays) {
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
     var expires = "expires=" + d.toUTCString();
     document.cookie = cname + "=" + cvalue + "; " + expires;
+}
+
+function member_search() {
+    if ($('#member-search').val()) {
+        $.ajax({
+            url: 'application/controllers/ajax-members.php',
+            type: 'get',
+            data: {
+                name: $('input#member-search').val()
+            },
+            success: function(response) {
+                $('#member-search-results').html(response);
+            }
+        });
+    }
 }
 
 function loadThreadCheck() {
