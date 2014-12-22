@@ -802,10 +802,33 @@ function get_posts($type)
 
 
 
-/**
- * add scorpion's functions
- */
 
+function get_member_name($name)
+{
+
+    global $pdo;
+    
+    if (dbConnect()) {
+
+        try {
+
+            $query = "SELECT member.forum_name, games.full_name as game_name, member.id, rank.abbr FROM member 
+            LEFT JOIN rank ON member.rank_id = rank.id 
+            LEFT JOIN games ON member.game_id = games.id 
+            WHERE member.forum_name LIKE CONCAT('%', :name, '%') 
+            ORDER BY member.rank_id DESC";
+            $query = $pdo->prepare($query);
+            $query->bindParam(':name', $name);
+            $query->execute();
+            $query = $query->fetchAll();
+            
+        }
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+    return $query;
+}
 
 function get_members()
 {
