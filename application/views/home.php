@@ -11,28 +11,31 @@ $my_squad = NULL;
  * platoon leader -> squad leaders
  * division co -> platoon leaders
  */
-if ($member_info['bf4_position_id'] == 5) {
-	$squad_members = get_my_squad($forumId);
 
-	if (count($squad_members)) {
-		foreach ($squad_members as $squad_member) {
-			$name = ucwords($squad_member['forum_name']);
-			$id = $squad_member['id'];
-			$rank = $squad_member['rank'];
-			$last_seen = formatTime(strtotime($squad_member['last_activity']));
-			$status = (strtotime($last_seen) < strtotime('-30 days')) ? 'danger' : 'muted';
+$squad_members = get_my_squad($forumId);
+$squadCount = count($squad_members);
 
-			$my_squad .= "
-			<a href='/member/{$id}' class='list-group-item'><strong>{$rank} {$name}</strong><small class='pull-right text-{$status}'>{$last_seen}</small></a>
-			";
-		}
-	} else {
-		$my_squad .= "<p>Unfortunately it looks like you don't have any squad members! Do you need to <a href='/manage/squad/'>Add Members</a> to your squad?</p>";
+if (count($squad_members)) {
+	foreach ($squad_members as $squad_member) {
+		$name = ucwords($squad_member['forum_name']);
+		$id = $squad_member['id'];
+		$rank = $squad_member['rank'];
+		$last_seen = formatTime(strtotime($squad_member['last_activity']));
+		$status = (strtotime($last_seen) < strtotime('-30 days')) ? 'danger' : 'muted';
+
+		$my_squad .= "
+		<a href='/member/{$id}' class='list-group-item'><strong>{$rank} {$name}</strong><small class='pull-right text-{$status}'>{$last_seen}</small></a>
+		";
 	}
+} else {
+	$my_squad .= "<div class='panel-body'>Unfortunately it looks like you don't have any squad members! Do you need to <a href='/manage/squad/'>Add Members</a> to your squad?</div>";
+}
 
-} 
 
 
+
+
+/*
 
 // fetch posts for main page
 $postsArray = get_posts("main_page");
@@ -41,21 +44,21 @@ $posts = NULL;
 if (!empty($postsArray)) {
 	foreach ($postsArray as $post) {
 		$title = $post['title'];
-		$authorId = $post['members_id'];
+		$authorId = $post['id'];  // needs member id
 		$content = htmlspecialchars_decode($post['content']);
-		$authorAva = get_user_avatar($post['member_id']);
-		$authorName = $post['forum_name'];
+		$authorAva = get_user_avatar($post['forum_id']);  // needs forum id
+		$authorName = $post['username'];
 		$date = formatTime(strtotime($post['date']));
 		$posts .= "
 		<div class='post'>
-			<div class='title'>{$authorAva} {$title}<span class='pull-right text-muted'>Posted {$date} by <a href='/member/{$authorId}'>{$authorName}</a></span><hr /></div>
+			<div class='title'><h4>{$authorAva} {$title}</h4><span class='pull-right text-muted'>Posted {$date} by <a href='/member/{$authorId}'>{$authorName}</a></span><hr /></div>
 			<div class='content'>{$content}</div>
 		</div>";
 	}
 } else {
 	$posts .= '<p>There are no posts to display.</p>';
 }
-
+*/
 
 
 
@@ -90,9 +93,7 @@ $out .= "
 
 
 	$out .= "
-	<div class='row'>";
-
-		$out .= "
+	<div class='row'>
 		<div class='col-md-12'>
 			<div class='panel panel-info'>
 				<div class='panel-heading'><i class='fa fa-search'></i> Search for player</div>
@@ -102,9 +103,37 @@ $out .= "
 				</div>
 			</div>
 		</div>
+	</div>
+	";
+
+
+// announcements
+
+/*
+	$out .= "
+	<div class='row'>
+		<div class='col-md-12'>
+			<div class='panel panel-default'>
+				<div class='panel-heading'>Announcements</div>
+
+				{$posts}
+
+			</div>
+		</div>
+	</div>
+	";
+*/
+
+
+
+
+	$out .= "
+	<div class='row'>";
+
+		$out .= "
 
 		<div class='col-md-5'>
-			<div class='panel panel-info'>
+			<div class='panel panel-default'>
 				<div class='panel-heading'><strong>Squad Leader Quick Tools</strong></div>
 
 				<div class='list-group'>
@@ -135,56 +164,48 @@ $out .= "
 
 				</div>
 
-			</div>";
+			</div>
+		</div>";
 
 
 
 			// show data depending on role
-			if (!is_null($my_squad)) {
+		if (!is_null($my_squad)) {
 
-				$out .= "
-				<!-- if a squad leader -->
+			$out .= "
+			<!-- if a squad leader -->
 
-				<div class='panel panel-primary'>
-					<div class='panel-heading'><strong> Your Squad</strong><span class='pull-right'>Last seen</span></div>
+			<div class='col-md-7'>
+
+				<div class='panel panel-default'>
+					<div class='panel-heading'><strong> Your Squad</strong> ({$squadCount})<span class='pull-right text-muted'>Last seen</span></div>
 
 					<div class='list-group'>
 						{$my_squad}
 
 					</div>
 				</div>
+			</div>	
+			";
 
-				<!-- end squad -->
-			</div>";
 		}
 
-
-
-		// show main page posts
-		$out .= "
-		<div class='col-md-7'>
-			<div class='panel panel-default'>
-				<div class='panel-heading'><strong>Announcements</strong></div>
-				{$posts}
-			</div>
-		</div>
-
+		$out .="
+		<!-- end row -->
 	</div>";
 
 
 
 
 
-	// end row
-	$out .= "
-</div>";
+
 
 
 
 
 
 // end container
-$out .=" 
+	$out .=" 
 </div>";
 
 
