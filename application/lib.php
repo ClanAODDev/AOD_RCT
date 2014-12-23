@@ -3,6 +3,8 @@
 include_once("config.php");
 include_once("modules/vbfunctions.php");
 
+session_regenerate_id();
+
 /**
  * data collection for user logged in
  */
@@ -21,6 +23,9 @@ if (isLoggedIn()) {
         $avatar = NULL;
     }
     
+
+
+
     
     
     /**
@@ -37,6 +42,8 @@ if (isLoggedIn()) {
             {$alert['content']} </div>
             ";
         }
+
+
 
     /**
      * generate game list for navigation
@@ -783,10 +790,10 @@ function get_posts($type)
 
         try {
 
-            $query = "SELECT posts.id, member.member_id, member.id as members_id, posts.title, posts.content, posts.date, posts.user, posts.reply_id, posts.type, users.username, users.role
-            FROM posts 
+            $query = "SELECT 
+            member.id, member.member_id, posts.title, posts.content, posts.date, posts.forum_id, posts.reply_id, posts.type, users.username, users.role FROM posts 
             LEFT JOIN users ON posts.user = users.id 
-            LEFT JOIN member ON posts.user = member.id 
+            LEFT JOIN member ON posts.forum_id = member.member_id 
             WHERE posts.type = :type
             ORDER BY posts.date DESC";
             $query = $pdo->prepare($query);
@@ -819,7 +826,8 @@ function get_member_name($name)
             LEFT JOIN rank ON member.rank_id = rank.id 
             LEFT JOIN games ON member.game_id = games.id 
             WHERE member.forum_name LIKE CONCAT('%', :name, '%') 
-            ORDER BY member.rank_id DESC";
+            ORDER BY member.rank_id DESC
+            LIMIT 25";
             $query = $pdo->prepare($query);
             $query->bindParam(':name', $name);
             $query->execute();

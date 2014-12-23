@@ -17,13 +17,17 @@ if (isset($_GET['name'])) {
 	} else {
 
 		foreach($results as $row) {
-			$name = $row['forum_name'];
+			$name = ucwords($row['forum_name']);
 			$id = $row['id'];
 			$rank = $row['abbr'];
 			$game = $row['game_name'];
-			$out .= "<a href='/member/{$id}' class='list-group-item'>{$rank} {$name}<span class='text-muted pull-right'>{$game}</span></a>";	
+			$out .= "
+			<a href='/member/{$id}' class='list-group-item'>
+				<strong>{$rank} {$name}</strong>
+				<span class='text-muted pull-right'>{$game}</span>
+			</a>";	
 		} 
-		
+
 	}
 	echo $out;
 }
