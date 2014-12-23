@@ -783,8 +783,11 @@ function get_posts($type)
 
         try {
 
-            $query = "SELECT posts.id, posts.member_id, posts.title, posts.content, posts.date, posts.user, posts.reply_id, posts.type, users.username, users.role
-            FROM posts LEFT JOIN users ON posts.user = users.id WHERE posts.type = :type
+            $query = "SELECT posts.id, member.member_id, member.id as members_id, posts.title, posts.content, posts.date, posts.user, posts.reply_id, posts.type, users.username, users.role
+            FROM posts 
+            LEFT JOIN users ON posts.user = users.id 
+            LEFT JOIN member ON posts.user = member.id 
+            WHERE posts.type = :type
             ORDER BY posts.date DESC";
             $query = $pdo->prepare($query);
             $query->bindParam(':type', $type);

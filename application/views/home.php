@@ -41,9 +41,9 @@ $posts = NULL;
 if (!empty($postsArray)) {
 	foreach ($postsArray as $post) {
 		$title = $post['title'];
-		$authorId = $post['member_id'];
+		$authorId = $post['members_id'];
 		$content = htmlspecialchars_decode($post['content']);
-		$authorAva = get_user_avatar($post['forum_id']);
+		$authorAva = get_user_avatar($post['member_id']);
 		$authorName = $post['forum_name'];
 		$date = formatTime(strtotime($post['date']));
 		$posts .= "
