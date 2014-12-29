@@ -112,16 +112,15 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 	<div class='container fade-in'>
 		<div class='row'>{$breadcrumb}</div>
 		<div class='row'>
-			<div class='col-md-12 platoon-name'>
-				<h3>{$platoon_name} <small class='platoon-number'>". ordSuffix($platoon). " Platoon</small></h3>
+			<div class='col-md-12 platoon-name page-header'>
+				<h3>{$platoon_name} <small class='platoon-number'>". ordSuffix($platoon). " Platoon <span class='date-data pull-right'>Data from {$last_date_in_range} - {$first_date_in_range}</span></small></h3>
 			</div>
-			<div class='col-xs-12 hr'><hr /></div>
 		</div>";
 
 
 		// demographics
 		$out .= "
-		<div class='row margin-top-20'>
+		<div class='row'>
 			<div class='col-md-4'>
 				<div class='panel panel-default'>
 					<div class='panel-heading'>Total Members</div>

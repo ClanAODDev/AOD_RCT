@@ -105,6 +105,8 @@ ul.nav {
 }
 
 
+
+
 .game-select {
   display: inline-block;
   position: fixed;
@@ -229,9 +231,17 @@ ul.nav {
   margin-top: auto;
 }
 
+.page-header {
+  margin: 0 0 15px !important;
+}
 
 .border-bottom {
   border-bottom: 1px solid rgba(0,0,0,.08);
+}
+
+.dataTable th {
+  cursor: pointer;
+  border: 0;
 }
 
 h2.pull-right {
@@ -243,6 +253,10 @@ h2.pull-right {
 
 .trans-striped-bg {
   background-image: url('/public/images/trans_bg_stripe.png');
+}
+
+.date-data {
+  line-height: 35px;
 }
 
 .count-detail-big {
