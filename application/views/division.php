@@ -24,10 +24,12 @@ if ($leaders[0] && $leaders[1]) {
 
 	$leaders = "
 	<a href='/member/{$co_id}' class='list-group-item'>
+		<h5 class='pull-right'><i class='fa fa-shield fa-2x text-muted'></i></h5>
 		<h4 class='list-group-item-heading'><strong>{$co}</strong></h4>
 		<p class='list-group-item-text text-muted'>Division Commander</p>
 	</a>
 	<a href='/member/{$xo_id}' class='list-group-item'>
+		<h5 class='pull-right'><i class='fa fa-shield fa-2x text-muted'></i></h5>
 		<h4 class='list-group-item-heading'><strong>{$xo}</strong></h4>
 		<p class='list-group-item-text text-muted'>Division Executive Officer</p>
 	</a>
@@ -81,24 +83,13 @@ $out .= "
 <div class='container fade-in'>
 	<div class='row'>{$breadcrumb}</div>
 	<div class='row'>
-		<div class='col-xs-12'>
+		<div class='col-md-12 page-header'>
 			<h2><strong>{$game_name} Division</strong></h2>
 		</div>
-
-		<div class='col-xs-12 hr'><hr /></div>
 	</div>
-
-	<div class='row margin-top-20'>
-
-		<div class='col-md-12'>
-			<p>{$game_descr}</p>
-		</div>
-
-	</div>
-
 	
 
-	<div class='row margin-top-20'>
+	<div class='row'>
 
 		<div class='col-md-8'>
 			<div class='panel panel-primary'>
@@ -115,6 +106,48 @@ $out .= "
 				{$leaders}
 			</div>
 		</div>
+
+	</div>";
+
+
+	// statistics section
+	
+
+	$out .="
+	<div class='row'>
+		<div class='col-md-12 page-header'>
+			<h3>Division Statistics</h3>
+		</div>
+	</div>
+
+	<div class='row'>
+
+		<div class='col-md-4'>
+			<div class='panel panel-default'>
+				<div class='panel-heading'>Active Platoons</div>
+				<div class='list-group'>
+					{$platoon_list}
+				</div>
+			</div>
+		</div>
+
+		<div class='col-md-4'>
+			<div class='panel panel-default'>
+				<div class='panel-heading'>Active Platoons</div>
+				<div class='list-group'>
+					{$platoon_list}
+				</div>
+			</div>
+		</div>
+
+		<div class='col-md-4'>
+			<div class='panel panel-default'>
+				<div class='panel-heading'>Active Platoons</div>
+				<div class='list-group'>
+					{$platoon_list}
+				</div>
+			</div>
+		</div> 
 
 	</div>
 
