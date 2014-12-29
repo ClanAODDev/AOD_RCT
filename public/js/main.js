@@ -106,7 +106,7 @@ $(function() {
         }).animate({
             Counter: $this.text()
         }, {
-            duration: 1500,
+            duration: 3000,
             easing: "easeOutQuart",
             step: function() {
                 if ($this.hasClass('percentage')) {
