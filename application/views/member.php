@@ -11,7 +11,7 @@ if ($member = get_member($params['id'])) {
 
 	$platoon = $member['platoon_id'];
 	$game_info = get_game_info($member['game_id']);
-	$short_name = $game_info['short_name'];
+	$short_game_name = $game_info['short_game_name'];
 	$game_name = $game_info['full_name'];
 	$game_id = $game_info['id'];
 
@@ -30,7 +30,8 @@ if ($member = get_member($params['id'])) {
 	$breadcrumb = "
 	<ul class='breadcrumb'>
 		<li><a href='/'>Home</a></li>
-		<li><a href='/divisions/{$short_name}'>{$game_name}</a></li>
+		<li><a href='/divisions'>Divisions</a></li>
+		<li><a href='/divisions/{$short_game_name}'>{$game_name}</a></li>
 		<li class='active'>{$name}</li>
 	</ul>
 	";
@@ -53,7 +54,7 @@ if ($member = get_member($params['id'])) {
 		<div class='row'>
 			<div class='col-sm-3'>
 				<div class='panel panel-default'>
-					<div class='panel-heading'>Member Information</div>
+					<div class='panel-heading'><strong>Member Information</strong></div>
 					<ul class='list-group'>
 						<li class='list-group-item text-right'><span class='pull-left'><strong class=''>Status: </strong></span> {$status}</li>
 						<li class='list-group-item text-right'><span class='pull-left'><strong class=''>Joined:</strong></span> {$joined}</li>
@@ -66,7 +67,7 @@ if ($member = get_member($params['id'])) {
 
 
 				<div class='panel panel-default'>
-					<div class='panel-heading'>Gaming Profiles</div>
+					<div class='panel-heading'><strong>Gaming Profiles</strong></div>
 					<a target='_blank' href='{$battlelog}' class='list-group-item'>BattleLog <span class='pull-right'><i class='text-info fa fa-external-link'></i></span></a>
 					<a target='_blank' href='{$bf4db}' class='list-group-item'>BF4DB <span class='pull-right'><i class='text-info fa fa-external-link'></i></span></a>
 					<a target='_blank' href='{$forums}' class='list-group-item'>AOD Forum <span class='pull-right'><i class='text-info fa fa-external-link'></i></span></a>
