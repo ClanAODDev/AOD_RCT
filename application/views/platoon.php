@@ -8,7 +8,7 @@ $out = NULL;
 
 $platoon = $params['platoon'];
 $game_info = get_game_info($params['division']);
-$game_name = $game_info['full_name'] . " Division";
+$game_name = $game_info['full_name'];
 $game_id = $game_info['id'];
 
 
@@ -18,8 +18,13 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 	$platoon_name = (!is_null($platoon_info['name'])) ? $platoon_info['name'] : $params['platoon'][0];
 	$right_now = new DateTime("now");
 
-	$first_day_of_last_month = date("Y-m-d", strtotime("first day of previous month"));
-	$last_day_of_last_month = date("Y-m-d", strtotime("last day of previous month"));
+	# dates for previous month
+	#$first_date_in_range = date("Y-m-d", strtotime("first day of previous month"));
+	#$last_date_in_range = date("Y-m-d", strtotime("last day of previous month"));
+	# dates for previous 30 days
+	$first_date_in_range = date("Y-m-d", strtotime("now - 30 days"));
+	$last_date_in_range = date("Y-m-d", strtotime("now"));
+
 	$overall_aod_percent = array();
 	$overall_aod_games = array();
 	
@@ -53,8 +58,8 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 
 			foreach ($members as $row) {
 
-				$total_games = count_total_games($row['member_id'], $first_day_of_last_month);
-				$aod_games = count_aod_games($row['member_id'], $first_day_of_last_month);
+				$total_games = count_total_games($row['member_id'], $first_date_in_range, $last_date_in_range);
+				$aod_games = count_aod_games($row['member_id'], $first_date_in_range, $last_date_in_range);
 				$percent_aod = ($aod_games > 0 ) ? (($aod_games)/($total_games))*100 : NULL;
 				$percent_aod = number_format((float)$percent_aod, 2, '.', '');
 				$overall_aod_games[] = $aod_games;

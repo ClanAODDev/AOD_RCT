@@ -19,8 +19,13 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 
 	$right_now = new DateTime("now");
 
-	$first_day_of_last_month = date("Y-m-d", strtotime("first day of previous month"));
-	$last_day_of_last_month = date("Y-m-d", strtotime("last day of previous month"));
+	# dates for counts of previous month
+	#$first_date_in_range = date("Y-m-d", strtotime("first day of previous month"));
+	#$last_date_in_range = date("Y-m-d", strtotime("last day of previous month"));
+
+	# dates for counts of previous month
+	$first_date_in_range = date("Y-m-d", strtotime("now - 30 days"));
+	$last_date_in_range = date("Y-m-d", strtotime("now"));
 
 	$members = get_platoon_members($platoon_id);
 	$member_count = count($members);
@@ -53,8 +58,8 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 
 			foreach ($members as $row) {
 
-				$total_games = count_total_games($row['member_id'], $first_day_of_last_month);
-				$aod_games = count_aod_games($row['member_id'], $first_day_of_last_month);
+				$total_games = count_total_games($row['member_id'], $first_date_in_range, $last_date_in_range);
+				$aod_games = count_aod_games($row['member_id'], $first_date_in_range, $last_date_in_range);
 				$percent_aod = ($aod_games > 0 ) ? (($aod_games)/($total_games))*100 : NULL;
 
 					// push to overall
@@ -110,7 +115,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 					<div class='panel-heading'>Total Members</div>
 					<div class='panel-body count-detail-big striped-bg'><span class='count-animated'>{$member_count}</span></div>
 				</div>
-				<small class='text-muted'>*Data based on information from {$first_day_of_last_month} to {$last_day_of_last_month}</small>
+				<small class='text-muted'>*Data based on information from {$first_date_in_range} to {$last_date_in_range}</small>
 			</div>
 
 

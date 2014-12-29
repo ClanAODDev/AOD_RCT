@@ -1069,22 +1069,22 @@ function get_member($mid) {
 
 
 
-function count_total_games($member_id, $date)
+function count_total_games($member_id, $bdate, $edate)
 {
 
     global $pdo;
     
     if (dbConnect()) {
 
-        $first_day_of_month = date("Y-m-d", strtotime("first day of" . $date)) . ' 00:00:00';
-        $last_day_of_month  = date("Y-m-d", strtotime("last day of" . $date)). ' 23:59:59';
+        #$first_day_of_month = date("Y-m-d", strtotime("first day of" . $date)) . ' 00:00:00';
+        #$last_day_of_month  = date("Y-m-d", strtotime("last day of" . $date)). ' 23:59:59';
         
         try {
-            $query = "SELECT count(*) AS games FROM activity WHERE member_id = :mid AND datetime between :fdlm AND :ldlm";
+            $query = "SELECT count(*) AS games FROM activity WHERE member_id = :mid AND datetime between :bdate AND :edate";
             $query = $pdo->prepare($query);
             $query->bindParam(':mid', $member_id);
-            $query->bindParam(':fdlm', $first_day_of_month);
-            $query->bindParam(':ldlm', $last_day_of_month);
+            $query->bindParam(':bdate', $bdate);
+            $query->bindParam(':edate', $edate);
             $query->execute();
             $query = $query->fetchAll();
         }
@@ -1095,23 +1095,23 @@ function count_total_games($member_id, $date)
     return $query[0]['games'];
 }
 
-function count_aod_games($member_id, $date)
+function count_aod_games($member_id, $bdate, $edate)
 {
 
     global $pdo;
     
     if (dbConnect()) {
 
-        $first_day_of_month = date("Y-m-d", strtotime("first day of" . $date)) . ' 00:00:00';
-        $last_day_of_month  = date("Y-m-d", strtotime("last day of" . $date)). ' 23:59:59';
+        #$first_day_of_month = date("Y-m-d", strtotime("first day of" . $date)) . ' 00:00:00';
+        #$last_day_of_month  = date("Y-m-d", strtotime("last day of" . $date)). ' 23:59:59';
         
         # count total AOD games played for a single member
         try {
-            $query = "SELECT count(*) AS games FROM activity WHERE member_id = :mid AND server LIKE 'AOD%' AND datetime between :fdlm AND :ldlm";
+            $query = "SELECT count(*) AS games FROM activity WHERE member_id = :mid AND server LIKE 'AOD%' AND datetime between :bdate AND :edate";
             $query = $pdo->prepare($query);
             $query->bindParam(':mid', $member_id);
-            $query->bindParam(':fdlm', $first_day_of_month);
-            $query->bindParam(':ldlm', $last_day_of_month);
+            $query->bindParam(':bdate', $bdate);
+            $query->bindParam(':edate', $edate);
             $query->execute();
             $query = $query->fetchAll();
         }
