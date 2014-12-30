@@ -13,18 +13,28 @@ $my_squad = NULL;
  */
 
 $squad_members = get_my_squad($forumId);
-$squadCount = count($squad_members);
+$squadCount = ($squad_members) ? "(" . count($squad_members) . ")" : NULL;
 
-if (count($squad_members)) {
+
+if ($squad_members) {
 	foreach ($squad_members as $squad_member) {
 		$name = ucwords($squad_member['forum_name']);
 		$id = $squad_member['id'];
 		$rank = $squad_member['rank'];
 		$last_seen = formatTime(strtotime($squad_member['last_activity']));
-		$status = (strtotime($last_seen) < strtotime('-30 days')) ? 'danger' : 'muted';
+
+		// visual cue for inactive squad members
+		if (strtotime($last_seen) < strtotime('-30 days')) {
+			$status = 'danger';
+		} else if (strtotime($last_seen) < strtotime('-14 days')) {
+			$status = 'warning';
+		} else {
+			$status = 'muted';
+		}
+		
 
 		$my_squad .= "
-		<a href='/member/{$id}' class='list-group-item'><strong>{$rank} {$name}</strong><small class='pull-right text-{$status}'>{$last_seen}</small></a>
+		<a href='/member/{$id}' class='list-group-item'>{$rank} {$name}<small class='pull-right text-{$status}'>{$last_seen}</small></a>
 		";
 	}
 } else {
@@ -32,13 +42,8 @@ if (count($squad_members)) {
 }
 
 
-
-
-
-/*
-
-// fetch posts for main page
-$postsArray = get_posts("main_page");
+// fetch announcements for main page
+$postsArray = get_posts("main_page", 5);
 $posts = NULL;
 
 if (!empty($postsArray)) {
@@ -50,31 +55,53 @@ if (!empty($postsArray)) {
 		$authorName = $post['username'];
 		$date = formatTime(strtotime($post['date']));
 		$posts .= "
-		<div class='post'>
-			<div class='title'><h4>{$authorAva} {$title}</h4><span class='pull-right text-muted'>Posted {$date} by <a href='/member/{$authorId}'>{$authorName}</a></span><hr /></div>
-			<div class='content'>{$content}</div>
+		<div class='panel panel-default'>
+			<div class='panel-heading'>{$authorAva} {$title}</div>
+			<div class='panel-body'>{$content}</div>
+			<div class='panel-footer'>
+				<small class='text-muted'>Posted {$date} by <a href='/member/{$authorId}'>{$authorName}</a></small>
+			</div>
 		</div>";
 	}
 } else {
 	$posts .= '<p>There are no posts to display.</p>';
 }
-*/
 
 
 
+// fetch tools based on role
+$toolsArray = build_user_tools($userRole);
+$tools = NULL;
+$roleName = getUserRoleName($userRole);
 
+if (count($toolsArray)) {
+	foreach($toolsArray as $tool) {
+		$icon = $tool['icon'];
+		$class = $tool['class'];
+		$title = $tool['title'];
+		$descr = $tool['descr'];
+		$link = $tool['link'];
 
-
-// begin container
-$out .= "
-<div class='container fade-in margin-top-20'>";
-
-
-	if ($userRole == 0) {
-		$out .= "
-		<div class='alert alert-warning' role='alert'><i class=\"fa fa-exclamation-triangle\"></i> You are currently a guest. You will need to have an administrator approve your account before you can use this application</div>";
+		$tools .= "
+		<a href='{$link}' class='list-group-item {$class}'>
+			<h4 class='pull-right text-success'><i class='fa fa-{$icon} fa-lg'></i></h4>
+			<h4 class='list-group-item-heading'><strong>{$title}</strong></h4>
+			<p class='list-group-item-text'>{$descr}</p>
+		</a>";
 	}
 
+} else {
+	$tools .= "<li class='list-group-item'>No tools currently available to you</li>";
+}
+
+
+
+/**
+ * start page structure
+ */
+
+$out .= "
+<div class='container fade-in margin-top-20'>";
 
 	// tour jumbo tron
 	$out .="
@@ -87,124 +114,79 @@ $out .= "
 		</div> <!-- end col -->
 	</div> <!-- end end row -->";
 
-	// output alerts
-	// should remain at the top of the homepage, but below jumbo
-	$out .= "{$alerts_list}";
 
+	// is user approved?
+	if ($userRole == 0) {
+		$out .= "
+		<div class='alert alert-warning' role='alert'><i class=\"fa fa-exclamation-triangle\"></i> You are currently a guest. You will need to have an administrator approve your account before you can use this application</div>";
+	} else {
 
-	$out .= "
-	<div class='row'>
-		<div class='col-md-12'>
-			<div class='panel panel-info'>
-				<div class='panel-heading'><i class='fa fa-search'></i> Search for player</div>
-				<div class='panel-body'>
-					<input type='text' class='form-control' name='member-search' id='member-search' placeholder='Type a player name' />
-					<div id='member-search-results' class='scroll'></div> 
+		// player search bar
+		$out .= "
+		<div class='row'>
+			<div class='col-md-12'>
+				<div class='panel panel-warning'>
+					<div class='panel-heading'><i class='fa fa-search'></i> <strong>Player Search</strong></div>
+					<div class='panel-body'>
+						<input type='text' class='form-control input-lg' name='member-search' id='member-search' placeholder='Type a player name' />
+						<div id='member-search-results' class='scroll'></div> 
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-	";
+		";
 
-
-// announcements
-
-/*
-	$out .= "
-	<div class='row'>
-		<div class='col-md-12'>
-			<div class='panel panel-default'>
-				<div class='panel-heading'>Announcements</div>
-
-				{$posts}
-
-			</div>
-		</div>
-	</div>
-	";
-*/
-
-
-
-
-	$out .= "
-	<div class='row'>";
+		// output alerts
+		// should remain at the top of the homepage, but below jumbo
+		$out .= $alerts_list;
 
 		$out .= "
+		<div class='row'>";
 
-		<div class='col-md-5'>
-			<div class='panel panel-default'>
-				<div class='panel-heading'><strong>Squad Leader Quick Tools</strong></div>
-
-				<div class='list-group'>
-
-					<a href='#' class='list-group-item'>
-						<h4 class='pull-right text-success'><i class='fa fa-plus-square fa-lg'></i></h4>
-						<h4 class='list-group-item-heading'><strong>Add new recruit</strong></h4>
-						<p class='list-group-item-text'>Start the recruiting process with a brand new candidate</p>
-					</a>
-
-					<a href='#' class='list-group-item'>
-						<h4 class='pull-right text-success'><i class='fa fa-wrench fa-lg'></i></h4>
-						<h4 class='list-group-item-heading'><strong>Manage your squad</strong></h4>
-						<p class='list-group-item-text'>Promote, demote, or kick members of your squad</p>
-					</a>
-
-					<a href='#' class='list-group-item'>
-						<h4 class='pull-right text-success'><i class='fa fa-user fa-lg'></i></h4>
-						<h4 class='list-group-item-heading'><strong>Add an existing member</strong></h4>
-						<p class='list-group-item-text'>Add an existing member of AOD to your squad or platoon</p>
-					</a>
-
-					<a href='#' class='list-group-item disabled'>
-						<h4 class='pull-right'><i class='fa fa-flag-checkered text-muted fa-lg'></i></h4>
-						<h4 class='list-group-item-heading'><strong>Review inactive members</strong></h4>
-						<p class='list-group-item-text'>View inactive members and flag for removal</p>
-					</a>
-
-				</div>
-
-			</div>
-		</div>";
-
-
-
-			// show data depending on role
-		if (!is_null($my_squad)) {
-
+			// start leader tools
 			$out .= "
-			<!-- if a squad leader -->
 
-			<div class='col-md-7'>
-
+			<div class='col-md-5'>
 				<div class='panel panel-default'>
-					<div class='panel-heading'><strong> Your Squad</strong> ({$squadCount})<span class='pull-right text-muted'>Last seen</span></div>
+					<div class='panel-heading'><strong>{$roleName} Quick Tools</strong></div>
+					<div class='list-group'>
+						{$tools}
+					</div>
+				</div>
+				";
+
+				$out .= "
+				<div class='panel panel-default'>
+					<div class='panel-heading'><strong> Your Squad</strong> {$squadCount}<span class='pull-right text-muted'>Last seen</span></div>
 
 					<div class='list-group'>
 						{$my_squad}
 
 					</div>
 				</div>
-			</div>	
+				";
+
+
+				$out .= "
+			</div>";
+			// end leader tools and info column
+
+
+			// announcements
+			$out .= "
+
+			<div class='col-md-7'>
+				{$posts}
+			</div>
 			";
 
-		}
+			$out .="
+		</div>";
+		// end announcements
 
-		$out .="
-		<!-- end row -->
-	</div>";
+	}
 
-
-
-
-
-
-
-
-
-
-
-// end container
+	// end container
 	$out .=" 
 </div>";
 
