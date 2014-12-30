@@ -51,7 +51,7 @@ foreach ($platoons as $row) {
 
 	$platoon_items .= "
 	<a href='/divisions/bf4/{$number}' class='list-group-item'>
-		<h5 class='pull-right text-muted'>{$number_with_suffix} Plt</h5>
+		<h5 class='pull-right text-muted'>{$number_with_suffix} Platoon</h5>
 		<h4 class='list-group-item-heading'><strong>{$platoon_name}</strong></h4>
 		<p class='list-group-item-text text-muted'>{$platoon_ldr}</p>
 	</a>";
@@ -59,10 +59,7 @@ foreach ($platoons as $row) {
 
 if (!empty($platoon_items)) {
 
-	$platoon_list = "
-	<ul class='list-group'>
-		{$platoon_items}
-	</ul>";
+	$platoon_list = $platoon_items;
 
 } else {
 
