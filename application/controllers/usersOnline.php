@@ -16,11 +16,9 @@ if (isLoggedIn()) {
 
 		$out = 'Users online: ';
 		$usersArray = array();
-		$icon = '<i class="fa fa-clock-o text-muted" title="Idle"></i>';
 
 		foreach ($online_users as $user) {
-			$userString = userColor(ucwords($user['username']), $user['role']);
-			$string = ($user['idle'] == 1) ? $icon . ' <span class="text-muted">' . $userString . '</span>' : $userString;
+			$string = ($user['idle'] == 1) ? userColor(ucwords($user['username']), 99) : userColor(ucwords($user['username']), $user['role']);
 			$usersArray[] = $string;
 		}
 

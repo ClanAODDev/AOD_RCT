@@ -343,6 +343,9 @@ function userColor($user, $level)
 {
 
     switch ($level) {
+        case 99:
+        $span = "<span class='text-muted tool-user idling' title='Idle'>" . $user . "</span>";
+        break;
         case 4:
         $span = "<span class='text-danger tool-user' title='Clan Admin'>" . $user . "</span>";
         break;
@@ -781,7 +784,7 @@ return $query;
 
 
 
-function get_posts($type)
+function get_posts($type, $limit)
 {
 
     global $pdo;
@@ -795,9 +798,11 @@ function get_posts($type)
             LEFT JOIN users ON posts.user = users.id 
             LEFT JOIN member ON posts.forum_id = member.member_id 
             WHERE posts.type = :type
-            ORDER BY posts.date DESC";
+            ORDER BY posts.date DESC
+            LIMIT :limiter";
             $query = $pdo->prepare($query);
             $query->bindParam(':type', $type);
+            $query->bindValue(':limiter', (int) trim($limit), PDO::PARAM_INT);
             $query->execute();
             $query = $query->fetchAll();
 
@@ -811,13 +816,106 @@ function get_posts($type)
 }
 
 
+function build_user_tools($role) {
+    switch($role) {
+
+        // squad leader
+        case 1: 
+        $tools =
+
+        array(
+            "Recruit" => array(
+                'class' => 'addRct',
+                'title' => 'Add new recruit',
+                'descr' => 'Start the recruiting process with a brand new candidate',
+                'icon' => 'plus-square',
+                'link' => '/new-recruit'
+                ),
+
+            "Manage" => array(
+                'class' => 'manageSquad',
+                'title' => 'Manage your squad',
+                'descr' => 'Promote, demote, or kick members of your squad',
+                'icon' => 'wrench',
+                'link' => '/manage/squad'
+                ),
+
+            "Inactives" => array(
+                'class' => 'revInactives',
+                'title' => 'Review inactive members',
+                'descr' => 'View inactive members and flag for removal',
+                'icon' => 'flag-checkered',
+                'link' => '/manage/inactives'
+                )
+            );
+        break;
+
+        // platoon leader
+        case 2: 
+        $tools =
+
+        array(
+            "Recruit" => array(
+                'class' => 'addRct',
+                'title' => 'Add new recruit',
+                'descr' => 'Start the recruiting process with a brand new candidate',
+                'icon' => 'plus-square',
+                'link' => '/new-recruit'
+                ),
+
+            "Manage" => array(
+                'class' => 'managePlt',
+                'title' => 'Manage your platoon',
+                'descr' => 'Promote, demote, or kick members of your platoon',
+                'icon' => 'wrench',
+                'link' => '/manage/platoon'
+                ),
+
+            "Inactives" => array(
+                'class' => 'revInactives',
+                'title' => 'Review inactive members',
+                'descr' => 'View inactive members and flag for removal',
+                'icon' => 'flag-checkered',
+                'link' => '/manage/inactives'
+                )
+            );
+        break;
+
+        // division leader
+        case 3: 
+        $tools =
+
+        array(
+            "Manage" => array(
+                'class' => 'manageDiv',
+                'title' => 'Manage your division',
+                'descr' => 'Perform various forms of maintenance within your division',
+                'icon' => 'wrench',
+                'link' => '/manage/division'
+                ),
+
+            "Inactives" => array(
+                'class' => 'revInactives',
+                'title' => 'Review inactive reports',
+                'descr' => 'View inactivity reports and prepare for removal',
+                'icon' => 'flag-checkered',
+                'link' => '/manage/inactives'
+                )
+            );
+        break;
+    }
+    return $tools;
+}
+
+
+
 
 
 function get_member_name($name)
 {
 
     global $pdo;
-    
+
     if (dbConnect()) {
 
         try {
@@ -832,7 +930,7 @@ function get_member_name($name)
             $query->bindParam(':name', $name);
             $query->execute();
             $query = $query->fetchAll();
-            
+
         }
         catch (PDOException $e) {
             return "ERROR:" . $e->getMessage();
@@ -845,7 +943,7 @@ function get_members()
 {
 
     global $pdo;
-    
+
     if (dbConnect()) {
 
         try {
@@ -858,7 +956,7 @@ function get_members()
             $query->bindParam(':pid', $pid);
             $query->execute();
             $query = $query->fetchAll();
-            
+
         }
         catch (PDOException $e) {
             return "ERROR:" . $e->getMessage();
@@ -1078,7 +1176,7 @@ function count_total_games($member_id, $bdate, $edate)
 
         #$first_day_of_month = date("Y-m-d", strtotime("first day of" . $date)) . ' 00:00:00';
         #$last_day_of_month  = date("Y-m-d", strtotime("last day of" . $date)). ' 23:59:59';
-        
+
         try {
             $query = "SELECT count(*) AS games FROM activity WHERE member_id = :mid AND datetime between :bdate AND :edate";
             $query = $pdo->prepare($query);
@@ -1104,7 +1202,7 @@ function count_aod_games($member_id, $bdate, $edate)
 
         #$first_day_of_month = date("Y-m-d", strtotime("first day of" . $date)) . ' 00:00:00';
         #$last_day_of_month  = date("Y-m-d", strtotime("last day of" . $date)). ' 23:59:59';
-        
+
         # count total AOD games played for a single member
         try {
             $query = "SELECT count(*) AS games FROM activity WHERE member_id = :mid AND server LIKE 'AOD%' AND datetime between :bdate AND :edate";
