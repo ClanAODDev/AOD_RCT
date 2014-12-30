@@ -1,7 +1,6 @@
 <?php
 $out = NULL;
 
-
 // SELECT member.id, rank.abbr as rank, forum_name, member_id, battlelog_name, bf4db_id, rank_id,  platoon_id, bf4_position_id, squad_leader_id, status_id, game_id, join_date, last_forum_login, last_activity, last_forum_post, forum_posts 
 
 if ($member = get_member($params['id'])) {
@@ -11,7 +10,7 @@ if ($member = get_member($params['id'])) {
 
 	$platoon = $member['platoon_id'];
 	$game_info = get_game_info($member['game_id']);
-	$short_game_name = $game_info['short_game_name'];
+	$short_game_name = $game_info['short_name'];
 	$game_name = $game_info['full_name'];
 	$game_id = $game_info['id'];
 
@@ -25,7 +24,6 @@ if ($member = get_member($params['id'])) {
 	$battlelog = (empty($member['battlelog_name'])) ? "N/A" : BATTLELOG . $member['battlelog_name'];
 	$forums = (empty($member['member_id'])) ? "N/A" : CLANAOD . $member['member_id'];
 	$bf4db = (empty($member['bf4db_id'])) ? "N/A" : BF4DB . $member['bf4db_id'];
-
 
 	$breadcrumb = "
 	<ul class='breadcrumb'>
@@ -56,14 +54,21 @@ if ($member = get_member($params['id'])) {
 				<div class='panel panel-default'>
 					<div class='panel-heading'><strong>Member Information</strong></div>
 					<ul class='list-group'>
-						<li class='list-group-item text-right'><span class='pull-left'><strong class=''>Status: </strong></span> {$status}</li>
-						<li class='list-group-item text-right'><span class='pull-left'><strong class=''>Joined:</strong></span> {$joined}</li>
-						<li class='list-group-item text-right'><span class='pull-left'><strong class=''>Last seen:</strong></span> {$last_seen}</li>
-						<li class='list-group-item text-right'><span class='pull-left'><strong class=''>Last posted:</strong></span>  {$last_post}</li>
+						<li class='list-group-item text-right'><span class='pull-left'><strong class=''>Status: </strong></span> <span class='text-muted'>{$status}</span></li>
+						<li class='list-group-item text-right'><span class='pull-left'><strong class=''>Divisions: </strong></span> <span class='text-muted'>{$game_name}</span></li>
+						
 						
 					</ul>
 				</div>
 
+				<div class='panel panel-default'>
+					<div class='panel-heading'><strong>Activity</strong></div>
+					<ul class='list-group'>
+					<li class='list-group-item text-right'><span class='pull-left'><strong class=''>Joined:</strong></span> <span class='text-muted'>{$joined}</span></li>
+					<li class='list-group-item text-right'><span class='pull-left'><strong class=''>Last seen:</strong></span> <span class='text-muted'>{$last_seen}</span></li>
+					<li class='list-group-item text-right'><span class='pull-left'><strong class=''>Last posted:</strong></span>  <span class='text-muted'>{$last_post}</span></li>
+					</ul>
+				</div>
 
 
 				<div class='panel panel-default'>
@@ -73,30 +78,13 @@ if ($member = get_member($params['id'])) {
 					<a target='_blank' href='{$forums}' class='list-group-item'>AOD Forum <span class='pull-right'><i class='text-info fa fa-external-link'></i></span></a>
 				</div>
 
-				<ul class='list-group'>
-					<li class='list-group-item text-muted'>Activity <i class='fa fa-dashboard fa-1x'></i>
-
-					</li>
-					<li class='list-group-item text-right'><span class='pull-left'><strong class=''>Shares</strong></span> 125</li>
-					<li class='list-group-item text-right'><span class='pull-left'><strong class=''>Likes</strong></span> 13</li>
-					<li class='list-group-item text-right'><span class='pull-left'><strong class=''>Posts</strong></span> 37</li>
-					<li class='list-group-item text-right'><span class='pull-left'><strong class=''>Followers</strong></span> 78</li>
-				</ul>
-
-
-
-
-
-				<div class='panel panel-default'>
-					<div class='panel-heading'>Social Media</div>
-					<div class='panel-body'>	<i class='fa fa-facebook fa-2x'></i>  <i class='fa fa-github fa-2x'></i> 
-						<i class='fa fa-twitter fa-2x'></i> <i class='fa fa-pinterest fa-2x'></i>  <i class='fa fa-google-plus fa-2x'></i>
-
-					</div>
-				</div>
 			</div>
-			<!--/col-3-->
-			<div class='col-sm-9' contenteditable='false' style=''>
+			<!--/end left side bar-->
+
+
+
+
+			<div class='col-sm-9' style=''>
 				<div class='panel panel-default'>
 					<div class='panel-heading'>Starfox221's Bio</div>
 					<div class='panel-body'> A long description about me.
@@ -163,16 +151,59 @@ if ($member = get_member($params['id'])) {
 
 				</div>
 				<div class='panel panel-default'>
-					<div class='panel-heading'>Battlefield 4 Activity</div>
-					<div class='panel-body'> A long description about me.
-
+					<div class='panel-heading'><strong>Gaming Activity</strong>: Battlefield 4</div>
+					<div class='panel-body'>
+						<p>Some default panel content here. Nulla vitae elit libero, a pharetra augue. Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
 					</div>
+					<table class='table table-striped table-hover'>
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Server Name</th>
+								<th>Date</th>
+							</tr>
+						</thead>
+						<tbody>	
+							<tr>
+								<th scope='row'>2</th>
+								<td>Jacob</td>
+								<td>Thornton</td>
+								
+							</tr>
+							<tr>
+								<th scope='row'>2</th>
+								<td>Jacob</td>
+								<td>Thornton</td>
+								
+							</tr>
+							<tr>
+								<th scope='row'>2</th>
+								<td>Jacob</td>
+								<td>Thornton</td>
+								
+							</tr>
+							<tr>
+								<th scope='row'>2</th>
+								<td>Jacob</td>
+								<td>Thornton</td>
+								
+							</tr>
+							<tr>
+								<th scope='row'>2</th>
+								<td>Jacob</td>
+								<td>Thornton</td>
+								
+							</tr>
+
+						</tbody>
+
+					</table>
+
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-";
+	";
 
 
 } else {
