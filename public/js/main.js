@@ -223,7 +223,7 @@ $(function() {
         var active_count = readCookie('active_count');
         console.log("Activity counter: " + active_count);
         if (active_count < 31) {
-            $.post("/application/controllers/usersOnline.php", function(list) {
+            $.post("/application/controllers/online_users.php", function(list) {
                 $(".userList").html(list);
                 $('.tool-user').powerTip({
                     placement: 'n'
@@ -280,7 +280,7 @@ function setCookie(cname, cvalue, exdays) {
 function member_search() {
     if ($('#member-search').val()) {
         $.ajax({
-            url: 'application/controllers/ajax-members.php',
+            url: 'application/controllers/member_search.php',
             type: 'get',
             data: {
                 name: $('input#member-search').val()
