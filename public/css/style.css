@@ -286,14 +286,13 @@ h2.pull-right {
 
 
 .userList span {
-  font-weight: 700;
   opacity: .70;
   cursor: pointer;
 }
 
 
 .idling {
-  color: rgba(0,0,0,.15);
+  color: rgba(0,0,0,.35);
 }
 
 
