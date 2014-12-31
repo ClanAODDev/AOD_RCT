@@ -125,7 +125,7 @@ $out .= "
 		$out .= "
 		<div class='row'>
 			<div class='col-md-12'>
-				<div class='panel panel-warning'>
+				<div class='panel panel-primary'>
 					<div class='panel-heading'><i class='fa fa-search'></i> <strong>Player Search</strong></div>
 					<div class='panel-body'>
 						<input type='text' class='form-control input-lg' name='member-search' id='member-search' placeholder='Type a player name' />
