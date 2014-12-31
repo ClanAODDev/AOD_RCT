@@ -1003,6 +1003,31 @@ function get_my_squad($mid)
 }
 
 
+function get_player_games($mid)
+{
+
+    global $pdo;
+    
+    if (dbConnect()) {
+
+        try {
+
+            $query = "SELECT server, datetime FROM `activity` WHERE member_id = :mid ORDER BY datetime DESC LIMIT 25";
+            
+            $query = $pdo->prepare($query);
+            $query->bindParam(':mid', $mid);
+            $query->execute();
+            $query = $query->fetchAll();
+            
+        }
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+    return $query;
+}
+
+
 
 function get_platoon_members($pid)
 {
@@ -1136,6 +1161,30 @@ function get_platoon_id_from_number($platoon_number, $division)
     return $query[0];
 }
 
+
+function get_platoon_number_from_id($platoon, $division)
+{
+
+    global $pdo;
+    
+    if (dbConnect()) {
+
+        try {
+
+            $query = "SELECT number FROM platoon WHERE id = :pid AND game_id = :did";
+            $query = $pdo->prepare($query);
+            $query->bindParam(':pid', $platoon);
+            $query->bindParam(':did', $division);
+            $query->execute();
+            $query = $query->fetch();
+            
+        }
+        catch (PDOException $e) {
+            return false;
+        }
+    }
+    return $query[0];
+}
 
 
 

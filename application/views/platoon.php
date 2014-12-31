@@ -47,6 +47,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 			<tr>
 				<th><b>Member</b></th>
 				<th class='nosearch text-center hidden-xs'><b>Rank</b></th>
+				<th class='nosearch text-center'><b>Profile</b></th>
 				<th class='text-center'><b>Join Date</b></th>
 				<th class='text-center'><b>Last Active</b></th>
 				<th class='nosearch text-center follow-tool' title='Percent Played on AOD Servers'><b>%</b></th>
@@ -67,11 +68,12 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 				$rank = $row['rank'];
 				$joindate = date("Y-m-d", strtotime($row['join_date']));
 				$lastActive = formatTime(strtotime($row['last_activity']));
-
+				$profile = "<a class='tool' title='View Profile' href='/member/" . $row['id'] . "'><i class='fa fa-user'></i></a>";
 				$members_table .= "
 				<tr data-id='{$row['id']}' class=''>
 					<td>" . memberColor($row['forum_name'], $row['bf4_position_id']) . "</td>
 					<td class='text-center hidden-xs'>{$rank}</td>
+					<td class='text-center'>{$profile}</td>
 					<td class='text-center'>{$joindate}</td>
 					<td class='text-center'>{$lastActive}</td>
 
