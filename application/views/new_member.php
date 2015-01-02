@@ -52,8 +52,8 @@ $out .= "
 					<li class='slide2'><a href='#tab2' data-toggle='tab'>Add Member Information</a></li>
 					<li class='slide3'><a href='#tab3' data-toggle='tab'>Recruit Thread Completion</a></li>
 					<li class='slide4'><a href='#tab4' data-toggle='tab'>Final Steps</a></li>
-					<li class='slide5'><a href='#tab4' data-toggle='tab'>Confirm Information</a></li>
-					<li class='slide6'><a href='#tab5' data-toggle='tab'>Automated Tasks</a></li>
+					<li class='slide5'><a href='#tab5' data-toggle='tab'>Confirm Information</a></li>
+					<li class='slide6'><a href='#tab6' data-toggle='tab'>Automated Tasks</a></li>
 				</ul>
 			</div>
 		</div>
@@ -107,28 +107,28 @@ $out .= "
 								<div class='form-group memberid-group'>
 									<label for='member_id' class='col-sm-3 control-label'>Forum ID</label>
 									<div class='col-sm-9'>
-										<input type='text' class='form-control' id='member_id' name='member_id'>
+										<input type='text' class='form-control' id='member_id' name='member_id' tabindex='1'>
 									</div>
 								</div>
 
 								<div class='form-group forumname-group'>
 									<label for='forumname' class='col-sm-3 control-label'>Forum Name</label>
 									<div class='col-sm-9'>
-										<input type='text' class='form-control' id='forumname' name='forumname'>
+										<input type='text' class='form-control' id='forumname' name='forumname' tabindex='2'>
 									</div>
 								</div>
 
 								<div class='form-group battlelog-group'>
 									<label for='battlelog' class='col-sm-3 control-label'>Battlelog Name</label>
 									<div class='col-sm-9'>
-										<input type='text' class='form-control' id='battlelog' name='battlelog'>
+										<input type='text' class='form-control' id='battlelog' name='battlelog' tabindex='3'>
 									</div>
 								</div>
 
 								<div class='form-group bf4db-group'>
 									<label for='bf4db' class='col-sm-3 control-label'>BF4DB ID <a href='{$BF4DB}search?name=' class='bf4dbid-search tool-e' title='Search BF4DB using BL Name' ><i class='fa fa-search'></i></a></label>
 									<div class='col-sm-9'>
-										<input type='text' class='form-control' id='bf4db'  name='bf4db'>
+										<input type='text' class='form-control' id='bf4db'  name='bf4db' tabindex='4'>
 									</div>
 								</div>
 								<div class='text-center message text-danger'></div>
@@ -165,6 +165,9 @@ $out .= "
 						</div>
 						<div class='tab-pane' id='tab5'>
 							5
+						</div>
+						<div class='tab-pane' id='tab6'>
+							5fasdfasdf
 						</div>
 
 
