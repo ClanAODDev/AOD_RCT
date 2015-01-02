@@ -18,7 +18,13 @@ $(function() {
 
     $('#rootwizard').bootstrapWizard({
         onNext: function(tab, navigation, index) {
+
+            /**
+             * slide validation
+             */
+
             if (index == 2) {
+
                 // Make sure we entered the name
                 if (!$('#member_id').val() || !$('#battlelog').val() || !$('#bf4db').val() || !$('#forumname').val()) {
                     $(".message").html("<i class='fa fa-times'></i>  All fields are required.").effect("bounce");
@@ -28,22 +34,32 @@ $(function() {
                             $(this).addClass("has-error");
                         }
                     });
+
+
                     return false;
                 }
 
                 $(".has-error").removeClass("has-error");
                 $(".message").html("");
 
+                // check for matching forum name / battlelog
+                if ($('#battlelog').val() != $('#forumname').val()) {
+                    if (!confirm("The member's forum name does not match the ingame name. Are you sure you wish to continue with this information?\r\nYou will have the option of requesting a name change in addition to the new member status request at the end of the recruitment process.")) {
+                        return false;
+                    }
+                }
+
             }
 
 
             if (index == 3) {
+
                 // have the division threads loaded?
                 if ($('.thread-list').is(':visible')) {
-                    // do the number of threads match 
-                    // the number of successful results?
+
+                    // do the number of threads match the number of successful results?
                     if ($('li.thread').length != $('.thread span.alert-success').length) {
-                        $(".thread-status").html("<i class='fa fa-times'></i> Recruit must complete all threads.")
+                        $(".thread-status").html(" <i class='fa fa-times'></i> Recruit must complete all threads. ").effect('highlight')
                         return false
                     }
                 } else {
@@ -75,7 +91,9 @@ $(function() {
                 case 5:
                     $(".tab-title strong").html("Finishing Up")
                     break;
-
+                case 6:
+                    $(".tab-title strong").html("Recruitment Complete")
+                    break;
             }
 
             var $total = navigation.find('li').length;
@@ -98,10 +116,11 @@ function loadThreadCheck() {
 
 
     // apply name to final slide
-    $(".player-name").html("AOD_Rct_" + ucwords(battlelog));
+    $(".rank-name").html("AOD_Rct_" + ucwords(battlelog));
+    $(".player-name").html(ucwords(battlelog));
 
     if (player) {
-        $(".search-subject").html("<p class='text-muted'>Searching threads for <code>" + player + "</code></p>");
+        $(".search-subject").html("<p class='text-muted'>Searching threads for posts by: <code '>" + ucwords(player) + "</code></p>");
     }
 
     $(".thread-results").html('<img src="/public/images/loading.gif " class="margin-top-20" />');

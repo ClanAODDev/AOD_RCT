@@ -29,7 +29,7 @@ if ($member = get_member($params['id'])) {
 				<td class='text-muted'>{$date}</td>
 			</tr>";
 		}
-	} else if (is_null($member['bf4db_id'])) {
+	} else if (is_null($member['bf4db_id']) || empty($member['bf4db_id'])) {
 		$games = "<li class='list-group-item text-muted'>This player does not have a BF4DB id stored. You should update it.</li>";
 	} else {
 		$games = "<li class='list-group-item text-muted'>Either this player has no recorded games or the data sync has not yet stored any data for this player.</li>";

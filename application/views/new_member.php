@@ -54,18 +54,19 @@ $out .= "
 					<li class='slide4'><a href='#tab4' data-toggle='tab'>Final Steps</a></li>
 					<li class='slide5'><a href='#tab5' data-toggle='tab'>Confirm Information</a></li>
 					<li class='slide6'><a href='#tab6' data-toggle='tab'>Automated Tasks</a></li>
+					<li class='slide7'><a href='#tab7' data-toggle='tab'>Complete</a></li>
 				</ul>
 			</div>
 		</div>
 
-		<div class='progress' style='height: 40px;'>
+		<div class='progress'>
 			<div class='bar progress-bar progress-bar-striped progress-bar-success active' ></div>
 		</div>
 
 
 		<div class='panel panel-default'>
 			<div class='panel-heading tab-title'>
-				<strong></strong>
+				<strong></strong><span class='pull-right text-muted'>{$game_name} Division</span>
 			</div>
 
 			<div class='panel-body'>
@@ -99,7 +100,7 @@ $out .= "
 						<div class='tab-pane' id='tab2'>
 
 							<div class='col-sm-6'>
-								<p>Let's gather some information about our new member. Please fill out and check the form completely for accuracy. </p>
+								<p class='margin-top-20'>Let's gather some information about our new member. Please fill out and check the form completely for accuracy. </p>
 								<p>The information you provide will be maintained throughout the process and will be used to put the player in the right platoon and squad. If you are a squad leader, they will be assigned to you by default.</p>
 								<p>The platoon and division will also be determined by your platoon, division.</p>
 							</div>
@@ -138,7 +139,7 @@ $out .= "
 						<div class='tab-pane' id='tab3'>
 							<div class='col-sm-6'>
 
-								<p>Listed are the recruiting threads required for each of your division's members to read and understand. The status indicates whether or not your new recruit has made a post in each of those threads.</p><p>You can right-click to copy and paste each of these links to your recruit to have them complete them, but you should take the time to explain each of these threads, hitting the high (important) notes. Ensure each thread is completed (and that they understand them), before continuing.</p>
+								<p class='margin-top-20'>Listed are the recruiting threads required for each of your division's members to read and understand. The status indicates whether or not your new recruit has made a post in each of those threads.</p><p>You can right-click to copy and paste each of these links to your recruit to have them complete them, but you should take the time to explain each of these threads, hitting the high (important) notes. Ensure each thread is completed (and that they understand them), before continuing.</p>
 
 								<p>For ease, you can copy all of the recruit thread links to your clipboard using the button below.</p>
 
@@ -147,6 +148,7 @@ $out .= "
 								</p>
 							</div>
 							<div class='col-sm-6 well'>
+
 								<div class='search-subject text-center'></div>
 								<div class='thread-results text-center'></div>
 
@@ -157,7 +159,7 @@ $out .= "
 							<p>Now, you are ready to finalize your new recruit and take care of the paperwork associated with each new recruit. <strong>Be sure to ask</strong> if there are any questions or concerns your recruit may have. You should also remind him/her that <strong>you will be their squad leader</strong> and can come to you if they have any issues in the relative future.</p><p>Your next steps should include:</p>
 							<ul>
 								<li>Having them adjust their forum member profile settings</li>
-								<li>Changing their name on ventrilo <code class='player-name'></code></li>
+								<li>Changing their name on ventrilo <code class='rank-name'></code></li>
 								<li>Accepting them into the BF4 platoon on Battlelog</li>
 								<li>Give them the <a href='http://www.clanaod.net/forums/showthread.php?t=3293' target='_blank'>channel password</a> and introduce them to the other members</li>
 							</ul>
@@ -167,7 +169,24 @@ $out .= "
 							5
 						</div>
 						<div class='tab-pane' id='tab6'>
-							5fasdfasdf
+							<div class='col-sm-6'>
+								<div class='panel panel-primary disabled'>
+									<div class='panel-heading disabled text-muted'>Forum Login</div>
+								</div>
+								<div class='panel panel-primary disabled'>
+									<div class='panel-heading disabled text-muted'><strong>Forum Functions</strong></div>
+									<div class='list-group'>
+										<a class='list-group-item division-post' disabled>Post to division structure</a>
+										<a class='list-group-item member-status' disabled>Request new member status</a>
+										<a class='list-group-item post-intro' disabled>Post Welcome thread</a>
+										<a class='list-group-item post-intro' disabled>Send Welcome PM</a>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class='tab-pane' id='tab7'>
+							<p class='lead'><i class='fa fa-check text-success'></i> You have successfully completed <span class='player-name'></span>'s recruiting process!</p>
 						</div>
 
 
