@@ -18,7 +18,6 @@ if (isset($_GET['player']) && (isset($_GET['game']))) {
 	$out .= "	
 	<ul class=\"list-group text-left\">";
 
-		/*if (count($gameThreads) >2) {*/
 			foreach ($gameThreads as $gameThread) {
 
 				$title = forceEmptyMessageIfNull($gameThread['thread_title']);
@@ -35,19 +34,13 @@ if (isset($_GET['player']) && (isset($_GET['game']))) {
 					$out .= "
 				</li>";
 			}
-		/*} else {
-			$out .= "<div class=\"alert alert-danger\" role=\"alert\"><i class=\"glyphicon glyphicon-warning-sign\"></i> It looks like your division doesn't have any associated threads. They will need to be added to the database. It is also possible that your divis</div>";
-		}*/
-
 
 		$out .= "
 	</ul>";
 
-	/*if (count($gameThreads) >2) {*/
 		$out .="
 		<small class=\"pull-left text-muted\">Checks the  page of the latest post in a thread(last 25 replies) to see if recruit has posted.</small><span class=\"reload pull-right text-muted\" style=\"cursor: pointer;\"><small title='Refresh threads'>Refresh <i class=\"glyphicon glyphicon-refresh glyphicon-xs\"></i></small></span>
 		";
-	/*}*/
 
 	echo $out;
 } else {
