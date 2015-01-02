@@ -119,8 +119,8 @@ ul.nav {
   margin-top: 50px;
 }
 
-
-
+/* stop disabled links from firing */
+a[disabled] { pointer-events: none; }
 
 .game-select {
   display: inline-block;
