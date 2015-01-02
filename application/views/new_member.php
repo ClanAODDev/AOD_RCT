@@ -75,9 +75,13 @@ $out .= "
 
 					<input type='hidden' value='{$game_id}' id='game' name='game' />
 
-					<div class='tab-content'>
+					<div class='tab-content'>";
 
+						// start tabbed content
 
+						// tab 1 - introduction
+
+						$out .="
 						<div class='tab-pane' id='tab1'>
 							<div class='col-xs-12'>
 								<p>At this point, you have already established a potential recruit. The next step is to get him or her through AOD's recruiting process, and added to our division structure. If you have not already, you need to get your recruit into ventrilo. Your relationship to your new recruit is vital and begins with the first impression. Get to know them and make them feel welcome. This will make a huge difference down the road.</p>
@@ -95,8 +99,12 @@ $out .= "
 								<p><a href='http://www.clanaod.net/forums/showthread.php?t=3293' target='_blank'><button type='button' class='btn btn-primary'>Vent Server Information</button></a> <a href='http://www.ventrilo.com/download.php' target='_blank'><button type='button' class='tool btn btn-primary' title='Right click to copy link'>Client Download</button></a></p>
 
 							</div>
-						</div>
+						</div>";
 
+
+						// tab 2 - member information form
+
+						$out .="
 						<div class='tab-pane' id='tab2'>
 
 							<div class='col-sm-6'>
@@ -108,34 +116,39 @@ $out .= "
 								<div class='form-group memberid-group'>
 									<label for='member_id' class='col-sm-3 control-label'>Forum ID</label>
 									<div class='col-sm-9'>
-										<input type='text' class='form-control' id='member_id' name='member_id' tabindex='1'>
+										<input type='text' class='form-control' placeholder='12345' id='member_id' name='member_id' tabindex='1'>
 									</div>
 								</div>
 
 								<div class='form-group forumname-group'>
 									<label for='forumname' class='col-sm-3 control-label'>Forum Name</label>
 									<div class='col-sm-9'>
-										<input type='text' class='form-control' id='forumname' name='forumname' tabindex='2'>
+										<input type='text' class='form-control' placeholder='JoeSnuffy25' id='forumname' name='forumname' tabindex='2'>
 									</div>
 								</div>
 
 								<div class='form-group battlelog-group'>
 									<label for='battlelog' class='col-sm-3 control-label'>Battlelog Name</label>
 									<div class='col-sm-9'>
-										<input type='text' class='form-control' id='battlelog' name='battlelog' tabindex='3'>
+										<input type='text' class='form-control' placeholder='JoeSnuffy25' id='battlelog' name='battlelog' tabindex='3'>
 									</div>
 								</div>
 
 								<div class='form-group bf4db-group'>
 									<label for='bf4db' class='col-sm-3 control-label'>BF4DB ID <a href='{$BF4DB}search?name=' class='bf4dbid-search tool-e' title='Search BF4DB using BL Name' ><i class='fa fa-search'></i></a></label>
 									<div class='col-sm-9'>
-										<input type='text' class='form-control' id='bf4db'  name='bf4db' tabindex='4'>
+										<input type='text' class='form-control' id='bf4db' placeholder='123456' name='bf4db' tabindex='4'>
 									</div>
 								</div>
 								<div class='text-center message text-danger'></div>
 							</div>
 
-						</div>
+						</div>";
+
+
+						// tab 3 - Recruiting thread status check
+
+						$out .="
 						<div class='tab-pane' id='tab3'>
 							<div class='col-sm-6'>
 
@@ -153,7 +166,12 @@ $out .= "
 								<div class='thread-results text-center'></div>
 
 							</div>
-						</div>					
+						</div>";
+
+
+						// tab 4 - Final steps with recruit
+
+						$out .="					
 						<div class='tab-pane' id='tab4'>
 
 							<p>Now, you are ready to finalize your new recruit and take care of the paperwork associated with each new recruit. <strong>Be sure to ask</strong> if there are any questions or concerns your recruit may have. You should also remind him/her that <strong>you will be their squad leader</strong> and can come to you if they have any issues in the relative future.</p><p>Your next steps should include:</p>
@@ -164,7 +182,12 @@ $out .= "
 								<li>Give them the <a href='http://www.clanaod.net/forums/showthread.php?t=3293' target='_blank'>channel password</a> and introduce them to the other members</li>
 							</ul>
 
-						</div>
+						</div>";
+
+
+						// tab 5 - Confirm member information
+
+						$out .="
 						<div class='tab-pane' id='tab5'>
 							5
 						</div>
@@ -183,12 +206,21 @@ $out .= "
 									</div>
 								</div>
 							</div>
-						</div>
+						</div>";
+
+
+						// tab 6 - forum integration actions
+
+						$out .="
 
 						<div class='tab-pane' id='tab7'>
 							<p class='lead'><i class='fa fa-check text-success'></i> You have successfully completed <span class='player-name'></span>'s recruiting process!</p>
-						</div>
+						</div>";
 
+
+						// end tabbed content
+
+						$out .="
 
 					</div>	
 				</form>
