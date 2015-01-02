@@ -117,7 +117,9 @@ function define_pages()
         'platoon' => "/divisions/(?'division'" . $divisions . ")/(?'platoon'\d+)",
         'user' => "/user/(?'page'profile|messages|settings)",
 
-        'new-recruit' => "/new-recruit",
+        'recruiting' => "/recruiting",
+        'new_member' => "/recruiting/new-member",
+        'existing_member' => "/recruiting/existing-member",
         'register' => "/register",
         'logout' => "/logout",
         'home' => "/"
@@ -826,9 +828,9 @@ function build_user_tools($role) {
             "Recruit" => array(
                 'class' => 'addRct',
                 'title' => 'Add new recruit',
-                'descr' => 'Start the recruiting process with a brand new candidate',
+                'descr' => 'Start the recruiting process with a division candidate',
                 'icon' => 'plus-square',
-                'link' => '/new-recruit'
+                'link' => '/recruiting'
                 ),
 
             "Manage" => array(

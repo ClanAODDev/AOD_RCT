@@ -2,13 +2,6 @@
 
 $out = NULL;
 
-$breadcrumb = "
-<ul class='breadcrumb'>
-	<li><a href='/'>Home</a></li>
-	<li class='active'>Add a new recruit</li>
-</ul>
-";
-
 $game_info = get_game_info($member_info['game_id']);
 $short_game_name = $game_info['short_name'];
 $game_name = $game_info['full_name'];
@@ -21,60 +14,25 @@ $showLinksDisplay = (isDev()) ? "block" : "none";
 $BF4DB = BF4DB;
 
 
+$breadcrumb = "
+<ul class='breadcrumb'>
+	<li><a href='/'>Home</a></li>
+	<li><a href='/recruiting/'>Recruiting</a></li>
+	<li class='active'>Add New Member</li>
+</ul>
+";
+
+
+
 $out .= "
 <div class='container fade-in'>
 	{$breadcrumb}
 
 	<div class='page-header'>
-		<h1><strong>Recruiting</strong> <small>Adding a new member</small></h1>
-	</div>
-	<div class='recruit-intro'>
-		<div class='row'>
-			<div class='col-md-12'>
-				<p class='lead'>Ready to start a new recruit? To make things easier, you should have a couple items handy. Make sure you have them copied somewhere so you don't get backed up later:</p>
-
-			</div>
-		</div>
-
-		<div class='row margin-top-20'>
-			<div class='col-xs-4'>
-				<div class='panel panel-primary'>
-					<div class='panel-heading'><strong>AOD Forum ID</strong></div>
-					<img src='public/images/forum_id_ss.jpg' class='img-responsive'/>
-				</div>
-			</div>
-
-			<div class='col-xs-4'>
-				<div class='panel panel-primary'>
-					<div class='panel-heading'><strong>Battlelog Name</strong></div>
-					<img src='public/images/bf4_name_ss.jpg' class='img-responsive'/>			
-				</div>
-			</div>
-			<div class='col-xs-4'>
-				<div class='panel panel-primary'>
-					<div class='panel-heading'><strong>BF4DB ID</strong></div>
-					<img src='public/images/bf4db_id_ss.jpg' class='img-responsive'/>			
-				</div>
-			</div>
-		</div>
-
-		<div class='row margin-top-20'>
-			<div class='col-md-12'>
-				<p>This information is necessary for us to keep track of our players' activity, and also to provide integration with the AOD forums. If you do not know how to obtain this information, consult your leadership.</p>
-				<p>Once you are ready to begin, click below to start. Be prepared to complete the process entirely once started. <span class='text-danger'>You cannot return to an unfinished recruit session.</span></p>
-			</div>
-		</div>
-
-		<div class='row margin-top-50'>
-			<div class='col-md-12 text-center'>
-				<a href='#' class='recruit-init'><button type='button' class='btn btn-lg btn-primary'>Begin Recruit Process <i class='fa fa-arrow-right'></i></button></a>
-			</div>
-		</div>
-
+		<h1><strong>Recruiting</strong> <small>Begin Recruiting Process</small></h1>
 	</div>
 
-	<!---->
-	<div id='rootwizard' style='display: none;'>
+	<div id='rootwizard'>
 
 		<!-- necessary for step functionality -->
 		<div class='navbar' style='display: {$showLinksDisplay}'>
@@ -174,7 +132,7 @@ $out .= "
 									title='Click to copy recruit threads' type='button'>Copy Thread Links</button>
 								</p>
 							</div>
-							<div class='col-sm-6'>
+							<div class='col-sm-6 well'>
 								<div class='thread-results text-center'></div>
 							</div>
 						</div>					
@@ -200,14 +158,12 @@ $out .= "
 				</ul>
 			</div>
 
-		</div>
-	</div>
-</div>
-
+		</div><!-- end panel -->
+	</div><!-- end root wizard -->
+</div><!-- end container -->
 
 <script src='/public/js/recruit.js'></script>";
 
-
-echo $out;
+echo $out; 
 
 ?>
