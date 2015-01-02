@@ -1,12 +1,5 @@
 $(function() {
 
-
-    $(".recruit-init").click(function() {
-        $(".recruit-intro").fadeOut();
-        $("#rootwizard").delay(1000).fadeIn();
-    })
-
-
     // allow bf4db search with forum name
     $(".bf4dbid-search").click(function(e) {
         e.preventDefault();
@@ -36,14 +29,15 @@ $(function() {
                         }
                     });
                     return false;
-                } else {
-                    return true;
                 }
+
+                    $(".has-error").removeClass("has-error");
+                    $(".message").html("");
+
             }
 
             if (index == 3) {
-                $("[class$=group]").removeClass("has-error");
-                $(".message").html("");
+
             }
 
         },
