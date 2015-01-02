@@ -97,6 +97,12 @@ $out .= "
 						</div>
 
 						<div class='tab-pane' id='tab2'>
+
+							<div class='col-sm-6'>
+								<p>Let's gather some information about our new member. Please fill out and check the form completely for accuracy. </p>
+								<p>The information you provide will be maintained throughout the process and will be used to put the player in the right platoon and squad. If you are a squad leader, they will be assigned to you by default.</p>
+								<p>The platoon and division will also be determined by your platoon, division.</p>
+							</div>
 							<div class='col-sm-6 well'>
 								<div class='form-group memberid-group'>
 									<label for='member_id' class='col-sm-3 control-label'>Forum ID</label>
@@ -128,11 +134,6 @@ $out .= "
 								<div class='text-center message text-danger'></div>
 							</div>
 
-							<div class='col-sm-6'>
-								<p>Let's gather some information about our new member. Please fill out and check the form completely for accuracy. </p>
-								<p>The information you provide will be maintained throughout the process and will be used to put the player in the right platoon and squad. If you are a squad leader, they will be assigned to you by default.</p>
-							</div>
-
 						</div>
 						<div class='tab-pane' id='tab3'>
 							<div class='col-sm-6'>
@@ -153,7 +154,7 @@ $out .= "
 						</div>					
 						<div class='tab-pane' id='tab4'>
 
-							<p>At this point, you are now ready to finalize your new recruit and take care of the paperwork associated with each new recruit. <strong>Be sure to ask</strong> if there are any questions or concerns your recruit may have. You should also remind him/her that <strong>you will be their squad leader</strong> and can come to you if they have any issues in the relative future.</p><p>Your next steps should include:</p>
+							<p>Now, you are ready to finalize your new recruit and take care of the paperwork associated with each new recruit. <strong>Be sure to ask</strong> if there are any questions or concerns your recruit may have. You should also remind him/her that <strong>you will be their squad leader</strong> and can come to you if they have any issues in the relative future.</p><p>Your next steps should include:</p>
 							<ul>
 								<li>Having them adjust their forum member profile settings</li>
 								<li>Changing their name on ventrilo <code class='player-name'></code></li>

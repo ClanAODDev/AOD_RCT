@@ -10,8 +10,8 @@ if (isset($_GET['player']) && (isset($_GET['game']))) {
 
 	if (!empty($_GET['player']) && (!empty($_GET['game']))) {  
 
-		$success = "<span class=\"badge alert-success\"><i class=\"fa fa-check\"></i></span>";
-		$failure = "<span class=\"badge alert-danger\" title=\"User has not completed this step\"><i class=\"fa fa-times\"></i></span>";
+		$success = "<span class=\"badge alert-success\"><i class=\"fa fa-check fa-lg\"></i></span>";
+		$failure = "<span class=\"badge alert-danger\" title=\"User has not completed this step\"><i class=\"fa fa-times fa-lg\"></i></span>";
 
 
 		$gameThreads = get_game_threads($game);

@@ -6,7 +6,7 @@ $(function() {
         var battlelog = $("#battlelog").val();
         if (battlelog == '') {
             $(".battlelog-group").addClass("has-error").effect("bounce");
-            $(".message").html("A battlelog name is required to search with.").effect("bounce");
+            $(".message").html("<i class='fa fa-times'></i>  A battlelog name is required to search with.").effect("bounce");
             return false;
         } else {
             $(".battlelog-group").removeClass("has-error");
@@ -21,7 +21,7 @@ $(function() {
             if (index == 2) {
                 // Make sure we entered the name
                 if (!$('#member_id').val() || !$('#battlelog').val() || !$('#bf4db').val() || !$('#forumname').val()) {
-                    $(".message").html("All fields are required.").effect("bounce");
+                    $(".message").html("<i class='fa fa-times'></i>  All fields are required.").effect("bounce");
                     $('[class$=group]').each(function() {
                         var $this = $(this);
                         if ($this.find('input').val() == '') {
@@ -43,7 +43,7 @@ $(function() {
                     // do the number of threads match 
                     // the number of successful results?
                     if ($('li.thread').length != $('.thread span.alert-success').length) {
-                        $(".thread-status").html("Recruit must complete all threads.")
+                        $(".thread-status").html("<i class='fa fa-times'></i> Recruit must complete all threads.")
                         return false
                     }
                 } else {
