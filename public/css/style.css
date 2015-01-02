@@ -68,6 +68,21 @@
   margin: 0 !important;
 }
 
+.wizard.pager {
+  margin: 0 !important;
+}
+
+#searchclear {
+  position: absolute;
+  right: 5px;
+  top: 0;
+  bottom: 0;
+  height: 14px;
+  margin: auto;
+  font-size: 14px;
+  cursor: pointer;
+  color: #ccc;
+}
 
 
 .push-top {
@@ -260,12 +275,12 @@ h2.pull-right {
 }
 
 .count-detail-big {
-
   font-family: 'dincond-black';
-  font-size: 68px;
+  font-size: 72px;
   text-align: center;
   color: #999;
   text-shadow: 0 4px 0 rgba(0,0,0,.1);
+  letter-spacing: -5px;
 }
 
 

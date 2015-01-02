@@ -1,15 +1,12 @@
 $(function() {
-    loadThreadCheck();
-    /*	var auto_refresh = setInterval(loadThreadCheck, 8000);*/
 
     $(".alert").alert()
-
 
     $('.alert').bind('closed.bs.alert', function() {
         var id = $(this).data('id'),
             user = $(this).data('user');
 
-        $.post("/application/controllers/alertUpdate.php", {
+        $.post("/application/controllers/update_alert.php", {
             id: id,
             user: user
         });
@@ -26,6 +23,9 @@ $(function() {
     });
 
 
+    /**
+     * navigation links for user cp
+     */
     $('.logout-btn').click(function(e) {
         e.preventDefault();
         window.location.href = "/logout";
@@ -123,7 +123,7 @@ $(function() {
     });
 
     $('.tool').powerTip({
-        placement: 'ne'
+        placement: 'n'
     });
 
     var platoonNum = parseInt($('.platoon-number').text());
@@ -147,14 +147,15 @@ $(function() {
             "visible": false,
             "searchable": false
         }, {
-            "iDataSort": 5, // sort rank by rank id
+            "iDataSort": 6, // sort rank by rank id
             "aTargets": [1]
         }, {
-            "iDataSort": 6, // sort rank by rank id
+            "iDataSort": 7, // sort rank by rank id
             "aTargets": [3]
         }],
         stateSave: true,
         paging: false,
+
 
         "bServerSide": false,
         "drawCallback": function(settings) {
@@ -187,6 +188,9 @@ $(function() {
                 "bSelectedOnly": true
             }]
         }
+
+
+
     });
 
     $('#members-table tbody').on('click', 'tr', function() {
@@ -251,8 +255,6 @@ $(function() {
         }
     })
 
-
-
 });
 
 function formatNumber(num) {
@@ -292,32 +294,22 @@ function member_search() {
     }
 }
 
-function loadThreadCheck() {
 
-    /*  var player = document.getElementById("
-            player ").value,
-        game = document.getElementById("
-            game ").value;
 
-    $(".thread - results ").html('<img src="
-            public / images / loading.gif " class="
-            margin - top - 20 " />');
+/**
+ * ZeroClipboard support
+ */
 
-    $.ajax({
-        url: " / application / check_threads.php ",
-        data: {
-            player: player,
-            game: game
-        },
-        cache: false,
-        beforeSend: function() {
-            $('#content').hide();
-            $('#loading').show();
-        },
-    })
+var client = new ZeroClipboard(document.getElementById("copy-button"));
 
-    .done(function(html) {
-        $(".thread - results ").empty().prepend(html);
+client.on("ready", function(readyEvent) {
+    // alert( "ZeroClipboard SWF is ready!" );
+
+    client.on("aftercopy", function(event) {
+        // `this` === `client`
+        // `event.target` === the element that was clicked
+        // event.target.style.display = "none";
+        alert("Copied text to clipboard");
+        // : " + event.data["text/plain"]
     });
-*/
-}
+});

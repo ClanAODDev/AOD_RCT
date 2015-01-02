@@ -41,7 +41,6 @@ if ($squad_members) {
 	$my_squad .= "<div class='panel-body'>Unfortunately it looks like you don't have any squad members! Do you need to <a href='/manage/squad/'>Add Members</a> to your squad?</div>";
 }
 
-
 // fetch announcements for main page
 $postsArray = get_posts("main_page", 5);
 $posts = NULL;
@@ -103,6 +102,8 @@ if (count($toolsArray)) {
 $out .= "
 <div class='container fade-in margin-top-20'>";
 
+
+
 	// tour jumbo tron
 	$out .="
 	<div class='row tour-intro'>
@@ -114,6 +115,13 @@ $out .= "
 		</div> <!-- end col -->
 	</div> <!-- end end row -->";
 
+	// alerts section
+	$out .= "
+	<div class='row'>
+		<div class='col-md-12'>
+			{$alerts_list}
+		</div>
+	</div>";
 
 	// is user approved?
 	if ($userRole == 0) {
@@ -135,10 +143,6 @@ $out .= "
 			</div>
 		</div>
 		";
-
-		// output alerts
-		// should remain at the top of the homepage, but below jumbo
-		$out .= $alerts_list;
 
 		$out .= "
 		<div class='row'>";

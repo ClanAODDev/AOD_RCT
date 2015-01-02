@@ -3,21 +3,21 @@
 	<title>AOD | Squad Management</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
-	<script src="/public/js/jquery-2.1.1.min.js"></script>
-	<script src="/public/js/jquery-ui.min.js"></script>
-	<script src="/public/js/jquery.easing.min.js"></script>
-	<script src="/public/js/jquery.powertip.min.js"></script>
+	<script src="/public/js/libraries/jquery-2.1.1.min.js"></script>
+	<script src="/public/js/libraries/jquery-ui.min.js"></script>
+	<script src="/public/js/libraries/jquery.easing.min.js"></script>
+	<script src="/public/js/libraries/jquery.powertip.min.js"></script>
 
-	<script src="/public/js/bootstrap.min.js"></script>
-	<script src="/public/js/jquery.dataTables.min.js"></script>
-	<script src="/public/js/dataTables.bootstrap.js"></script>
-	<script src="/public/js/dataTables.tableTools.min.js"></script>
-	<script src="/public/js/obfuscation.min.js"></script>
-		
-	<link rel="stylesheet" type="text/css" href="/public/css/lumen.min.css">				
-	<link rel="stylesheet" type="text/css" href="/public/css/jquery.powertip.min.css">				
+	<script src="/public/js/libraries/bootstrap.min.js"></script>
+	<script src="/public/js/libraries/jquery.dataTables.min.js"></script>
+	<script src="/public/js/libraries/dataTables.bootstrap.js"></script>
+	<script src="/public/js/libraries/dataTables.tableTools.min.js"></script>
+	<script src="/public/js/libraries/jquery.bootstrap.wizard.min.js"></script>
 
+	<link rel="stylesheet" type="text/css" href="/public/css/lumen.min.css">		
+	<link rel="stylesheet" type="text/css" href="/public/css/jquery.powertip.min.css">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">	
+	<link href="//cdn.datatables.net/responsive/1.0.3/css/dataTables.responsive.css" rel="stylesheet">	
 	<link href="/public/css/jquery.dataTables.min.css" rel="stylesheet">
 	<link href="/public/css/dataTables.tableTools.css" rel="stylesheet">
 	
@@ -126,12 +126,16 @@
 								<li class="disabled"><a href="#" disabled><?php echo $curUser ?><span class="pull-right"><?php echo $avatar; ?></span></a></li>
 								<li class="divider"></li>
 								<li><a href="#" data-toggle="pill" class="messages-btn"> Messages<span class="badge pull-right">42</span></a></li>
-								<li><a href="#" data-toggle="pill" class="profile-btn"> Profile</a></li>
 								<li><a href="#" data-toggle="pill" class="settings-btn"> Settings</a></li>
 								<li><a href="http://www.clanaod.net/forums/member.php?u=<?php echo $forumId; ?>" target="_blank"> Forum profile</a></li>
 								<li class="divider"></li>
 								<li><a href="#" data-toggle="pill" class="logout-btn"><i class="fa fa-lock pull-right"></i> Logout</a></li>
 							</ul>
+						</li>
+
+						<li>
+							<a href="/admin" role="button">Admin CP</a>
+							
 						</li>
 
 					</ul>
@@ -144,14 +148,12 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">User CP<span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
-								<li class="disabled"><a href="#" disabled><?php echo $curUser . " (". getUserRoleName($userRole). ")"; ?></a></li>
-								<li class="divider"></li>
-								<li><a href="#" data-toggle="pill"> Profile</a></li>
-								<li><a href="#" data-toggle="pill"> Settings</a></li>
+								<li class="disabled"><a href="#" disabled><?php echo ucwords($curUser) . " (". getUserRoleName($userRole). ")"; ?></a></li>
 								<li class="divider"></li>
 								<li><a href="#" data-toggle="pill" class="logout-btn"><i class="fa fa-lock pull-right"></i> Logout</a></li>
 							</ul>
 						</li>
+
 					</ul>
 				</div>
 

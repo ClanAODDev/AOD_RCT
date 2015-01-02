@@ -79,11 +79,11 @@ $breadcrumb = "
 $out .= "
 <div class='container fade-in'>
 	<div class='row'>{$breadcrumb}</div>
-	<div class='row'>
-		<div class='col-md-12 page-header'>
+
+		<div class='page-header'>
 			<h2><strong>{$game_name} Division</strong></h2>
 		</div>
-	</div>
+
 	
 
 	<div class='row'>

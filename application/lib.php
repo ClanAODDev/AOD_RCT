@@ -22,11 +22,8 @@ if (isLoggedIn()) {
     } else {
         $avatar = NULL;
     }
-    
 
 
-
-    
     
     /**
      * generate alerts
@@ -39,8 +36,7 @@ if (isLoggedIn()) {
         $alerts_list .= "
         <div data-id='{$alert['id']}' data-user='{$member_info['userid']}' class='alert-dismissable alert alert-{$alert['type']} fade in' role='alert'>
             <button type='button' class='close' data-dismiss='alert'><span aria-hidden='true'>&times;</span><span class='sr-only'>Close</span></button>
-            {$alert['content']} </div>
-            ";
+            {$alert['content']} </div>";
         }
 
 
@@ -120,6 +116,8 @@ function define_pages()
         'division' => "/divisions/(?'division'" . $divisions . ")",
         'platoon' => "/divisions/(?'division'" . $divisions . ")/(?'platoon'\d+)",
         'user' => "/user/(?'page'profile|messages|settings)",
+
+        'new-recruit' => "/new-recruit",
         'register' => "/register",
         'logout' => "/logout",
         'home' => "/"
@@ -245,8 +243,9 @@ function get_user_info($name)
 
         try {
 
-            $sth = $pdo->prepare("SELECT users.id as userid, member_id, username, forum_name, rank_id, role, email, idle, last_logged, bf4_position_id, last_forum_login, last_forum_post, join_date FROM users 
-                LEFT join member ON users.username = member.forum_name
+            $sth = $pdo->prepare("SELECT users.id as userid, member_id, username, forum_name, rank_id, role, email, idle, last_logged, bf4_position_id, last_forum_login, last_forum_post, join_date, member.game_id FROM users 
+                LEFT JOIN member ON users.username = member.forum_name
+                LEFT JOIN games ON games.id = member.game_id
                 LEFT JOIN bf4_position ON member.bf4_position_id = bf4_position.id
                 LEFT JOIN rank ON member.rank_id = rank.id
                 WHERE users.username = :username");
@@ -474,7 +473,7 @@ function get_game_threads($gid)
             $query = "SELECT thread_url, thread_title FROM games_threads WHERE game_id = {$gid} || game_id = 0";
             $query = $pdo->prepare($query);
             $query->execute();
-            $query = $query->fetch();
+            $query = $query->fetchAll();
             
         }
         catch (PDOException $e) {
@@ -1195,9 +1194,10 @@ function get_member($mid) {
 
         try {
 
-            $query = "SELECT member.id, rank.abbr as rank, forum_name, member_id, battlelog_name, bf4db_id, rank_id,  platoon_id, bf4_position_id, squad_leader_id, status_id, game_id, join_date, last_forum_login, last_activity, last_forum_post, forum_posts, status.desc FROM member 
+            $query = "SELECT member.id, rank.abbr as rank, bf4_position.desc as position, forum_name, member_id, battlelog_name, bf4db_id, rank_id,  platoon_id, bf4_position_id, squad_leader_id, status_id, game_id, join_date, last_forum_login, last_activity, member.game_id, last_forum_post, forum_posts, status.desc FROM member 
             LEFT JOIN users ON users.username = member.forum_name 
             LEFT JOIN games ON games.id = member.game_id
+            LEFT JOIN bf4_position ON bf4_position.id = member.bf4_position_id
             LEFT JOIN rank ON rank.id = member.rank_id
             LEFT JOIN status ON status.id = member.status_id WHERE member.id = :mid";
             $query = $pdo->prepare($query);

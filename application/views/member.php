@@ -1,35 +1,38 @@
 <?php
 $out = NULL;
 
-// SELECT member.id, rank.abbr as rank, forum_name, member_id, battlelog_name, bf4db_id, rank_id,  platoon_id, bf4_position_id, squad_leader_id, status_id, game_id, join_date, last_forum_login, last_activity, last_forum_post, forum_posts 
-
 if ($member = get_member($params['id'])) {
-
-	$rank = $member['rank'];
-	$name = ucwords($member['forum_name']);
 
 	$game_info = get_game_info($member['game_id']);
 	$short_game_name = $game_info['short_name'];
 	$game_name = $game_info['full_name'];
 	$game_id = $game_info['id'];
 
+	$rank = $member['rank'];
+	$name = ucwords($member['forum_name']);
+	$position = $member['position'];
+
 	$platoon_id = $member['platoon_id'];
 	$platoon_info = get_platoon_info($platoon_id);
 	$platoon_name = (!is_null($platoon_info['name'])) ? $platoon_info['name'] : false;
 	$platoon = get_platoon_number_from_id($platoon_id, $game_id);
 
-
-
 	// server history
 	$past_games = get_player_games($member['member_id']);
 	$games = NULL;
-	foreach ($past_games as $game) {
-		$date = formatTime(strtotime($game['datetime']));
-		$games .= "
-		<tr>
-			<td>{$game['server']}</td>
-			<td class='text-muted'>{$date}</td>
-		</tr>";
+	if (count($past_games)) {
+		foreach ($past_games as $game) {
+			$date = formatTime(strtotime($game['datetime']));
+			$games .= "
+			<tr>
+				<td>{$game['server']}</td>
+				<td class='text-muted'>{$date}</td>
+			</tr>";
+		}
+	} else if (is_null($member['bf4db_id'])) {
+		$games = "<li class='list-group-item text-muted'>This player does not have a BF4DB id stored. You should update it.</li>";
+	} else {
+		$games = "<li class='list-group-item text-muted'>Either this player has no recorded games or the data sync has not yet stored any data for this player.</li>";
 	}
 
 	// member data
@@ -39,9 +42,14 @@ if ($member = get_member($params['id'])) {
 	$status = $member['desc'];
 
 	// profile data
-	$battlelog = (empty($member['battlelog_name'])) ? "N/A" : BATTLELOG . $member['battlelog_name'];
-	$forums = (empty($member['member_id'])) ? "N/A" : CLANAOD . $member['member_id'];
-	$bf4db = (empty($member['bf4db_id'])) ? "N/A" : BF4DB . $member['bf4db_id'];
+
+	$battlelog = (empty($member['battlelog_name'])) ? NULL : "<a target='_blank' href='" . BATTLELOG . $member['battlelog_name'] . "' class='list-group-item'>Battlelog <span class='pull-right'><i class='text-info fa fa-external-link'></i></span></a>";
+	
+	$bf4db = (empty($member['bf4db_id'])) ? NULL : "<a target='_blank' href='" . BF4DB . $member['bf4db_id'] . "' class='list-group-item'>BF4DB <span class='pull-right'><i class='text-info fa fa-external-link'></i></span></a>";
+
+	$forums = "<a target='_blank' href='" . CLANAOD . $member['member_id'] . "' class='list-group-item'>AOD Forum <span class='pull-right'><i class='text-info fa fa-external-link'></i></span></a>";
+
+
 
 	$platoon_link = ($platoon_name) ? "<li><a href='/divisions/{$short_game_name}/{$platoon}'>{$platoon_name}</a></li>" : NULL;
 
@@ -58,12 +66,11 @@ if ($member = get_member($params['id'])) {
 	$avatar = get_user_avatar($member['member_id'], 'large');
 
 	$out .= "
-
 	<div class='container'>
 		{$breadcrumb}
 		<div class='row page-header'>
 			<div class='col-md-10'>
-				<h1><strong>{$rank} {$name}</strong></h1>
+				<h1><strong>{$rank} {$name}</strong><br/><small>{$position}</small></h1>
 			</div>
 			<div class='col-md-2'><span class='pull-right'>{$avatar}</span>
 
@@ -91,25 +98,23 @@ if ($member = get_member($params['id'])) {
 					</ul>
 				</div>
 
-
 				<div class='panel panel-info'>
-					<div class='panel-heading'><strong>Gaming Profiles</strong></div>
-					<a target='_blank' href='{$battlelog}' class='list-group-item'>BattleLog <span class='pull-right'><i class='text-info fa fa-external-link'></i></span></a>
-					<a target='_blank' href='{$bf4db}' class='list-group-item'>BF4DB <span class='pull-right'><i class='text-info fa fa-external-link'></i></span></a>
-					<a target='_blank' href='{$forums}' class='list-group-item'>AOD Forum <span class='pull-right'><i class='text-info fa fa-external-link'></i></span></a>
+					<div class='panel-heading'>
+						<strong>Gaming Profiles</strong>
+					</div>
+					{$forums}
+					{$battlelog}
+					{$bf4db}
 				</div>
 
 			</div>
 			<!--/end left side bar-->
 
-
-
-
 			<div class='col-md-9'>
 
 				<div class='panel panel-default'>
-					<div class='panel-heading'>Starfox221's Bio</div>
-					<div class='panel-body'> A long description about me.
+					<div class='panel-heading'>Deity's Smell Status</div>
+					<div class='panel-body'> Deity currently smells funny.
 					</div>
 				</div>
 				

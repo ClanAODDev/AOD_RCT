@@ -1,9 +1,5 @@
 <?php
 
-// eventually need to check if the current user is 
-// either an admin or is actually a part of the platoon
-// being requested, else reject request
-
 $out = NULL;
 
 $platoon = $params['platoon'];
@@ -18,10 +14,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 	$platoon_name = (!is_null($platoon_info['name'])) ? $platoon_info['name'] : $params['platoon'][0];
 	$right_now = new DateTime("now");
 
-	# dates for previous month
-	#$first_date_in_range = date("Y-m-d", strtotime("first day of previous month"));
-	#$last_date_in_range = date("Y-m-d", strtotime("last day of previous month"));
-	# dates for previous 30 days
+
 	$first_date_in_range = date("Y-m-d", strtotime("now - 30 days"));
 	$last_date_in_range = date("Y-m-d", strtotime("now"));
 
@@ -45,10 +38,10 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 	<table class='table table-striped table-hover' id='members-table'>
 		<thead>
 			<tr>
-				<th><b>Member</b></th>
-				<th class='nosearch text-center hidden-xs'><b>Rank</b></th>
+				<th style='width: 120px;'><b>Member</b></th>
+				<th class='nosearch text-center hidden-xs hidden-sm'><b>Rank</b></th>
 				<th class='nosearch text-center'><b>Profile</b></th>
-				<th class='text-center'><b>Join Date</b></th>
+				<th class='text-center hidden-xs hidden-sm'><b>Join Date</b></th>
 				<th class='text-center'><b>Last Active</b></th>
 				<th class='nosearch text-center follow-tool' title='Percent Played on AOD Servers'><b>%</b></th>
 				<th class='col-hidden'><b>Rank Id</b></th>
@@ -72,9 +65,9 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 				$members_table .= "
 				<tr data-id='{$row['id']}' class=''>
 					<td>" . memberColor($row['forum_name'], $row['bf4_position_id']) . "</td>
-					<td class='text-center hidden-xs'>{$rank}</td>
+					<td class='text-center hidden-xs hidden-sm'>{$rank}</td>
 					<td class='text-center'>{$profile}</td>
-					<td class='text-center'>{$joindate}</td>
+					<td class='text-center hidden-xs hidden-sm'>{$joindate}</td>
 					<td class='text-center'>{$lastActive}</td>
 
 					<td class='text-center'><div class='progress text-center follow-tool' title='<small><center>{$aod_games} of {$total_games}<br />{$percent_aod}%</center></small>' style='width: 100px; margin: 0 auto;'><div class='progress-bar progress-bar-" . getPercentageColor($percent_aod) . " progress-bar-striped' role='progressbar' aria-valuenow='72' aria-valuemin='0' aria-valuemax='50' style='width: ". $percent_aod . "%'><span style='display: none;'>{$percent_aod}%</span></div></div></td>
@@ -115,33 +108,28 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 		<div class='row'>{$breadcrumb}</div>
 		<div class='row'>
 			<div class='col-md-12 platoon-name page-header'>
-				<h3>{$platoon_name} <small class='platoon-number'>". ordSuffix($platoon). " Platoon <span class='date-data pull-right'>Data from {$last_date_in_range} - {$first_date_in_range}</span></small></h3>
+				<h1>{$platoon_name} <small class='platoon-number'>". ordSuffix($platoon). " Platoon</small></h1>
 			</div>
 		</div>";
 
 
-		// demographics
+
+		// members data table
 		$out .= "
 		<div class='row'>
-			<div class='col-md-4'>
+			<div class='col-md-3 hidden-xs'>
 				<div class='panel panel-default'>
 					<div class='panel-heading'>Total Members</div>
 					<div class='panel-body count-detail-big striped-bg'><span class='count-animated'>{$member_count}</span>
 					</div>
 				</div>
-			</div>
 
-			
-			<div class='col-md-4'>
 				<div class='panel panel-default'>
 					<div class='panel-heading'>Percentage AOD Games</div>
 					<div class='panel-body count-detail-big follow-tool striped-bg' title='Excludes all zero values'><span class='count-animated percentage'>{$overall_aod_percent}</span>
 					</div>
 				</div>
-			</div>
 
-
-			<div class='col-md-4'>
 				<div class='panel panel-default'>
 					<div class='panel-heading'>Percent Inactive</div>
 					<div class='panel-body count-detail-big striped-bg follow-tool' title='{$inactive_count} out of {$member_count} with < {$max} AOD games'>
@@ -149,21 +137,13 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 					</div>
 				</div>
 			</div>
-		</div>
 
 
-		";
-
-		// members data table
-		$out .= "
-		<div class='row margin-top-20'>
-
-
-			<div class='col-md-12'>			
+			<div class='col-md-9'>			
 
 				<div class='panel panel-default'>
 					<!-- Default panel contents -->
-					<div class='panel-heading download-area'>Platoon members<span></span></div>
+					<div class='panel-heading'><div class='download-area hidden-xs'></div>Platoon members<span></span></div>
 					<div class='panel-body border-bottom'><div id='playerFilter'></div>
 				</div> 
 				{$members_table}
@@ -173,11 +153,13 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 
 		";
 
+		// end container
 		$out .= "
-	</div><!-- end container -->
+	</div>
 	";
 
 } else {
+
 	// platoon does not exist for specified game
 	// redirect to 404
 	header('Location: /404/');
