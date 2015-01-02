@@ -31,18 +31,30 @@ $(function() {
                     return false;
                 }
 
-                    $(".has-error").removeClass("has-error");
-                    $(".message").html("");
+                $(".has-error").removeClass("has-error");
+                $(".message").html("");
 
             }
 
-            if (index == 3) {
 
+            if (index == 3) {
+                // have the division threads loaded?
+                if ($('.thread-list').is(':visible')) {
+                    // do the number of threads match 
+                    // the number of successful results?
+                    if ($('li.thread').length != $('.thread span.alert-success').length) {
+                        $(".thread-status").html("Recruit must complete all threads.")
+                        return false
+                    }
+                } else {
+                    return false
+                }
             }
 
         },
         onTabShow: function(tab, navigation, index) {
 
+            // panel titles
             switch (index) {
                 case 0:
                     $(".tab-title strong").html("Recruiting Introduction")
@@ -53,7 +65,16 @@ $(function() {
                 case 2:
                     $(".tab-title strong").html("Rules and Regulations Threads")
                     loadThreadCheck();
-                    break
+                    break;
+                case 3:
+                    $(".tab-title strong").html("Final Details")
+                    break;
+                case 4:
+                    $(".tab-title strong").html("Confirm Information")
+                    break;
+                case 5:
+                    $(".tab-title strong").html("Finishing Up")
+                    break;
 
             }
 
@@ -72,9 +93,18 @@ function loadThreadCheck() {
 
     console.log("Thread check init.");
     var player = $('#forumname').val(),
+        battlelog = $('#battlelog').val(),
         game = document.getElementById("game").value;
 
-    $(".thread-results").html('<img src="public/images/loading.gif " class="margin-top-20" />');
+
+    // apply name to final slide
+    $(".player-name").html("AOD_Rct_" + ucwords(battlelog));
+
+    if (player) {
+        $(".search-subject").html("<p class='text-muted'>Searching threads for <code>" + player + "</code></p>");
+    }
+
+    $(".thread-results").html('<img src="/public/images/loading.gif " class="margin-top-20" />');
 
     $.ajax({
         url: "/application/controllers/recruit_thread_check.php",
@@ -92,4 +122,12 @@ function loadThreadCheck() {
     .done(function(html) {
         $(".thread-results ").empty().prepend(html);
     });
+}
+
+
+function ucwords(str) {
+    return (str + '')
+        .replace(/^([a-z\u00E0-\u00FC])|\s+([a-z\u00E0-\u00FC])/g, function($1) {
+            return $1.toUpperCase();
+        });
 }

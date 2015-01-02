@@ -61,7 +61,7 @@ if(!$vbff->login(FORUM_USER, FORUM_PASS)) {
 	if (isset($_GET['post'])) {
 		$vbff->posts->postReply($thread, "[SIZE=7]" . number_format($newNum) . "![/SIZE]");
 		echo "<br />Posted a new number!";
-		echo '<script>setTimeout(function(){window.location = "http://guybrush.duckdns.org/application/modules/count_thread.php"; }, 2000);</script>';
+		echo '<script>setTimeout(function(){window.location = "https://aod.sitespot.com/application/modules/count_thread.php"; }, 2000);</script>';
 	}
 
 }

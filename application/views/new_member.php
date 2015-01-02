@@ -7,11 +7,21 @@ $short_game_name = $game_info['short_name'];
 $game_name = $game_info['full_name'];
 $game_id = $game_info['id'];
 
+// fetch division thread links
+$gameThreads = get_game_threads($game_id);
+$links = array();
+foreach ($gameThreads as $thread) {
+	$links[] = $thread['thread_title'] . " - " . $thread['thread_url'];
+}
+$copy_links = implode("\r\n", $links);
+
+
 // show wizard links only to dev
 $showLinksDisplay = (isDev()) ? "block" : "none";
 
 // bf4db link for player search
 $BF4DB = BF4DB;
+
 
 
 $breadcrumb = "
@@ -29,28 +39,27 @@ $out .= "
 	{$breadcrumb}
 
 	<div class='page-header'>
-		<h1><strong>Recruiting</strong> <small>Begin Recruiting Process</small></h1>
+		<h1><strong>Recruiting</strong> <small>Add New Member</small></h1>
 	</div>
 
 	<div id='rootwizard'>
 
 		<!-- necessary for step functionality -->
-		<div class='navbar' style='display: {$showLinksDisplay}'>
+		<div class='navbar guide-nav' style='display: {$showLinksDisplay}'>
 			<div class='navbar-inner'>
 				<ul>
-					<li><a href='#tab1' data-toggle='tab' class='disabled' disabled='disabled'>Slide One</a></li>
-					<li><a href='#tab2' data-toggle='tab' class='disabled' disabled='disabled'>Slide Two</a></li>
-					<li><a href='#tab3' data-toggle='tab' class='disabled' disabled='disabled'>Slide Three</a></li>
-					<li><a href='#tab4' data-toggle='tab' class='disabled' disabled='disabled'>Slide Four</a></li>
-					<li><a href='#tab5' data-toggle='tab' class='disabled' disabled='disabled'>Slide Five</a></li>
+					<li class='slide1'><a href='#tab1' data-toggle='tab'>Recruit Introduction</a></li>
+					<li class='slide2'><a href='#tab2' data-toggle='tab'>Add Member Information</a></li>
+					<li class='slide3'><a href='#tab3' data-toggle='tab'>Recruit Thread Completion</a></li>
+					<li class='slide4'><a href='#tab4' data-toggle='tab'>Final Steps</a></li>
+					<li class='slide5'><a href='#tab4' data-toggle='tab'>Confirm Information</a></li>
+					<li class='slide6'><a href='#tab5' data-toggle='tab'>Automated Tasks</a></li>
 				</ul>
 			</div>
 		</div>
 
 		<div class='progress' style='height: 40px;'>
-			<div class='bar progress-bar progress-bar-striped progress-bar-info active' ></div>
-
-
+			<div class='bar progress-bar progress-bar-striped progress-bar-success active' ></div>
 		</div>
 
 
@@ -111,7 +120,7 @@ $out .= "
 								</div>
 
 								<div class='form-group bf4db-group'>
-									<label for='bf4db' class='col-sm-3 control-label'>BF4DB ID <a href='{$BF4DB}search?name=' class='bf4dbid-search tool' title='Search BF4DB using BL Name' ><i class='fa fa-search'></i></a></label>
+									<label for='bf4db' class='col-sm-3 control-label'>BF4DB ID <a href='{$BF4DB}search?name=' class='bf4dbid-search tool-e' title='Search BF4DB using BL Name' ><i class='fa fa-search'></i></a></label>
 									<div class='col-sm-9'>
 										<input type='text' class='form-control' id='bf4db'  name='bf4db'>
 									</div>
@@ -127,17 +136,31 @@ $out .= "
 						</div>
 						<div class='tab-pane' id='tab3'>
 							<div class='col-sm-6'>
-								<p>Listed are the recruiting threads required for each of your division's members to read and understand. The status indicates whether or not your new recruit has made a post in each of those threads.</p><p>You can right-click to copy and paste each of these links to your recruit to have them complete them, but you should take the time to explain each of these threads, hitting the high (important) notes. Ensure each thread is completed (and that they understand them), before continuing.</p><p><strong>Note: </strong>If the thread checks don't seem to be working, ensure the 'forum name' on the previous step matches the user's name exactly.</p><p>For ease, you can copy all of the recruit thread links to your clipboard using the button below.</p>
-								<p class='text-center'><button class='tool btn btn-primary' id='copy-button' data-clipboard-text='http://google.com/ - http://google.com/ -http://google.com/' 
+
+								<p>Listed are the recruiting threads required for each of your division's members to read and understand. The status indicates whether or not your new recruit has made a post in each of those threads.</p><p>You can right-click to copy and paste each of these links to your recruit to have them complete them, but you should take the time to explain each of these threads, hitting the high (important) notes. Ensure each thread is completed (and that they understand them), before continuing.</p>
+
+								<p>For ease, you can copy all of the recruit thread links to your clipboard using the button below.</p>
+
+								<p class='text-center'><button class='tool btn btn-primary' id='copy-button' data-clipboard-text='{$copy_links}' 
 									title='Click to copy recruit threads' type='button'>Copy Thread Links</button>
 								</p>
 							</div>
 							<div class='col-sm-6 well'>
+								<div class='search-subject text-center'></div>
 								<div class='thread-results text-center'></div>
+
 							</div>
 						</div>					
 						<div class='tab-pane' id='tab4'>
-							4
+
+							<p>At this point, you are now ready to finalize your new recruit and take care of the paperwork associated with each new recruit. <strong>Be sure to ask</strong> if there are any questions or concerns your recruit may have. You should also remind him/her that <strong>you will be their squad leader</strong> and can come to you if they have any issues in the relative future.</p><p>Your next steps should include:</p>
+							<ul>
+								<li>Having them adjust their forum member profile settings</li>
+								<li>Changing their name on ventrilo <code class='player-name'></code></li>
+								<li>Accepting them into the BF4 platoon on Battlelog</li>
+								<li>Give them the <a href='http://www.clanaod.net/forums/showthread.php?t=3293' target='_blank'>channel password</a> and introduce them to the other members</li>
+							</ul>
+
 						</div>
 						<div class='tab-pane' id='tab5'>
 							5
@@ -154,7 +177,7 @@ $out .= "
 					<li class='previous first' style='display:none;'><a href='#'>First</a></li>
 					<li class='previous'><a href='#'>Previous</a></li>
 					<li class='next last' style='display:none;'><a href='#'>Last</a></li>
-					<li class='next'><a href='#'>Next</a></li>
+					<li class='next'><a href='#'>Continue</a></li>
 				</ul>
 			</div>
 

@@ -18,7 +18,7 @@ if (isset($_GET['player']) && (isset($_GET['game']))) {
 
 		// set up table
 		$out .= "	
-		<ul class=\"list-group text-left\">";
+		<ul class=\"list-group thread-list text-left\">";
 
 			foreach ($gameThreads as $gameThread) {
 
@@ -28,7 +28,7 @@ if (isset($_GET['player']) && (isset($_GET['game']))) {
 				$status = checkThread($player, $thread);
 
 				$out .= "
-				<li class=\"list-group-item\">
+				<li class=\"list-group-item thread\">
 					<a href=\"{$thread}\"  title='View forum thread' target=\"_blank\"><i class='fa fa-comment'></i> {$title}</a>";
 
 					$out .= ($status) ? $success : $failure;
@@ -42,14 +42,15 @@ if (isset($_GET['player']) && (isset($_GET['game']))) {
 		</ul>";
 
 		$out .="
-		<div class='text-center'>
+		<div class='text-left'>
 		<span class=\"reload text-muted\" style=\"cursor: pointer;\">Refresh Thread Check <i class=\"fa fa-refresh glyphicon-xs\"></i></span>
+		<span class='thread-status pull-right text-danger'></span>
 		</div>
 		";
 
 		echo $out;
 	} else {
-		echo "Either you didn't provide a game or you forgot to provide a user.";
+		echo "<span class='text-danger'>Either you didn't provide a game or you forgot to provide a user.</span>";
 	}
 
 } 
