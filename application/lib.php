@@ -245,7 +245,7 @@ function get_user_info($name)
 
         try {
 
-            $sth = $pdo->prepare("SELECT users.id as userid, member_id, username, forum_name, rank_id, role, email, idle, last_logged, bf4_position_id, last_forum_login, last_forum_post, join_date, member.game_id FROM users 
+            $sth = $pdo->prepare("SELECT users.id as userid, member_id, username, forum_name, rank_id, role, email, idle, platoon_id, last_logged, bf4_position_id, last_forum_login, last_forum_post, join_date, member.game_id FROM users 
                 LEFT JOIN member ON users.username = member.forum_name
                 LEFT JOIN games ON games.id = member.game_id
                 LEFT JOIN bf4_position ON member.bf4_position_id = bf4_position.id
@@ -1095,7 +1095,7 @@ function get_platoons($gid)
 
         try {
 
-            $query = "SELECT number, name as platoon_name, leader_id, member.forum_name, rank.abbr FROM platoon 
+            $query = "SELECT platoon.id as platoon_id, number, name as platoon_name, leader_id, member.forum_name, rank.abbr FROM platoon 
             LEFT JOIN member on platoon.leader_id = member.member_id
             LEFT JOIN rank on member.rank_id = rank.id
             WHERE platoon.game_id = :gid 
@@ -1187,6 +1187,47 @@ function get_platoon_number_from_id($platoon, $division)
     return $query[0];
 }
 
+/**
+ * fetches all squad leaders in a division
+ * @param  int $gid game id (from games)
+ * @return array    array of le squad leaders
+ */
+function get_squad_leaders($gid, $pid=false)
+{
+
+    global $pdo;
+    
+    if (dbConnect()) {
+
+        try {
+
+            // bf4_position_id 5 = squad leader
+            $query = "SELECT member_id, forum_name as name, platoon.name as platoon_name FROM member 
+            LEFT JOIN platoon ON platoon.id = member.platoon_id  
+            WHERE member.game_id = :gid AND bf4_position_id = 5";
+
+            if ($pid) {
+                $query .= " AND platoon_id = :pid ";
+            }
+
+            $query .= " ORDER BY platoon.id, forum_name";
+            $query = $pdo->prepare($query);
+            $query->bindParam(':gid', $gid);
+
+            if ($pid) {
+                $query->bindParam(':pid', $pid);
+            }
+
+            $query->execute();
+            $query = $query->fetchAll();
+            
+        }
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+    return $query;
+}
 
 
 function get_member($mid) {
@@ -1282,19 +1323,19 @@ function formatTime($ptime)
     }
 
     $a = array( 365 * 24 * 60 * 60  =>  'year',
-     30 * 24 * 60 * 60  =>  'month',
-     24 * 60 * 60  =>  'day',
-     60 * 60  =>  'hour',
-     60  =>  'minute',
-     1  =>  'second'
-     );
-    $a_plural = array( 'year'   => 'years',
-       'month'  => 'months',
-       'day'    => 'days',
-       'hour'   => 'hours',
-       'minute' => 'minutes',
-       'second' => 'seconds'
+       30 * 24 * 60 * 60  =>  'month',
+       24 * 60 * 60  =>  'day',
+       60 * 60  =>  'hour',
+       60  =>  'minute',
+       1  =>  'second'
        );
+    $a_plural = array( 'year'   => 'years',
+     'month'  => 'months',
+     'day'    => 'days',
+     'hour'   => 'hours',
+     'minute' => 'minutes',
+     'second' => 'seconds'
+     );
 
     foreach ($a as $secs => $str)
     {

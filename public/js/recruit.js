@@ -83,15 +83,12 @@ $(function() {
                     loadThreadCheck();
                     break;
                 case 3:
-                    $(".tab-title strong").html("Final Details")
+                    $(".tab-title strong").html("Finishing Up With Your Recruit")
                     break;
                 case 4:
-                    $(".tab-title strong").html("Confirm Information")
+                    $(".tab-title strong").html("Forum Integration")
                     break;
                 case 5:
-                    $(".tab-title strong").html("Finishing Up")
-                    break;
-                case 6:
                     $(".tab-title strong").html("Recruitment Complete")
                     break;
             }
@@ -110,17 +107,18 @@ $(function() {
 function loadThreadCheck() {
 
     console.log("Thread check init.");
+
     var player = $('#forumname').val(),
         battlelog = $('#battlelog').val(),
-        game = document.getElementById("game").value;
+        game = $("#game").val();
 
-
-    // apply name to final slide
-    $(".rank-name").html("AOD_Rct_" + ucwords(battlelog));
-    $(".player-name").html(ucwords(battlelog));
+    if (battlelog) {
+        $(".rank-name").html("AOD_Rct_" + ucwords(battlelog));
+        $(".player-name").html(ucwords(battlelog));
+    }
 
     if (player) {
-        $(".search-subject").html("<p class='text-muted'>Searching threads for posts by: <code '>" + ucwords(player) + "</code></p>");
+        $(".search-subject").html("<p class='text-muted'>Searching threads for posts by: <code>" + ucwords(player) + "</code></p>");
     }
 
     $(".thread-results").html('<img src="/public/images/loading.gif " class="margin-top-20" />');

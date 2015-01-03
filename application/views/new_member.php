@@ -1,11 +1,90 @@
 <?php
 
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
+
 $out = NULL;
+$platoons = NULL;
+$squadLeaders = NULL;
 
 $game_info = get_game_info($member_info['game_id']);
 $short_game_name = $game_info['short_name'];
 $game_name = $game_info['full_name'];
 $game_id = $game_info['id'];
+
+
+
+
+/**
+ * is user a squad leader or platoon leader
+ * if not, they won't have any platoon information
+ * ---
+ * role is also checked on form submit to prevent abuse
+ * - if squad leader -> any value provided is ignored
+ * - value will be based on user's assingment
+ */
+
+switch ($userRole) {
+	case 1:
+	$platoon_info = get_platoon_info($member_info['platoon_id']);
+	$allowPltAssignmentEdit = false;
+	$allowSqdAssignmentEdit = false;
+	break;
+
+	case 2:
+	$platoon_info = get_platoon_info($member_info['platoon_id']);
+	$allowPltAssignmentEdit = false;
+	$allowSqdAssignmentEdit = true;
+	break;
+
+	case 3:
+	$allowPltAssignmentEdit = true;
+	$allowSqdAssignmentEdit = true;
+	break;
+}
+
+// allow developers to see all fields regardless of role
+if (isDev()) {
+	$allowPltAssignmentEdit = true;
+	$allowSqdAssignmentEdit = true;
+}
+
+// if assignment editing is allowed, show fields
+$assignmentPltFieldDisplay = ($allowPltAssignmentEdit) ? "block" : "none";
+$assignmentSqdFieldDisplay = ($allowSqdAssignmentEdit) ? "block" : "none";
+
+// if platoon leader, provide platoon id for squad leader search
+$platoon_id = (($userRole == 2) && (!isDev())) ? $member_info['platoon_id'] : false;
+
+// platoons and squads are based on game, for clarity
+$platoonArray = get_platoons($game_id);
+$squadleadersArray = get_squad_leaders($game_id, $platoon_id);
+
+// build platoons
+if (count($platoonArray)) {
+	foreach($platoonArray as $platoon) {
+		$platoons .= "<option value='{$platoon['platoon_id']}'>{$platoon['platoon_name']}</option>";
+	}
+} else {
+	$platoons = "<option>No platoons exist.</option>";
+}
+
+// build squad leaders
+if (count($squadleadersArray)) {
+	foreach($squadleadersArray as $squadLeader) {
+		$squadLeaders .= "<option value='{$squadLeader['member_id']}'>{$squadLeader['name']} - {$squadLeader['platoon_name']}</option>";
+	}
+
+	// add empty squad leader option
+	$squadLeaders .= "<option value='0' selected>None (Gen Pop)</option>";
+} else {
+	$squadLeaders = "<option>No squad leaders exist.</option>";
+}
+
+
+
+
 
 // fetch division thread links
 $gameThreads = get_game_threads($game_id);
@@ -13,14 +92,15 @@ $links = array();
 foreach ($gameThreads as $thread) {
 	$links[] = $thread['thread_title'] . " - " . $thread['thread_url'];
 }
-$copy_links = implode("\r\n", $links);
 
+$copy_links = implode("\r\n", $links);
 
 // show wizard links only to dev
 $showLinksDisplay = (isDev()) ? "block" : "none";
 
 // bf4db link for player search
 $BF4DB = BF4DB;
+
 
 
 
@@ -45,21 +125,20 @@ $out .= "
 	<div id='rootwizard'>
 
 		<!-- necessary for step functionality -->
-		<div class='navbar guide-nav' style='display: {$showLinksDisplay}'>
+		<div class='navbar guide-nav centered-pills' style='display: {$showLinksDisplay}'>
 			<div class='navbar-inner'>
 				<ul>
 					<li class='slide1'><a href='#tab1' data-toggle='tab'>Recruit Introduction</a></li>
 					<li class='slide2'><a href='#tab2' data-toggle='tab'>Add Member Information</a></li>
 					<li class='slide3'><a href='#tab3' data-toggle='tab'>Recruit Thread Completion</a></li>
 					<li class='slide4'><a href='#tab4' data-toggle='tab'>Final Steps</a></li>
-					<li class='slide5'><a href='#tab5' data-toggle='tab'>Confirm Information</a></li>
-					<li class='slide6'><a href='#tab6' data-toggle='tab'>Automated Tasks</a></li>
-					<li class='slide7'><a href='#tab7' data-toggle='tab'>Complete</a></li>
+					<li class='slide5'><a href='#tab5' data-toggle='tab'>Automated Tasks</a></li>
+					<li class='slide6'><a href='#tab6' data-toggle='tab'>Complete</a></li>
 				</ul>
 			</div>
 		</div>
 
-		<div class='progress'>
+		<div class='progress striped-bg'>
 			<div class='bar progress-bar progress-bar-striped progress-bar-success active' ></div>
 		</div>
 
@@ -110,7 +189,7 @@ $out .= "
 							<div class='col-sm-6'>
 								<p class='margin-top-20'>Let's gather some information about our new member. Please fill out and check the form completely for accuracy. </p>
 								<p>The information you provide will be maintained throughout the process and will be used to put the player in the right platoon and squad. If you are a squad leader, they will be assigned to you by default.</p>
-								<p>The platoon and division will also be determined by your platoon, division.</p>
+								<p>If you are a squad leader or platoon leader, the squad and/or platoon will be determined by your assignment.</p>
 							</div>
 							<div class='col-sm-6 well'>
 								<div class='form-group memberid-group'>
@@ -140,6 +219,27 @@ $out .= "
 										<input type='text' class='form-control' id='bf4db' placeholder='123456' name='bf4db' tabindex='4'>
 									</div>
 								</div>
+
+								<div class='form-group platoon-group' style='display: {$assignmentPltFieldDisplay}'>
+									<label for='platoon' class='col-sm-3 control-label'>Platoon</label>
+									<div class='col-sm-9'>
+										<select name='platoon' id='platoon' class='form-control'>
+											{$platoons}
+										</select>
+									</div>
+								</div>
+								
+								<div class='form-group squadldr-group' style='display: {$assignmentSqdFieldDisplay}'>
+									<label for='squadldr' class='col-sm-3 control-label'>Squad Leader</label>
+									<div class='col-sm-9'>
+										<select name='squadldr' id='squadldr' class='form-control'>
+											{$squadLeaders}
+										</select>
+									</div>
+								</div>
+								
+
+								
 								<div class='text-center message text-danger'></div>
 							</div>
 
@@ -176,9 +276,9 @@ $out .= "
 
 							<p>Now, you are ready to finalize your new recruit and take care of the paperwork associated with each new recruit. <strong>Be sure to ask</strong> if there are any questions or concerns your recruit may have. You should also remind him/her that <strong>you will be their squad leader</strong> and can come to you if they have any issues in the relative future.</p><p>Your next steps should include:</p>
 							<ul>
-								<li>Having them adjust their forum member profile settings</li>
-								<li>Changing their name on ventrilo <code class='rank-name'></code></li>
-								<li>Accepting them into the BF4 platoon on Battlelog</li>
+								<li>Having them adjust their forum (AOD Member Info) profile settings</li>
+								<li>Changing their name on ventrilo <code class='rank-name'>NaN</code></li>
+								<li>Accepting or inviting them into the BF4 platoon on Battlelog</li>
 								<li>Give them the <a href='http://www.clanaod.net/forums/showthread.php?t=3293' target='_blank'>channel password</a> and introduce them to the other members</li>
 							</ul>
 
@@ -189,9 +289,6 @@ $out .= "
 
 						$out .="
 						<div class='tab-pane' id='tab5'>
-							5
-						</div>
-						<div class='tab-pane' id='tab6'>
 							<div class='col-sm-6'>
 								<div class='panel panel-primary disabled'>
 									<div class='panel-heading disabled text-muted'>Forum Login</div>
@@ -213,8 +310,8 @@ $out .= "
 
 						$out .="
 
-						<div class='tab-pane' id='tab7'>
-							<p class='lead'><i class='fa fa-check text-success'></i> You have successfully completed <span class='player-name'></span>'s recruiting process!</p>
+						<div class='tab-pane' id='tab6'>
+							<p class='lead'><i class='fa fa-check text-success'></i> You have successfully completed <span class='player-name'>NaN</span>'s recruiting process!</p>
 						</div>";
 
 

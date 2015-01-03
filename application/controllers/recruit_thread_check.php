@@ -50,7 +50,7 @@ if (isset($_GET['player']) && (isset($_GET['game']))) {
 
 		echo $out;
 	} else {
-		echo "<span class='text-danger'>Either you didn't provide a game or you forgot to provide a user.</span>";
+		echo "<span class='text-danger'>You forgot to provide a user!</span>";
 	}
 
 } 
