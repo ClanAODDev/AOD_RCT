@@ -119,7 +119,7 @@ $out .= "
 	{$breadcrumb}
 
 	<div class='page-header'>
-		<h1><strong>Recruiting</strong> <small>Add New Member</small></h1>
+		<h1><strong>Recruiting</strong> <small>Add New Member <span class='text-warning'>[Not fully functional]</span></small></h1>
 	</div>
 
 	<div id='rootwizard'>
