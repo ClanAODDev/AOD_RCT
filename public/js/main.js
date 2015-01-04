@@ -159,7 +159,7 @@ $(function() {
             "aTargets": [1]
         }, {
             "iDataSort": 7, // sort rank by rank id
-            "aTargets": [3]
+            "aTargets": [4]
         }],
         stateSave: true,
         paging: false,
