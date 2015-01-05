@@ -155,11 +155,11 @@ $(function() {
             "visible": false,
             "searchable": false
         }, {
-            "iDataSort": 6, // sort rank by rank id
+            "iDataSort": 5, // sort rank by rank id
             "aTargets": [1]
         }, {
-            "iDataSort": 7, // sort rank by rank id
-            "aTargets": [4]
+            "iDataSort": 6, // sort rank by rank id
+            "aTargets": [3]
         }],
         stateSave: true,
         paging: false,
