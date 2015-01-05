@@ -256,8 +256,8 @@ $out .= "
 
 								<p>For ease, you can copy all of the recruit thread links to your clipboard using the button below.</p>
 
-								<p class='text-center'><button class='tool btn btn-primary' id='copy-button' data-clipboard-text='{$copy_links}' 
-									title='Click to copy recruit threads' type='button'>Copy Thread Links</button>
+								<p class='text-center'><button class='tool btn btn-primary copy-button' data-clipboard-text='{$copy_links}' 
+									type='button'>Copy Thread Links</button>
 								</p>
 							</div>
 							<div class='col-sm-6 well'>
@@ -302,61 +302,73 @@ $out .= "
 
 								<div class='tab-content'>
 									<div role='tabpanel' class='tab-pane active' id='division-post'>
-										<div class='col-md-6'>
-											<p>A division structure post needs to be made so that your new recruit can be added to the forum thread in addition to being tracked here. The box to the right shows what your division structure post should look like, including the information you have provided.</p>
-											<p>Click the copy button to copy the contents of the box to your clipboard. Then follow the link below to make your post.</p>
-											<p><a href='http://www.clanaod.net/forums/showthread.php?t=73448'><button class='btn btn-default'>Open Division Structure</button></a></p>
-										</div>
-										<div class='col-md-6'>
-											<code></code>
-										</div>
-										/div>
-										<div role='tabpanel' class='tab-pane' id='member-request'><p>Nulla rhoncus enim vel diam sagittis, eget dictum dolor auctor. Mauris placerat, dolor vitae luctus auctor, tortor mi tempor tellus, sed aliquam purus neque eget urna. Vestibulum massa lorem, tincidunt vel sapien et, ultrices eleifend magna. Aenean id neque ut odio euismod ullamcorper vitae et turpis. Etiam varius libero ut hendrerit faucibus. Nam sit amet ante vehicula, volutpat est sit amet, tincidunt ipsum. Aliquam vestibulum, sem ac egestas hendrerit, dolor elit malesuada justo, in tincidunt sem risus nec arcu. Praesent at risus rhoncus orci pharetra laoreet. Nullam sed turpis dui. Duis luctus nibh ipsum. Aliquam in molestie enim, sed pretium nisl. Quisque at diam at lectus porttitor auctor et ut nisl. Ut tempor odio a magna elementum, in porttitor leo posuere. Sed tempus volutpat mauris, finibus blandit magna fringilla sit amet. Nullam tempus diam dolor, quis convallis velit pretium eget. Nullam in tincidunt risus.</p></div>
-										<div role='tabpanel' class='tab-pane' id='welcome-post'><p>Vivamus congue, ex vel lacinia accumsan, turpis massa lacinia arcu, tristique ullamcorper velit ligula sed augue. Sed sit amet mi mi. Maecenas sed ipsum maximus, aliquam diam vitae, viverra est. Duis feugiat ipsum a nunc dapibus feugiat. Vestibulum est ipsum, condimentum non sodales a, pulvinar sed velit. Donec porttitor neque nulla, ac maximus justo cursus vel. Suspendisse potenti. Cras rutrum purus gravida tempus vestibulum. Donec sagittis vitae felis quis accumsan.</p></div>
-										<div role='tabpanel' class='tab-pane' id='welcome-pm'><p>Mauris quis tempor nisi. Nullam accumsan tempus eros sit amet finibus. Nam ac orci vel velit pulvinar convallis. Donec sit amet ipsum at metus scelerisque mattis. Quisque sollicitudin arcu eu ligula mattis volutpat. Nulla facilisi. Etiam suscipit lobortis scelerisque. Proin malesuada aliquet scelerisque. Aenean tristique felis ac sem lacinia tempor. Cras et maximus nisl. Aenean laoreet hendrerit lectus, et euismod ante rutrum ut. Nunc pretium magna sit amet libero mattis, sed condimentum elit efficitur. Quisque auctor ligula nibh, eget consectetur lectus laoreet nec. Fusce laoreet, magna eu pretium rhoncus, neque neque sollicitudin lorem, vel rutrum lacus nunc a enim. Etiam in hendrerit mi. Aliquam cursus augue suscipit sem volutpat, sed consequat est finibus.</p></div>
+										<div class='row margin-top-20'>
 
+											<div class='col-md-6'>
+												<p>A division structure post needs to be made so that your new recruit can be added to the forum thread in addition to being tracked here. The box to the right shows what your division structure post should look like, including the information you have provided.</p>
+												<p>Click the copy button to copy the contents of the box to your clipboard. Then follow the division structure link to make your post.</p>
+												<p class='margin-top-20'><a href='http://www.clanaod.net/forums/showthread.php?t=73448' class='text-center' target='_blank'><button type='button' class='btn btn-default'>Open Division Structure</button></a></p>
+											</div>
+
+											<div class='col-md-6'>
+												<div class='well'>
+													<button type='button' class='division-code-btn copy-button btn btn-default tool pull-right' title='Copy to clipboard'><i class='fa fa-clipboard'></i></button> 
+													<code class='post-code'></code>
+												</div>
+											</div>
+
+										</div>
 									</div>
 
-
-
+									<div role='tabpanel' class='tab-pane' id='member-request'><p>Nulla rhoncus enim vel diam sagittis, eget dictum dolor auctor. Mauris placerat, dolor vitae luctus auctor, tortor mi tempor tellus, sed aliquam purus neque eget urna. Vestibulum massa lorem, tincidunt vel sapien et, ultrices eleifend magna. Aenean id neque ut odio euismod ullamcorper vitae et turpis. Etiam varius libero ut hendrerit faucibus. Nam sit amet ante vehicula, volutpat est sit amet, tincidunt ipsum. Aliquam vestibulum, sem ac egestas hendrerit, dolor elit malesuada justo, in tincidunt sem risus nec arcu. Praesent at risus rhoncus orci pharetra laoreet. Nullam sed turpis dui. Duis luctus nibh ipsum. Aliquam in molestie enim, sed pretium nisl. Quisque at diam at lectus porttitor auctor et ut nisl. Ut tempor odio a magna elementum, in porttitor leo posuere. Sed tempus volutpat mauris, finibus blandit magna fringilla sit amet. Nullam tempus diam dolor, quis convallis velit pretium eget. Nullam in tincidunt risus.</p>
+									</div>
+									<div role='tabpanel' class='tab-pane' id='welcome-post'><p>Vivamus congue, ex vel lacinia accumsan, turpis massa lacinia arcu, tristique ullamcorper velit ligula sed augue. Sed sit amet mi mi. Maecenas sed ipsum maximus, aliquam diam vitae, viverra est. Duis feugiat ipsum a nunc dapibus feugiat. Vestibulum est ipsum, condimentum non sodales a, pulvinar sed velit. Donec porttitor neque nulla, ac maximus justo cursus vel. Suspendisse potenti. Cras rutrum purus gravida tempus vestibulum. Donec sagittis vitae felis quis accumsan.</p>
+									</div>
+									<div role='tabpanel' class='tab-pane' id='welcome-pm'><p>Mauris quis tempor nisi. Nullam accumsan tempus eros sit amet finibus. Nam ac orci vel velit pulvinar convallis. Donec sit amet ipsum at metus scelerisque mattis. Quisque sollicitudin arcu eu ligula mattis volutpat. Nulla facilisi. Etiam suscipit lobortis scelerisque. Proin malesuada aliquet scelerisque. Aenean tristique felis ac sem lacinia tempor. Cras et maximus nisl. Aenean laoreet hendrerit lectus, et euismod ante rutrum ut. Nunc pretium magna sit amet libero mattis, sed condimentum elit efficitur. Quisque auctor ligula nibh, eget consectetur lectus laoreet nec. Fusce laoreet, magna eu pretium rhoncus, neque neque sollicitudin lorem, vel rutrum lacus nunc a enim. Etiam in hendrerit mi. Aliquam cursus augue suscipit sem volutpat, sed consequat est finibus.</p>
+									</div>
 
 								</div>
-							</div>";
+
+
+
+
+							</div>
+						</div>";
 
 
 						// tab 6 - forum integration actions
 
-							$out .="
+						$out .="
 
-							<div class='tab-pane' id='tab6'>
-								<p class='lead'><i class='fa fa-check text-success'></i> You have successfully completed <span class='player-name'>NaN</span>'s recruiting process!</p>
-							</div>";
+						<div class='tab-pane' id='tab6'>
+							<p class='lead'><i class='fa fa-check text-success'></i> You have successfully completed <span class='player-name'>NaN</span>'s recruiting process!</p>
+						</div>";
 
 
 						// end tabbed content
 
-							$out .="
+						$out .="
 
-						</div>	
-					</form>
-				</div>
+					</div>	
+				</form>
+			</div>
 
 
-				<div class='panel-footer'>
-					<ul class='pager wizard'>
-						<li class='previous first' style='display:none;'><a href='#'>First</a></li>
-						<li class='previous'><a href='#'>Previous</a></li>
-						<li class='next last' style='display:none;'><a href='#'>Last</a></li>
-						<li class='next'><a href='#'>Continue</a></li>
-					</ul>
-				</div>
+			<div class='panel-footer'>
+				<ul class='pager wizard'>
+					<li class='previous first' style='display:none;'><a href='#'>First</a></li>
+					<li class='previous'><a href='#'>Previous</a></li>
+					<li class='next last' style='display:none;'><a href='#'>Last</a></li>
+					<li class='next'><a href='#'>Continue</a></li>
+				</ul>
+			</div>
 
-			</div><!-- end panel -->
-		</div><!-- end root wizard -->
-	</div><!-- end container -->
+		</div><!-- end panel -->
+	</div><!-- end root wizard -->
+</div><!-- end container -->
 
-	<script src='/public/js/recruit.js'></script>";
+<script src='/public/js/recruit.js'></script>";
 
-	echo $out; 
+echo $out; 
 
-	?>
+?>

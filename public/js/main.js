@@ -308,7 +308,7 @@ function member_search() {
  * ZeroClipboard support
  */
 
- var client = new ZeroClipboard(document.getElementById("copy-button"));
+ var client = new ZeroClipboard($('.copy-button'));
 
  client.on("ready", function(readyEvent) {
     // alert( "ZeroClipboard SWF is ready!" );

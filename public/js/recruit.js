@@ -108,19 +108,25 @@ function loadThreadCheck() {
 
     console.log("Thread check init.");
 
+    // setting these here since we know we have them
     var player = $('#forumname').val(),
         battlelog = $('#battlelog').val(),
         game = $("#game").val(),
-        forum_id = $("#member_id").val();
+        member_id = $("#member_id").val(),
 
-    if (battlelog && forum_id) {
+        // division structure
+        postCode = "Please add:<br />Full-time<br />AOD_Rct_" + ucwords(player) + "<br />http://www.clanaod.net/forums/member.php?u=" + member_id + "<br />http://battlelog.battlefield.com/bf4/user/" + battlelog;
+        postCopy = "Please add:\r\nFull-time \r\nAOD_Rct_" + ucwords(player) + "\r\nhttp://www.clanaod.net/forums/member.php?u=" + member_id + "\r\nhttp://battlelog.battlefield.com/bf4/user/" + battlelog;
+
+        
+
+    if (battlelog) {
         $(".rank-name").html("AOD_Rct_" + ucwords(battlelog));
         $(".player-name").html(ucwords(battlelog));
 
-        var post = "[b]Please add[/b]:
-        Full-time
-        [COLOR=\"#FFD700\"]AOD_Rct_" + player + " - http://www.clanaod.net/forums/member.php?u=" + forum_id + "http://battlelog.battlefield.com/bf4/user/" + battlelog + "[/COLOR]";
-        $("#division-post code").html(post);
+        // division structure
+        $("#division-post .post-code").html(postCode);
+        $('.division-code-btn').attr("data-clipboard-text", postCopy);
     }
 
     if (player) {
@@ -153,9 +159,4 @@ function ucwords(str) {
         .replace(/^([a-z\u00E0-\u00FC])|\s+([a-z\u00E0-\u00FC])/g, function($1) {
             return $1.toUpperCase();
         });
-}
-
-
-function generateDivisionStructurePost(name, forum_id, battlelog_name) {
-
 }
