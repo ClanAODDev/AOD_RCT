@@ -130,7 +130,7 @@ function loadThreadCheck() {
     }
 
     if (player) {
-        $(".search-subject").html("<p class='text-muted tool' title='Checks last 5 pages of a thread'>Searching threads for posts by: <code>" + ucwords(player) + "</code></p>");
+        $(".search-subject").html("<p class='text-muted'>Searching threads for posts by: <code>" + ucwords(player) + "</code></p>");
     }
 
     $(".thread-results").html('<img src="/public/images/loading.gif " class="margin-top-20" />');
