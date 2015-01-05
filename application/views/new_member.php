@@ -291,15 +291,24 @@ $out .= "
 						<div class='tab-pane' id='tab5'>
 							<div class='col-sm-6'>
 								<div class='panel panel-primary disabled'>
-									<div class='panel-heading disabled text-muted'>Forum Login</div>
-								</div>
-								<div class='panel panel-primary disabled'>
 									<div class='panel-heading disabled text-muted'><strong>Forum Functions</strong></div>
-									<div class='list-group'>
-										<a class='list-group-item division-post' disabled>Post to division structure</a>
-										<a class='list-group-item member-status' disabled>Request new member status</a>
-										<a class='list-group-item post-intro' disabled>Post Welcome thread</a>
-										<a class='list-group-item post-intro' disabled>Send Welcome PM</a>
+									<div role='tabpanel'>
+
+										<ul class='nav nav-tabs' role='tablist'>
+											<li role='presentation' class='active'><a href='#division-post' aria-controls='division-post' role='tab' data-toggle='tab'>Post to division structure</a></li>
+											<li role='presentation'><a href='#member-request' aria-controls='member-request' role='tab' data-toggle='tab'>Request new member status</a></li>
+											<li role='presentation'><a href='#welcome-post' aria-controls='welcome-post' role='tab' data-toggle='tab'>Post Welcome thread</a></li>
+											<li role='presentation'><a href='#welcome-pm' aria-controls='welcome-pm' role='tab' data-toggle='tab'>Send Welcome PM</a></li>
+										</ul>
+
+										<div class='tab-content'>
+										<div role='tabpanel' class='tab-pane active' id='division-post'>...</div>
+											<div role='tabpanel' class='tab-pane' id='member-request'>...</div>
+											<div role='tabpanel' class='tab-pane' id='welcome-post'>...</div>
+											<div role='tabpanel' class='tab-pane' id='welcome-pm'>...</div>
+										</div>
+
+
 									</div>
 								</div>
 							</div>
