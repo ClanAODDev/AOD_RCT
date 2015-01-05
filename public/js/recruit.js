@@ -86,7 +86,7 @@ $(function() {
                     $(".tab-title strong").html("Finishing Up With Your Recruit")
                     break;
                 case 4:
-                    $(".tab-title strong").html("Forum Integration")
+                    $(".tab-title strong").html("\"Dreaded Paperwork\"")
                     break;
                 case 5:
                     $(".tab-title strong").html("Recruitment Complete")
@@ -110,11 +110,17 @@ function loadThreadCheck() {
 
     var player = $('#forumname').val(),
         battlelog = $('#battlelog').val(),
-        game = $("#game").val();
+        game = $("#game").val(),
+        forum_id = $("#member_id").val();
 
-    if (battlelog) {
+    if (battlelog && forum_id) {
         $(".rank-name").html("AOD_Rct_" + ucwords(battlelog));
         $(".player-name").html(ucwords(battlelog));
+
+        var post = "[b]Please add[/b]:
+        Full-time
+        [COLOR=\"#FFD700\"]AOD_Rct_" + player + " - http://www.clanaod.net/forums/member.php?u=" + forum_id + "http://battlelog.battlefield.com/bf4/user/" + battlelog + "[/COLOR]";
+        $("#division-post code").html(post);
     }
 
     if (player) {
@@ -147,4 +153,9 @@ function ucwords(str) {
         .replace(/^([a-z\u00E0-\u00FC])|\s+([a-z\u00E0-\u00FC])/g, function($1) {
             return $1.toUpperCase();
         });
+}
+
+
+function generateDivisionStructurePost(name, forum_id, battlelog_name) {
+
 }
