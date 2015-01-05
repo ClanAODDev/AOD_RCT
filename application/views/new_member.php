@@ -306,7 +306,6 @@ $out .= "
 								<div role='tabpanel' class='tab-pane' id='welcome-post'><p>Vivamus congue, ex vel lacinia accumsan, turpis massa lacinia arcu, tristique ullamcorper velit ligula sed augue. Sed sit amet mi mi. Maecenas sed ipsum maximus, aliquam diam vitae, viverra est. Duis feugiat ipsum a nunc dapibus feugiat. Vestibulum est ipsum, condimentum non sodales a, pulvinar sed velit. Donec porttitor neque nulla, ac maximus justo cursus vel. Suspendisse potenti. Cras rutrum purus gravida tempus vestibulum. Donec sagittis vitae felis quis accumsan.</p></div>
 								<div role='tabpanel' class='tab-pane' id='welcome-pm'><p>Mauris quis tempor nisi. Nullam accumsan tempus eros sit amet finibus. Nam ac orci vel velit pulvinar convallis. Donec sit amet ipsum at metus scelerisque mattis. Quisque sollicitudin arcu eu ligula mattis volutpat. Nulla facilisi. Etiam suscipit lobortis scelerisque. Proin malesuada aliquet scelerisque. Aenean tristique felis ac sem lacinia tempor. Cras et maximus nisl. Aenean laoreet hendrerit lectus, et euismod ante rutrum ut. Nunc pretium magna sit amet libero mattis, sed condimentum elit efficitur. Quisque auctor ligula nibh, eget consectetur lectus laoreet nec. Fusce laoreet, magna eu pretium rhoncus, neque neque sollicitudin lorem, vel rutrum lacus nunc a enim. Etiam in hendrerit mi. Aliquam cursus augue suscipit sem volutpat, sed consequat est finibus.</p></div>
 
-								<!-- http://www.clanaod.net/forums/private.php?do=newpm&u= -->
 								</div>
 
 
