@@ -295,9 +295,9 @@ $out .= "
 
 								<ul class='nav nav-tabs' role='tablist'>
 									<li role='presentation' class='active'><a href='#division-post' aria-controls='division-post' role='tab' data-toggle='tab'>Post to division structure</a></li>
-									<li role='presentation'><a href='#member-request' aria-controls='member-request' role='tab' data-toggle='tab'>Request new member status</a></li>
 									<li role='presentation'><a href='#welcome-post' aria-controls='welcome-post' role='tab' data-toggle='tab'>Post Welcome thread</a></li>
 									<li role='presentation'><a href='#welcome-pm' aria-controls='welcome-pm' role='tab' data-toggle='tab'>Send Welcome PM</a></li>
+									<li role='presentation'><a href='#member-request' aria-controls='member-request' role='tab' data-toggle='tab'>Request new member status</a></li>
 								</ul>
 
 								<div class='tab-content'>
@@ -307,7 +307,7 @@ $out .= "
 											<div class='col-md-6'>
 												<p>A division structure post needs to be made so that your new recruit can be added to the forum thread in addition to being tracked here. The box to the right shows what your division structure post should look like, including the information you have provided.</p>
 												<p>Click the copy button to copy the contents of the box to your clipboard. Then follow the division structure link to make your post.</p>
-												<p class='margin-top-20'><a href='http://www.clanaod.net/forums/showthread.php?t=73448' class='text-center' target='_blank'><button type='button' class='btn btn-default'>Open Division Structure</button></a></p>
+												<p class='margin-top-20'><a href='http://www.clanaod.net/forums/newreply.php?p=73448&noquote=1' class='text-center' target='_blank'><button type='button' class='btn btn-default'>Open Division Structure</button></a></p>
 											</div>
 
 											<div class='col-md-6'>
