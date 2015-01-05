@@ -158,7 +158,7 @@ $(function() {
             "iDataSort": 5, // sort rank by rank id
             "aTargets": [1]
         }, {
-            "iDataSort": 6, // sort rank by rank id
+            "iDataSort": 6, // sort activity by last login date
             "aTargets": [3]
         }],
         stateSave: true,
