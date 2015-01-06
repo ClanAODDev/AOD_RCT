@@ -1,5 +1,7 @@
 <?php
 
+if (!isset($_SESSION['secure_access']) || (isset($_SESSION['secure_access']) && $_SESSION['secure_access'] !== true)) { header("Location: /404/"); }
+
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
@@ -307,7 +309,7 @@ $out .= "
 											<div class='col-md-6'>
 												<p>A division structure post needs to be made so that your new recruit can be added to the forum thread in addition to being tracked here. The box to the right shows what your division structure post should look like, including the information you have provided.</p>
 												<p>Click the copy button to copy the contents of the box to your clipboard. Then follow the division structure link to make your post.</p>
-												<p class='margin-top-20'><a href='http://www.clanaod.net/forums/newreply.php?p=73448&noquote=1' class='text-center' target='_blank'><button type='button' class='btn btn-default'>Open Division Structure</button></a></p>
+												<p class='margin-top-20'><a href='http://www.clanaod.net/forums/newreply.php?p=73448&noquote=1' class='text-center' target='_blank'><button type='button' class='btn btn-primary'>Open Division Structure</button></a></p>
 											</div>
 
 											<div class='col-md-6'>
@@ -320,7 +322,22 @@ $out .= "
 										</div>
 									</div>
 
-									<div role='tabpanel' class='tab-pane' id='member-request'><p>Nulla rhoncus enim vel diam sagittis, eget dictum dolor auctor. Mauris placerat, dolor vitae luctus auctor, tortor mi tempor tellus, sed aliquam purus neque eget urna. Vestibulum massa lorem, tincidunt vel sapien et, ultrices eleifend magna. Aenean id neque ut odio euismod ullamcorper vitae et turpis. Etiam varius libero ut hendrerit faucibus. Nam sit amet ante vehicula, volutpat est sit amet, tincidunt ipsum. Aliquam vestibulum, sem ac egestas hendrerit, dolor elit malesuada justo, in tincidunt sem risus nec arcu. Praesent at risus rhoncus orci pharetra laoreet. Nullam sed turpis dui. Duis luctus nibh ipsum. Aliquam in molestie enim, sed pretium nisl. Quisque at diam at lectus porttitor auctor et ut nisl. Ut tempor odio a magna elementum, in porttitor leo posuere. Sed tempus volutpat mauris, finibus blandit magna fringilla sit amet. Nullam tempus diam dolor, quis convallis velit pretium eget. Nullam in tincidunt risus.</p>
+									<div role='tabpanel' class='tab-pane' id='member-request'>
+										<div class='row margin-top-20'>
+											<div class='col-md-6'>
+												<p>A division structure post needs to be made so that your new recruit can be added to the forum thread in addition to being tracked here. The box to the right shows what your division structure post should look like, including the information you have provided.</p>
+												<p>Click the copy button to copy the contents of the box to your clipboard. Then follow the division structure link to make your post.</p>
+												<p class='margin-top-20'><a href='http://www.clanaod.net/forums/newreply.php?p=73448&noquote=1' class='text-center' target='_blank'><button type='button' class='btn btn-primary'>Open Division Structure</button></a></p>
+											</div>
+
+											<div class='col-md-6'>
+												<div class='well'>
+													<button type='button' class='division-code-btn copy-button btn btn-default tool pull-right' title='Copy to clipboard'><i class='fa fa-clipboard'></i></button> 
+													<code class='post-code'></code>
+												</div>
+											</div>
+
+										</div>
 									</div>
 									<div role='tabpanel' class='tab-pane' id='welcome-post'><p>Vivamus congue, ex vel lacinia accumsan, turpis massa lacinia arcu, tristique ullamcorper velit ligula sed augue. Sed sit amet mi mi. Maecenas sed ipsum maximus, aliquam diam vitae, viverra est. Duis feugiat ipsum a nunc dapibus feugiat. Vestibulum est ipsum, condimentum non sodales a, pulvinar sed velit. Donec porttitor neque nulla, ac maximus justo cursus vel. Suspendisse potenti. Cras rutrum purus gravida tempus vestibulum. Donec sagittis vitae felis quis accumsan.</p>
 									</div>

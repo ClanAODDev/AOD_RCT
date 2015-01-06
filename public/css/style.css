@@ -119,6 +119,18 @@ ul.nav {
   margin-top: 50px;
 }
 
+pre {
+  overflow-x: auto;
+}
+pre code {
+  overflow-wrap: normal;
+  white-space: pre;
+}
+
+code.post-code {
+  max-height: 300px;
+}
+
 /* stop disabled links from firing */
 a[disabled] { pointer-events: none; }
 
