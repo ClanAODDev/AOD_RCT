@@ -9,11 +9,19 @@
 	</div>
 </div>
 
+<!-- modal for ajax dialogs -->
+<div class="modal viewPanel fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="viewer fadeIn animate"></div>
+		</div>
+	</div>
+</div>
 
 <!-- <input type="hidden" id="player" name="player" value="<?php //echo $player; ?>" />
 	<input type="hidden" id="game" name="game" value="<?php //echo $gameid; ?>" /> -->
 
-    <script src="/public/js/libraries/ZeroClipboard.js"></script>
+	<script src="/public/js/libraries/ZeroClipboard.js"></script>
 	<script type="text/javascript" src="/public/js/main.js"></script>
 
 </body>
