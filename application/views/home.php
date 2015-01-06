@@ -1,5 +1,7 @@
 <?php
 
+if (!isset($_SESSION['secure_access']) || (isset($_SESSION['secure_access']) && $_SESSION['secure_access'] !== true)) { header("Location: /404/"); }
+
 $out = NULL;
 $my_squad = NULL;
 

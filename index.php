@@ -9,6 +9,8 @@
 session_start();
 ob_start();
 
+$_SESSION['secure_access'] = true; 
+
 include "application/lib.php";
 
 define( 'TEMPLATES', dirname( __FILE__ ) . '/public/templates/' );

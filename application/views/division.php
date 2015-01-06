@@ -1,5 +1,6 @@
 <?php
 
+if (!isset($_SESSION['secure_access']) || (isset($_SESSION['secure_access']) && $_SESSION['secure_access'] !== true)) { header("Location: /404/"); }
 
 ini_set('display_errors', 1); 
 error_reporting(E_ALL);

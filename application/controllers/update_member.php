@@ -6,17 +6,23 @@ if (!isset($_SESSION['secure_access']) || (isset($_SESSION['secure_access']) && 
 
 $data = NULL;
 
-// values are bound and prepared in PDO
-$user = $_POST['user'];
-$pass = $_POST['password'];
-$passVerify = $_POST['passVerify'];
-$email = $_POST['email'];
 
-if (stristr($user, 'aod_')) {
-	$data['success'] = false;
-	$data['message'] = "Please do not include 'AOD_' to your username";
 
-} else if ($pass != $passVerify) {
+
+
+$userRole = $_POST['userRole'];
+
+
+// type of update
+$action = $_POST['action'];
+
+
+
+
+
+
+
+if ($pass != $passVerify) {
 
 	$data['success'] = false;
 	$data['message'] = "Passwords must match.";

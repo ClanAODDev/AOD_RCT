@@ -1,5 +1,7 @@
 <?php
 
+if (!isset($_SESSION['secure_access']) || (isset($_SESSION['secure_access']) && $_SESSION['secure_access'] !== true)) { header("Location: /404/"); }
+
 include_once("config.php");
 include_once("modules/vbfunctions.php");
 
@@ -1384,19 +1386,19 @@ function formatTime($ptime)
     }
 
     $a = array( 365 * 24 * 60 * 60  =>  'year',
-       30 * 24 * 60 * 60  =>  'month',
-       24 * 60 * 60  =>  'day',
-       60 * 60  =>  'hour',
-       60  =>  'minute',
-       1  =>  'second'
-       );
-    $a_plural = array( 'year'   => 'years',
-     'month'  => 'months',
-     'day'    => 'days',
-     'hour'   => 'hours',
-     'minute' => 'minutes',
-     'second' => 'seconds'
+     30 * 24 * 60 * 60  =>  'month',
+     24 * 60 * 60  =>  'day',
+     60 * 60  =>  'hour',
+     60  =>  'minute',
+     1  =>  'second'
      );
+    $a_plural = array( 'year'   => 'years',
+       'month'  => 'months',
+       'day'    => 'days',
+       'hour'   => 'hours',
+       'minute' => 'minutes',
+       'second' => 'seconds'
+       );
 
     foreach ($a as $secs => $str)
     {

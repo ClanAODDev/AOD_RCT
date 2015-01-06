@@ -1,5 +1,7 @@
 <?php
 
+if (!isset($_SESSION['secure_access']) || (isset($_SESSION['secure_access']) && $_SESSION['secure_access'] !== true)) { header("Location: /404/"); }
+
 // eventually need to check if the current user is 
 // either an admin or is actually a part of the platoon
 // being requested, else reject request
