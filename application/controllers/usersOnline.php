@@ -2,8 +2,6 @@
 session_start();
 require_once("../lib.php");
 
-if (!isset($_SESSION['secure_access']) || (isset($_SESSION['secure_access']) && $_SESSION['secure_access'] !== true)) { header("Location: /404/"); }
-
 if (isLoggedIn()) {
 	if (isset($_COOKIE['active_count'])) {
 		setcookie('active_count', $_COOKIE['active_count'] + 1, time() + (86400 * 30), '/');
