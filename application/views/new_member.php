@@ -14,6 +14,8 @@ $game_info = get_game_info($member_info['game_id']);
 $short_game_name = $game_info['short_name'];
 $game_name = $game_info['full_name'];
 $game_id = $game_info['id'];
+$division_structure_thread = $game_info['division_structure_thread'];
+$welcome_forum = $game_info['welcome_forum'];
 
 
 
@@ -239,9 +241,7 @@ $out .= "
 										</select>
 									</div>
 								</div>
-								
 
-								
 								<div class='text-center message text-danger'></div>
 							</div>
 
@@ -287,73 +287,92 @@ $out .= "
 						</div>";
 
 
-						// tab 5 - Confirm member information
+						// tab 5 - forum integration actions
 
 						$out .="
 						<div class='tab-pane' id='tab5'>
 							
+							<div class='col-md-12'>
 
-							<div role='tabpanel'>
+								<div role='tabpanel'>
 
-								<ul class='nav nav-tabs' role='tablist'>
-									<li role='presentation' class='active'><a href='#division-post' aria-controls='division-post' role='tab' data-toggle='tab'>Post to division structure</a></li>
-									<li role='presentation'><a href='#welcome-post' aria-controls='welcome-post' role='tab' data-toggle='tab'>Post Welcome thread</a></li>
-									<li role='presentation'><a href='#welcome-pm' aria-controls='welcome-pm' role='tab' data-toggle='tab'>Send Welcome PM</a></li>
-									<li role='presentation'><a href='#member-request' aria-controls='member-request' role='tab' data-toggle='tab'>Request new member status</a></li>
-								</ul>
+									<ul class='nav nav-tabs' role='tablist'>
+										<li role='presentation' class='active'><a href='#division-post' aria-controls='division-post' role='tab' data-toggle='tab'>Post to division structure</a></li>
+										<li role='presentation'><a href='#welcome-post' aria-controls='welcome-post' role='tab' data-toggle='tab'>Post Welcome thread</a></li>
+										<li role='presentation'><a href='#welcome-pm' aria-controls='welcome-pm' role='tab' data-toggle='tab'>Send Welcome PM</a></li>
+										<li role='presentation'><a href='#member-request' aria-controls='member-request' role='tab' data-toggle='tab'>Request new member status</a></li>
+									</ul>
 
-								<div class='tab-content'>
-									<div role='tabpanel' class='tab-pane active' id='division-post'>
-										<div class='row margin-top-20'>
+									<div class='tab-content'>
+										<div role='tabpanel' class='tab-pane active' id='division-post'>
+											<div class='row margin-top-20'>
 
-											<div class='col-md-6'>
-												<p>A division structure post needs to be made so that your new recruit can be added to the forum thread in addition to being tracked here. The box to the right shows what your division structure post should look like, including the information you have provided.</p>
-												<p>Click the copy button to copy the contents of the box to your clipboard. Then follow the division structure link to make your post.</p>
-												<p class='margin-top-20'><a href='http://www.clanaod.net/forums/newreply.php?p=73448&noquote=1' class='text-center' target='_blank'><button type='button' class='btn btn-primary'>Open Division Structure</button></a></p>
+												<div class='col-md-6'>
+													<p>A division structure post needs to be made so that your new recruit can be added to the forum thread in addition to being tracked here. The box to the right shows what your division structure post should look like, including the information you have provided.</p>
+													<p>Click the copy button to copy the contents of the box to your clipboard. Then follow the division structure link to make your post.</p>
+													<p class='margin-top-20'><a href='http://www.clanaod.net/forums/showthread.php?t={$division_structure_thread}' class='text-center' target='_blank'><button type='button' class='btn btn-primary'>Open Division Structure</button></a></p>
+												</div>
+
+												<div class='col-md-6'>
+													<div class='well code'>
+														<button type='button' class='division-code-btn copy-button btn btn-default tool pull-right' title='Copy to clipboard'><i class='fa fa-clipboard'></i></button> 
+														<code class='post-code'></code>
+													</div>
+												</div>
+
 											</div>
+										</div>
 
-											<div class='col-md-6'>
-												<div class='well'>
-													<button type='button' class='division-code-btn copy-button btn btn-default tool pull-right' title='Copy to clipboard'><i class='fa fa-clipboard'></i></button> 
-													<code class='post-code'></code>
+										
+										<div role='tabpanel' class='tab-pane' id='welcome-post'>
+											<div class='row margin-top-20'>
+												<div class='col-md-12'>
+													<p>A welcome thread is created for each new recruit. It serves multiple purposes: It makes the recruit feel welcome. This is very important., It gives everyone a chance to know who is new in the division, which includes people from other divisions and even the leadership. and lastly, if you do nothing else on our forums, say hi to the new members.</p>
+
+													<p>It also wouldn't hurt to let your new recruit know you made a new post for them, so they can introduce themselves to everyone.</p>
+
+													<p class='margin-top-20'><a href='http://www.clanaod.net/forums/newthread.php?do=newthread&f={$welcome_forum}' class='text-center' target='_blank'><button type='button' class='btn btn-primary'>Create welcome thread</button></a></p>
+												</div>
+
+											</div>
+										</div>
+
+										<div role='tabpanel' class='tab-pane' id='welcome-pm'>
+											<div class='row margin-top-20'>
+												<div class='col-md-6'>
+													<p>In addition to your discussion with your new recruit, it's always a good idea to recap. For this reason, we like to send follow-up PMs to our new members summarizing what we went over in case they have any questions. It's also a good way to start a conversation with them on the forums, and generally a good way to close things up.</p>
+													<p>Click the copy button to copy the contents of the box to your clipboard. Then follow the link to send a PM to your recruit.</p>
+													<p class='margin-top-20'><a href='#' class='text-center pm-link' target='_blank'><button type='button' class='btn btn-primary'>Send Forum PM</button></a></p>
+												</div>
+
+												<div class='col-md-6'>
+													<div class='well code'>
+														<button type='button' class='welcome-pm-btn copy-button btn btn-default tool pull-right' title='Copy to clipboard'><i class='fa fa-clipboard'></i></button> 
+														<code class='welcome-code'></code>
+													</div>
+												</div>
+
+											</div>
+										</div>
+
+
+										<div role='tabpanel' class='tab-pane' id='member-request'>
+											<div class='row margin-top-20'>
+												<div class='col-md-12'>
+													<p>Finally, a request must be made so your new recruit can be set as an AOD member on the forums, and be able to see all the hidden content specifically for our division.</p>
+													<p class='margin-top-20'><a href='http://www.clanaod.net/forums/newreply.php?&t={$division_structure_thread}' class='text-center' target='_blank'><button type='button' class='btn btn-primary'>Submit Request</button></a></p>
 												</div>
 											</div>
-
 										</div>
-									</div>
 
-									<div role='tabpanel' class='tab-pane' id='member-request'>
-										<div class='row margin-top-20'>
-											<div class='col-md-6'>
-												<p>A division structure post needs to be made so that your new recruit can be added to the forum thread in addition to being tracked here. The box to the right shows what your division structure post should look like, including the information you have provided.</p>
-												<p>Click the copy button to copy the contents of the box to your clipboard. Then follow the division structure link to make your post.</p>
-												<p class='margin-top-20'><a href='http://www.clanaod.net/forums/newreply.php?p=73448&noquote=1' class='text-center' target='_blank'><button type='button' class='btn btn-primary'>Open Division Structure</button></a></p>
-											</div>
-
-											<div class='col-md-6'>
-												<div class='well'>
-													<button type='button' class='division-code-btn copy-button btn btn-default tool pull-right' title='Copy to clipboard'><i class='fa fa-clipboard'></i></button> 
-													<code class='post-code'></code>
-												</div>
-											</div>
-
-										</div>
+										
 									</div>
-									<div role='tabpanel' class='tab-pane' id='welcome-post'><p>Vivamus congue, ex vel lacinia accumsan, turpis massa lacinia arcu, tristique ullamcorper velit ligula sed augue. Sed sit amet mi mi. Maecenas sed ipsum maximus, aliquam diam vitae, viverra est. Duis feugiat ipsum a nunc dapibus feugiat. Vestibulum est ipsum, condimentum non sodales a, pulvinar sed velit. Donec porttitor neque nulla, ac maximus justo cursus vel. Suspendisse potenti. Cras rutrum purus gravida tempus vestibulum. Donec sagittis vitae felis quis accumsan.</p>
-									</div>
-									<div role='tabpanel' class='tab-pane' id='welcome-pm'><p>Mauris quis tempor nisi. Nullam accumsan tempus eros sit amet finibus. Nam ac orci vel velit pulvinar convallis. Donec sit amet ipsum at metus scelerisque mattis. Quisque sollicitudin arcu eu ligula mattis volutpat. Nulla facilisi. Etiam suscipit lobortis scelerisque. Proin malesuada aliquet scelerisque. Aenean tristique felis ac sem lacinia tempor. Cras et maximus nisl. Aenean laoreet hendrerit lectus, et euismod ante rutrum ut. Nunc pretium magna sit amet libero mattis, sed condimentum elit efficitur. Quisque auctor ligula nibh, eget consectetur lectus laoreet nec. Fusce laoreet, magna eu pretium rhoncus, neque neque sollicitudin lorem, vel rutrum lacus nunc a enim. Etiam in hendrerit mi. Aliquam cursus augue suscipit sem volutpat, sed consequat est finibus.</p>
-									</div>
-
 								</div>
-
-
-
-
 							</div>
 						</div>";
 
 
-						// tab 6 - forum integration actions
+							// tab 6 - completion
 
 						$out .="
 
@@ -362,7 +381,7 @@ $out .= "
 						</div>";
 
 
-						// end tabbed content
+							// end tabbed content
 
 						$out .="
 

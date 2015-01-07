@@ -446,7 +446,7 @@ function get_game_info($game)
 
         try {
 
-            $query = "SELECT `id`, `short_name`, `full_name`, `subforum`, `description` FROM `games` WHERE short_name = :game OR id = :game";
+            $query = "SELECT `id`, `short_name`, `welcome_forum`, `division_structure_thread`, `full_name`, `subforum`, `description` FROM `games` WHERE short_name = :game OR id = :game";
             $query = $pdo->prepare($query);
             $query->bindParam(':game', $game);
             $query->execute();

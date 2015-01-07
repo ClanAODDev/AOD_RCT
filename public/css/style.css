@@ -119,12 +119,13 @@ ul.nav {
   margin-top: 50px;
 }
 
-pre {
-  overflow-x: auto;
+.well.code {
+  overflow-y: scroll;
+  max-height: 200px;
 }
-pre code {
-  overflow-wrap: normal;
-  white-space: pre;
+
+.well code {
+  width: 200px;
 }
 
 code.post-code {
