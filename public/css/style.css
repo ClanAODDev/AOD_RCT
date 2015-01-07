@@ -251,6 +251,10 @@ a[disabled] { pointer-events: none; }
   max-height: 300px;
 }
 
+.copy-link {
+  cursor: pointer;
+}
+
 .center {
   text-align: center;
   margin-left: auto; 
