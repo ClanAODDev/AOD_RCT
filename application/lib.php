@@ -971,8 +971,6 @@ function build_user_tools($role) {
 
 
 
-
-
 function get_member_name($name)
 {
 
@@ -1551,6 +1549,39 @@ function convertDivision($division) {
         break;
     }
     return $id;
+}
+
+
+function get_bf4db_id($user) {
+
+    $url = "http://bf4db.com/players?name={$user}";
+    $ch = curl_init();
+    $timeout = 5;
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+
+    $html = curl_exec($ch);
+    curl_close($ch);
+
+    $regexp = "/<a href=\"\/players\/(\d*)\" class=\"personaName-medium\">" . $user . "<\/a>/iU";
+
+    if ( preg_match_all($regexp, $html, $matches) ) {
+
+        $len = count($matches[0]);
+
+        for( $i = 0; $i < $len; $i++ ) {
+            $id = $matches[1][$i];
+        }
+
+    }
+
+    if (isset($id)) {
+        return $id; 
+    } else {
+        return false;
+    }
+
 }
 
 
