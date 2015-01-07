@@ -203,13 +203,6 @@ $out .= "
 									</div>
 								</div>
 
-								<div class='form-group bf4db-group'>
-									<label for='bf4db' class='col-sm-3 control-label'>BF4DB ID <a href='{$BF4DB}search?name=' class='bf4dbid-search tool-e' title='Search BF4DB using BL Name' ><i class='fa fa-search'></i></a></label>
-									<div class='col-sm-9'>
-										<input type='text' class='form-control' id='bf4db' placeholder='123456' name='bf4db' tabindex='4'>
-									</div>
-								</div>
-
 								<div class='form-group platoon-group' style='display: {$assignmentPltFieldDisplay}'>
 									<label for='platoon' class='col-sm-3 control-label'>Platoon</label>
 									<div class='col-sm-9'>
