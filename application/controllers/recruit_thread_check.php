@@ -28,12 +28,11 @@ if (isset($_GET['player']) && (isset($_GET['game']))) {
 
 				$status = checkThread($player, $thread);
 
+
+
 				$out .= "
-				<li class=\"list-group-item thread\">
-					<a href=\"{$thread}\"  title='View forum thread' target=\"_blank\"><i class='fa fa-comment'></i> {$title}</a>";
-
+				<li class=\"list-group-item thread\">{$title} <i class='fa fa-copy copy-link text-primary' title='Copy link to clipboard' href='#' data-clipboard-text='{$thread}'></i>";
 					$out .= ($status) ? $success : $failure;
-
 					$out .= "
 				</li>";
 			}
@@ -44,8 +43,8 @@ if (isset($_GET['player']) && (isset($_GET['game']))) {
 
 		$out .="
 		<div class='text-left'>
-		<span class=\"reload text-muted\" style=\"cursor: pointer;\">Refresh Thread Check <i class=\"fa fa-refresh glyphicon-xs\"></i></span>
-		<span class='thread-status pull-right text-danger'></span>
+			<span class=\"reload text-muted\" style=\"cursor: pointer;\">Refresh Thread Check <i class=\"fa fa-refresh glyphicon-xs\"></i></span>
+			<span class='thread-status pull-right text-danger'></span>
 		</div>
 		";
 

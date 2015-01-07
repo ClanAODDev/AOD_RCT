@@ -87,25 +87,11 @@ if (count($squadleadersArray)) {
 }
 
 
-
-
-
-// fetch division thread links
-$gameThreads = get_game_threads($game_id);
-$links = array();
-foreach ($gameThreads as $thread) {
-	$links[] = $thread['thread_title'] . " - " . $thread['thread_url'];
-}
-
-$copy_links = implode("\r\n", $links);
-
 // show wizard links only to dev
 $showLinksDisplay = (isDev()) ? "block" : "none";
 
 // bf4db link for player search
 $BF4DB = BF4DB;
-
-
 
 
 $breadcrumb = "
@@ -191,7 +177,7 @@ $out .= "
 						<div class='tab-pane' id='tab2'>
 
 							<div class='col-sm-6'>
-								<p class='margin-top-20'>Let's gather some information about our new member. Please fill out and check the form completely for accuracy. </p>
+								<p class='margin-top-20'>Does your new recruit have a forum account? They will need one for you to complete this section. Please fill out and check the form completely for accuracy once this has been done. </p>
 								<p>The information you provide will be maintained throughout the process and will be used to put the player in the right platoon and squad. If you are a squad leader, they will be assigned to you by default.</p>
 								<p>If you are a squad leader or platoon leader, the squad and/or platoon will be determined by your assignment.</p>
 							</div>
@@ -255,12 +241,7 @@ $out .= "
 							<div class='col-sm-6'>
 
 								<p class='margin-top-20'>Listed are the recruiting threads required for each of your division's members to read and understand. The status indicates whether or not your new recruit has made a post in each of those threads (checking last 5 pages of a thread ensures we don't miss a post).</p><p>You can right-click to copy and paste each of these links to your recruit to have them complete them, but you should take the time to explain each of these threads, hitting the high (important) notes. Ensure each thread is completed (and that they understand them), before continuing.</p>
-
-								<p>For ease, you can copy all of the recruit thread links to your clipboard using the button below.</p>
-
-								<p class='text-center'><button class='tool btn btn-primary copy-button' data-clipboard-text='{$copy_links}' 
-									type='button'>Copy Thread Links</button>
-								</p>
+		
 							</div>
 							<div class='col-sm-6 well'>
 
@@ -315,7 +296,7 @@ $out .= "
 
 												<div class='col-md-6'>
 													<div class='well code'>
-														<button type='button' class='division-code-btn copy-button btn btn-default tool pull-right' title='Copy to clipboard'><i class='fa fa-clipboard'></i></button> 
+														<button type='button' class='division-code-btn copy-button btn btn-default tool pull-right' title='Copy to clipboard'><i class='fa fa-copy'></i></button> 
 														<code class='post-code'></code>
 													</div>
 												</div>
@@ -347,7 +328,7 @@ $out .= "
 
 												<div class='col-md-6'>
 													<div class='well code'>
-														<button type='button' class='welcome-pm-btn copy-button btn btn-default tool pull-right' title='Copy to clipboard'><i class='fa fa-clipboard'></i></button> 
+														<button type='button' class='welcome-pm-btn copy-button btn btn-default tool pull-right' title='Copy to clipboard'><i class='fa fa-copy'></i></button> 
 														<code class='welcome-code'></code>
 													</div>
 												</div>
