@@ -129,6 +129,9 @@ function loadThreadCheck() {
     if (battlelog) {
         $(".rank-name").html("AOD_Rct_" + ucwords(battlelog));
         $(".player-name").html(ucwords(battlelog));
+        
+        // full name copy
+        $('.player-name-copy').attr("data-clipboard-text", "AOD_Rct_" + ucwords(battlelog))
 
         // division structure
         $("#division-post .post-code").html(postCode);

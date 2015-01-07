@@ -260,7 +260,7 @@ $out .= "
 							<p>Now, you are ready to finalize your new recruit and take care of the paperwork associated with each new recruit. <strong>Be sure to ask</strong> if there are any questions or concerns your recruit may have. You should also remind him/her that <strong>you will be their squad leader</strong> and can come to you if they have any issues in the relative future.</p><p>Your next steps should include:</p>
 							<ul>
 								<li>Having them adjust their forum (AOD Member Info) profile settings</li>
-								<li>Changing their name on ventrilo <code class='rank-name'>NaN</code></li>
+								<li>Changing their name on ventrilo <code class='rank-name'>NaN</code><i class='fa fa-copy copy-link text-primary player-name-copy' title='Copy link to clipboard' href='#'></i></li>
 								<li>Accepting or inviting them into the BF4 platoon on Battlelog</li>
 								<li>Give them the <a href='http://www.clanaod.net/forums/showthread.php?t=3293' target='_blank'>channel password</a> and introduce them to the other members</li>
 							</ul>
