@@ -8,6 +8,10 @@ $data = NULL;
 $user = $_POST['user'];
 $alert = $_POST['id'];
 
-updateAlert($user, $alert);
+if (isset($user) && isset($alert)) {
+	updateAlert($alert, $user);
+} else {
+	echo "User or alert id not specified.";
+}
 
 ?>

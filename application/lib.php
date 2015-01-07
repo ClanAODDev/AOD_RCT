@@ -23,7 +23,6 @@ if (isLoggedIn()) {
         $avatar = NULL;
     }
 
-
     
     /**
      * generate alerts
@@ -607,7 +606,7 @@ function updateLoggedInTime($user)
  * @param  int $alert alert id
  * @return boolean    only returns false on failure
  */
-function updateAlert($uid, $alert)
+function updateAlert($alert, $uid)
 {
     global $pdo;
     
