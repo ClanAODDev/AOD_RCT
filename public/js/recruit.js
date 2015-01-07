@@ -129,7 +129,7 @@ function loadThreadCheck() {
     if (battlelog) {
         $(".rank-name").html("AOD_Rct_" + ucwords(battlelog));
         $(".player-name").html(ucwords(battlelog));
-
+        
         // full name copy
         $('.player-name-copy').attr("data-clipboard-text", "AOD_Rct_" + ucwords(battlelog))
 
@@ -198,16 +198,3 @@ function ucwords(str) {
 }
 
 
-var client = new ZeroClipboard($('.copy-button'));
-
-client.on("ready", function(readyEvent) {
-    // alert( "ZeroClipboard SWF is ready!" );
-
-    client.on("aftercopy", function(event) {
-        // `this` === `client`
-        // `event.target` === the element that was clicked
-        // event.target.style.display = "none";
-        alert("Copied text to clipboard");
-        // : " + event.data["text/plain"]
-    });
-});
