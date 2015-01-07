@@ -922,7 +922,7 @@ function build_user_tools($role) {
                 'title' => 'Add new recruit',
                 'descr' => 'Start the recruiting process with a brand new candidate',
                 'icon' => 'plus-square',
-                'link' => '/new-recruit'
+                'link' => '/recruiting'
                 ),
 
             "Manage" => array(
