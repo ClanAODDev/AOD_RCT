@@ -609,8 +609,8 @@ function updateAlert($alert, $uid)
     
     if (dbConnect() && (isset($uid)) && (isset($alert))) {
         try {
-            $query = $pdo->prepare("INSERT INTO `alerts_status` ( alert_id, user_id, read_date, opened ) 
-                VALUES ( :alert, :user, CURRENT_TIMESTAMP(), 1 )");
+            $query = $pdo->prepare("INSERT INTO `alerts_status` ( alert_id, user_id, read_date) 
+                VALUES ( :alert, :user, CURRENT_TIMESTAMP() )");
             $query->execute(array(
                 ':alert' => $alert,
                 ':user' => $uid
