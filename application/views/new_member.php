@@ -106,7 +106,10 @@ $breadcrumb = "
 
 $out .= "
 <div class='container fade-in'>
+	
 	{$breadcrumb}
+
+	<div class='alert-box'></div>
 
 	<div class='page-header'>
 		<h1><strong>Recruiting</strong> <small>Add New Member <span class='text-warning'></span></small></h1>

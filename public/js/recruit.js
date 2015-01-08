@@ -81,8 +81,11 @@ $(function() {
                     $(".message").html("<i class='fa fa-times'></i> " + message).effect('bounce');
                     return false;
                 } else {
+                    $(".alert-box").append("<div class='alert alert-success' style='z-index: 5;'><i class='fa fa-check fa-2x'></i> Your new recruit has been added to the database!</div>").delay(2000).fadeOut();
                     return true;
                 }
+
+
             }
 
 
