@@ -12,10 +12,12 @@ session_regenerate_id();
 if (isLoggedIn()) {
 
     // fetch member data for current user
-    $member_info = get_user_info($_SESSION['username']);
-    $userRole    = $member_info['role'];
-    $curUser     = $member_info['username'];
-    $forumId     = $member_info['member_id'];
+    $member_info  = get_user_info($_SESSION['username']);
+    $userRole     = $member_info['role'];
+    $curUser      = $member_info['username'];
+    $forumId      = $member_info['member_id'];
+    $user_platoon = $member_info['platoon_id'];
+    $user_game = $member_info['game_id'];
     
     if (!is_null($member_info['member_id'])) {
         $avatar = get_user_avatar($member_info['member_id']);
@@ -244,7 +246,7 @@ function get_user_info($name)
 
         try {
 
-            $sth = $pdo->prepare("SELECT users.id as userid, member_id, username, forum_name, rank_id, role, email, idle, platoon_id, last_logged, bf4_position_id, last_forum_login, last_forum_post, join_date, member.game_id FROM users 
+            $sth = $pdo->prepare("SELECT users.id as userid, member_id, username, forum_name, rank_id, role, email, idle, platoon_id, last_logged, bf4_position_id, game_id, last_forum_login, last_forum_post, join_date, member.game_id FROM users 
                 LEFT JOIN member ON users.username = member.forum_name
                 LEFT JOIN games ON games.id = member.game_id
                 LEFT JOIN bf4_position ON member.bf4_position_id = bf4_position.id
@@ -511,11 +513,6 @@ function userExists($string)
                 return false;
             }
             
-            
-            if (!$count) {
-                die('Could not get data (userexists): ' . mysql_error());
-            }
-            
         } else {
             die('Cant connect to mysql (userexists)');
         }
@@ -663,6 +660,55 @@ function createUser($user, $email, $credential)
     }
 }
 
+/**
+ * Create a new member entry
+ * @param  string $forum_name      player's forum anme
+ * @param  int $member_id          forum id
+ * @param  string $battlelog_name  battlelog name
+ * @param  int $bf4dbid            bf4db id
+ * @param  int $platoon_id         platoon id
+ * @param  int $bf4_position_id    position id (in bf4_position)
+ * @param  int $squadleader_id     squad leader id
+ * @param  int $game_id            game id (from games)
+ * @return error                   will return an error if query fails
+ */
+function createMember($forum_name, $member_id, $battlelog_name, $bf4dbid, $platoon_id, $bf4_position_id, $squadleader_id, $game_id)
+{
+    global $pdo;
+    
+    if (dbConnect()) {
+        try {
+
+            $query = $pdo->prepare("INSERT INTO member ( forum_name, member_id, battlelog_name, bf4db_id, platoon_id, bf4_position_id, squad_leader_id, game_id ) VALUES ( :forum, :member_id, :battlelog, :bf4db, :platoon, :bf4_pos, :sqdldr, :game )
+                ON DUPLICATE KEY UPDATE
+                battlelog_name = :battlelog, 
+                bf4db_id = :bf4db,
+                platoon_id = :platoon, 
+                bf4_position_id = :bf4_pos,
+                squad_leader_id = :sqdldr,
+                game_id = :game");
+
+            $query->execute(array(
+                ':forum' => $forum_name,
+                ':member_id' => $member_id,
+                ':battlelog' => $battlelog_name,
+                ':bf4db' => $bf4dbid,
+                ':platoon' => $platoon_id,
+                ':bf4_pos' => $bf4_position_id,
+                ':sqdldr' => $squadleader_id,
+                ':game' => $game_id
+                ));
+        }
+
+        catch (PDOException $e) {
+            return 'ERROR: ' . $e->getMessage();
+        } 
+
+    }
+    return true; 
+}
+
+
 
 /**
  * verifies if the current user is a developer
@@ -790,7 +836,7 @@ function checkThread($player, $thread)
         $url = parse_url(curl_last_url($ch));
         $query = $url['query'];
         parse_str($query, $url_array);
-        $page = $url_array['page']-1;
+        $page = @$url_array['page']-1;
 
         curl_setopt($ch, CURLOPT_URL, $thread . "&page={$page}");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -1381,19 +1427,19 @@ function formatTime($ptime)
     }
 
     $a = array( 365 * 24 * 60 * 60  =>  'year',
-     30 * 24 * 60 * 60  =>  'month',
-     24 * 60 * 60  =>  'day',
-     60 * 60  =>  'hour',
-     60  =>  'minute',
-     1  =>  'second'
-     );
-    $a_plural = array( 'year'   => 'years',
-       'month'  => 'months',
-       'day'    => 'days',
-       'hour'   => 'hours',
-       'minute' => 'minutes',
-       'second' => 'seconds'
+       30 * 24 * 60 * 60  =>  'month',
+       24 * 60 * 60  =>  'day',
+       60 * 60  =>  'hour',
+       60  =>  'minute',
+       1  =>  'second'
        );
+    $a_plural = array( 'year'   => 'years',
+     'month'  => 'months',
+     'day'    => 'days',
+     'hour'   => 'hours',
+     'minute' => 'minutes',
+     'second' => 'seconds'
+     );
 
     foreach ($a as $secs => $str)
     {

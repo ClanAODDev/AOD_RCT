@@ -1,21 +1,5 @@
 $(function() {
 
-    // allow bf4db search with forum name
-    $(".bf4dbid-search").click(function(e) {
-        e.preventDefault();
-        var battlelog = $("#battlelog").val();
-        if (battlelog == '') {
-            $(".battlelog-group").addClass("has-error").effect("bounce");
-            $(".message").html("<i class='fa fa-times'></i>  A battlelog name is required to search with.").effect("bounce");
-            return false;
-        } else {
-            $(".battlelog-group").removeClass("has-error");
-            $(".message").html('');
-            window.open($(this).attr("href") + battlelog, "popupWindow", "width=800,height=600,scrollbars=yes");
-        }
-    })
-
-
     $('#rootwizard').bootstrapWizard({
         onNext: function(tab, navigation, index) {
 
@@ -25,8 +9,9 @@ $(function() {
 
             if (index == 2) {
 
-                // Make sure we entered the name
-                if (!$('#member_id').val() || !$('#battlelog').val() || !$('#bf4db').val() || !$('#forumname').val()) {
+
+                // Validate fields
+                if (!$('#member_id').val() || !$('#battlelog').val() || !$('#forumname').val()) {
                     $(".message").html("<i class='fa fa-times'></i>  All fields are required.").effect("bounce");
                     $('[class$=group]').each(function() {
                         var $this = $(this);
@@ -35,20 +20,69 @@ $(function() {
                         }
                     });
 
-
                     return false;
                 }
 
+                // grab values since we know they exist
+                var forumName = $('#forumname').val(),
+                    battlelog = $('#battlelog').val(),
+                    platoon = $('#battlelog').val(),
+                    squadLdr = $('#squadLdr').val(),
+                    member_id = $('#member_id').val();
+
+                if (/\D/.test(member_id)) {
+                    $(".message").html("<i class='fa fa-times'></i>  Member id must be a number.").effect("bounce");
+                    return false;
+                }
+
+                // no errors, so clear any error states
                 $(".has-error").removeClass("has-error");
                 $(".message").html("");
 
+
                 // check for matching forum name / battlelog
-                if ($('#battlelog').val() != $('#forumname').val()) {
-                    if (!confirm("The member's forum name does not match the ingame name. Are you sure you wish to continue with this information?\r\nYou will have the option of requesting a name change in addition to the new member status request at the end of the recruitment process.")) {
+                if (battlelog != forumName) {
+                    if (!confirm("The member's forum name does not match the ingame name. Are you sure you wish to continue with this information?")) {
                         return false;
                     }
                 }
 
+                // post member data to db
+                var flag = 0;
+                alert('Fetching BF4DB ID. Browser may freeze momentarily...');
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/application/controllers/store_member.php',
+                    data: {
+                        name: forumName,
+                        battlelog: battlelog,
+                        member_id: member_id,
+                        platoon: platoon,
+                        squadLdr: squadLdr
+                    },
+                    dataType: 'json',
+                    async: false,
+                    success: function(response) {
+                        if (response.success === false) {
+                            flag = 0;
+                            message = response.message;
+                            if (response.battlelog === false) {
+                                 $(".battlelog-group").addClass('has-error');
+                            }
+                        } else {
+                            flag = 1;
+                        }
+                    }
+                });
+
+                // have to declare a flag so it's not undefined...
+                if (flag == 0) {
+                    $(".message").html("<i class='fa fa-times'></i> " + message).effect('bounce');
+                    return false;
+                } else {
+                    return true;
+                }
             }
 
 
@@ -124,12 +158,10 @@ function loadThreadCheck() {
         welcomeCopy = "[strong]Congratulations " + ucwords(player) + ", you've been accepted to join AOD![/strong] I hope your stay so far has been positive.\r\n\r\nHere's a couple of key points to get you started and keep you going:\r\n\r\n[list][*]**Most Important** You'll need to be on Ventrilo any time you are in game. You dont have to be talking to others (we have a quiet room) but we use vent to communicate and organize ourselves.[*]AOD has a military structure. We do not enforce it oppressively, but we do require a minimum level of respect. Check it out here.http://www.clanaod.net/forums/showthread.php?t=3326[*]AOD has a Code of Conduct. The summary is, be respectful of others, they will already be respecting you, otherwise they wouldnt be here. http://www.clanaod.net/forums/showthread.php?t=3327[*]AOD has several games. If you play any of the games AOD supports, make sure you throw on the AOD tags.[*]*** We check the forums periodically for member activity to make sure we aren't carrying dead weight. AOD is a huge clan, and it's important that we clean house periodically. If you feel that you will be absent for any reason, you can request an LOA and your membership status will be maintained. There is LOTS of cool stuff, events, and announcements in the Battlefield 4 forums. ***[*]We like to screenshot when we take each other's tags. We post the screenshots here on our wall of shame. I hope very much to personally add your tags to the wall! =) ... The wall is HERE: http://www.clanaod.net/forums/showthread.php?t=75595[/list]\r\n\r\nIMPORTANT:\r\nAlso remember, your forum username will change in a day or so to AOD_" + player + ", so don't panic! It is our way of keeping track of who has been processed in properly, and given access to the member only forums. You will NOT receive an email reminding you of this, however if you need to do a password recovery, it will remind you that your username is not exactly what you registered with.\r\n\r\nMost importantly, HAVE FUN, and PLAY TOGETHER. Feel free to PM Me, BL Chat me, or pull me aside in Ventrilo if you have ANY questions at all. You can also feel free to contact any other NCO with questions.";
 
 
-
-
     if (battlelog) {
         $(".rank-name").html("AOD_Rct_" + ucwords(battlelog));
         $(".player-name").html(ucwords(battlelog));
-        
+
         // full name copy
         $('.player-name-copy').attr("data-clipboard-text", "AOD_Rct_" + ucwords(battlelog))
 
@@ -196,5 +228,3 @@ function ucwords(str) {
             return $1.toUpperCase();
         });
 }
-
-

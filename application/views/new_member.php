@@ -109,7 +109,7 @@ $out .= "
 	{$breadcrumb}
 
 	<div class='page-header'>
-		<h1><strong>Recruiting</strong> <small>Add New Member <span class='text-warning'>[Not fully functional]</span></small></h1>
+		<h1><strong>Recruiting</strong> <small>Add New Member <span class='text-warning'></span></small></h1>
 	</div>
 
 	<div id='rootwizard'>
@@ -140,7 +140,7 @@ $out .= "
 
 			<div class='panel-body'>
 
-				<form class='form-horizontal'>
+				<form class='form-horizontal' id='new-recruit'>
 
 					<input type='hidden' value='{$game_id}' id='game' name='game' />
 
@@ -215,7 +215,7 @@ $out .= "
 								<div class='form-group squadldr-group' style='display: {$assignmentSqdFieldDisplay}'>
 									<label for='squadldr' class='col-sm-3 control-label'>Squad Leader</label>
 									<div class='col-sm-9'>
-										<select name='squadldr' id='squadldr' class='form-control'>
+										<select name='squadLdr' id='squadLdr' class='form-control'>
 											{$squadLeaders}
 										</select>
 									</div>
@@ -234,7 +234,7 @@ $out .= "
 							<div class='col-sm-6'>
 
 								<p class='margin-top-20'>Listed are the recruiting threads required for each of your division's members to read and understand. The status indicates whether or not your new recruit has made a post in each of those threads (checking last 5 pages of a thread ensures we don't miss a post).</p><p>You can right-click to copy and paste each of these links to your recruit to have them complete them, but you should take the time to explain each of these threads, hitting the high (important) notes. Ensure each thread is completed (and that they understand them), before continuing.</p>
-		
+
 							</div>
 							<div class='col-sm-6 well'>
 
