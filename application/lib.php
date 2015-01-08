@@ -871,7 +871,6 @@ function get_alerts($uid)
             AND end_date > CURRENT_TIMESTAMP
             AND NOT EXISTS (
                 SELECT * FROM alerts_status
-                WHERE opened = 1 
                 AND alert_id = alerts.id
                 AND user_id = :user
                 )";
