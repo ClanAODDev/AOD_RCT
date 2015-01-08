@@ -40,6 +40,8 @@ echo $pretty;*/
 
 if (count($json->column_order) == 11 && ($json->column_order[0] == 'userid') && ($json->column_order[10] == 'aodstatus')) {
 
+	$currentMembers = array();
+
 	// loop through member records
 	foreach ($json->data as $column) {
 
@@ -56,6 +58,7 @@ if (count($json->column_order) == 11 && ($json->column_order[0] == 'userid') && 
 
 
 		global $pdo;
+		$currentMembers[$username] = $memberid;
 
 		if (dbConnect()) {
 
@@ -97,7 +100,26 @@ if (count($json->column_order) == 11 && ($json->column_order[0] == 'userid') && 
 			}
 		}
 
-	}		
+	}
+
+	// fetch all existing db members for array comparison
+	$query = $pdo->prepare("SELECT member_id, forum_name FROM member WHERE status_id = 1");
+	$query->execute();
+	$existingMemberArray = $query->fetchAll();
+	$existingMembers = array();
+
+	foreach($existingMemberArray as $member) {
+		$existingMembers[$member['forum_name']] = $member['member_id'];
+	}
+
+	// select members that need to be removed
+	$removals = array_diff($existingMembers, $currentMembers);
+
+	if (count($removals)) {
+		$removalIds = implode($removals, ", ");
+		$query = $pdo->prepare("UPDATE member SET status_id = 4 WHERE member_id IN ({$removalIds})");
+		$query->execute();
+	}
 
 	echo "sync done. <br />";
 
