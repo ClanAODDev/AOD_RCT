@@ -80,7 +80,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 						<td class='text-center'>{$aod_games}</td>
 						<td class='text-center'>{$total_games}</td>
 
-						<td class='text-center'><div class='progress text-center follow-tool' title='<small><center>{$aod_games} of {$total_games}<br />{$percent_aod}%</center></small>' style='width: 60px; margin: 0 auto;'><div class='progress-bar progress-bar-" . getPercentageColor($percent_aod) . " progress-bar-striped' role='progressbar' aria-valuenow='72' aria-valuemin='0' aria-valuemax='50' style='width: ". $percent_aod . "%'><span style='display: none;'>{$percent_aod}%</span></div></div></td>
+						<td class='text-center'><div class='progress text-center follow-tool' title='<small><center>{$aod_games} of {$total_games}<br />{$percent_aod}%</center></small>' style='width: 60px; margin: 0 auto; height: 15px; vertical-align:middle;'><div class='progress-bar progress-bar-" . getPercentageColor($percent_aod) . " progress-bar-striped' role='progressbar' aria-valuenow='72' aria-valuemin='0' aria-valuemax='50' style='width: ". $percent_aod . "%'><span style='display: none;'>{$percent_aod}%</span></div></div></td>
 
 						<td class='text-center col-hidden'>" . $row['rank_id'] . "</td>
 						<td class='text-center col-hidden'>" . $row['last_activity'] . "</td>
