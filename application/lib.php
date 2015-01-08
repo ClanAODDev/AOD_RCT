@@ -32,7 +32,6 @@ if (isLoggedIn()) {
 
     $alerts_list = NULL;
     $alerts      = get_alerts($member_info['userid']);
-    
     if (count($alerts)) {
         foreach ($alerts as $alert) {
             $alerts_list .= "
@@ -871,7 +870,7 @@ function get_alerts($uid)
             SELECT DISTINCT id, content, type FROM alerts
             WHERE start_date < CURRENT_TIMESTAMP 
             AND end_date > CURRENT_TIMESTAMP
-            AND NOT EXISTS ( SELECT * FROM alerts_status AND alert_id = alerts.id AND user_id = :user )";
+            AND NOT EXISTS ( SELECT * FROM alerts_status WHERE alert_id = alerts.id AND user_id = :user )";
 
             $query = $pdo->prepare($query);
             $query->bindParam(':user', $uid);
