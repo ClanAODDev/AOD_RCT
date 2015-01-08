@@ -337,7 +337,7 @@ $out .= "
 											<div class='row margin-top-20'>
 												<div class='col-md-12'>
 													<p>Finally, a request must be made so your new recruit can be set as an AOD member on the forums, and be able to see all the hidden content specifically for our division.</p>
-													<p class='margin-top-20'><a href='http://www.clanaod.net/forums/newreply.php?&t={$division_structure_thread}' class='text-center' target='_blank'><button type='button' class='btn btn-primary'>Submit Request</button></a></p>
+													<p class='margin-top-20'><a href='http://www.clanaod.net/forums/misc.php?do=form&fid=39' class='text-center' target='_blank'><button type='button' class='btn btn-primary'>Submit Request</button></a></p>
 												</div>
 											</div>
 										</div>
