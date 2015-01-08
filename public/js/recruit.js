@@ -1,5 +1,7 @@
 $(function() {
 
+    $(".progress-bar").attr("class", "bar progress-bar progress-bar-striped progress-bar-danger active");
+
     $('#rootwizard').bootstrapWizard({
         onNext: function(tab, navigation, index) {
 
@@ -8,7 +10,6 @@ $(function() {
              */
 
             if (index == 2) {
-
 
                 // Validate fields
                 if (!$('#member_id').val() || !$('#battlelog').val() || !$('#forumname').val()) {
@@ -68,7 +69,7 @@ $(function() {
                             flag = 0;
                             message = response.message;
                             if (response.battlelog === false) {
-                                 $(".battlelog-group").addClass('has-error');
+                                $(".battlelog-group").addClass('has-error');
                             }
                         } else {
                             flag = 1;
@@ -85,7 +86,7 @@ $(function() {
                     return true;
                 }
 
-
+                $(".progress-bar").attr("class", "bar progress-bar progress-bar-striped progress-bar-warning active");
             }
 
 
@@ -102,6 +103,10 @@ $(function() {
                 } else {
                     return false
                 }
+            }
+
+            if (index == 4) {
+                $(".progress-bar").attr("class", "bar progress-bar progress-bar-striped progress-bar-success active");
             }
 
         },
