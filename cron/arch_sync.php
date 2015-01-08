@@ -101,7 +101,7 @@ if (count($json->column_order) == 11 && ($json->column_order[0] == 'userid') && 
 		}
 
 	}
-
+	
 	// fetch all existing db members for array comparison
 	$query = $pdo->prepare("SELECT member_id, forum_name FROM member WHERE status_id = 1");
 	$query->execute();
@@ -119,6 +119,7 @@ if (count($json->column_order) == 11 && ($json->column_order[0] == 'userid') && 
 		$removalIds = implode($removals, ", ");
 		$query = $pdo->prepare("UPDATE member SET status_id = 4 WHERE member_id IN ({$removalIds})");
 		$query->execute();
+		echo "Updated the following member ids to 'removed': " . $removalIds . "<br />";
 	}
 
 	echo "sync done. <br />";
