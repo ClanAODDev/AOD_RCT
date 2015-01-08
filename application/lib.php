@@ -33,11 +33,13 @@ if (isLoggedIn()) {
     $alerts_list = NULL;
     $alerts      = get_alerts($member_info['userid']);
     
-    foreach ($alerts as $alert) {
-        $alerts_list .= "
-        <div data-id='{$alert['id']}' data-user='{$member_info['userid']}' class='alert-dismissable alert alert-{$alert['type']} fade in' role='alert'>
-            <button type='button' class='close' data-dismiss='alert'><span aria-hidden='true'>&times;</span><span class='sr-only'>Close</span></button>
-            {$alert['content']} </div>";
+    if (count($alerts)) {
+        foreach ($alerts as $alert) {
+            $alerts_list .= "
+            <div data-id='{$alert['id']}' data-user='{$member_info['userid']}' class='alert-dismissable alert alert-{$alert['type']} fade in' role='alert'>
+                <button type='button' class='close' data-dismiss='alert'><span aria-hidden='true'>&times;</span><span class='sr-only'>Close</span></button>
+                {$alert['content']} </div>";
+            }
         }
 
 
@@ -869,23 +871,20 @@ function get_alerts($uid)
             SELECT DISTINCT id, content, type FROM alerts
             WHERE start_date < CURRENT_TIMESTAMP 
             AND end_date > CURRENT_TIMESTAMP
-            AND NOT EXISTS (
-                SELECT * FROM alerts_status
-                AND alert_id = alerts.id
-                AND user_id = :user
-                )";
-$query = $pdo->prepare($query);
-$query->bindParam(':user', $uid);
-$query->execute();
-$query = $query->fetchAll();
+            AND NOT EXISTS ( SELECT * FROM alerts_status AND alert_id = alerts.id AND user_id = :user )";
 
-}
+            $query = $pdo->prepare($query);
+            $query->bindParam(':user', $uid);
+            $query->execute();
+            $query = $query->fetchAll();
 
-catch (PDOException $e) {
-    return "ERROR:" . $e->getMessage();
-}
-}
-return $query;
+        }
+
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+    return $query;
 }
 
 
