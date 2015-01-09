@@ -114,7 +114,7 @@ function define_pages()
     $rules = 
     array(
         'member' => "/member/(?'id'\d+)",
-        'manage' => "/manage/(?'form'player|squad|platoon|division)/(?'id'\d+)",
+        'manage' => "/manage/(?'form'squad|platoon|division)",
         'division' => "/divisions/(?'division'" . $divisions . ")",
         'platoon' => "/divisions/(?'division'" . $divisions . ")/(?'platoon'\d+)",
         'user' => "/user/(?'page'profile|messages|settings)",
