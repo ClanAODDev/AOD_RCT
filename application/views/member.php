@@ -114,13 +114,7 @@ if ($member = get_member($params['id'])) {
 			<!--/end left side bar-->
 
 			<div class='col-md-9'>
-
-				<div class='panel panel-default'>
-					<div class='panel-heading'>Deity's Smell Status</div>
-					<div class='panel-body'> Deity currently smells funny.
-					</div>
-				</div>
-				
+							
 				<div class='panel panel-default'>
 					<div class='panel-heading'>Recent server activity</div>
 					<table class='table table-striped table-hover'>
