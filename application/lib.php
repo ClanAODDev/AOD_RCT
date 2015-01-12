@@ -684,6 +684,7 @@ function createMember($forum_name, $member_id, $battlelog_name, $bf4dbid, $plato
                 ON DUPLICATE KEY UPDATE
                 battlelog_name = :battlelog, 
                 bf4db_id = :bf4db,
+                status_id = 1,
                 platoon_id = :platoon, 
                 bf4_position_id = :bf4_pos,
                 squad_leader_id = :sqdldr,
