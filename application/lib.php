@@ -680,7 +680,7 @@ function createMember($forum_name, $member_id, $battlelog_name, $bf4dbid, $plato
     if (dbConnect()) {
         try {
 
-            $query = $pdo->prepare("INSERT INTO member ( forum_name, member_id, battlelog_name, bf4db_id, platoon_id, bf4_position_id, squad_leader_id, game_id ) VALUES ( :forum, :member_id, :battlelog, :bf4db, :platoon, :bf4_pos, :sqdldr, :game )
+            $query = $pdo->prepare("INSERT INTO member ( forum_name, member_id, battlelog_name, bf4db_id, platoon_id, bf4_position_id, squad_leader_id, game_id, rank_id ) VALUES ( :forum, :member_id, :battlelog, :bf4db, :platoon, :bf4_pos, :sqdldr, :game, :rank )
                 ON DUPLICATE KEY UPDATE
                 battlelog_name = :battlelog, 
                 bf4db_id = :bf4db,
@@ -688,7 +688,8 @@ function createMember($forum_name, $member_id, $battlelog_name, $bf4dbid, $plato
                 platoon_id = :platoon, 
                 bf4_position_id = :bf4_pos,
                 squad_leader_id = :sqdldr,
-                game_id = :game");
+                game_id = :game,
+                rank_id = :rank");
 
             $query->execute(array(
                 ':forum' => $forum_name,
@@ -698,7 +699,8 @@ function createMember($forum_name, $member_id, $battlelog_name, $bf4dbid, $plato
                 ':platoon' => $platoon_id,
                 ':bf4_pos' => $bf4_position_id,
                 ':sqdldr' => $squadleader_id,
-                ':game' => $game_id
+                ':game' => $game_id,
+                ':rank' => 1
                 ));
         }
 
