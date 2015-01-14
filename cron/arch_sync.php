@@ -67,7 +67,6 @@ if (count($json->column_order) == 11 && ($json->column_order[0] == 'userid') && 
 				VALUES (:username, :memberid, 0, 0, :rank, 0, 0, 0, :status, :division, :joindate, :last_visit, :last_post, :forum_posts)
 				ON DUPLICATE KEY UPDATE
 				forum_name=:username, 
-				member_id=:memberid, 
 				rank_id=:rank,
 				join_date=:joindate,
 				status_id=:status, 
