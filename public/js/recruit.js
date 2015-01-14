@@ -27,7 +27,7 @@ $(function() {
                 // grab values since we know they exist
                 var forumName = $('#forumname').val(),
                     battlelog = $('#battlelog').val(),
-                    platoon = $('#battlelog').val(),
+                    platoon = $('#platoon').val(),
                     squadLdr = $('#squadLdr').val(),
                     member_id = $('#member_id').val();
 
