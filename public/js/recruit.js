@@ -180,7 +180,11 @@ function loadThreadCheck() {
         // welcome PM
         $("#welcome-pm .welcome-code").html(welcomeCode);
         $('.welcome-pm-btn').attr("data-clipboard-text", welcomeCopy);
-        $("#welcome-pm .pm-link").attr("href", "http://www.clanaod.net/forums/private.php?do=newpm&u=" + member_id);
+
+        $(".pm-link").click(function(e) {
+            e.preventDefault();
+            window.open($(this).attr("href" + member_id), "popupWindow", "width=1000,height=600,scrollbars=yes");
+        });
     }
 
     if (player) {
