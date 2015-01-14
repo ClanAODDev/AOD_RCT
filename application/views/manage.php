@@ -95,21 +95,21 @@ if ($params['form'] == "squad" && $userRole == 1) {
 
 									<form id='edit-form-squad'>
 
-									<input type='hidden' id='uid' name='uid' />
+										<input type='hidden' id='uid' name='uid' />
 
 										<div class='form-group'>
 											<label for='forum_name'>Forum Name</label>
 											<input type='text' class='form-control' id='forum_name'>
 										</div>
 
-										<div class='form-group battlelog-group'>
-											<label for='battlelog' class='control-label'>Battlelog Name</label>
-											<input type='text' class='form-control' id='battlelog'>
-										</div>
-
 										<div class='form-group'>
 											<label for='member_id'>Forum ID</label>
 											<input type='number' class='form-control' id='member_id'>
+										</div>
+
+										<div class='form-group battlelog-group'>
+											<label for='battlelog' class='control-label'>Battlelog Name</label>
+											<input type='text' class='form-control' id='battlelog'>
 										</div>
 
 										<div class='message alert' style='display: none;'></div>
