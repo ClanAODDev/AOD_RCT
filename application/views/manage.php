@@ -63,7 +63,8 @@ if ($params['form'] == "squad" && $userRole == 1) {
 
 		<!-- Nav tabs -->
 		<ul class='nav nav-tabs' role='tablist'>
-			<li role='presentation' class='active'><a href='#manage' aria-controls='manage' role='tab' data-toggle='tab'>Manage Squad</a></li>
+			<li role='presentation' class='active'><a href='#manage' aria-controls='manage' role='tab' data-toggle='tab'>Member Data</a></li>
+			
 			<li role='presentation' class='disabled'><a href='#inactivity' aria-controls='inactivity' role='tab' data-toggle='tab' disabled>Inactivity Report</a></li>
 
 		</ul>
