@@ -17,7 +17,7 @@ $platoon = ($userRole >= 3 || isDev()) ? $_POST['platoon'] : $user_platoon;
 
 // if user not squad leader, squad set to 0, then position is gen pop
 // else squad member
-$bf4_position_id = ($squadLdr == 0 && $userRole >= 2) ? 7 : 6;
+$bf4_position_id = ($squadLdr == 0 && ($userRole >= 2 || isDev()) ) ? 7 : 6;
 
 // attempt to fetch bf4dbid, also validates battlelog name
 if (!$bf4db = get_bf4db_id($battlelog)) {
