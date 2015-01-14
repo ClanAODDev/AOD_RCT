@@ -44,18 +44,18 @@ if (isLoggedIn()) {
 
 
     /**
-     * generate game list for navigation
+     * generate game list for navigation and main page
      */
     
     $game_list = NULL;
+    $game_options = "<option>Select a division</option>";
     $games     = get_games();
     
     foreach ($games as $game) {
         $shortname  = strtolower($game['short_name']);
         $longname   = $game['full_name'];
-        $shortdescr = $game['short_descr'];
         $game_list .= "<li><a href='/divisions/{$shortname}'>{$longname}</a></li>";
-        // <a href='/{$shortname}' class='list-group-item'><strong>{$longname}</strong><i class='fa fa-angle-double-right pull-right text-muted'></i></a>
+        $game_options .= "<option value='/divisions/{$shortname}'>{$longname}</option>";
     }
 }
 
@@ -1351,6 +1351,45 @@ function get_member($mid) {
             $query->bindParam(':mid', $mid);
             $query->execute();
             $query = $query->fetch();
+
+        }
+        catch (PDOException $e) {
+            return $e->getMessage();
+        }
+    }
+    return $query;
+}
+
+function get_statuses() {
+ global $pdo;
+
+    if (dbConnect()) {
+
+        try {
+
+            $query = $pdo->prepare("SELECT `desc`, `id` FROM status");
+            $query->execute();
+            $query = $query->fetchAll();
+
+        }
+        catch (PDOException $e) {
+            return $e->getMessage();
+        }
+    }
+    return $query;
+}
+
+
+function get_positions() {
+ global $pdo;
+
+    if (dbConnect()) {
+
+        try {
+
+            $query = $pdo->prepare("SELECT `desc`, `id` FROM bf4_position");
+            $query->execute();
+            $query = $query->fetchAll();
 
         }
         catch (PDOException $e) {

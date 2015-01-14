@@ -44,7 +44,7 @@ if ($squad_members) {
 }
 
 // fetch announcements for main page
-$postsArray = get_posts("main_page", 5);
+$postsArray = get_posts("main_page", 3);
 $posts = NULL;
 
 if (!empty($postsArray)) {
@@ -59,8 +59,8 @@ if (!empty($postsArray)) {
 		<div class='panel panel-default'>
 			<div class='panel-heading'>{$authorAva} {$title}</div>
 			<div class='panel-body'>{$content}</div>
-			<div class='panel-footer'>
-				<small class='text-muted'>Posted {$date} by <a href='/member/{$authorId}'>{$authorName}</a></small>
+			<div class='panel-footer text-muted text-right'>
+				<small>Posted {$date} by <a href='/member/{$authorId}'>{$authorName}</a></small>
 			</div>
 		</div>";
 	}
@@ -134,15 +134,29 @@ $out .= "
 		// player search bar
 		$out .= "
 		<div class='row'>
-			<div class='col-md-12'>
-				<div class='panel panel-primary'>
-					<div class='panel-heading'><i class='fa fa-search'></i> <strong>Player Search</strong></div>
+
+			<div class='col-md-3'>
+				<div class='panel panel-info'>
+					<div class='panel-heading'><i class='fa fa-cogs fa-lg pull-right'></i> <strong>Division Data</strong></div>
+					<div class='panel-body'>
+						<select id='division-select' class='form-control input-lg'>
+						{$game_options}
+						</select>
+					</div>
+				</div>
+			</div>
+
+			<div class='col-md-9'>
+				<div class='panel panel-info'>
+					<div class='panel-heading'><i class='fa fa-search fa-lg pull-right'></i> <strong>Clan-Wide Player Search</strong></div>
 					<div class='panel-body'>
 						<input type='text' class='form-control input-lg' name='member-search' id='member-search' placeholder='Type a player name' />
 						<div id='member-search-results' class='scroll'></div> 
 					</div>
 				</div>
 			</div>
+
+		
 		</div>
 		";
 
@@ -153,7 +167,7 @@ $out .= "
 			$out .= "
 
 			<div class='col-md-5'>
-				<div class='panel panel-default'>
+				<div class='panel panel-primary'>
 					<div class='panel-heading'><strong>{$roleName} Quick Tools</strong></div>
 					<div class='list-group'>
 						{$tools}
