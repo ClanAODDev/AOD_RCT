@@ -1,46 +1,29 @@
 <?php
 
 include "../lib.php";
-
 $data = NULL;
 
+// handle squad leader updates
+if ($_POST['trans'] == 's') {
 
+	$forumName = $_POST['fname'];
+	$battlelog = $_POST['blog'];
+	$member_id = $_POST['mid'];
+	$uid = $_POST['uid'];
 
+	// need to check user permissions here to ensure user can edit selected member
+	// not terribly pertinent since form visibility is controlled
 
+	// attempt to fetch bf4dbid, also validates battlelog name
+	if (!$bf4db = get_bf4db_id($battlelog)) {
+		$data = array('success' => false, 'message' => 'Invalid battlelog name.', 'battlelog' => false);
+	} else {
+		$result = updateMember($uid, $forumName, $battlelog, $bf4db, $member_id);
+		$data = array('success' => $result['success'], 'message' => $result['message']);
+	}
 
-$userRole = $_POST['userRole'];
-
-
-// type of update
-$action = $_POST['action'];
-
-
-
-
-
-
-
-if ($pass != $passVerify) {
-
-	$data['success'] = false;
-	$data['message'] = "Passwords must match.";
-
-} else if (userExists($user)) {
-
-	$data['success'] = false;
-	$data['message'] = "That username has already been used.";
-
-} else {
-	createUser($user, $email, $pass);
-	$data['success'] = true;
-	$data['message'] = "Your account was created!";
 }
 
-
-
-
-
 echo json_encode($data);
-exit;
 
 ?>

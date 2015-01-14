@@ -81,9 +81,9 @@ $out .= "
 <div class='container fade-in'>
 	<div class='row'>{$breadcrumb}</div>
 
-		<div class='page-header'>
-			<h2><strong>{$game_name} Division</strong></h2>
-		</div>
+	<div class='page-header'>
+		<h2><strong>{$game_name} Division</strong></h2>
+	</div>
 
 	
 
@@ -91,7 +91,7 @@ $out .= "
 
 		<div class='col-md-8'>
 			<div class='panel panel-primary'>
-				<div class='panel-heading'>Active Platoons</div>
+				<div class='panel-heading'>Currently Active Platoons</div>
 				<div class='list-group'>
 					{$platoon_list}
 				</div>
@@ -111,7 +111,7 @@ $out .= "
 	// statistics section
 	
 
-	$out .="
+	/* $out .="
 	<div class='row'>
 		<div class='col-md-12 page-header'>
 			<h3>Division Statistics</h3>
@@ -149,11 +149,15 @@ $out .= "
 
 	</div>
 
-</div>
 
 
 
-";
+
+	"; */
+
+
+	$out .= "
+</div>";
 
 
 echo $out;

@@ -625,6 +625,33 @@ function updateAlert($alert, $uid)
     }
 }
 
+
+// need to return errors this way in other cases
+function updateMember($uid, $fname, $blog, $bf4db, $mid)
+{
+    global $pdo;
+
+    $status = NULL;
+    
+    if (dbConnect()) {
+        try {
+            $query = $pdo->prepare("UPDATE member SET forum_name = :fname, battlelog_name = :blog, member_id = :mid, bf4db_id = :bf4db WHERE id = :uid");
+
+            $query->execute(array(
+                ':fname' => $fname,
+                ':blog' => $blog,
+                ':bf4db' => $bf4db,
+                ':mid' => $mid,
+                ':uid' => $uid
+                ));
+        }
+        catch (PDOException $e) {
+            return $status = array('success' => false, 'message' => $e->getMessage());
+        }
+    }
+    return $status = array('success' => true, 'message' => 'Member successfully updated!');
+}
+
 /**
  * creates a user during registration (ajax call)
  * @param  string $user       username
@@ -1363,40 +1390,40 @@ function get_member($mid) {
 function get_statuses() {
  global $pdo;
 
-    if (dbConnect()) {
+ if (dbConnect()) {
 
-        try {
+    try {
 
-            $query = $pdo->prepare("SELECT `desc`, `id` FROM status");
-            $query->execute();
-            $query = $query->fetchAll();
+        $query = $pdo->prepare("SELECT `desc`, `id` FROM status");
+        $query->execute();
+        $query = $query->fetchAll();
 
-        }
-        catch (PDOException $e) {
-            return $e->getMessage();
-        }
     }
-    return $query;
+    catch (PDOException $e) {
+        return $e->getMessage();
+    }
+}
+return $query;
 }
 
 
 function get_positions() {
  global $pdo;
 
-    if (dbConnect()) {
+ if (dbConnect()) {
 
-        try {
+    try {
 
-            $query = $pdo->prepare("SELECT `desc`, `id` FROM bf4_position");
-            $query->execute();
-            $query = $query->fetchAll();
+        $query = $pdo->prepare("SELECT `desc`, `id` FROM bf4_position");
+        $query->execute();
+        $query = $query->fetchAll();
 
-        }
-        catch (PDOException $e) {
-            return $e->getMessage();
-        }
     }
-    return $query;
+    catch (PDOException $e) {
+        return $e->getMessage();
+    }
+}
+return $query;
 }
 
 

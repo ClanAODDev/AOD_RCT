@@ -335,8 +335,13 @@ h2.pull-right {
 }
 
 
+.member-actions i {
+  cursor: pointer;
+}
 
-
+.member-actions i:hover {
+  color: grey;
+}
 
 
 .dropdown-menu > .disabled > a {
