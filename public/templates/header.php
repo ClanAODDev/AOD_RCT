@@ -14,7 +14,9 @@
 	<script src="/public/js/libraries/dataTables.tableTools.min.js"></script>
 	<script src="/public/js/libraries/jquery.bootstrap.wizard.min.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="/public/css/lumen.min.css">		
+	<!--<link rel="stylesheet" type="text/css" href="/public/css/lumen.min.css">		-->
+	<link rel="stylesheet" type="text/css" href="/public/css/bootstrap.min.css">	
+	<link rel="stylesheet" type="text/css" href="/public/css/bootstrap-theme.min.css">	
 	<link rel="stylesheet" type="text/css" href="/public/css/jquery.powertip.min.css">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">	
 	<link href="//cdn.datatables.net/responsive/1.0.3/css/dataTables.responsive.css" rel="stylesheet">	

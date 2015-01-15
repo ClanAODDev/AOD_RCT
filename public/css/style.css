@@ -197,6 +197,10 @@ a[disabled] { pointer-events: none; }
   margin-top: 20px;
 }
 
+.vertical-align {
+    display: flex;
+    align-items: center;
+}
 
 
 

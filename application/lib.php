@@ -292,7 +292,7 @@ function onlineUsers()
         if (dbConnect()) {
             try {
                 // grab active users in past 2 minutes
-                $sth = $pdo->prepare('SELECT username, role, idle FROM users WHERE last_seen >= CURRENT_TIMESTAMP - INTERVAL 5 MINUTE ORDER BY last_seen DESC');
+                $sth = $pdo->prepare('SELECT username, role, idle FROM users WHERE last_seen >= CURRENT_TIMESTAMP - INTERVAL 5 MINUTE ORDER BY idle, last_seen DESC');
                 $sth->execute();
                 $users = $sth->fetchAll();
             }
@@ -422,7 +422,16 @@ function memberColor($user, $level)
 
 function get_user_avatar($forum_id, $type = "thumb")
 {
-    return "<img src='http://www.clanaod.net/forums/image.php?type={$type}&u={$forum_id}' class='img-thumbnail avatar-{$type}' />";
+    $forum_img = "http://www.clanaod.net/forums/image.php?type={$type}&u={$forum_id}";
+    $unknown = "/public/images/blank_avatar.jpg";
+    list($width, $height) = getimagesize($forum_img);
+
+    if ($width >20 && $height > 20) {
+        return "<img src='{$forum_img}' class='img-thumbnail avatar-{$type}' />";    
+    } else {
+        return "<img src='{$unknown}' class='img-thumbnail avatar-{$type}' />";
+    }
+    
 }
 
 
