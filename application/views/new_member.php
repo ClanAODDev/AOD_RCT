@@ -182,7 +182,7 @@ $out .= "
 							<div class='col-sm-6'>
 								<p class='margin-top-20'>Does your new recruit have a forum account? They will need one for you to complete this section. Please fill out and check the form completely for accuracy once this has been done. </p>
 								<p>The information you provide will be maintained throughout the process and will be used to put the player in the right platoon and squad. If you are a squad leader, they will be assigned to you by default.</p>
-								<p>If you are a squad leader or platoon leader, the squad and/or platoon will be determined by your assignment.</p>
+								<p>If you are a squad leader or platoon leader, the squad and/or platoon will be determined by your assignment.</p><p class='text-info'><strong>Member data will be added to the database after you complete this form. Please verify your information before continuing.</strong></p>
 							</div>
 							<div class='col-sm-6 well'>
 								<div class='form-group memberid-group'>
