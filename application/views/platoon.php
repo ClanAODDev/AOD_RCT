@@ -67,11 +67,10 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 					$lastActive = formatTime(strtotime($row['last_activity']));
 
 					$profile = "<a class='tool' title='View Profile' href='/member/" . $row['id'] . "'><i class='fa fa-user'></i></a>";
-					$privmsg = "<a class='tool' title='Private Message' href='" . PRIVMSG . $row['member_id'] . "' target='_blank'><i class='fa fa-comment'></i></a>";
 
 					$members_table .= "
 					<tr data-id='{$row['id']}' class=''>
-						<td>" . memberColor($row['forum_name'], $row['bf4_position_id']) . " <span class='pull-right'>{$profile} {$privmsg}</span></td>
+						<td>" . memberColor($row['forum_name'], $row['bf4_position_id']) . " <span class='pull-right'>{$profile}</span></td>
 						<td class='text-center hidden-xs hidden-sm'>{$rank}</td>
 						
 						<td class='text-center hidden-xs hidden-sm'>{$joindate}</td>

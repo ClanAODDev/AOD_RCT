@@ -18,6 +18,7 @@ if (isLoggedIn()) {
     $forumId      = $member_info['member_id'];
     $user_platoon = $member_info['platoon_id'];
     $user_game = $member_info['game_id'];
+    $myUserId = $member_info['userid'];
     
     if (!is_null($member_info['member_id'])) {
         $avatar = get_user_avatar($member_info['member_id']);
@@ -25,17 +26,18 @@ if (isLoggedIn()) {
         $avatar = NULL;
     }
 
+
     
     /**
      * generate alerts
      */
 
     $alerts_list = NULL;
-    $alerts      = get_alerts($member_info['userid']);
+    $alerts      = get_alerts($myUserId);
     if (count($alerts)) {
         foreach ($alerts as $alert) {
             $alerts_list .= "
-            <div data-id='{$alert['id']}' data-user='{$member_info['userid']}' class='alert-dismissable alert alert-{$alert['type']} fade in' role='alert'>
+            <div data-id='{$alert['id']}' data-user='{$myUserId}' class='alert-dismissable alert alert-{$alert['type']} fade in' role='alert'>
                 <button type='button' class='close' data-dismiss='alert'><span aria-hidden='true'>&times;</span><span class='sr-only'>Close</span></button>
                 {$alert['content']} </div>";
             }
@@ -651,24 +653,42 @@ function updateAlert($alert, $uid)
 }
 
 
-// need to return errors this way in other cases
-function updateMember($uid, $fname, $blog, $bf4db, $mid)
+
+function updateMember($uid, $fname, $blog, $bf4db, $mid, $plt=NULL, $sqdldr=NULL)
 {
     global $pdo;
-
     $status = NULL;
+
+    // slightly unorthodox means of throwing together the query
+    // but it should work without too much of a headache
+
+    // initial query
+    $query = "UPDATE member SET forum_name = :fname, battlelog_name = :blog, member_id = :mid, bf4db_id = :bf4db";
+
+    // check for defined values and append if set
+    if (!is_null($plt)) { $query .= ",platoon_id = :platoon"; }
+    if (!is_null($sqdldr)) { $query .= ",squad_leader_id = :sqdldr"; }
+
+    // finish up the query
+    $query .= " WHERE id = :uid";
     
     if (dbConnect()) {
         try {
-            $query = $pdo->prepare("UPDATE member SET forum_name = :fname, battlelog_name = :blog, member_id = :mid, bf4db_id = :bf4db WHERE id = :uid");
+            $query = $pdo->prepare($query);
 
-            $query->execute(array(
+            $values = array(
                 ':fname' => $fname,
                 ':blog' => $blog,
                 ':bf4db' => $bf4db,
                 ':mid' => $mid,
                 ':uid' => $uid
-                ));
+                );
+
+            // only bind parameters if they are set
+            if (!is_null($plt)) { $values[':platoon'] = $plt; }
+            if (!is_null($sqdldr)) { $values[':sqdldr'] = $sqdldr; }
+
+            $query->execute($values);
         }
         catch (PDOException $e) {
             return $status = array('success' => false, 'message' => $e->getMessage());
@@ -732,16 +752,7 @@ function createMember($forum_name, $member_id, $battlelog_name, $bf4dbid, $plato
     if (dbConnect()) {
         try {
 
-            $query = $pdo->prepare("INSERT INTO member ( forum_name, member_id, battlelog_name, bf4db_id, platoon_id, bf4_position_id, squad_leader_id, game_id, rank_id ) VALUES ( :forum, :member_id, :battlelog, :bf4db, :platoon, :bf4_pos, :sqdldr, :game, :rank )
-                ON DUPLICATE KEY UPDATE
-                battlelog_name = :battlelog, 
-                bf4db_id = :bf4db,
-                status_id = 1,
-                platoon_id = :platoon, 
-                bf4_position_id = :bf4_pos,
-                squad_leader_id = :sqdldr,
-                game_id = :game,
-                rank_id = :rank");
+            $query = $pdo->prepare("INSERT INTO member ( forum_name, member_id, battlelog_name, bf4db_id, platoon_id, bf4_position_id, squad_leader_id, game_id, rank_id ) VALUES ( :forum, :member_id, :battlelog, :bf4db, :platoon, :bf4_pos, :sqdldr, :game, :rank );
 
             $query->execute(array(
                 ':forum' => $forum_name,
@@ -785,7 +796,7 @@ function isDev()
             
         }
         catch (PDOException $e) {
-            echo 'ERROR: ' . $e->getMessage();
+            return 'ERROR: ' . $e->getMessage();
         }
     }
     
@@ -795,6 +806,49 @@ function isDev()
         return false;
     }
     
+}
+
+
+/**
+ * verifies if the user can modify a particular player
+ * @param  int $mid        id of the member being modified
+ * @param  int $cur_sqd    the squad leader of the member being modified
+ * @param  int $cur_plt    the platoon of the member being modified
+ * @return boolean         result of the access check
+ */
+function canEdit($uid) {
+
+    global $pdo, $userRole, $forumId, $user_platoon;
+
+    if (dbConnect()) {
+        try {
+            $sth = $pdo->prepare('SELECT id, platoon_id, squad_leader_id, role_id FROM member WHERE id = :uid LIMIT 1');
+            $sth->bindParam(':uid', $uid);
+            $sth->execute();
+            $user = $sth->fetch(PDO::FETCH_OBJ);
+        }
+        catch (PDOException $e) {
+            return 'ERROR: ' . $e->getMessage();
+        }
+    }
+
+    // is the user the assigned squad leader?
+    if (($userRole == 1) && ($forumId == $user->squad_leader_id)) {
+        $access = true;
+    // is the user the platoon leader of the user?
+    } else if (($userRole == 2) && ($user_platoon == $user->platoon_id)) {
+        $access = true;
+    // is the user a dev or a division leader?
+    } else if (isDev() || $userRole >= 3) {
+        $access = true;
+    // is the user editing someone of a lesser role, or himself?
+    } else if (($userRole < $user->role_id) || ($uid == $myUserId)) {
+        $access = true;
+    } else {
+        $access = false;
+    }
+
+    return $access;
 }
 
 
@@ -908,6 +962,35 @@ function checkThread($player, $thread)
         return false;
     }
     
+}
+
+
+
+
+function memberExists($mid)
+{
+    global $pdo;
+    
+    if (dbConnect()) {
+        $string = strtolower($string);
+
+        try {
+            $sth = $pdo->prepare('SELECT count(*) FROM member WHERE forum_id= :mid LIMIT 1');
+            $sth->bindParam(':mid', $mid);
+            $sth->execute();
+            $count = $sth->fetchColumn();
+
+        }
+        catch (PDOException $e) {
+            return 'ERROR: ' . $e->getMessage();
+        }
+
+        if ($count > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
 
@@ -1431,9 +1514,9 @@ function get_member($mid) {
 }
 
 function get_statuses() {
- global $pdo;
+   global $pdo;
 
- if (dbConnect()) {
+   if (dbConnect()) {
 
     try {
 
@@ -1451,9 +1534,9 @@ return $query;
 
 
 function get_positions() {
- global $pdo;
+   global $pdo;
 
- if (dbConnect()) {
+   if (dbConnect()) {
 
     try {
 
@@ -1536,19 +1619,19 @@ function formatTime($ptime)
     }
 
     $a = array( 365 * 24 * 60 * 60  =>  'year',
-       30 * 24 * 60 * 60  =>  'month',
-       24 * 60 * 60  =>  'day',
-       60 * 60  =>  'hour',
-       60  =>  'minute',
-       1  =>  'second'
-       );
-    $a_plural = array( 'year'   => 'years',
-     'month'  => 'months',
-     'day'    => 'days',
-     'hour'   => 'hours',
-     'minute' => 'minutes',
-     'second' => 'seconds'
+     30 * 24 * 60 * 60  =>  'month',
+     24 * 60 * 60  =>  'day',
+     60 * 60  =>  'hour',
+     60  =>  'minute',
+     1  =>  'second'
      );
+    $a_plural = array( 'year'   => 'years',
+       'month'  => 'months',
+       'day'    => 'days',
+       'hour'   => 'hours',
+       'minute' => 'minutes',
+       'second' => 'seconds'
+       );
 
     foreach ($a as $secs => $str)
     {

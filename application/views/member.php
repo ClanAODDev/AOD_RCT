@@ -4,25 +4,44 @@ if (!isset($_SESSION['secure_access']) || (isset($_SESSION['secure_access']) && 
 
 $out = NULL;
 $editPanel = NULL;
+$userId = $params['id'];
 
-if ($member = get_member($params['id'])) {
+if ($member = get_member($userId)) {
 
+	// member data
 	$game_info = get_game_info($member['game_id']);
 	$short_game_name = $game_info['short_name'];
 	$game_name = $game_info['full_name'];
 	$game_id = $game_info['id'];
-
 	$rank = $member['rank'];
 	$name = ucwords($member['forum_name']);
 	$position = $member['position'];
-
 	$platoon_id = $member['platoon_id'];
 	$platoon_info = get_platoon_info($platoon_id);
 	$platoon_name = (!is_null($platoon_info['name'])) ? $platoon_info['name'] : false;
 	$platoon = get_platoon_number_from_id($platoon_id, $game_id);
+	$joined = date("Y-m-d", strtotime($member['join_date']));
+	$last_seen = formatTime(strtotime($member['last_activity']));
+	$last_post = formatTime(strtotime($member['last_forum_post']));
+	$wng_last_seen = str_replace(" ago", "", $last_seen);
+	$status = $member['desc'];
+	$bf4dbid = $bf4dbid;
+	$member_id = $member['member_id'];
+	$userId = $member['id'];
+	$battlelog_name = $member['battlelog_name'];
+
+
+	if (strtotime($last_seen) < strtotime('-30 days')) {
+		$warningLastSeen = "<div class='alert alert-danger fade-in'>Player has not logged into the forums in more than {$wng_last_seen}!</div>";
+	} else if (strtotime($last_seen) < strtotime('-14 days')) {
+		$warningLastSeen = "<div class='alert alert-warning fade-in'>Player has not logged into the forums in more than {$wng_last_seen}!</div>";
+	} else {
+		$warningLastSeen = NULL;
+	}
+
 
 	// server history
-	$past_games = get_player_games($member['member_id']);
+	$past_games = get_player_games($member_id);
 	$games = NULL;
 	if (count($past_games)) {
 		foreach ($past_games as $game) {
@@ -33,32 +52,23 @@ if ($member = get_member($params['id'])) {
 				<td class='text-muted'>{$date}</td>
 			</tr>";
 		}
-	} else if (is_null($member['bf4db_id']) || empty($member['bf4db_id'])) {
+	} else if (is_null($bf4dbid) || empty($bf4dbid)) {
 		$games = "<li class='list-group-item text-muted'>This player does not have a BF4DB id stored. You should update it.</li>";
 	} else {
 		$games = "<li class='list-group-item text-muted'>Either this player has no recorded games or the data sync has not yet stored any data for this player.</li>";
 	}
 
-	// member data
-	$joined = date("Y-m-d", strtotime($member['join_date']));
-	$last_seen = formatTime(strtotime($member['last_activity']));
-	$last_post = formatTime(strtotime($member['last_forum_post']));
-	$status = $member['desc'];
 
-// canEdit($member['member_id'])
-
-	// build tools
-	if (1==1) {
+	// build tools if user can edit member
+	if (canEdit($userId)) {
 		$editPanel .= "
-		
 
-		<div class='btn-group pull-right'>
-			<button type='button' class='btn btn-default text-center'>Edit</button>
-			<button type='button' class='btn btn-default text-center'>Promote</button>
-			<button type='button' class='btn btn-danger text-center'>Remove</button>
+		<div class='btn-group pull-right' data-member-id='{$member_id}'  data-user-id='{$userId}'>
+			<button type='button' class='btn btn-default edit-member'>Edit</button>
+			<button type='button' class='btn btn-default disabled'>Promote</button>
+			<button type='button' class='btn btn-default disabled'>Remove</button>
 		</div>
 
-		
 		";
 	}
 
@@ -67,11 +77,11 @@ if ($member = get_member($params['id'])) {
 
 
 	// profile data
-	$battlelog = (empty($member['battlelog_name'])) ? NULL : "<a target='_blank' href='" . BATTLELOG . $member['battlelog_name'] . "' class='list-group-item'>Battlelog <span class='pull-right'><i class='text-info fa fa-external-link'></i></span></a>";
+	$battlelog = (empty($battlelog_name)) ? NULL : "<a target='_blank' href='" . BATTLELOG . $battlelog_name . "' class='list-group-item'>Battlelog <span class='pull-right'><i class='text-info fa fa-external-link'></i></span></a>";
 	
-	$bf4db = (empty($member['bf4db_id'])) ? NULL : "<a target='_blank' href='" . BF4DB . $member['bf4db_id'] . "' class='list-group-item'>BF4DB <span class='pull-right'><i class='text-info fa fa-external-link'></i></span></a>";
+	$bf4db = (empty($bf4dbid)) ? NULL : "<a target='_blank' href='" . BF4DB . $bf4dbid . "' class='list-group-item'>BF4DB <span class='pull-right'><i class='text-info fa fa-external-link'></i></span></a>";
 
-	$forums = "<a target='_blank' href='" . CLANAOD . $member['member_id'] . "' class='list-group-item'>AOD Forum <span class='pull-right'><i class='text-info fa fa-external-link'></i></span></a>";
+	$forums = "<a target='_blank' href='" . CLANAOD . $member_id . "' class='list-group-item'>AOD Forum <span class='pull-right'><i class='text-info fa fa-external-link'></i></span></a>";
 
 
 	// for platoon info if it exists
@@ -89,16 +99,19 @@ if ($member = get_member($params['id'])) {
 	</ul>
 	";
 
-	$avatar = get_user_avatar($member['member_id'], 'large');
+	$avatar = get_user_avatar($member_id, 'large');
+	$privmsg = "<a class='btn btn-default btn-xs popup-link' href='" . PRIVMSG . $member_id . "' target='_blank'><i class='fa fa-comment'></i> Private Message</a>";
 
 	$out .= "
-	<div class='container'>
+	<div class='container fade-in'>
 		{$breadcrumb}
+
+		{$warningLastSeen}
 		
 		<div class='page-header vertical-align'>
 			<div class='col-xs-1 hidden-sm hidden-xs'>{$avatar}</div>
 			<div class='col-xs-7'>
-				<h2><strong>{$rank} {$name}</strong></h2>
+				<h2><strong>{$rank} {$name}</strong><br />{$privmsg}</h2>
 			</div>			
 			<div class='col-xs-4'>
 				{$editPanel}
@@ -115,6 +128,7 @@ if ($member = get_member($params['id'])) {
 						<li class='list-group-item text-right'><span class='pull-left'><strong>Status: </strong></span> <span class='text-muted'>{$status}</span></li>
 						<li class='list-group-item text-right'><span class='pull-left'><strong>Divisions: </strong></span> <span class='text-muted'>{$game_name}</span></li>
 						{$platoon_item}
+						<li class='list-group-item text-right'><span class='pull-left'><strong>Position: </strong></span> <span class='text-muted'>{$position}</span></li>
 
 
 					</ul>

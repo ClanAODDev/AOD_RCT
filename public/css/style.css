@@ -449,7 +449,9 @@ h2.pull-right {
   border-radius: 10px;
 }
 
-
+.viewPanel {
+  background-color: rgba(0, 0, 0, 0.701961);
+}
 
 .activity {
   max-height: 182px;

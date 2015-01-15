@@ -22,6 +22,8 @@ $bf4_position_id = ($squadLdr == 0 && ($userRole >= 2 || isDev()) ) ? 7 : 6;
 // attempt to fetch bf4dbid, also validates battlelog name
 if (!$bf4db = get_bf4db_id($battlelog)) {
 	$data = array('success' => false, 'message' => 'Invalid battlelog name.', 'battlelog' => false);
+} else if (memberExists($member_id)) {
+	$data = array('success' => false, 'message' => 'Member already exists. Check forum id.');
 } else if (createMember($forumName, $member_id, $battlelog, $bf4db, $platoon, $bf4_position_id, $squadLdr, $user_game)) {
 	$data = array('success' => true, 'message' => 'Member entry created');
 } else {
