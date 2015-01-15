@@ -185,11 +185,6 @@ function loadThreadCheck() {
             window.open($(this).attr("href" + member_id), "popupWindow", "width=1000,height=600,scrollbars=yes");
         });
 
-        // popup link
-        $(".popup-link").click(function(e) {
-            e.preventDefault();
-            window.open($(this).attr("href"), "popupWindow", "width=1090,height=600,scrollbars=yes");
-        });
     }
 
     if (player) {
