@@ -54,6 +54,8 @@
 
 
 						<!-- notifications menu -->
+
+						<!--
 						<li class="dropdown">
 							<a class="dropdown-toggle" data-toggle="dropdown" href="#">
 								<span class="count">100+</span> Notifications <span class="caret"></span>
@@ -116,7 +118,7 @@
 									</li>
 								</ul>
 							</div>
-						</li>
+						</li> -->
 						<!-- end notifications menu -->
 
 						<li class="dropdown">

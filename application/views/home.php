@@ -77,17 +77,13 @@ $roleName = getUserRoleName($userRole);
 
 if (count($toolsArray)) {
 	foreach($toolsArray as $tool) {
-		$icon = $tool['icon'];
-		$class = $tool['class'];
-		$title = $tool['title'];
-		$descr = $tool['descr'];
-		$link = $tool['link'];
+		$disabled = ($tool['disabled']) ? 'disabled' : NULL;
 
 		$tools .= "
-		<a href='{$link}' class='list-group-item {$class}'>
-			<h4 class='pull-right text-success'><i class='fa fa-{$icon} fa-lg'></i></h4>
-			<h4 class='list-group-item-heading'><strong>{$title}</strong></h4>
-			<p class='list-group-item-text'>{$descr}</p>
+		<a href='{$tool['link']}' class='list-group-item {$tool['class']} {$disabled}'>
+			<h4 class='pull-right text-muted'><i class='fa fa-{$tool['icon']} fa-lg'></i></h4>
+			<h4 class='list-group-item-heading'><strong>{$tool['title']}</strong></h4>
+			<p class='list-group-item-text'>{$tool['descr']}</p>
 		</a>";
 	}
 
@@ -135,20 +131,9 @@ $out .= "
 		$out .= "
 		<div class='row'>
 
-			<div class='col-md-3'>
+			<div class='col-md-12'>
 				<div class='panel panel-info'>
-					<div class='panel-heading'><i class='fa fa-cogs fa-lg pull-right'></i> <strong>Division Data</strong></div>
-					<div class='panel-body'>
-						<select id='division-select' class='form-control input-lg'>
-						{$game_options}
-						</select>
-					</div>
-				</div>
-			</div>
-
-			<div class='col-md-9'>
-				<div class='panel panel-info'>
-					<div class='panel-heading'><i class='fa fa-search fa-lg pull-right'></i> <strong>Clan-Wide Player Search</strong></div>
+					<div class='panel-heading'><i class='fa fa-search fa-lg'></i> <strong>Player Search</strong></div>
 					<div class='panel-body'>
 						<input type='text' class='form-control input-lg' name='member-search' id='member-search' placeholder='Type a player name' />
 						<div id='member-search-results' class='scroll'></div> 

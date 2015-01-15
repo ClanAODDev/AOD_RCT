@@ -198,6 +198,8 @@ a[disabled] { pointer-events: none; }
 }
 
 
+
+
 .user-color {
   opacity: .8;
 }
@@ -317,6 +319,10 @@ h2.pull-right {
 
 .dropdown-menu > .disabled, .disabled {
  cursor: not-allowed; 
+}
+
+.dropdown-menu > .disabled:active, .disabled:active {
+ pointer-events: none;
 }
 
 .developer {

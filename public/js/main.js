@@ -44,15 +44,6 @@ $(function() {
     });
 
 
-    $('#division-select').bind('change', function() {
-        var url = $(this).val(); 
-        if (url) { 
-            window.location = url;
-        }
-        return false;
-    });
-
-
     $('#login').submit(function(e) {
         e.preventDefault();
 

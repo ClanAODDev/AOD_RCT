@@ -114,7 +114,6 @@ function define_pages()
     $rules = 
     array(
         'member' => "/member/(?'id'\d+)",
-        'manage' => "/manage/(?'form'squad|platoon|division)",
         'division' => "/divisions/(?'division'" . $divisions . ")",
         'platoon' => "/divisions/(?'division'" . $divisions . ")/(?'platoon'\d+)",
         'user' => "/user/(?'page'profile|messages|settings)",
@@ -179,6 +178,23 @@ function ordSuffix($n)
         }
     }
 }
+
+function singledigitToWord($number){
+    switch($number){
+        case 0:$word = "zero";break;
+        case 1:$word = "one";break;
+        case 2:$word = "two";break;
+        case 3:$word = "three";break;
+        case 4:$word = "four";break;
+        case 5:$word = "five";break;
+        case 6:$word = "six";break;
+        case 7:$word = "seven";break;
+        case 8:$word = "eight";break;
+        case 9:$word = "nine";break;
+    }
+    return $word;
+}
+
 
 
 function dbConnect()
@@ -962,24 +978,18 @@ function build_user_tools($role) {
                 'class' => 'addRct',
                 'title' => 'Add new recruit',
                 'descr' => 'Start the recruiting process with a division candidate',
-                'icon' => 'plus-square',
-                'link' => '/recruiting'
-                ),
-
-            "Manage" => array(
-                'class' => 'manageSquad',
-                'title' => 'Manage your squad',
-                'descr' => 'Promote, demote, or kick members of your squad',
-                'icon' => 'wrench',
-                'link' => '/manage/squad'
+                'icon' => 'plus-square text-success',
+                'link' => '/recruiting',
+                'disabled' => false
                 ),
 
             "Inactives" => array(
                 'class' => 'revInactives',
                 'title' => 'Review inactive members',
                 'descr' => 'View inactive members and flag for removal',
-                'icon' => 'flag-checkered',
-                'link' => '/manage/inactives'
+                'icon' => 'flag',
+                'link' => '/manage/inactives',
+                'disabled' => true
                 )
             );
         break;
@@ -993,24 +1003,18 @@ function build_user_tools($role) {
                 'class' => 'addRct',
                 'title' => 'Add new recruit',
                 'descr' => 'Start the recruiting process with a brand new candidate',
-                'icon' => 'plus-square',
-                'link' => '/recruiting'
-                ),
-
-            "Manage" => array(
-                'class' => 'managePlt',
-                'title' => 'Manage your platoon',
-                'descr' => 'Promote, demote, or kick members of your platoon',
-                'icon' => 'wrench',
-                'link' => '/manage/platoon'
+                'icon' => 'plus-square text-success',
+                'link' => '/recruiting',
+                'disabled' => false
                 ),
 
             "Inactives" => array(
                 'class' => 'revInactives',
                 'title' => 'Review inactive members',
                 'descr' => 'View inactive members and flag for removal',
-                'icon' => 'flag-checkered',
-                'link' => '/manage/inactives'
+                'icon' => 'flag',
+                'link' => '/manage/inactives',
+                'disabled' => true
                 )
             );
         break;
@@ -1020,20 +1024,22 @@ function build_user_tools($role) {
         $tools =
 
         array(
-            "Manage" => array(
-                'class' => 'manageDiv',
-                'title' => 'Manage your division',
-                'descr' => 'Perform various forms of maintenance within your division',
-                'icon' => 'wrench',
-                'link' => '/manage/division'
+            "Recruit" => array(
+                'class' => 'addRct',
+                'title' => 'Add new recruit',
+                'descr' => 'Start the recruiting process with a brand new candidate',
+                'icon' => 'plus-square text-success',
+                'link' => '/recruiting',
+                'disabled' => false
                 ),
 
             "Inactives" => array(
                 'class' => 'revInactives',
                 'title' => 'Review inactive reports',
                 'descr' => 'View inactivity reports and prepare for removal',
-                'icon' => 'flag-checkered',
-                'link' => '/manage/inactives'
+                'icon' => 'flag',
+                'link' => '/manage/inactives',
+                'disabled' => true
                 )
             );
         break;
@@ -1097,12 +1103,7 @@ function get_members()
     return $query;
 }
 
-/**
- * fetches squad members if they are a squad leader
- * @param  int $mid member id
- * @return array    returns array if squad members
- */
-function get_my_squad($mid)
+function get_gen_pop($pid)
 {
 
     global $pdo, $member_info;
@@ -1132,6 +1133,38 @@ function get_my_squad($mid)
     } else {
         return false;
     }
+}
+
+/**
+ * fetches squad members based on member id
+ * @param  int $mid member id
+ * @return array    returns array if squad members
+ */
+function get_my_squad($mid)
+{
+
+    global $pdo, $member_info;
+
+    if (dbConnect()) {
+
+        try {
+
+            $query = "SELECT member.id, member.forum_name, member.member_id, member.last_activity, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr as rank FROM `member` 
+            LEFT JOIN `rank` on member.rank_id = rank.id 
+            WHERE  member.squad_leader_id = :mid AND status_id = 1
+            ORDER BY member.last_activity ASC";
+
+            $query = $pdo->prepare($query);
+            $query->bindParam(':mid', $mid);
+            $query->execute();
+            $query = $query->fetchAll();
+
+        }
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+    return $query;
 }
 
 
@@ -1333,8 +1366,9 @@ function get_squad_leaders($gid, $pid=false)
         try {
 
             // bf4_position_id 5 = squad leader
-            $query = "SELECT member_id, forum_name as name, platoon.name as platoon_name FROM member 
-            LEFT JOIN platoon ON platoon.id = member.platoon_id  
+            $query = "SELECT member.id, last_activity, rank.abbr as rank, member_id, forum_name as name, platoon.name as platoon_name FROM member 
+            LEFT JOIN platoon ON platoon.id = member.platoon_id
+            LEFT JOIN rank ON rank.id = member.rank_id  
             WHERE member.game_id = :gid AND bf4_position_id = 5";
 
             if ($pid) {
@@ -1650,6 +1684,17 @@ function convertStatus($status) {
 
     }
     return $id;
+}
+
+function lastSeenFlag($last_seen){
+    if (strtotime($last_seen) < strtotime('-30 days')) {
+        $status = "<i class='fa fa-flag text-danger'></i>";
+    } else if (strtotime($last_seen) < strtotime('-14 days')) {
+        $status = "<i class='fa fa-flag text-warning'></i>";
+    } else {
+        $status = NULL;
+    }
+    return $status;
 }
 
 

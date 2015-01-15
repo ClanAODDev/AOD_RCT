@@ -168,7 +168,7 @@ $out .= "
 								</p>
 								<p>These are things you will rehash with the forum thread stickies, but reiterating is far better than leaving it out entirely. Don't give them any opportunity not to get that information.</p>
 
-								<p><a href='http://www.clanaod.net/forums/showthread.php?t=3293' target='_blank'><button type='button' class='btn btn-primary'>Vent Server Information</button></a> <a href='http://www.ventrilo.com/download.php' target='_blank'><button type='button' class='tool btn btn-primary' title='Right click to copy link'>Client Download</button></a></p>
+								<p><a class='popup-link'  href='http://www.clanaod.net/forums/showthread.php?t=3293'><button type='button' class='btn btn-primary'>Vent Server Information</button></a> <a href='http://www.ventrilo.com/download.php' target='_blank'><button type='button' class='tool btn btn-primary' title='Right click to copy link'>Client Download</button></a></p>
 
 							</div>
 						</div>";
@@ -258,7 +258,7 @@ $out .= "
 								<li>Having them adjust their forum (AOD Member Info) profile settings</li>
 								<li>Changing their name on ventrilo <code class='rank-name'>NaN</code><i class='fa fa-copy copy-link text-primary player-name-copy' title='Copy link to clipboard' href='#'></i></li>
 								<li>Accepting or inviting them into the BF4 platoon on Battlelog</li>
-								<li>Give them the <a href='http://www.clanaod.net/forums/showthread.php?t=3293' target='_blank'>channel password</a> and introduce them to the other members</li>
+								<li>Give them the <a class='popup-link' href='http://www.clanaod.net/forums/showthread.php?t=3293'>channel password</a> and introduce them to the other members</li>
 							</ul>
 
 						</div>";
@@ -287,7 +287,7 @@ $out .= "
 												<div class='col-md-6'>
 													<p>A division structure post needs to be made so that your new recruit can be added to the forum thread in addition to being tracked here. The box to the right shows what your division structure post should look like, including the information you have provided.</p>
 													<p>Click the copy button to copy the contents of the box to your clipboard. Then follow the division structure link to make your post.</p>
-													<p class='margin-top-20'><a href='http://www.clanaod.net/forums/showthread.php?t={$division_structure_thread}' class='text-center' target='_blank'><button type='button' class='btn btn-primary'>Open Division Structure</button></a></p>
+													<p class='margin-top-20'><a class='popup-link' href='http://www.clanaod.net/forums/showthread.php?t={$division_structure_thread}' class='text-center'><button type='button' class='btn btn-primary'>Open Division Structure</button></a></p>
 												</div>
 
 												<div class='col-md-6'>
@@ -308,7 +308,7 @@ $out .= "
 
 													<p>It also wouldn't hurt to let your new recruit know you made a new post for them, so they can introduce themselves to everyone.</p>
 
-													<p class='margin-top-20'><a href='http://www.clanaod.net/forums/newthread.php?do=newthread&f={$welcome_forum}' class='text-center' target='_blank'><button type='button' class='btn btn-primary'>Create welcome thread</button></a></p>
+													<p class='margin-top-20'><a class='popup-link' href='http://www.clanaod.net/forums/newthread.php?do=newthread&f={$welcome_forum}' class='text-center'><button type='button' class='btn btn-primary'>Create welcome thread</button></a></p>
 												</div>
 
 											</div>
@@ -319,7 +319,7 @@ $out .= "
 												<div class='col-md-6'>
 													<p>In addition to your discussion with your new recruit, it's always a good idea to recap. For this reason, we like to send follow-up PMs to our new members summarizing what we went over in case they have any questions. It's also a good way to start a conversation with them on the forums, and generally a good way to close things up.</p>
 													<p>Click the copy button to copy the contents of the box to your clipboard. Then follow the link to send a PM to your recruit.</p>
-													<p class='margin-top-20'><a href='#' class='text-center pm-link' target='_blank'><button type='button' class='btn btn-primary'>Send Forum PM</button></a></p>
+													<p class='margin-top-20'><a href='#' class='text-center pm-link'><button type='button' class='btn btn-primary'>Send Forum PM</button></a></p>
 												</div>
 
 												<div class='col-md-6'>
@@ -337,7 +337,7 @@ $out .= "
 											<div class='row margin-top-20'>
 												<div class='col-md-12'>
 													<p>Finally, a request must be made so your new recruit can be set as an AOD member on the forums, and be able to see all the hidden content specifically for our division.</p>
-													<p class='margin-top-20'><a href='http://www.clanaod.net/forums/misc.php?do=form&fid=39' class='text-center' target='_blank'><button type='button' class='btn btn-primary'>Submit Request</button></a></p>
+													<p class='margin-top-20'><a class='popup-link' href='http://www.clanaod.net/forums/misc.php?do=form&fid=39' class='text-center' target='_blank'><button type='button' class='btn btn-primary'>Submit Request</button></a></p>
 												</div>
 											</div>
 										</div>
