@@ -26,6 +26,16 @@
 	<link rel="stylesheet" type="text/css" href="/public/css/style.css">
 </head>
 <body>
+
+	<!-- modal for ajax dialogs -->
+	<div class="modal viewPanel fade">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="viewer fadeIn animate"></div>
+			</div>
+		</div>
+	</div>
+
 	<div id="wrap">
 		<div class="push-top"></div>
 		

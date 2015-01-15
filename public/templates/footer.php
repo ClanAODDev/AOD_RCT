@@ -9,15 +9,6 @@
 	</div>
 </div>
 
-<!-- modal for ajax dialogs -->
-<div class="modal viewPanel fade">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="viewer fadeIn animate"></div>
-		</div>
-	</div>
-</div>
-
 	<script src="/public/js/libraries/ZeroClipboard.js"></script>
 	<script type="text/javascript" src="/public/js/main.js"></script>
 
