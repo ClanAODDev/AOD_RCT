@@ -326,7 +326,7 @@ h2.pull-right {
 }
 
 
-.nounderline{text-decoration: none}
+.nounderline{text-decoration: none !important}
 
 .developer {
   color: purple;
