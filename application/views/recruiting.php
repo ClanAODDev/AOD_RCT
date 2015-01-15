@@ -44,11 +44,11 @@ $out .= "
 
 		<div class='row margin-top-50'>
 			<div class='col-xs-6 text-center'>
-				<a href='#' class='existing-init disabled'><button type='button' class='btn btn-block btn-default disabled tool' title='Use when adding an existing / ex clan member to division'>Add existing member</button></a>
+				<a href='#' class='existing-init disabled nounderline'><button type='button' class='btn btn-block btn-default disabled tool' title='Use when adding an existing / ex clan member to division'>Add existing member</button></a>
 
 			</div>
 			<div class='col-xs-6 text-center'>
-				<a href='/recruiting/new-member' class='recruit-init'><button type='button' class='btn btn-block btn-success tool' title='For brand new AOD members'>Add new member</button></a>
+				<a href='/recruiting/new-member' class='recruit-init nounderline'><button type='button' class='btn btn-block btn-success tool' title='For brand new AOD members'>Add new member</button></a>
 
 			</div>
 		</div>
