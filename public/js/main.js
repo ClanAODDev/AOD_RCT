@@ -12,6 +12,22 @@ $(function() {
         });
     });
 
+    // popup link
+    $(".popup-link").click(function(e) {
+        e.preventDefault();
+        window.open($(this).attr("href"), "popupWindow", "width=1090,height=600,scrollbars=yes");
+    });
+
+
+    $(".edit-member").click(function() {
+        var user_id = $(this).parent().attr('data-user-id');
+
+        $(".viewPanel .viewer").load("/application/controllers/ajax-view-member.php", {
+            id: user_id
+        });
+        $(".viewPanel").modal();
+    });
+
 
     $(".container").on("click", ".reload", function() {
         loadThreadCheck();
