@@ -818,11 +818,11 @@ function isDev()
  */
 function canEdit($uid) {
 
-    global $pdo, $userRole, $forumId, $user_platoon;
+    global $pdo, $userRole, $forumId, $user_platoon, $user_game;
 
     if (dbConnect()) {
         try {
-            $sth = $pdo->prepare('SELECT id, platoon_id, squad_leader_id, role_id FROM member WHERE id = :uid LIMIT 1');
+            $sth = $pdo->prepare('SELECT id, platoon_id, squad_leader_id, role_id, game_id FROM member WHERE id = :uid LIMIT 1');
             $sth->bindParam(':uid', $uid);
             $sth->execute();
             $user = $sth->fetch(PDO::FETCH_OBJ);
@@ -838,11 +838,14 @@ function canEdit($uid) {
     // is the user the platoon leader of the user?
     } else if (($userRole == 2) && ($user_platoon == $user->platoon_id)) {
         $access = true;
-    // is the user a dev or a division leader?
-    } else if (isDev() || $userRole >= 3) {
+    // is the user the division leader of the user?
+    } else if (($userRole == 3) && ($user_game == $user->game_id)) {
+        $access = true;
+    // is the user a dev or clan administrator?        
+    } else if (isDev() || $userRole > 3) {
         $access = true;
     // is the user editing someone of a lesser role, or himself?
-    } else if (($userRole < $user->role_id) || ($uid == $myUserId)) {
+    } else if ($uid == $myUserId) {
         $access = true;
     } else {
         $access = false;
