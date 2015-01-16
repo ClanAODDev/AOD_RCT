@@ -69,8 +69,8 @@ if (isset($_GET['division'])) {
 				if (dbConnect()) {
 
 					$query = $pdo->prepare(
-						"INSERT INTO member (forum_name, member_id, battlelog_name, bf4db_id, rank_id, platoon_id, bf4_position_id, squad_leader_id, status_id, game_id, join_date, last_forum_login, last_forum_post, forum_posts)
-						VALUES (:username, :memberid, 0, 0, :rank, 0, 0, 0, :status, :division, :joindate, :last_visit, :last_post, :forum_posts)
+						"INSERT INTO member (forum_name, member_id, rank_id, status_id, game_id, join_date, last_forum_login, last_forum_post, forum_posts)
+						VALUES (:username, :memberid, :rank, :status, :division, :joindate, :last_visit, :last_post, :forum_posts)
 						ON DUPLICATE KEY UPDATE
 						forum_name=:username, 
 						rank_id=:rank,
