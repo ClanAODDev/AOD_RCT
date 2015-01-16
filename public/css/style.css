@@ -366,6 +366,14 @@ h2.pull-right {
 }
 
 
+
+#squad, #squads, #platoons {
+  overflow-y: auto; 
+  max-height: 400px;
+}
+
+
+
 /**
  * notification styles
  */

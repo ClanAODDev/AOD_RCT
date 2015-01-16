@@ -123,6 +123,7 @@ function define_pages()
         'division' => "/divisions/(?'division'" . $divisions . ")",
         'platoon' => "/divisions/(?'division'" . $divisions . ")/(?'platoon'\d+)",
         'user' => "/user/(?'page'profile|messages|settings)",
+        'help' => "/help",
 
         'recruiting' => "/recruiting",
         'new_member' => "/recruiting/new-member",
@@ -1209,31 +1210,26 @@ function get_gen_pop($pid)
 
     global $pdo, $member_info;
 
-    if ($member_info['bf4_position_id'] == 5) {
+    if (dbConnect()) {
 
-        if (dbConnect()) {
+        try {
 
-            try {
+            $query = "SELECT member.id, member.forum_name, member.member_id, member.last_activity, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr as rank FROM `member` 
+            LEFT JOIN `rank` on member.rank_id = rank.id 
+            WHERE  member.bf4_position_id = 7 AND status_id = 1 AND platoon_id = :pid
+            ORDER BY member.last_activity ASC";
 
-                $query = "SELECT member.id, member.forum_name, member.member_id, member.last_activity, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr as rank FROM `member` 
-                LEFT JOIN `rank` on member.rank_id = rank.id 
-                WHERE  member.squad_leader_id = :mid AND status_id = 1
-                ORDER BY member.last_activity ASC";
+            $query = $pdo->prepare($query);
+            $query->bindParam(':pid', $pid);
+            $query->execute();
+            $query = $query->fetchAll();
 
-                $query = $pdo->prepare($query);
-                $query->bindParam(':mid', $mid);
-                $query->execute();
-                $query = $query->fetchAll();
-
-            }
-            catch (PDOException $e) {
-                return "ERROR:" . $e->getMessage();
-            }
         }
-        return $query;
-    } else {
-        return false;
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
     }
+    return $query;
 }
 
 /**
@@ -1523,9 +1519,9 @@ function get_member($mid) {
 }
 
 function get_statuses() {
-   global $pdo;
+ global $pdo;
 
-   if (dbConnect()) {
+ if (dbConnect()) {
 
     try {
 
@@ -1543,9 +1539,9 @@ return $query;
 
 
 function get_positions() {
-   global $pdo;
+ global $pdo;
 
-   if (dbConnect()) {
+ if (dbConnect()) {
 
     try {
 
@@ -1628,19 +1624,19 @@ function formatTime($ptime)
     }
 
     $a = array( 365 * 24 * 60 * 60  =>  'year',
-     30 * 24 * 60 * 60  =>  'month',
-     24 * 60 * 60  =>  'day',
-     60 * 60  =>  'hour',
-     60  =>  'minute',
-     1  =>  'second'
-     );
-    $a_plural = array( 'year'   => 'years',
-       'month'  => 'months',
-       'day'    => 'days',
-       'hour'   => 'hours',
-       'minute' => 'minutes',
-       'second' => 'seconds'
+       30 * 24 * 60 * 60  =>  'month',
+       24 * 60 * 60  =>  'day',
+       60 * 60  =>  'hour',
+       60  =>  'minute',
+       1  =>  'second'
        );
+    $a_plural = array( 'year'   => 'years',
+     'month'  => 'months',
+     'day'    => 'days',
+     'hour'   => 'hours',
+     'minute' => 'minutes',
+     'second' => 'seconds'
+     );
 
     foreach ($a as $secs => $str)
     {
@@ -1785,6 +1781,17 @@ function convertStatus($status) {
 
     }
     return $id;
+}
+
+function lastSeenColored($last_seen) {
+    if (strtotime($last_seen) < strtotime('-30 days')) {
+        $status = 'danger';
+    } else if (strtotime($last_seen) < strtotime('-14 days')) {
+        $status = 'warning';
+    } else {
+        $status = 'muted';
+    }
+    return $status;
 }
 
 function lastSeenFlag($last_seen){
