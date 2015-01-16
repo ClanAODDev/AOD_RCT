@@ -123,7 +123,7 @@ if ($member = get_member($userId)) {
 					<div class='panel-heading'><strong>Member Information</strong></div>
 					<ul class='list-group'>
 						<li class='list-group-item text-right'><span class='pull-left'><strong>Status: </strong></span> <span class='text-muted'>{$status}</span></li>
-						<li class='list-group-item text-right'><span class='pull-left'><strong>Divisions: </strong></span> <span class='text-muted'>{$game_name}</span></li>
+						<li class='list-group-item text-right'><span class='pull-left'><strong>Division: </strong></span> <span class='text-muted'>{$game_name}</span></li>
 						{$platoon_item}
 						<li class='list-group-item text-right'><span class='pull-left'><strong>Position: </strong></span> <span class='text-muted'>{$position}</span></li>
 
