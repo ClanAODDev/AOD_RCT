@@ -60,7 +60,7 @@ if ($member = get_member($userId)) {
 
 
 	// build tools if user can edit member
-	if (canEdit($userId)) {
+	if (canEdit($userId) == true) {
 		$editPanel .= "
 
 		<div class='btn-group pull-right' data-member-id='{$member_id}'  data-user-id='{$userId}'>
@@ -71,9 +71,6 @@ if ($member = get_member($userId)) {
 
 		";
 	}
-
-
-
 
 
 	// profile data
