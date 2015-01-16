@@ -68,8 +68,10 @@ $(function() {
                         if (response.success === false) {
                             flag = 0;
                             message = response.message;
-                            if (response.battlelog === false) {
+                            if (response.battlelog === true) {
                                 $(".battlelog-group").addClass('has-error');
+                            } else if (response.memberExists === true) {
+                                $(".memberid-group").addClass('has-error');
                             }
                         } else {
                             flag = 1;
@@ -226,7 +228,7 @@ function loadThreadCheck() {
                 // `this` === `client`
                 // `event.target` === the element that was clicked
                 // event.target.style.display = "none";
-                alert("Copied text to clipboard");
+                alert("Copied to clipboard");
                 // : " + event.data["text/plain"]
             });
         });

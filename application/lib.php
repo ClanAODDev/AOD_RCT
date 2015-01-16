@@ -981,10 +981,9 @@ function memberExists($mid)
     global $pdo;
     
     if (dbConnect()) {
-        $string = strtolower($string);
 
         try {
-            $sth = $pdo->prepare('SELECT count(*) FROM member WHERE forum_id= :mid LIMIT 1');
+            $sth = $pdo->prepare('SELECT count(*) FROM member WHERE member_id = :mid LIMIT 1');
             $sth->bindParam(':mid', $mid);
             $sth->execute();
             $count = $sth->fetchColumn();
