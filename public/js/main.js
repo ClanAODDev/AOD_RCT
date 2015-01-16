@@ -226,16 +226,16 @@ $(function() {
     });
 
 
-    // if true, exists and don't show tour
-    var tour_info = readCookie('tour_cookie');
+    /*    // if true, exists and don't show tour
+    var tour_info = readCookie('tour_cookie_new');
     if (tour_info) {
         $('.tour-intro').hide();
     }
 
     $('.hide-tour').click(function() {
-        setCookie('tour_cookie', 'true', 99999);
+        setCookie('tour_cookie_new', 'true', 99999);
         $('.tour-intro').fadeOut();
-    });
+    });*/
 
 
     $("#members-table_paginate").addClass('text-center');
