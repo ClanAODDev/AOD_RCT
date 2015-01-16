@@ -1517,9 +1517,9 @@ function get_member($mid) {
 }
 
 function get_statuses() {
-   global $pdo;
+ global $pdo;
 
-   if (dbConnect()) {
+ if (dbConnect()) {
 
     try {
 
@@ -1537,9 +1537,9 @@ return $query;
 
 
 function get_positions() {
-   global $pdo;
+ global $pdo;
 
-   if (dbConnect()) {
+ if (dbConnect()) {
 
     try {
 
@@ -1622,19 +1622,19 @@ function formatTime($ptime)
     }
 
     $a = array( 365 * 24 * 60 * 60  =>  'year',
-     30 * 24 * 60 * 60  =>  'month',
-     24 * 60 * 60  =>  'day',
-     60 * 60  =>  'hour',
-     60  =>  'minute',
-     1  =>  'second'
-     );
-    $a_plural = array( 'year'   => 'years',
-       'month'  => 'months',
-       'day'    => 'days',
-       'hour'   => 'hours',
-       'minute' => 'minutes',
-       'second' => 'seconds'
+       30 * 24 * 60 * 60  =>  'month',
+       24 * 60 * 60  =>  'day',
+       60 * 60  =>  'hour',
+       60  =>  'minute',
+       1  =>  'second'
        );
+    $a_plural = array( 'year'   => 'years',
+     'month'  => 'months',
+     'day'    => 'days',
+     'hour'   => 'hours',
+     'minute' => 'minutes',
+     'second' => 'seconds'
+     );
 
     foreach ($a as $secs => $str)
     {
@@ -1794,9 +1794,15 @@ function lastSeenFlag($last_seen){
 
 
 function convertDivision($division) {
+    $division = strtolower($division);
     switch ($division) {
-        case "Battlefield 4":
+
+        case "battlefield 4":
         $id = 2;
+        break;
+
+        default:
+        $id = NULL;
         break;
     }
     return $id;
