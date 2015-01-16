@@ -20,6 +20,9 @@ if (isLoggedIn()) {
     $user_game = $member_info['game_id'];
     $myUserId = $member_info['userid'];
     
+
+
+
     if (!is_null($member_info['member_id'])) {
         $avatar = get_user_avatar($member_info['member_id']);
     } else {
@@ -299,7 +302,7 @@ function onlineUsers()
                 $users = $sth->fetchAll();
             }
             catch (PDOException $e) {
-                echo 'ERROR: ' . $e->getMessage();
+                return false;
             }
             
         }
@@ -348,7 +351,7 @@ function updateUserActivityStatus($id, $isActive = false)
             
         }
         catch (PDOException $e) {
-            echo 'ERROR: ' . $e->getMessage();
+            return false;
         }
     }
 }
@@ -532,7 +535,7 @@ function userExists($string)
                 
             }
             catch (PDOException $e) {
-                echo 'ERROR: ' . $e->getMessage();
+                return false;
             }
             
             if ($count > 0) {
@@ -618,7 +621,7 @@ function updateLoggedInTime($user)
                 ));
         }
         catch (PDOException $e) {
-            echo 'ERROR: ' . $e->getMessage();
+            return false;
         }
     } else {
         return false;
@@ -645,7 +648,7 @@ function updateAlert($alert, $uid)
                 ));
         }
         catch (PDOException $e) {
-            echo 'ERROR: ' . $e->getMessage();
+            return false;
         }
     } else {
         return false;
@@ -725,7 +728,7 @@ function createUser($user, $email, $credential)
             
         }
         catch (PDOException $e) {
-            echo 'ERROR: ' . $e->getMessage();
+            return false;
         }
         
     } else {
@@ -768,7 +771,7 @@ function createMember($forum_name, $member_id, $battlelog_name, $bf4dbid, $plato
         }
 
         catch (PDOException $e) {
-            return 'ERROR: ' . $e->getMessage();
+            return false;
         } 
 
     }
@@ -796,7 +799,7 @@ function isDev()
             
         }
         catch (PDOException $e) {
-            return 'ERROR: ' . $e->getMessage();
+            return false;
         }
     }
     
@@ -818,28 +821,30 @@ function isDev()
  */
 function canEdit($uid) {
 
-    global $pdo, $userRole, $forumId, $user_platoon, $user_game;
+    global $pdo, $userRole, $forumId, $user_platoon, $user_game, $myUserId;
+
+    $access = false;
 
     if (dbConnect()) {
         try {
-            $sth = $pdo->prepare('SELECT id, platoon_id, squad_leader_id, role_id, game_id FROM member WHERE id = :uid LIMIT 1');
+            $sth = $pdo->prepare('SELECT id, platoon_id, squad_leader_id, game_id FROM member WHERE id = :uid LIMIT 1');
             $sth->bindParam(':uid', $uid);
             $sth->execute();
-            $user = $sth->fetch(PDO::FETCH_OBJ);
+            $member = $sth->fetch(PDO::FETCH_OBJ);
         }
         catch (PDOException $e) {
-            return 'ERROR: ' . $e->getMessage();
+            return false;
         }
     }
 
     // is the user the assigned squad leader?
-    if (($userRole == 1) && ($forumId == $user->squad_leader_id)) {
+    if (($userRole == 1) && ($forumId == $member->squad_leader_id)) {
         $access = true;
     // is the user the platoon leader of the user?
-    } else if (($userRole == 2) && ($user_platoon == $user->platoon_id)) {
+    } else if (($userRole == 2) && ($user_platoon == $member->platoon_id)) {
         $access = true;
     // is the user the division leader of the user?
-    } else if (($userRole == 3) && ($user_game == $user->game_id)) {
+    } else if (($userRole == 3) && ($user_game == $member->game_id)) {
         $access = true;
     // is the user a dev or clan administrator?        
     } else if (isDev() || $userRole > 3) {
@@ -852,6 +857,7 @@ function canEdit($uid) {
     }
 
     return $access;
+
 }
 
 
@@ -876,7 +882,7 @@ function validatePassword($pass, $user)
             
         }
         catch (PDOException $e) {
-            echo 'ERROR: ' . $e->getMessage();
+            return false;
         }
     }
     
@@ -985,7 +991,7 @@ function memberExists($mid)
 
         }
         catch (PDOException $e) {
-            return 'ERROR: ' . $e->getMessage();
+            return false;
         }
 
         if ($count > 0) {
@@ -1517,9 +1523,9 @@ function get_member($mid) {
 }
 
 function get_statuses() {
- global $pdo;
+   global $pdo;
 
- if (dbConnect()) {
+   if (dbConnect()) {
 
     try {
 
@@ -1537,9 +1543,9 @@ return $query;
 
 
 function get_positions() {
- global $pdo;
+   global $pdo;
 
- if (dbConnect()) {
+   if (dbConnect()) {
 
     try {
 
@@ -1622,19 +1628,19 @@ function formatTime($ptime)
     }
 
     $a = array( 365 * 24 * 60 * 60  =>  'year',
-       30 * 24 * 60 * 60  =>  'month',
-       24 * 60 * 60  =>  'day',
-       60 * 60  =>  'hour',
-       60  =>  'minute',
-       1  =>  'second'
-       );
-    $a_plural = array( 'year'   => 'years',
-     'month'  => 'months',
-     'day'    => 'days',
-     'hour'   => 'hours',
-     'minute' => 'minutes',
-     'second' => 'seconds'
+     30 * 24 * 60 * 60  =>  'month',
+     24 * 60 * 60  =>  'day',
+     60 * 60  =>  'hour',
+     60  =>  'minute',
+     1  =>  'second'
      );
+    $a_plural = array( 'year'   => 'years',
+       'month'  => 'months',
+       'day'    => 'days',
+       'hour'   => 'hours',
+       'minute' => 'minutes',
+       'second' => 'seconds'
+       );
 
     foreach ($a as $secs => $str)
     {
