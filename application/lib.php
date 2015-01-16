@@ -15,12 +15,11 @@ if (isLoggedIn()) {
     $member_info  = get_user_info($_SESSION['username']);
     $userRole     = $member_info['role'];
     $curUser      = $member_info['username'];
-    $forumId      = $member_info['member_id'];
+    $forumId      = $member_info['forum_id'];
+    $member_id      = $member_info['member_id'];
     $user_platoon = $member_info['platoon_id'];
     $user_game = $member_info['game_id'];
     $myUserId = $member_info['userid'];
-    
-
 
 
     if (!is_null($member_info['member_id'])) {
@@ -268,7 +267,7 @@ function get_user_info($name)
 
         try {
 
-            $sth = $pdo->prepare("SELECT users.id as userid, member_id, username, forum_name, rank_id, role, email, idle, platoon_id, last_logged, bf4_position_id, game_id, last_forum_login, last_forum_post, join_date, member.game_id FROM users 
+            $sth = $pdo->prepare("SELECT users.id as userid, member.id as member_id, member_id as forum_id, username, forum_name, rank_id, role, email, idle, platoon_id, last_logged, bf4_position_id, game_id, last_forum_login, last_forum_post, join_date, member.game_id FROM users 
                 LEFT JOIN member ON users.username = member.forum_name
                 LEFT JOIN games ON games.id = member.game_id
                 LEFT JOIN bf4_position ON member.bf4_position_id = bf4_position.id
@@ -821,7 +820,7 @@ function isDev()
  */
 function canEdit($uid) {
 
-    global $pdo, $userRole, $forumId, $user_platoon, $user_game, $myUserId;
+    global $pdo, $userRole, $forumId, $user_platoon, $user_game, $member_id;
 
     $access = false;
 
@@ -850,7 +849,7 @@ function canEdit($uid) {
     } else if (isDev() || $userRole > 3) {
         $access = true;
     // is the user editing someone of a lesser role, or himself?
-    } else if ($uid == $myUserId) {
+    } else if ($uid == $member_id) {
         $access = true;
     } else {
         $access = false;
