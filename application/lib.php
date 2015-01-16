@@ -5,6 +5,8 @@ include_once("modules/vbfunctions.php");
 
 session_regenerate_id();
 
+date_default_timezone_set('America/New_York');
+
 /**
  * data collection for user logged in
  */
