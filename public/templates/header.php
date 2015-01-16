@@ -147,10 +147,8 @@
 							</ul>
 						</li>
 
-						<li>
-							<a href="/admin" role="button">Admin CP</a>
-							
-						</li>
+						<li> <a href="/admin" role="button">Admin CP</a> </li>
+						<li> <a href="/help" role="button">Help</a> </li>
 
 					</ul>
 				</div><!--/.nav-collapse -->
