@@ -97,12 +97,14 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 	$min = INACTIVE_MIN;
 	$max = INACTIVE_MAX;
 
+
 	$inactive = array_filter(
-		$overall_aod_percent,
+		$overall_aod_games,
 		function ($value) use($min,$max) {
 			return ($value >= $min && $value <= $max);
 		})
 	;
+
 
 	$inactive_count = count($inactive);
 	$inactive_percent = round((float)($inactive_count / $member_count) * 100 ) . '%';
