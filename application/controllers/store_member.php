@@ -7,9 +7,9 @@ $data = NULL;
 // some user based values defined in lib (user_game, user_platoon, forumId)
 include("../lib.php");
 
-$forumName = $_POST['name'];
-$battlelog = $_POST['battlelog'];
-$member_id = $_POST['member_id'];
+$forumName = trim($_POST['name']);
+$battlelog = trim($_POST['battlelog']);
+$member_id = trim($_POST['member_id']);
 
 // fetch values if appropriate role, else use own values
 $squadLdr = ($userRole >= 2 || isDev()) ? $_POST['squadLdr'] : $forumId;
