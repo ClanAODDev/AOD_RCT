@@ -3,9 +3,18 @@
 include('config.php');
 include('../application/lib.php');
 
-if (isset($_GET['division'])) {
+$division = "";
 
-	$requested_division = convertDivision($_GET['division']);
+if (isset($argv)) {
+	$division = $argv[1];
+}
+elsif (isset($_GET['division'])) {
+	$division = $_GET['division'];
+}
+
+if ($division) {
+
+	$requested_division = convertDivision($division);
 
 	if (!is_null($requested_division)) {
 
