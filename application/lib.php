@@ -1772,7 +1772,7 @@ function lastSeenColored($last_seen) {
     } else if (strtotime($last_seen) < strtotime('-14 days')) {
         $status = 'warning';
     } else {
-        $status = 'muted';
+        $status = 'default';
     }
     return $status;
 }
