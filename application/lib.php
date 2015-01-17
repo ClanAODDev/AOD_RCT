@@ -24,8 +24,8 @@ if (isLoggedIn()) {
     $myUserId = $member_info['userid'];
 
 
-    if (!is_null($member_info['member_id'])) {
-        $avatar = get_user_avatar($member_info['member_id']);
+    if (!is_null($member_info['forum_id'])) {
+        $avatar = get_user_avatar($member_info['forum_id']);
     } else {
         $avatar = NULL;
     }
@@ -433,7 +433,8 @@ function get_user_avatar($forum_id, $type = "thumb")
     $unknown = "/public/images/blank_avatar.jpg";
     list($width, $height) = getimagesize($forum_img);
 
-    if ($width >20 && $height > 20) {
+    // blank avatar is 1x1 but just to be safe
+    if ($width >10 && $height > 10) {
         return "<img src='{$forum_img}' class='img-thumbnail avatar-{$type}' />";    
     } else {
         return "<img src='{$unknown}' class='img-thumbnail avatar-{$type}' />";
