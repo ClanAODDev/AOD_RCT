@@ -2,6 +2,8 @@
 <head>
 	<title>AOD | Squad Management</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="Shortcut Icon" href="/public/images/favicon.ico" type="image/x-icon" />
+
 	
 	<script src="/public/js/libraries/jquery-2.1.1.min.js"></script>
 	<script src="/public/js/libraries/jquery-ui.min.js"></script>
