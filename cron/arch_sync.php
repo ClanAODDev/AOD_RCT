@@ -7,8 +7,7 @@ $division = "";
 
 if (isset($argv)) {
 	$division = $argv[1];
-}
-elsif (isset($_GET['division'])) {
+} else if (isset($_GET['division'])) {
 	$division = $_GET['division'];
 }
 
