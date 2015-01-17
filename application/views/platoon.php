@@ -65,6 +65,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 					$rank = $row['rank'];
 					$joindate = date("Y-m-d", strtotime($row['join_date']));
 					$lastActive = formatTime(strtotime($row['last_activity']));
+					$status = lastSeenColored($lastActive);
 
 					$profile = "<a class='tool' title='View Profile' href='/member/" . $row['id'] . "'><i class='fa fa-user'></i></a>";
 
@@ -74,7 +75,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 						<td class='text-center hidden-xs hidden-sm'>{$rank}</td>
 						
 						<td class='text-center hidden-xs hidden-sm'>{$joindate}</td>
-						<td class='text-center'>{$lastActive}</td>
+						<td class='text-center text-{$status}'>{$lastActive}</td>
 						
 						<td class='text-center'>{$aod_games}</td>
 						<td class='text-center'>{$total_games}</td>
