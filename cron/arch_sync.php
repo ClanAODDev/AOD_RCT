@@ -130,24 +130,25 @@ if ($division) {
 
 			if (count($removals)) {
 				$removalIds = implode($removals, ", ");
-				$query = $pdo->prepare("UPDATE member SET status_id = 4 AND game_id = :gid WHERE member_id IN ({$removalIds})");
+
+				$query = $pdo->prepare("UPDATE member SET status_id = 4 WHERE member_id IN ({$removalIds}) AND game_id = :gid");
 				$query->execute(array(':gid' => $requested_division));
-				echo date('Y-m-d h:i:s A') . "Updated the following member ids to 'removed': " . $removalIds . "<br />";
+				echo date('Y-m-d h:i:s A') . " - Updated the following member ids to 'removed': " . $removalIds . "<br />";
 			}
 
-			echo date('Y-m-d h:i:s A') . "sync done. <br />";
+			echo date('Y-m-d h:i:s A') . " - sync done. <br />";
 
 		} else {
-			echo date('Y-m-d h:i:s A') . "Error: Column count has changed. Parser needs to be updated.<br />";
+			echo date('Y-m-d h:i:s A') . " - Error: Column count has changed. Parser needs to be updated.<br />";
 			die;
 		}
 
 	} else {
-		echo date('Y-m-d h:i:s A') . "Error: Unsupported division.<br />";
+		echo date('Y-m-d h:i:s A') . " - Error: Unsupported division.<br />";
 	}
 
 } else {
-		echo date('Y-m-d h:i:s A') . "Error: Must provide a division. Ex. ?division=Battlefield 4<br />";
+		echo date('Y-m-d h:i:s A') . " - Error: Must provide a division. Ex. ?division=Battlefield 4<br />";
 	}
 
 
