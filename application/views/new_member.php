@@ -236,7 +236,7 @@ $out .= "
 						<div class='tab-pane' id='tab3'>
 							<div class='col-sm-6'>
 
-								<p class='margin-top-20'>Listed are the recruiting threads required for each of your division's members to read and understand. The status indicates whether or not your new recruit has made a post in each of those threads (checking last 5 pages of a thread ensures we don't miss a post).</p><p>You can right-click to copy and paste each of these links to your recruit to have them complete them, but you should take the time to explain each of these threads, hitting the high (important) notes. Ensure each thread is completed (and that they understand them), before continuing.</p>
+								<p class='margin-top-20'>Listed are the recruiting threads required for each of your division's members to read and understand. The status indicates whether or not your new recruit has made a post in each of those threads (checking last 5 pages of a thread ensures we don't miss a post).</p><p>Use the 'copy' button next to each link to copy the link to your clipboard, and be sure to take the time to explain each of these threads, hitting the high (important) notes. Ensure each thread is completed (and that they understand them), before continuing.</p>
 
 							</div>
 							<div class='col-sm-6 well'>
