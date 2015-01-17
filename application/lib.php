@@ -758,7 +758,12 @@ function createMember($forum_name, $member_id, $battlelog_name, $bf4dbid, $plato
     if (dbConnect()) {
         try {
 
-            $query = $pdo->prepare("INSERT INTO member ( forum_name, member_id, battlelog_name, bf4db_id, platoon_id, bf4_position_id, squad_leader_id, game_id, rank_id ) VALUES ( :forum, :member_id, :battlelog, :bf4db, :platoon, :bf4_pos, :sqdldr, :game, :rank )");
+            $query = $pdo->prepare("INSERT INTO member ( forum_name, member_id, battlelog_name, bf4db_id, platoon_id, bf4_position_id, squad_leader_id, game_id, rank_id ) VALUES ( :forum, :member_id, :battlelog, :bf4db, :platoon, :bf4_pos, :sqdldr, :game, :rank )         
+
+                ON DUPLICATE KEY UPDATE
+                forum_name = :forum
+                battlelog_name = :battlelog, 
+                bf4db_id = :bf4db");
 
             $query->execute(array(
                 ':forum' => $forum_name,
@@ -774,6 +779,7 @@ function createMember($forum_name, $member_id, $battlelog_name, $bf4dbid, $plato
         }
 
         catch (PDOException $e) {
+            echo $e->getMessage();
             return false;
         } 
 
@@ -979,30 +985,6 @@ function checkThread($player, $thread)
 
 
 
-function memberExists($mid)
-{
-    global $pdo;
-    
-    if (dbConnect()) {
-
-        try {
-            $sth = $pdo->prepare('SELECT count(*) FROM member WHERE member_id = :mid LIMIT 1');
-            $sth->bindParam(':mid', $mid);
-            $sth->execute();
-            $count = $sth->fetchColumn();
-
-        }
-        catch (PDOException $e) {
-            return false;
-        }
-
-        if ($count > 0) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-}
 
 
 
