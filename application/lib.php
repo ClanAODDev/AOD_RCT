@@ -1286,7 +1286,7 @@ function get_platoon_members($pid)
             $query = "SELECT member.id, member.forum_name, member.member_id,  bf4_position.desc as bf4_position_desc, bf4_position.id as bf4_position_id, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr as rank, join_date, last_forum_login, last_forum_post, last_activity, forum_posts FROM `member` 
             LEFT JOIN `rank` on member.rank_id = rank.id 
             LEFT JOIN `bf4_position` ON member.bf4_position_id = bf4_position.id 
-            WHERE status_id = 1 AND platoon_id = :pid AND bf4_position_id NOT IN (4,3,2,1)
+            WHERE status_id = 1 AND platoon_id = :pid AND bf4_position_id NOT IN (3,2,1)
             ORDER BY member.rank_id DESC";
             
             $query = $pdo->prepare($query);
