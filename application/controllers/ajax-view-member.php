@@ -7,6 +7,7 @@ $out = NULL;
 $data = NULL;
 $platoons = NULL;
 $squadLeaders = NULL;
+$positions = NULL;
 
 if ($_POST && $_POST['id']) {
 
@@ -23,21 +24,25 @@ if ($_POST && $_POST['id']) {
 	$game_id = $game_info['id'];
 	$platoon_id = $member['platoon_id'];
 	$squadldr = $member['squad_leader_id'];
+	$cur_position = $member['bf4_position_id'];
 
 	switch ($userRole) {
 		case 1:
 		$allowPltAssignmentEdit = false;
 		$allowSqdAssignmentEdit = false;
+		$allowPosAssignmentEdit = false;
 		break;
 
 		case 2:
 		$allowPltAssignmentEdit = false;
 		$allowSqdAssignmentEdit = true;
+		$allowPosAssignmentEdit = true;
 		break;
 
 		case 3:
 		$allowPltAssignmentEdit = true;
 		$allowSqdAssignmentEdit = true;
+		$allowPosAssignmentEdit = true;
 		break;
 	}
 
@@ -45,16 +50,19 @@ if ($_POST && $_POST['id']) {
 	if (isDev()) {
 		$allowPltAssignmentEdit = true;
 		$allowSqdAssignmentEdit = true;
+		$allowPosAssignmentEdit = true;
 	}
 
 	// if assignment editing is allowed, show fields
 	$assignmentPltFieldDisplay = ($allowPltAssignmentEdit) ? "block" : "none";
 	$assignmentSqdFieldDisplay = ($allowSqdAssignmentEdit) ? "block" : "none";
+	$assignmentPosFieldDisplay = ($allowPosAssignmentEdit) ? "block" : "none";
 
 
 	// platoons and squads are based on game, for clarity
 	$platoonArray = get_platoons($game_id);
 	$squadleadersArray = get_squad_leaders($game_id);
+	$positionsArray = get_positions($user_position);
 
 	// build platoons
 	if (count($platoonArray)) {
@@ -71,11 +79,17 @@ if ($_POST && $_POST['id']) {
 			$squadLeaders .= "<option value='{$squadLeader['member_id']}'>{$squadLeader['name']} - {$squadLeader['platoon_name']}</option>";
 		}
 
-	// add empty squad leader option
+		// add empty squad leader option
 		$squadLeaders .= "<option value='0' selected>None (Gen Pop)</option>";
 	} else {
 		$squadLeaders = "<option>No squad leaders exist.</option>";
 	}
+
+	// build positions dropdown
+	foreach ($positionsArray as $position) {
+		$positions .= "<option value='{$position['id']}'>{$position['desc']}</option>";
+	}
+
 
 	$out .= "
 	<div class='modal-header'>
@@ -84,11 +98,12 @@ if ($_POST && $_POST['id']) {
 	</div>
 	<form id='edit-form'>
 		<div class='modal-body'>
-		<div class='message alert' style='display: none;'></div>
+			<div class='message alert' style='display: none;'></div>
 
 			<input type='hidden' id='uid' name='uid' value='{$id}' />
 			<input type='hidden' id='cur_plt' name='cur_plt' value='{$platoon_id}' />
 			<input type='hidden' id='cur_sqd' name='cur_sqd' value='{$squadldr}' />
+			<input type='hidden' id='cur_pos' name='cur_pos' value='{$cur_position}' />
 
 			<div class='form-group'>
 				<label for='forum_name' class='control-label'>Forum Name</label>
@@ -116,6 +131,12 @@ if ($_POST && $_POST['id']) {
 				<select name='sqdldr' id='sqdldr' class='form-control'>{$squadLeaders}</select>
 
 			</div>
+
+			<div class='form-group position-group' style='display: {$assignmentPosFieldDisplay}'>
+				<label for='position' class='col-sm-3 control-label'>Position</label>
+				<select name='position' id='position' class='form-control'>{$positions}</select>
+			</div>
+
 
 		</div>
 		<div class='modal-footer'>

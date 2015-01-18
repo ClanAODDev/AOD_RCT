@@ -22,6 +22,7 @@ if (isLoggedIn()) {
     $user_platoon = $member_info['platoon_id'];
     $user_game = $member_info['game_id'];
     $myUserId = $member_info['userid'];
+    $user_position = $member_info['bf4_position_id'];
 
 
     if (!is_null($member_info['forum_id'])) {
@@ -660,10 +661,9 @@ function updateAlert($alert, $uid)
 
 
 
-function updateMember($uid, $fname, $blog, $bf4db, $mid, $plt=NULL, $sqdldr=NULL)
+function updateMember($uid, $fname, $blog, $bf4db, $mid, $plt, $sqdldr, $position)
 {
     global $pdo;
-    $status = NULL;
 
     // slightly unorthodox means of throwing together the query
     // but it should work without too much of a headache
@@ -674,6 +674,7 @@ function updateMember($uid, $fname, $blog, $bf4db, $mid, $plt=NULL, $sqdldr=NULL
     // check for defined values and append if set
     if (!is_null($plt)) { $query .= ",platoon_id = :platoon"; }
     if (!is_null($sqdldr)) { $query .= ",squad_leader_id = :sqdldr"; }
+    if (!is_null($position)) { $query .= ",bf4_position_id = :position"; }
 
     // finish up the query
     $query .= " WHERE id = :uid";
@@ -693,6 +694,7 @@ function updateMember($uid, $fname, $blog, $bf4db, $mid, $plt=NULL, $sqdldr=NULL
             // only bind parameters if they are set
             if (!is_null($plt)) { $values[':platoon'] = $plt; }
             if (!is_null($sqdldr)) { $values[':sqdldr'] = $sqdldr; }
+            if (!is_null($position)) { $values[':position'] = $position; }
 
             $query->execute($values);
         }
@@ -1522,14 +1524,15 @@ return $query;
 }
 
 
-function get_positions() {
+function get_positions($my_position) {
  global $pdo;
 
  if (dbConnect()) {
 
     try {
 
-        $query = $pdo->prepare("SELECT `desc`, `id` FROM bf4_position");
+        $query = $pdo->prepare("SELECT `desc`, `id` FROM bf4_position WHERE id >= :my_position");
+        $query->bindParam(':my_position', $my_position);
         $query->execute();
         $query = $query->fetchAll();
 

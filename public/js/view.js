@@ -2,10 +2,12 @@ $(function() {
 
     // auto select values
     var sqdldr = $("#cur_sqd").val(),
-        plt = $("#cur_plt").val();
+        plt = $("#cur_plt").val(),
+        pos = $("#cur_pos").val();
 
     $("#platoon option[value=" + plt + "]").attr("selected", "selected");
     $("#sqdldr option[value=" + sqdldr + "]").attr("selected", "selected");
+    $("#position option[value=" + pos + "]").attr("selected", "selected");
 
     $("#edit-form").submit(function(event) {
         event.preventDefault();
@@ -17,14 +19,15 @@ $(function() {
             fname = $("#forum_name").val(),
             platoon = $("#platoon").val(),
             sqdldr = $("#sqdldr").val(),
-            blog = $("#battlelog").val();
+            blog = $("#battlelog").val(),
+            position = $("#position").val();
 
-        updateMember(uid, mid, fname, blog, platoon, sqdldr);
+        updateMember(uid, mid, fname, blog, platoon, sqdldr, position);
     });
 
 });
 
-function updateMember(uid, mid, fname, blog, platoon, sqdldr) {
+function updateMember(uid, mid, fname, blog, platoon, sqdldr, position) {
     setTimeout(function() {
         $.post("/application/controllers/update_member.php", {
                 uid: uid,
@@ -32,7 +35,8 @@ function updateMember(uid, mid, fname, blog, platoon, sqdldr) {
                 fname: fname,
                 blog: blog,
                 platoon: platoon,
-                squad: sqdldr
+                squad: sqdldr,
+                position: position
             },
 
             function(data) {

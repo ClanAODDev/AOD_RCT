@@ -7,6 +7,7 @@ include "../lib.php";
 $data = NULL;
 $platoon = NULL;
 $sqdldr = NULL;
+$position = NULL;
 
 
 // fetched values
@@ -18,7 +19,7 @@ $uid = $_POST['uid'];
 
 // post values based on role since we can't be sure 
 // a hidden form element wasn't tampered with
-if ($userRole > 1 || isDev()) { $sqdldr = $_POST['squad']; }
+if ($userRole > 1 || isDev()) { $sqdldr = $_POST['squad']; $position = $_POST['position']; }
 if ($userRole > 2 || isDev()) {	$platoon = $_POST['platoon']; }
 
 
@@ -30,7 +31,7 @@ if (canEdit($uid) == true) {
 		$data = array('success' => false, 'message' => 'Invalid battlelog name.', 'battlelog' => false);
 	} else {
 		// modify the member
-		$result = updateMember($uid, $forumName, $battlelog, $bf4db, $member_id, $platoon, $sqdldr);
+		$result = updateMember($uid, $forumName, $battlelog, $bf4db, $member_id, $platoon, $sqdldr, $position);
 		$data = array('success' => $result['success'], 'message' => $result['message']);
 	}
 
