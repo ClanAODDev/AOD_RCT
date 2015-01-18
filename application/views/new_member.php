@@ -335,14 +335,19 @@ $out .= "
 
 										<div role='tabpanel' class='tab-pane' id='member-request'>
 											<div class='row margin-top-20'>
-												<div class='col-md-12'>
+												<div class='col-md-8'>
 													<p>Finally, a request must be made so your new recruit can be set as an AOD member on the forums, and be able to see all the hidden content specifically for our division.</p>
 													<p class='margin-top-20'><a class='popup-link' href='http://www.clanaod.net/forums/misc.php?do=form&fid=39' class='text-center' target='_blank'><button type='button' class='btn btn-primary'>Submit Request</button></a></p>
 												</div>
+												<div class='col-md-4 well'>
+													<p><strong>Forum User ID</strong>:</p>
+													<code class='final_member_id'></code>
+												</div>
+
 											</div>
 										</div>
 
-										
+
 									</div>
 								</div>
 							</div>
@@ -354,7 +359,7 @@ $out .= "
 						$out .="
 
 						<div class='tab-pane' id='tab6'>
-							<p class='lead'><i class='fa fa-check text-success'></i> You have successfully completed <span class='player-name'>NaN</span>'s recruiting process!</p>
+							<p><i class='fa fa-check text-success'></i> You have successfully completed <span class='player-name'>NaN</span>'s recruiting process!</p><a href='/' class='btn btn-success'>Go back home</a>
 						</div>";
 
 

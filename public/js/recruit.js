@@ -11,6 +11,8 @@ $(function() {
 
             if (index == 2) {
 
+                $(".progress-bar").attr("class", "bar progress-bar progress-bar-striped progress-bar-warning active");
+
                 // Validate fields
                 if (!$('#member_id').val() || !$('#battlelog').val() || !$('#forumname').val()) {
                     $(".message").html("<i class='fa fa-times'></i>  All fields are required.").effect("bounce");
@@ -178,6 +180,9 @@ function loadThreadCheck() {
         // division structure
         $("#division-post .post-code").html(postCode);
         $('.division-code-btn').attr("data-clipboard-text", postCopy);
+
+        // final member id for request
+        $(".final_member_id").html(member_id);
 
         // welcome PM
         $("#welcome-pm .welcome-code").html(welcomeCode);
