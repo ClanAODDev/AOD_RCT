@@ -10,7 +10,7 @@
 	
 	<div class='row'>
 		<div class='page-header'>
-			<h2><strong>Application Info</strong> <small>AOD Squad Tracker</small></h2>
+			<h2><strong>Help</strong> <small>AOD Squad Tracker</small></h2>
 		</div>
 	</div>
 
