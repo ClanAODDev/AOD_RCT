@@ -1290,7 +1290,7 @@ function get_platoon_members($pid)
             LEFT JOIN `rank` on member.rank_id = rank.id 
             LEFT JOIN `bf4_position` ON member.bf4_position_id = bf4_position.id 
             WHERE (status_id = 1 OR status_id = 999) AND platoon_id = :pid AND bf4_position_id NOT IN (3,2,1)
-            ORDER BY member.rank_id DESC";
+            ORDER BY bf4_position_id, member.rank_id DESC";
             
             $query = $pdo->prepare($query);
             $query->bindParam(':pid', $pid);
