@@ -32,9 +32,9 @@ if ($member = get_member($userId)) {
 
 
 	if (strtotime($last_seen) < strtotime('-30 days')) {
-		$warningLastSeen = "<div class='alert alert-danger fade-in'>Player has not logged into the forums in more than {$wng_last_seen}!</div>";
+		$warningLastSeen = "<div class='alert alert-danger fade-in'>Player has not logged into the forums in {$wng_last_seen}!</div>";
 	} else if (strtotime($last_seen) < strtotime('-14 days')) {
-		$warningLastSeen = "<div class='alert alert-warning fade-in'>Player has not logged into the forums in more than {$wng_last_seen}!</div>";
+		$warningLastSeen = "<div class='alert alert-warning fade-in'>Player has not logged into the forums in {$wng_last_seen}!</div>";
 	} else {
 		$warningLastSeen = NULL;
 	}
