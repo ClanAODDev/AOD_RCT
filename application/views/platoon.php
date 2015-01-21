@@ -143,12 +143,12 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 					</div>
 				</div>
 
-				<div class='panel panel-default'>
+				<!--<div class='panel panel-default'>
 					<div class='panel-heading'>Game Inactivity</div>
 					<div class='panel-body count-detail-big striped-bg follow-tool' title='{$inactive_count} out of {$member_count} with < {$max} AOD games'>
 						<span class='count-animated percentage'>{$inactive_percent}</span>
 					</div>
-				</div>
+				</div>-->
 			</div>
 
 
