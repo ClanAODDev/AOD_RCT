@@ -7,8 +7,10 @@ $division = "";
 
 if (isset($argv)) {
 	$division = $argv[1];
+	$linebreak = "\r\n";
 } else if (isset($_GET['division'])) {
 	$division = $_GET['division'];
+	$linebreak = "<br />";
 }
 
 if ($division) {
@@ -133,22 +135,22 @@ if ($division) {
 
 				$query = $pdo->prepare("UPDATE member SET status_id = 4 WHERE member_id IN ({$removalIds}) AND game_id = :gid");
 				$query->execute(array(':gid' => $requested_division));
-				echo date('Y-m-d h:i:s A') . " - Updated the following member ids to 'removed': " . $removalIds . "/r/n";
+				echo date('Y-m-d h:i:s A') . " - Updated the following member ids to 'removed': " . $removalIds . "{$linebreak}";
 			}
 
-			echo date('Y-m-d h:i:s A') . " - sync done. /r/n";
+			echo date('Y-m-d h:i:s A') . " - sync done. {$linebreak}";
 
 		} else {
-			echo date('Y-m-d h:i:s A') . " - Error: Column count has changed. Parser needs to be updated./r/n";
+			echo date('Y-m-d h:i:s A') . " - Error: Column count has changed. Parser needs to be updated.{$linebreak}";
 			die;
 		}
 
 	} else {
-		echo date('Y-m-d h:i:s A') . " - Error: Unsupported division./r/n";
+		echo date('Y-m-d h:i:s A') . " - Error: Unsupported division.{$linebreak}";
 	}
 
 } else {
-		echo date('Y-m-d h:i:s A') . " - Error: Must provide a division. Ex. ?division=Battlefield 4/r/n";
+		echo date('Y-m-d h:i:s A') . " - Error: Must provide a division. Ex. ?division=Battlefield 4{$linebreak}";
 	}
 
 
