@@ -358,8 +358,9 @@ $out .= "
 
 						$out .="
 
-						<div class='tab-pane' id='tab6'>
-							<p><i class='fa fa-check text-success'></i> You have successfully completed <span class='player-name'>NaN</span>'s recruiting process!</p><a href='/' class='btn btn-success'>Go back home</a>
+						<div class='tab-pane text-center fade-in' id='tab6'>
+							<div class='alert alert-success'><i class='fa fa-check'></i> You have successfully completed <span class='player-name'>NaN</span>'s recruiting process! </div><p><strong>Don't forget to mark your recruit's division application \"
+							completed\" if they submitted one <a href='http://www.clanaod.net/forums/forumdisplay.php?f=457'>in the forums</a></strong>.</p><a href='/' class='btn btn-info'>Go back home</a>
 						</div>";
 
 
