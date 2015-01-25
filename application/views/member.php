@@ -4,6 +4,7 @@ if (!isset($_SESSION['secure_access']) || (isset($_SESSION['secure_access']) && 
 
 $out = NULL;
 $editPanel = NULL;
+$alerts = NULL;
 $userId = $params['id'];
 
 if ($member = get_member($userId)) {
@@ -25,19 +26,29 @@ if ($member = get_member($userId)) {
 	$last_post = formatTime(strtotime($member['last_forum_post']));
 	$wng_last_seen = str_replace(" ago", "", $last_seen);
 	$status = $member['desc'];
+	$status_id = $member['status_id'];
 	$bf4dbid = $member['bf4db_id'];
 	$member_id = $member['member_id'];
 	$userId = $member['id'];
 	$battlelog_name = $member['battlelog_name'];
 
 
+
+	// member activity greater than 14 days (warning)
 	if (strtotime($last_seen) < strtotime('-30 days')) {
-		$warningLastSeen = "<div class='alert alert-danger fade-in'>Player has not logged into the forums in {$wng_last_seen}!</div>";
+		$alerts .= "<div class='alert alert-danger fade-in'>Player has not logged into the forums in {$wng_last_seen}!</div>";
 	} else if (strtotime($last_seen) < strtotime('-14 days')) {
-		$warningLastSeen = "<div class='alert alert-warning fade-in'>Player has not logged into the forums in {$wng_last_seen}!</div>";
-	} else {
-		$warningLastSeen = NULL;
+		$alerts .= "<div class='alert alert-warning fade-in'>Player has not logged into the forums in {$wng_last_seen}!</div>";
+	} 
+
+
+	// pending member warning
+	if ($status_id == 999) {
+		$alerts .= "<div class='alert alert-warning fade-in'>This member is pending, and will not have any forum specific information until their member status has been approved.</div>";
 	}
+
+
+
 
 
 	// server history
@@ -103,7 +114,7 @@ if ($member = get_member($userId)) {
 	<div class='container fade-in'>
 		{$breadcrumb}
 
-		{$warningLastSeen}
+		{$alerts}
 		
 		<div class='page-header vertical-align'>
 			<div class='col-xs-1 hidden-sm hidden-xs'>{$avatar}</div>
