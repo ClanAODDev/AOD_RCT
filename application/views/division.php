@@ -71,7 +71,6 @@ if (!empty($platoon_items)) {
 $breadcrumb = "
 <ul class='breadcrumb'>
 	<li><a href='/'>Home</a></li>
-	<li><a href='/divisions/'>Divisions</a></li>
 	<li class='active'>{$game_name}</li>
 </ul>
 ";
