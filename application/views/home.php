@@ -87,6 +87,7 @@ if ($userRole == 1) {
 
 	}
 
+	// add general population to list items
 	$gen_pop = get_gen_pop($user_platoon);
 	$genPopCount = count($gen_pop);
 	$my_platoon .= "
@@ -163,6 +164,25 @@ if ($userRole == 1) {
 $out .= "
 <div class='container fade-in margin-top-20'>";
 
+
+		// player search bar
+		$out .= "
+		<div class='row'>
+			<div class='col-md-12'>
+				<div class='panel panel-info'>
+					<div class='panel-heading'><i class='fa fa-search fa-lg'></i> <strong>Player Search</strong></div>
+					<div class='panel-body'>
+						<input type='text' class='form-control input-lg' name='member-search' id='member-search' placeholder='Type a player name' />
+						<div id='member-search-results' class='scroll'></div> 
+					</div>
+				</div>
+			</div>
+		</div>";
+
+
+
+		
+
 	// tour jumbo tron
 	$out .="
 	<div class='row tour-intro'>
@@ -188,19 +208,6 @@ $out .= "
 		<div class='alert alert-warning' role='alert'><i class=\"fa fa-exclamation-triangle\"></i> You are currently a guest. You will need to have an administrator approve your account before you can use this application</div>";
 	} else {
 
-		// player search bar
-		$out .= "
-		<div class='row'>
-			<div class='col-md-12'>
-				<div class='panel panel-info'>
-					<div class='panel-heading'><i class='fa fa-search fa-lg'></i> <strong>Player Search</strong></div>
-					<div class='panel-body'>
-						<input type='text' class='form-control input-lg' name='member-search' id='member-search' placeholder='Type a player name' />
-						<div id='member-search-results' class='scroll'></div> 
-					</div>
-				</div>
-			</div>
-		</div>";
 
 
 
