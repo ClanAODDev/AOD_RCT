@@ -36,15 +36,15 @@ if ($member = get_member($userId)) {
 
 	// member activity greater than 14 days (warning)
 	if (strtotime($last_seen) < strtotime('-30 days')) {
-		$alerts .= "<div class='alert alert-danger fade-in'>Player has not logged into the forums in {$wng_last_seen}!</div>";
+		$alerts .= "<div class='alert alert-danger fade-in'><i class='fa fa-exclamation-triangle'></i> Player has not logged into the forums in {$wng_last_seen}!</div>";
 	} else if (strtotime($last_seen) < strtotime('-14 days')) {
-		$alerts .= "<div class='alert alert-warning fade-in'>Player has not logged into the forums in {$wng_last_seen}!</div>";
+		$alerts .= "<div class='alert alert-warning fade-in'><i class='fa fa-exclamation-triangle'></i> Player has not logged into the forums in {$wng_last_seen}!</div>";
 	} 
 
 
 	// pending member warning
 	if ($status_id == 999) {
-		$alerts .= "<div class='alert alert-warning fade-in'>This member is pending, and will not have any forum specific information until their member status has been approved.</div>";
+		$alerts .= "<div class='alert alert-warning fade-in'><i class='fa fa-exclamation-triangle'></i> This member is pending, and will not have any forum specific information until their member status has been approved.</div>";
 	}
 
 
@@ -100,7 +100,6 @@ if ($member = get_member($userId)) {
 	$breadcrumb = "
 	<ul class='breadcrumb'>
 		<li><a href='/'>Home</a></li>
-		<li><a href='/divisions'>Divisions</a></li>
 		<li><a href='/divisions/{$short_game_name}'>{$game_name}</a></li>
 		{$platoon_link}
 		<li class='active'>{$name}</li>
