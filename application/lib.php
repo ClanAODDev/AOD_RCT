@@ -56,6 +56,7 @@ if (isLoggedIn()) {
     
     $game_list = NULL;
     $game_options = "<option>Select a division</option>";
+    $divisions = array();
     $games     = get_games();
     
     foreach ($games as $game) {
@@ -63,6 +64,7 @@ if (isLoggedIn()) {
         $longname   = $game['full_name'];
         $game_list .= "<li><a href='/divisions/{$shortname}'>{$longname}</a></li>";
         $game_options .= "<option value='/divisions/{$shortname}'>{$longname}</option>";
+        $divisions[] = $shortname;
     }
 }
 
@@ -103,19 +105,14 @@ function define_pages()
     'post'      => "/(?'post'[\w\-]+)",                     // '/post-slug'
     'home'      => "/"
     */
-
-   // need to refactor this and fetch from database
-   // will also need to refactor getGames() to rely
-   // on the same function
-    $divisions = 
-    array(
-        'bf4',
-        'hl'
-        )
-    ;
+   
+   global $divisions;
     
     // combine divisions for rulesets
-    $divisions = implode("|", $divisions);
+    if (!is_null($divisions)) {
+        $divisions = implode("|", $divisions);
+    } 
+    
 
     // build page rules for routing system
     $rules = 
@@ -123,6 +120,8 @@ function define_pages()
         'member' => "/member/(?'id'\d+)",
         'division' => "/divisions/(?'division'" . $divisions . ")",
         'platoon' => "/divisions/(?'division'" . $divisions . ")/(?'platoon'\d+)",
+        'modify' => "/modify/(?'division'" . $divisions . ")/(?'platoon'\d+)",
+
         'user' => "/user/(?'page'profile|messages|settings)",
         'help' => "/help",
 
