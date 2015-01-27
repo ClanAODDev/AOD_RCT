@@ -120,7 +120,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 		<div class='row'>{$breadcrumb}</div>
 		<div class='row'>
 			<div class='col-md-12 platoon-name page-header'>
-				<h1>{$platoon_name} <small class='platoon-number'>". ordSuffix($platoon). " Platoon</small></h1>
+				<h1><img src='/public/images/game_icons/large/{$shortname}.png' /> {$platoon_name} <small class='platoon-number'>". ordSuffix($platoon). " Platoon</small></h1>
 			</div>
 		</div>";
 
