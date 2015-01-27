@@ -133,7 +133,7 @@ if ($_POST && $_POST['id']) {
 			</div>
 
 			<div class='form-group position-group' style='display: {$assignmentPosFieldDisplay}'>
-				<label for='position' class='col-sm-3 control-label'>Position</label>
+				<label for='position' class='control-label'>Position</label>
 				<select name='position' id='position' class='form-control'>{$positions}</select>
 			</div>
 

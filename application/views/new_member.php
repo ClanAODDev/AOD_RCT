@@ -274,10 +274,10 @@ $out .= "
 								<div role='tabpanel'>
 
 									<ul class='nav nav-tabs' role='tablist'>
-										<li role='presentation' class='active'><a href='#division-post' aria-controls='division-post' role='tab' data-toggle='tab'>Post to division structure</a></li>
-										<li role='presentation'><a href='#welcome-post' aria-controls='welcome-post' role='tab' data-toggle='tab'>Post Welcome thread</a></li>
-										<li role='presentation'><a href='#welcome-pm' aria-controls='welcome-pm' role='tab' data-toggle='tab'>Send Welcome PM</a></li>
-										<li role='presentation'><a href='#member-request' aria-controls='member-request' role='tab' data-toggle='tab'>Request new member status</a></li>
+										<li role='presentation' class='active'><a href='#division-post' aria-controls='division-post' role='tab' data-toggle='tab'><span class='badge'>1</span> Post to division structure</a></li>
+										<li role='presentation'><a href='#welcome-post' aria-controls='welcome-post' role='tab' data-toggle='tab'><span class='badge'>2</span> Post Welcome thread</a></li>
+										<li role='presentation'><a href='#welcome-pm' aria-controls='welcome-pm' role='tab' data-toggle='tab'><span class='badge'>3</span> Send Welcome PM</a></li>
+										<li role='presentation'><a href='#member-request' aria-controls='member-request' role='tab' data-toggle='tab'><span class='badge'>4</span> Request new member status</a></li>
 									</ul>
 
 									<div class='tab-content'>
@@ -337,6 +337,7 @@ $out .= "
 											<div class='row margin-top-20'>
 												<div class='col-md-8'>
 													<p>Finally, a request must be made so your new recruit can be set as an AOD member on the forums, and be able to see all the hidden content specifically for our division.</p>
+													<p>You will need to copy the member id to the right, and use it in the form that appears using the button below.</p>
 													<p class='margin-top-20'><a class='popup-link' href='http://www.clanaod.net/forums/misc.php?do=form&fid=39' class='text-center' target='_blank'><button type='button' class='btn btn-primary'>Submit Request</button></a></p>
 												</div>
 												<div class='col-md-4 well'>
