@@ -26,7 +26,6 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 	$breadcrumb = "
 	<ul class='breadcrumb'>
 		<li><a href='/'>Home</a></li>
-		<li><a href='/divisions/'>Divisions</a></li>
 		<li><a href='/divisions/{$params['division']}'>{$game_name}</a></li>
 		<li class='active'>{$platoon_name}</li>
 	</ul>
