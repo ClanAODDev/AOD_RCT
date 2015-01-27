@@ -22,8 +22,9 @@ if (isset($_SESSION['loggedIn'])) {
 			$usersArray = array();
 
 			foreach ($online_users as $user) {
+				$id = $user['id'];
 				$string = ($user['idle'] == 1) ? userColor(ucwords($user['username']), 99) : userColor(ucwords($user['username']), $user['role']);
-				$usersArray[] = $string;
+				$usersArray[] = "<a href='/member/{$id}'>{$string}</a>";
 			}
 
 			$users = implode(', ', $usersArray);
