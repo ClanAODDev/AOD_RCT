@@ -141,7 +141,6 @@
 							<ul class="dropdown-menu" role="menu">
 								<li class="disabled"><a href="#" disabled><?php echo $curUser ?><span class="pull-right"><?php echo $avatar; ?></span></a></li>
 								<li class="divider"></li>
-								<li><a href="#" data-toggle="pill" class="messages-btn"> Messages<span class="badge pull-right">42</span></a></li>
 								<li><a href="#" data-toggle="pill" class="settings-btn"> Settings</a></li>
 								<li><a href="http://www.clanaod.net/forums/member.php?u=<?php echo $forumId; ?>" target="_blank"> Forum profile</a></li>
 								<li class="divider"></li>
