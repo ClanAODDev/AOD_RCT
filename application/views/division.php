@@ -81,7 +81,7 @@ $out .= "
 	<div class='row'>{$breadcrumb}</div>
 
 	<div class='page-header'>
-		<h2><strong>{$game_name} Division</strong></h2>
+		<h2><strong><img src='/public/images/game_icons/large/{$shortname}.png' /> {$game_name} Division</strong></h2>
 	</div>
 
 	

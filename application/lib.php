@@ -31,8 +31,6 @@ if (isLoggedIn()) {
         $avatar = NULL;
     }
 
-
-    
     /**
      * generate alerts
      */
@@ -48,8 +46,6 @@ if (isLoggedIn()) {
             }
         }
 
-
-
     /**
      * generate game list for navigation and main page
      */
@@ -62,7 +58,7 @@ if (isLoggedIn()) {
     foreach ($games as $game) {
         $shortname  = strtolower($game['short_name']);
         $longname   = $game['full_name'];
-        $game_list .= "<li><a href='/divisions/{$shortname}'>{$longname}</a></li>";
+        $game_list .= "<li><a href='/divisions/{$shortname}'><img src='/public/images/game_icons/tiny/{$shortname}.png' class='pull-right' /> {$longname}</a></li>";
         $game_options .= "<option value='/divisions/{$shortname}'>{$longname}</option>";
         $divisions[] = $shortname;
     }
@@ -120,7 +116,7 @@ function define_pages()
         'member' => "/member/(?'id'\d+)",
         'division' => "/divisions/(?'division'" . $divisions . ")",
         'platoon' => "/divisions/(?'division'" . $divisions . ")/(?'platoon'\d+)",
-        'modify' => "/modify/(?'division'" . $divisions . ")/(?'platoon'\d+)",
+        'manage' => "/manage/(?'page'division|platoon|squad)",
 
         'user' => "/user/(?'page'profile|messages|settings)",
         'help' => "/help",
