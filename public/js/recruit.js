@@ -189,7 +189,7 @@ function loadThreadCheck() {
         $('.welcome-pm-btn').attr("data-clipboard-text", welcomeCopy);
         $(".pm-link").click(function(e) {
             e.preventDefault();
-            window.open($(this).attr("href" + member_id), "popupWindow", "width=1000,height=600,scrollbars=yes");
+            window.open($(this).attr("href" + member_id), Math.random(), "width=1000,height=600,scrollbars=yes");
         });
 
     }
