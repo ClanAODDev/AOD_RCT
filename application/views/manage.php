@@ -6,10 +6,14 @@ if (!isset($_SESSION['secure_access']) || (isset($_SESSION['secure_access']) && 
 $out = NULL;
 $my_squad = NULL;
 $my_platoon = NULL;
+$page_name = ucwords($params['page']);
 
-
-
-
+$breadcrumb = "
+<ul class='breadcrumb'>
+	<li><a href='/'>Home</a></li>
+	<li class='active'>Manage {$page_name}</li>
+</ul>
+";
 
 // squad leader personnel view
 if ($userRole == 1) {
@@ -39,10 +43,6 @@ if ($userRole == 1) {
 	} else {
 		$my_squad .= "<div class='panel-body'>Unfortunately it looks like you don't have any squad members!</div>";
 	}
-
-
-
-
 
 
 // platoon leader personnel view
@@ -106,4 +106,77 @@ if ($userRole == 1) {
 		}
 		$my_platoon .= "</div>";
 
-		?>
+
+
+/**
+ * start page structure
+ */
+
+$out .= "
+<div class='container fade-in'>
+	<div class='row'>{$breadcrumb}</div>
+
+	<div class='row'>
+		<div class='platoon-name page-header'>
+			<h2><strong>Manage My {$page_name}</strong> <small>{$longname}</small></h2>
+		</div>
+	</div>";
+
+
+	// left side
+	$out .= "
+	<div class='row'>";
+
+		// personnel view
+		// depending on user role (1 = squad leader, 2 = platoon leader)
+		if ($userRole == 1 && $params['page'] == 'squad') {
+
+			// squad
+			$out .= "
+			<div class='col-md-6'>
+				<div class='panel panel-default'>
+					<div class='panel-heading'><strong> Your Squad</strong> {$squadCount}<span class='pull-right text-muted'>Last seen</span></div>
+
+					<div class='list-group' id='squad'>
+						{$my_squad}
+
+					</div>
+				</div>
+			</div>
+			<div class='col-md-6'></div>";
+
+		} else if ($userRole == 2 && $params['page'] == 'platoon') {
+
+			// platoon
+			$out .= "				
+			<div class='panel panel-default'>
+				<div class='panel-heading'><strong> Your Platoon</strong> {$platoonCount}<span class='pull-right text-muted'>Last seen</span></div>
+
+				<div class='list-group' id='squads'>
+
+					{$my_platoon}
+
+				</div>
+			</div>";
+
+		} else {
+			// role and param do not match
+			header('Location: /404/');
+		}
+
+
+
+		$out .= "
+	</div>";
+	// end leader tools and info column
+
+
+
+	// end container
+	$out .=" 
+</div>";
+
+echo $out;
+
+
+?>
