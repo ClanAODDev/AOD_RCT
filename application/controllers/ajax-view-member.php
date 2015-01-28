@@ -58,7 +58,6 @@ if ($_POST && $_POST['id']) {
 	$assignmentSqdFieldDisplay = ($allowSqdAssignmentEdit) ? "block" : "none";
 	$assignmentPosFieldDisplay = ($allowPosAssignmentEdit) ? "block" : "none";
 
-
 	// platoons and squads are based on game, for clarity
 	$platoonArray = get_platoons($game_id);
 	$squadleadersArray = get_squad_leaders($game_id);
@@ -69,6 +68,7 @@ if ($_POST && $_POST['id']) {
 		foreach($platoonArray as $platoon) {
 			$platoons .= "<option value='{$platoon['platoon_id']}'>{$platoon['platoon_name']}</option>";
 		}
+		$platoons .= "<option value='0'>None - Division Leader</option>";
 	} else {
 		$platoons = "<option>No platoons exist.</option>";
 	}
@@ -80,7 +80,7 @@ if ($_POST && $_POST['id']) {
 		}
 
 		// add empty squad leader option
-		$squadLeaders .= "<option value='0' selected>None (Gen Pop)</option>";
+		$squadLeaders .= "<option value='0' selected>None (Gen Pop or Division Leader)</option>";
 	} else {
 		$squadLeaders = "<option>No squad leaders exist.</option>";
 	}

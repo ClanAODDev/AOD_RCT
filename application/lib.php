@@ -116,7 +116,7 @@ function define_pages()
         'member' => "/member/(?'id'\d+)",
         'division' => "/divisions/(?'division'" . $divisions . ")",
         'platoon' => "/divisions/(?'division'" . $divisions . ")/(?'platoon'\d+)",
-        'manage' => "/manage/(?'page'division|platoon|squad)",
+        'manage' => "/manage/(?'page'division|platoon|squad|inactive)",
 
         'user' => "/user/(?'page'profile|messages|settings)",
         'help' => "/help",
@@ -1521,6 +1521,8 @@ return $query;
 
 function get_positions($my_position) {
  global $pdo;
+
+ $my_position = (isDev()) ? 0 : $my_position;
 
  if (dbConnect()) {
 
