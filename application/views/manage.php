@@ -1,30 +1,73 @@
 <?php
 
-
 if (!isset($_SESSION['secure_access']) || (isset($_SESSION['secure_access']) && $_SESSION['secure_access'] !== true)) { header("Location: /404/"); }
 
-$out = NULL;
-$my_squad = NULL;
-$my_platoon = NULL;
-$page_name = ucwords($params['page']);
 
-$breadcrumb = "
-<ul class='breadcrumb'>
-	<li><a href='/'>Home</a></li>
-	<li class='active'>Manage {$page_name}</li>
-</ul>
-";
+/**
+ * handling inactive members
+ * depending on user role
+ */
+if ($params['page'] == "inactive") {
 
-// squad leader personnel view
-if ($userRole == 1) {
-	$squad_members = get_my_squad($forumId);
-	$squadCount = ($squad_members) ? "(" . count($squad_members) . ")" : NULL;
-	if ($squad_members) {
-		foreach ($squad_members as $squad_member) {
-			$name = ucwords($squad_member['forum_name']);
-			$id = $squad_member['id'];
-			$rank = $squad_member['rank'];
-			$last_seen = formatTime(strtotime($squad_member['last_activity']));
+	$out = NULL;
+	$my_squad = NULL;
+	$inactive_list = NULL;
+
+	switch ($userRole) {
+		case 1: 
+		$type = "sqd";
+		$id = $forumId;
+		break;
+		case 2:
+		$type = "plt";
+		$id = $user_platoon;
+		break;
+		case 3:
+		$type = "div";
+		$id = $user_game;
+		break;
+		default:
+		$type = "div";
+		$id = $user_game;
+		break;
+	}
+
+
+	$flagged_inactives = get_my_inactives($id, $type, true);
+	foreach ($flagged_inactives as $member) {
+		$last_seen = formatTime(strtotime($member['last_activity']));
+		$joined = date("Y-m-d", strtotime($member['join_date']));
+		$name = ucwords($member['forum_name']);
+		$updatedBy = get_forum_name($member['flagged_by']);
+
+		$aod_games = count_aod_games($member['id'], date("Y-m-d"), date(strtotime('-30 days')));
+
+		// visual cue for inactive squad members
+		if (strtotime($last_seen) < strtotime('-30 days')) {
+			$status = 'danger';
+		} else if (strtotime($last_seen) < strtotime('-14 days')) {
+			$status = 'warning';
+		} else {
+			$status = 'muted';
+		}
+
+		$inactive_flagged .= "
+		<li class='list-group-item clearfix' data-user-id='{$member['id']}' data-member-id='{$member['member_id']}'>
+			<div class='col-xs-3'><i class='fa fa-search view-profile'></i> {$member['rank']} {$name}</div>
+			<div class='col-xs-3 text-{$status}'>Seen {$last_seen}</div>
+			<div class='col-xs-4 removed-by'>Removed by {$updatedBy}</div>
+			<div class='col-xs-2 text-right '><img src='/public/images/grab.svg' style='width: 8px; opacity: .20;' /></div>
+			";
+		}
+
+
+		$inactives = get_my_inactives($id, $type);
+		foreach ($inactives as $member) {
+			$last_seen = formatTime(strtotime($member['last_activity']));
+			$joined = date("Y-m-d", strtotime($member['join_date']));
+			$name = ucwords($member['forum_name']);
+
+			$aod_games = count_aod_games($member['id'], date("Y-m-d"), date(strtotime('-30 days')));
 
 			// visual cue for inactive squad members
 			if (strtotime($last_seen) < strtotime('-30 days')) {
@@ -35,148 +78,163 @@ if ($userRole == 1) {
 				$status = 'muted';
 			}
 
+			$inactive_list .= "
+			<li class='list-group-item clearfix' data-user-id='{$member['id']}' data-member-id='{$member['member_id']}'>
+				<div class='col-xs-3'><i class='fa fa-search view-profile'></i> {$member['rank']} {$name}</div>
+				<div class='col-xs-3 text-{$status}'>Seen {$last_seen}</div>
+				<div class='col-xs-4 removed-by'>Removed by</div>
 
-			$my_squad .= "
-			<a href='/member/{$id}' class='list-group-item'>{$rank} {$name}<small class='pull-right text-{$status}'>{$last_seen}</small></a>
-			";
-		}
-	} else {
-		$my_squad .= "<div class='panel-body'>Unfortunately it looks like you don't have any squad members!</div>";
-	}
-
-
-// platoon leader personnel view
-} else if ($userRole == 2) {
-	$squad_leaders = get_squad_leaders($user_game, $user_platoon);
-	$platoonCount = ($squad_leaders) ? "(" . count(get_platoon_members($user_platoon)) . ")" : NULL;
-
-	$i = 1;
-
-	if ($platoonCount) {
-
-		foreach ($squad_leaders as $squad_leader) {
-
-			$rank = $squad_leader['rank'];
-			$name = ucwords($squad_leader['name']);
-			$squad_members = get_my_squad($squad_leader['member_id']);
-			$last_seen = formatTime(strtotime($squad_leader['last_activity']));
-			$status = lastSeenColored($last_seen);
-			$squadCount = count($squad_members);
-
-			$my_platoon .= "
-			<a href='#collapseSquad{$i}' data-toggle='collapse' class='list-group-item active accordion-toggle' data-parent='#squads'>{$rank} {$name} ({$squadCount})</a>
-			<div class='squad-group collapse' id='collapseSquad{$i}'>";
-
-				foreach ($squad_members as $squad_member) {
-					$rank = $squad_member['rank'];
-					$id = $squad_member['id'];
-					$name = ucwords($squad_member['forum_name']);
-					$last_seen = formatTime(strtotime($squad_member['last_activity']));
-					$status = lastSeenColored($last_seen);
-
-					$my_platoon .= "<a href='/member/{$id}' class='list-group-item'>{$rank} {$name}<small class='pull-right text-{$status}'>{$last_seen}</small></a>";
-				}
-
-				$my_platoon .= "</div>";
-				$i++;
-
+				<div class='col-xs-2 text-right '><img src='/public/images/grab.svg' style='width: 8px; opacity: .20;' /></div>
+				";
 			}
 
-		} else {
-			$my_platoon .= "<div class='panel-body'>Unfortunately it looks like you don't have any platoon members!</div>";
-		}
 
-	}
-
-	// add general population to list items
-	$gen_pop = get_gen_pop($user_platoon);
-	$genPopCount = count($gen_pop);
-	$my_platoon .= "
-	<a href='#collapseSquad{$i}' data-toggle='collapse' class='list-group-item active accordion-toggle' data-parent='#squads'>General Population ({$genPopCount})</a>
-	<div class='squad-group collapse' id='collapseSquad{$i}'>";
-
-		foreach ($gen_pop as $gen_member) {
-			$rank = $gen_member['rank'];
-			$id = $gen_member['id'];
-			$name = ucwords($gen_member['forum_name']);
-			$last_seen = formatTime(strtotime($gen_member['last_activity']));
-			$status = lastSeenColored($last_seen);
-
-			$my_platoon .= "<a href='/member/{$id}' class='list-group-item'>{$rank} {$name}<small class='pull-right text-{$status}'>{$last_seen}</small></a>";
-		}
-		$my_platoon .= "</div>";
+			$breadcrumb = "
+			<ul class='breadcrumb'>
+				<li><a href='/'>Home</a></li>
+				<li class='active'>Manage Inactive Members</li>
+			</ul>
+			";
 
 
-
-/**
- * start page structure
- */
-
-$out .= "
-<div class='container fade-in'>
-	<div class='row'>{$breadcrumb}</div>
-
-	<div class='row'>
-		<div class='platoon-name page-header'>
-			<h2><strong>Manage My {$page_name}</strong> <small>{$longname}</small></h2>
-		</div>
-	</div>";
-
-
-	// left side
-	$out .= "
-	<div class='row'>";
-
-		// personnel view
-		// depending on user role (1 = squad leader, 2 = platoon leader)
-		if ($userRole == 1 && $params['page'] == 'squad') {
-
-			// squad
 			$out .= "
-			<div class='col-md-6'>
-				<div class='panel panel-default'>
-					<div class='panel-heading'><strong> Your Squad</strong> {$squadCount}<span class='pull-right text-muted'>Last seen</span></div>
 
-					<div class='list-group' id='squad'>
-						{$my_squad}
 
+			<div class='container fade-in'>
+				<div class='row'>{$breadcrumb}</div>
+
+
+				<div class='row'>
+					<div class='platoon-name page-header'>
+						<h2><strong>Manage Inactive Members</strong></h2>
 					</div>
-				</div>
-			</div>
-			<div class='col-md-6'></div>";
+					<p>Inactive members are pruned on a monthly basis. Use this tool to view members who are considered inactive, that is, their last forum activity (login or otherwise) exceeds 30 days. In order to ensure your subordinate members receive fair warning, you must make every possible attempt to get this user back in good standing with the clan. Once all efforts have been exhausted, flag the member for removal by adding them to the 'flag for removal' list. </p>
+					<p>Flagged members will be processed for removal by the date specified by the leader who is administering the inactivity clean up.</p>
+				</div>";
 
-		} else if ($userRole == 2 && $params['page'] == 'platoon') {
 
-			// platoon
-			$out .= "				
-			<div class='panel panel-default'>
-				<div class='panel-heading'><strong> Your Platoon</strong> {$platoonCount}<span class='pull-right text-muted'>Last seen</span></div>
+				$out .= "<div class='row'><div class='alert alert-warning'><strong>Note: </strong> Lifting inactive flag is not possible yet. Once you have flagged an individual, it is not possible to remove them at this time. Be sure only to flag those you mean to have removed.</div>";
 
-				<div class='list-group' id='squads'>
 
-					{$my_platoon}
+				// flagged inactives
+				$out .="
+				<div class='row'>
+					<div class='col-md-12'>
 
-				</div>
+						<div class='page-header'><h3><i class='fa fa-trash-o text-danger'></i> Flagged for removal</h3></div>
+
+						<ul class='sortable' id='flagged-inactives' style='overflow-y: auto; max-height: 400px;'>
+							{$inactive_flagged}
+						</ul>
+					</div>
+
+				</div>";
+
+
+				// inactive members not yet flagged
+				$out .="
+				<div class='row'>
+					<div class='col-md-12 '>
+						
+						<div class='page-header'><h3><i class='fa fa-clock-o text-warning'></i> Currently inactive players</h3></div>
+						<ul class='sortable inactive-list' id='inactives' style='overflow-y: auto; max-height: 400px;'>
+							{$inactive_list}
+						</ul>
+					</div>
+
+				</div>";
+
+
+				$out .= "</div>";
+
+
+
+			// end container
+				$out .="
 			</div>";
 
-		} else {
-			// role and param do not match
-			header('Location: /404/');
+
 		}
 
+		echo $out;
 
 
-		$out .= "
-	</div>";
-	// end leader tools and info column
+		?>
+
+
+		<style type="text/css">
+			.sortable { list-style-type: none !important; margin: 0 !important; padding: 0; margin-bottom: 0px; -webkit-padding-start: 0px !important; margin-left: -30px; background-color: rgba(0,0,0,.01); min-height: 45px; }
+			.sortable li { margin: 0px; cursor: move; display: block; }
+			.ui-state-highlight { height: 2em; line-height: 1.2em; }
+			#flagged-inactives, #flagged-inactives div { color: rgba(0,0,0,.50) !important; }
+			.view-profile { cursor: pointer;}
+		</style>
+
+
+		<script type="text/javascript">
+
+			$(".draggable").draggable({
+				connectToSortable: 'ul',
+				revert: 'invalid',
+				scroll: true, scrollSensitivity: 100
+			});
 
 
 
-	// end container
-	$out .=" 
-</div>";
+			$(".view-profile").click(function() {
+				var userId = $(this).closest('.list-group-item').attr('data-user-id');
+				location.href = "/member/" + userId;
+			});
 
-echo $out;
+			var itemMoved,  targetplatoon, sourcePlatoon, action = null;
+			$(".sortable").sortable({
+				revert: true,
+				connectWith: 'ul',
+				placeholder: "ui-state-highlight",
+				receive: function(event, ui) {
+					itemMoved = $(ui.item).attr('data-member-id');
+					targetList = $(this).attr('id');
 
+					if (targetList == "flagged-inactives") {
+						$(ui.item).find('.removed-by').show().html("Removed by you");
+						action = 1;
+						context = " flagged for removal."
 
-?>
+					} else {
+						$(ui.item).find('.removed-by').empty();
+						context = " no longer flagged for removal."
+						action = 0;
+					}
+
+					$.ajax({
+						type: 'POST',
+						url: '/application/controllers/update_flagged.php',
+						data: {
+							action: action,
+							id: itemMoved
+						},
+						dataType: 'json',
+						success: function(response) {
+
+							if (response.success === false) {
+
+								message = response.message;   
+								$(".alert-box").stop().html("<div class='alert alert-danger'>" + message + "</div>").effect('highlight').delay(1000).fadeOut();     
+							} else {
+
+								message = "Player " + itemMoved + context;
+								$(".alert-box").stop().html("<div class='alert alert-success'>" + message + "</div>").effect('highlight').delay(1000).fadeOut();
+							}
+
+							
+
+						},
+
+						// fail: function()
+					});
+
+				}
+			});
+
+$("#flagged-inactives").draggable('disable');
+</script>

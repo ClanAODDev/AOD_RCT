@@ -179,5 +179,8 @@
 				</div>
 
 				<?php } ?>		
+				<div class='container row'  style='position: absolute; margin-top: 10px;'>
+				<div class='alert-box'></div>
+				</div>
 			</div>
 		</div>

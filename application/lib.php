@@ -101,8 +101,8 @@ function define_pages()
     'post'      => "/(?'post'[\w\-]+)",                     // '/post-slug'
     'home'      => "/"
     */
-   
-   global $divisions;
+
+    global $divisions;
     
     // combine divisions for rulesets
     if (!is_null($divisions)) {
@@ -654,6 +654,40 @@ function updateAlert($alert, $uid)
     }
 }
 
+function updateFlagged($id, $lid, $action)
+{
+    global $pdo;
+    
+    if (dbConnect() && (isset($id)) && (isset($action))) {
+
+        if ($action == 1) {
+            $query = "INSERT INTO inactive_flagged VALUES (:id, :lid)";
+            $args = array( ':id' => $id, ':lid' => $lid );
+        } else {
+            return $result = array('success' => false, 'message' => 'Inactive flag cannot be removed at this time.');
+            // $query = "DELETE FROM inactive_flagged WHERE member_id = :id";
+            // $args = array( ':id' => $id );
+        }
+
+        try {
+            $query = $pdo->prepare($query);
+            $query->execute($args);
+            return $result = array('success' => true, 'message' => 'Success!');
+        }
+
+        catch (PDOException $e) {
+            if ($e->errorInfo[1] == 1062) { 
+                return $result = array('success' => false, 'message' => 'Error: Player already flagged');
+        }
+
+            return $result = array('success' => false, 'message' => 'Error: ' . $e->getMessage());
+        }
+    } else {
+         return $result = array('success' => false, 'message' => 'Error: Something went wrong.');
+    }
+}
+
+
 
 
 function updateMember($uid, $fname, $blog, $bf4db, $mid, $plt, $sqdldr, $position)
@@ -1071,8 +1105,8 @@ function build_user_tools($role) {
                 'title' => 'Review inactive members',
                 'descr' => 'View inactive members and flag for removal',
                 'icon' => 'flag',
-                'link' => '/manage/inactives',
-                'disabled' => true
+                'link' => '/manage/inactive',
+                'disabled' => false
                 )
             );
         break;
@@ -1096,8 +1130,8 @@ function build_user_tools($role) {
                 'title' => 'Review inactive members',
                 'descr' => 'View inactive members and flag for removal',
                 'icon' => 'flag',
-                'link' => '/manage/inactives',
-                'disabled' => true
+                'link' => '/manage/inactive',
+                'disabled' => false
                 )
             );
         break;
@@ -1121,13 +1155,37 @@ function build_user_tools($role) {
                 'title' => 'Review inactive reports',
                 'descr' => 'View inactivity reports and prepare for removal',
                 'icon' => 'flag',
-                'link' => '/manage/inactives',
-                'disabled' => true
+                'link' => '/manage/inactive',
+                'disabled' => false
                 )
             );
         break;
     }
     return $tools;
+}
+
+
+function get_forum_name($mid)
+{
+
+    global $pdo;
+
+    if (dbConnect()) {
+
+        try {
+
+            $query = "SELECT member.forum_name FROM member WHERE member.member_id = :mid";
+            $query = $pdo->prepare($query);
+            $query->bindParam(':mid', $mid);
+            $query->execute();
+            $query = $query->fetchColumn();
+
+        }
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+    return $query;
 }
 
 
@@ -1227,13 +1285,80 @@ function get_my_squad($mid)
 
         try {
 
-            $query = "SELECT member.id, member.forum_name, member.member_id, member.last_activity, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr as rank FROM `member` 
+            $query = "SELECT member.id, member.forum_name, member.member_id, member.last_activity, member.battlelog_name, member.bf4db_id, member.forum_posts, member.join_date, member.rank_id, rank.abbr as rank FROM `member` 
             LEFT JOIN `rank` on member.rank_id = rank.id 
             WHERE  member.squad_leader_id = :mid AND (status_id = 1 OR status_id = 999)
             ORDER BY member.last_activity ASC";
 
             $query = $pdo->prepare($query);
             $query->bindParam(':mid', $mid);
+            $query->execute();
+            $query = $query->fetchAll();
+
+        }
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+    return $query;
+}
+
+
+
+// need a function to fetch inactive flagged players
+// LEFT JOIN `inactive_flagged` ON member.member_id = inactive_flagged.member_id
+
+
+/**
+ * fetches inactive players (excess of 30 days inactivity on forums)
+ * @param  int $id      member forum id
+ * @param  string $type determines type of query: sqd, plt, div
+ * @return array        array of inactive members
+ */
+function get_my_inactives($id, $type, $flagged=NULL)
+{
+
+    global $pdo, $member_info;
+    $args = NULL;
+
+    if (dbConnect()) {
+
+        try {
+
+            $query = "SELECT member.id, member.forum_name, member.member_id, member.last_activity, member.battlelog_name, member.bf4db_id, inactive_flagged.flagged_by, member.squad_leader_id, member.forum_posts, member.join_date FROM `member` 
+            LEFT JOIN `rank` ON member.rank_id = rank.id  
+            LEFT JOIN `inactive_flagged` ON member.member_id = inactive_flagged.member_id          
+            WHERE (status_id = 1 OR status_id = 999) AND (last_activity < CURDATE() - INTERVAL 30 DAY AND status_id = 1) AND ";
+
+            if (!is_null($flagged)) {
+                $query .= "(member.member_id IN (SELECT member_id FROM inactive_flagged)) AND ";
+            } else {
+                $query .= "(member.member_id NOT IN (SELECT member_id FROM inactive_flagged)) AND ";
+            }
+
+
+            switch ($type) {
+                case "sqd":
+                $args = "member.squad_leader_id = :id";
+                break;
+
+                case "plt":
+                $args = "member.platoon_id = :id";
+                break;
+
+                case "div":
+                $args = "member.game_id = :id";
+                break;
+
+                default:
+                $args = "member.game_id = :id";
+                break;
+            }
+
+            // add arguments
+            $query .= $args . " ORDER BY member.last_activity ASC";
+            $query = $pdo->prepare($query);
+            $query->bindParam(':id', $id);
             $query->execute();
             $query = $query->fetchAll();
 
@@ -1500,9 +1625,9 @@ function get_member($mid) {
 }
 
 function get_statuses() {
- global $pdo;
+   global $pdo;
 
- if (dbConnect()) {
+   if (dbConnect()) {
 
     try {
 
@@ -1520,11 +1645,11 @@ return $query;
 
 
 function get_positions($my_position) {
- global $pdo;
+   global $pdo;
 
- $my_position = (isDev()) ? 0 : $my_position;
+   $my_position = (isDev()) ? 0 : $my_position;
 
- if (dbConnect()) {
+   if (dbConnect()) {
 
     try {
 
@@ -1608,19 +1733,19 @@ function formatTime($ptime)
     }
 
     $a = array( 365 * 24 * 60 * 60  =>  'year',
-       30 * 24 * 60 * 60  =>  'month',
-       24 * 60 * 60  =>  'day',
-       60 * 60  =>  'hour',
-       60  =>  'minute',
-       1  =>  'second'
-       );
-    $a_plural = array( 'year'   => 'years',
-     'month'  => 'months',
-     'day'    => 'days',
-     'hour'   => 'hours',
-     'minute' => 'minutes',
-     'second' => 'seconds'
+     30 * 24 * 60 * 60  =>  'month',
+     24 * 60 * 60  =>  'day',
+     60 * 60  =>  'hour',
+     60  =>  'minute',
+     1  =>  'second'
      );
+    $a_plural = array( 'year'   => 'years',
+       'month'  => 'months',
+       'day'    => 'days',
+       'hour'   => 'hours',
+       'minute' => 'minutes',
+       'second' => 'seconds'
+       );
 
     foreach ($a as $secs => $str)
     {
