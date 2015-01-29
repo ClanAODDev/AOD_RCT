@@ -81,29 +81,31 @@ if ($userRole == 1) {
 
 			}
 
-		} else {
-			$my_platoon .= "<div class='panel-body'>Unfortunately it looks like you don't have any platoon members!</div>";
+
+			// add general population to list items
+			$gen_pop = get_gen_pop($user_platoon);
+			$genPopCount = count($gen_pop);
+			$my_platoon .= "
+			<a href='#collapseSquad{$i}' data-toggle='collapse' class='list-group-item active accordion-toggle' data-parent='#squads'>General Population ({$genPopCount})</a>
+			<div class='squad-group collapse' id='collapseSquad{$i}'>";
+
+				foreach ($gen_pop as $gen_member) {
+					$rank = $gen_member['rank'];
+					$id = $gen_member['id'];
+					$name = ucwords($gen_member['forum_name']);
+					$last_seen = formatTime(strtotime($gen_member['last_activity']));
+					$status = lastSeenColored($last_seen);
+
+					$my_platoon .= "<a href='/member/{$id}' class='list-group-item'>{$rank} {$name}<small class='pull-right text-{$status}'>{$last_seen}</small></a>";
+				}
+				$my_platoon .= "</div>";
+
+
+			} else {
+				$my_platoon .= "<div class='panel-body'>Unfortunately it looks like you don't have any platoon members!</div>";
+			}
+
 		}
-
-	}
-
-	// add general population to list items
-	$gen_pop = get_gen_pop($user_platoon);
-	$genPopCount = count($gen_pop);
-	$my_platoon .= "
-	<a href='#collapseSquad{$i}' data-toggle='collapse' class='list-group-item active accordion-toggle' data-parent='#squads'>General Population ({$genPopCount})</a>
-	<div class='squad-group collapse' id='collapseSquad{$i}'>";
-
-		foreach ($gen_pop as $gen_member) {
-			$rank = $gen_member['rank'];
-			$id = $gen_member['id'];
-			$name = ucwords($gen_member['forum_name']);
-			$last_seen = formatTime(strtotime($gen_member['last_activity']));
-			$status = lastSeenColored($last_seen);
-
-			$my_platoon .= "<a href='/member/{$id}' class='list-group-item'>{$rank} {$name}<small class='pull-right text-{$status}'>{$last_seen}</small></a>";
-		}
-		$my_platoon .= "</div>";
 
 
 
@@ -166,22 +168,22 @@ $out .= "
 
 
 		// player search bar
-		$out .= "
-		<div class='row'>
-			<div class='col-md-12'>
-				<div class='panel panel-info'>
-					<div class='panel-heading'><i class='fa fa-search fa-lg'></i> <strong>Player Search</strong></div>
-					<div class='panel-body'>
-						<input type='text' class='form-control input-lg' name='member-search' id='member-search' placeholder='Type a player name' />
-						<div id='member-search-results' class='scroll'></div> 
-					</div>
+	$out .= "
+	<div class='row'>
+		<div class='col-md-12'>
+			<div class='panel panel-info'>
+				<div class='panel-heading'><i class='fa fa-search fa-lg'></i> <strong>Player Search</strong></div>
+				<div class='panel-body'>
+					<input type='text' class='form-control input-lg' name='member-search' id='member-search' placeholder='Type a player name' />
+					<div id='member-search-results' class='scroll'></div> 
 				</div>
 			</div>
-		</div>";
+		</div>
+	</div>";
 
 
 
-		
+
 
 	// tour jumbo tron
 	$out .="
