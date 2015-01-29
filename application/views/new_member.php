@@ -319,7 +319,7 @@ $out .= "
 												<div class='col-md-6'>
 													<p>In addition to your discussion with your new recruit, it's always a good idea to recap. For this reason, we like to send follow-up PMs to our new members summarizing what we went over in case they have any questions. It's also a good way to start a conversation with them on the forums, and generally a good way to close things up.</p>
 													<p>Click the copy button to copy the contents of the box to your clipboard. Then follow the link to send a PM to your recruit.</p>
-													<p class='margin-top-20'><a href='#' class='text-center pm-link'><button type='button' class='btn btn-primary'>Send Forum PM</button></a></p>
+													<p class='margin-top-20'><a href='http://www.clanaod.net/forums/private.php?do=newpm&u=' class='text-center pm-link'><button type='button' class='btn btn-primary'>Send Forum PM</button></a></p>
 												</div>
 
 												<div class='col-md-6'>
