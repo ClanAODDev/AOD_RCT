@@ -15,7 +15,7 @@ $(function() {
     // popup link
     $(".popup-link").click(function(e) {
         e.preventDefault();
-        window.open($(this).attr("href"), "popupWindow", "width=1090,height=600,scrollbars=yes");
+        windowOpener($(this).attr("href"), "AOD Squad Tracking", "width=1000,height=600,scrollbars=yes");
     });
 
 
@@ -341,3 +341,16 @@ client.on("ready", function(readyEvent) {
         // : " + event.data["text/plain"]
     });
 });
+
+
+function windowOpener(url, name, args) {
+
+    if(typeof(popupWin) != "object" || popupWin.closed)  { 
+        popupWin =  window.open(url, name, args); 
+    } 
+    else{ 
+        popupWin.location.href = url; 
+    }
+
+    popupWin.focus(); 
+ }

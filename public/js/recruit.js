@@ -189,7 +189,7 @@ function loadThreadCheck() {
         $('.welcome-pm-btn').attr("data-clipboard-text", welcomeCopy);
         $(".pm-link").click(function(e) {
             e.preventDefault();
-            window.open($(this).attr("href" + member_id), Math.random(), "width=1000,height=600,scrollbars=yes");
+            windowOpener($(this).attr("href" + member_id), "AOD Squad Tracking", "width=1000,height=600,scrollbars=yes");
         });
 
     }
@@ -247,3 +247,16 @@ function ucwords(str) {
             return $1.toUpperCase();
         });
 }
+
+
+function windowOpener(url, name, args) {
+
+    if(typeof(popupWin) != "object" || popupWin.closed)  { 
+        popupWin =  window.open(url, name, args); 
+    } 
+    else{ 
+        popupWin.location.href = url; 
+    }
+
+    popupWin.focus(); 
+ }
