@@ -678,13 +678,13 @@ function updateFlagged($id, $lid, $action)
         catch (PDOException $e) {
             if ($e->errorInfo[1] == 1062) { 
                 return $result = array('success' => false, 'message' => 'Error: Player already flagged');
-        }
+            }
 
             return $result = array('success' => false, 'message' => 'Error: ' . $e->getMessage());
         }
     } else {
-         return $result = array('success' => false, 'message' => 'Error: Something went wrong.');
-    }
+       return $result = array('success' => false, 'message' => 'Error: Something went wrong.');
+   }
 }
 
 
@@ -1330,13 +1330,6 @@ function get_my_inactives($id, $type, $flagged=NULL)
             LEFT JOIN `inactive_flagged` ON member.member_id = inactive_flagged.member_id          
             WHERE (status_id = 1 OR status_id = 999) AND (last_activity < CURDATE() - INTERVAL 30 DAY AND status_id = 1) AND ";
 
-            if (!is_null($flagged)) {
-                $query .= "(member.member_id IN (SELECT member_id FROM inactive_flagged)) AND ";
-            } else {
-                $query .= "(member.member_id NOT IN (SELECT member_id FROM inactive_flagged)) AND ";
-            }
-
-
             switch ($type) {
                 case "sqd":
                 $args = "member.squad_leader_id = :id";
@@ -1355,8 +1348,22 @@ function get_my_inactives($id, $type, $flagged=NULL)
                 break;
             }
 
+            if (isDev()) $args = "member.game_id = :id";
+
+
+            if (!is_null($flagged)) {
+                $query .= "(member.member_id IN (SELECT member_id FROM inactive_flagged)) AND ";
+                $query .= $args . " ORDER BY inactive_flagged.flagged_by";
+            } else {
+                $query .= "(member.member_id NOT IN (SELECT member_id FROM inactive_flagged)) AND ";
+                $query .= $args . " ORDER BY member.last_activity ASC";
+            }
+
+
+
+
             // add arguments
-            $query .= $args . " ORDER BY member.last_activity ASC";
+            
             $query = $pdo->prepare($query);
             $query->bindParam(':id', $id);
             $query->execute();
@@ -1625,9 +1632,9 @@ function get_member($mid) {
 }
 
 function get_statuses() {
-   global $pdo;
+ global $pdo;
 
-   if (dbConnect()) {
+ if (dbConnect()) {
 
     try {
 
@@ -1645,11 +1652,11 @@ return $query;
 
 
 function get_positions($my_position) {
-   global $pdo;
+ global $pdo;
 
-   $my_position = (isDev()) ? 0 : $my_position;
+ $my_position = (isDev()) ? 0 : $my_position;
 
-   if (dbConnect()) {
+ if (dbConnect()) {
 
     try {
 
@@ -1733,19 +1740,19 @@ function formatTime($ptime)
     }
 
     $a = array( 365 * 24 * 60 * 60  =>  'year',
-     30 * 24 * 60 * 60  =>  'month',
-     24 * 60 * 60  =>  'day',
-     60 * 60  =>  'hour',
-     60  =>  'minute',
-     1  =>  'second'
-     );
-    $a_plural = array( 'year'   => 'years',
-       'month'  => 'months',
-       'day'    => 'days',
-       'hour'   => 'hours',
-       'minute' => 'minutes',
-       'second' => 'seconds'
+       30 * 24 * 60 * 60  =>  'month',
+       24 * 60 * 60  =>  'day',
+       60 * 60  =>  'hour',
+       60  =>  'minute',
+       1  =>  'second'
        );
+    $a_plural = array( 'year'   => 'years',
+     'month'  => 'months',
+     'day'    => 'days',
+     'hour'   => 'hours',
+     'minute' => 'minutes',
+     'second' => 'seconds'
+     );
 
     foreach ($a as $secs => $str)
     {
