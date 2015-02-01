@@ -12,6 +12,7 @@ $platoon_items = NULL;
 $game_info = get_game_info($params['division']);
 $game_id = $game_info['id'];
 $game_name = $game_info['full_name'];
+$short_name = $game_info['short_name'];
 $game_descr = $game_info['description'];
 
 
@@ -51,7 +52,7 @@ foreach ($platoons as $row) {
 	$platoon_ldr = $row['abbr'] . " " . $row['forum_name'];
 
 	$platoon_items .= "
-	<a href='/divisions/bf4/{$number}' class='list-group-item'>
+	<a href='/divisions/{$short_name}/{$number}' class='list-group-item'>
 		<h5 class='pull-right text-muted'>{$number_with_suffix} Platoon</h5>
 		<h4 class='list-group-item-heading'><strong>{$platoon_name}</strong></h4>
 		<p class='list-group-item-text text-muted'>{$platoon_ldr}</p>
