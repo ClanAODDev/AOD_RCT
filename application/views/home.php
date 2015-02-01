@@ -167,7 +167,19 @@ $out .= "
 <div class='container fade-in margin-top-20'>";
 
 
-		// player search bar
+	// tour jumbo tron
+	$out .="
+	<div class='row tour-intro'>
+		<div class='col-md-12'>
+			<div class='jumbotron striped-bg'>
+				<h1>Howdy, <strong>{$curUser}</strong>! :)</h1>
+				<p>This is the activity tracker for the {$longname} division! Click the help link at the top for more information.</p>
+			</div>
+		</div> <!-- end col -->
+	</div> <!-- end end row -->";
+
+
+	// player search bar
 	$out .= "
 	<div class='row'>
 		<div class='col-md-12'>
@@ -181,20 +193,6 @@ $out .= "
 		</div>
 	</div>";
 
-
-
-
-
-	// tour jumbo tron
-	$out .="
-	<div class='row tour-intro'>
-		<div class='col-md-12'>
-			<div class='jumbotron striped-bg'>
-				<h1>Howdy <strong>{$curUser}</strong>!</h1>
-				<p>This is the squad administration tool for the AOD organization. Leaders will be able to manage individual squad members, view activity trends of their respective divisions, and clan leaders will be able to see activity clan-wide and across divisions.</p><p><a class='btn btn-success btn-lg' role='button'>Learn More</a></p>
-			</div>
-		</div> <!-- end col -->
-	</div> <!-- end end row -->";
 
 	// alerts section
 	$out .= "
