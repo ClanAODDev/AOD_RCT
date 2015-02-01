@@ -38,8 +38,8 @@ if ($params['page'] == "inactive") {
 		break;
 	}
 
-	
 	$flagged_inactives = get_my_inactives($id, $type, true);
+	$flaggedCount = count($flagged_inactives);
 	foreach ($flagged_inactives as $member) {
 		
 		$last_seen = formatTime(strtotime($member['last_activity']));
@@ -60,159 +60,101 @@ if ($params['page'] == "inactive") {
 
 		$inactive_flagged .= "
 		<li class='list-group-item clearfix' data-user-id='{$member['id']}' data-member-id='{$member['member_id']}'>
-			<div class='col-xs-2'><i class='fa fa-search view-profile'></i> {$member['rank']} {$name}</div>
-			<div class='col-xs-4 actions'><a href='http://www.clanaod.net/forums/private.php?do=newpm&u={$member['member_id']}' class='popup-link btn btn-default btn-xs'><i class='fa fa-comment'></i> PM</a></div>
-			<div class='col-xs-2 text-{$status} text-center'>Seen {$last_seen}</div>
-			<div class='col-xs-2 removed-by text-center text-muted'>Flagged by {$updatedBy}</div>
-			<div class='col-xs-2 text-right '><img src='/public/images/grab.svg' style='width: 8px; opacity: .20;' /></div>
-			";
-		}
+			<div class='col-xs-1'><img src='/public/images/grab.svg' style='width: 8px; opacity: .20;' /></div>
+			<div class='col-xs-2'>{$member['rank']} {$name}</div>
+			<div class='col-xs-3 text-{$status} text-center'>Seen {$last_seen}</div>
+			<div class='col-xs-3 removed-by text-center text-muted'>Flagged by {$updatedBy}</div>
+			<div class='col-xs-3 actions btn-group'><span class='pull-right'><a href='http://www.clanaod.net/forums/private.php?do=newpm&u={$member['member_id']}' class='popup-link btn btn-default btn-xs'><i class='fa fa-comment'></i> PM</a> <button class='btn btn-default btn-xs view-profile'><i class='fa fa-user'></i> View Profile</button></span> 
+			</div>
+		</li>
+		";
+	}
 
-		$inactive_ids = array();
-		$inactives = get_my_inactives($id, $type);
-		$inactiveCount = count($inactives);
-		foreach ($inactives as $member) {
+	$inactive_ids = array();
+	$inactives = get_my_inactives($id, $type);
+	$inactiveCount = count($inactives);
+	foreach ($inactives as $member) {
 
-			$inactive_ids[] = $member['member_id'];
-			$last_seen = formatTime(strtotime($member['last_activity']));
-			$joined = date("Y-m-d", strtotime($member['join_date']));
-			$name = ucwords($member['forum_name']);
+		$inactive_ids[] = $member['member_id'];
+		$last_seen = formatTime(strtotime($member['last_activity']));
+		$joined = date("Y-m-d", strtotime($member['join_date']));
+		$name = ucwords($member['forum_name']);
 
-			$aod_games = count_aod_games($member['id'], date("Y-m-d"), date(strtotime('-30 days')));
+		$aod_games = count_aod_games($member['id'], date("Y-m-d"), date(strtotime('-30 days')));
 
 			// visual cue for inactive squad members
-			if (strtotime($last_seen) < strtotime('-30 days')) {
-				$status = 'danger';
-			} else if (strtotime($last_seen) < strtotime('-14 days')) {
-				$status = 'warning';
-			} else {
-				$status = 'muted';
-			}
+		if (strtotime($last_seen) < strtotime('-30 days')) {
+			$status = 'danger';
+		} else if (strtotime($last_seen) < strtotime('-14 days')) {
+			$status = 'warning';
+		} else {
+			$status = 'muted';
+		}
 
-			$inactive_list .= "
-			<li class='list-group-item clearfix' data-user-id='{$member['id']}' data-member-id='{$member['member_id']}'>
-				<div class='col-xs-2'><i class='fa fa-search view-profile'></i> {$member['rank']} {$name}</div>
-				<div class='col-xs-4 actions'><a href='http://www.clanaod.net/forums/private.php?do=newpm&u={$member['member_id']}' class='popup-link btn btn-default btn-xs'><i class='fa fa-comment'></i> PM</a></div>
-				<div class='col-xs-2 text-{$status} text-center'>Seen {$last_seen}</div>
-				<div class='col-xs-2 removed-by text-center text-muted'></div>
-				<div class='col-xs-2 text-right '><img src='/public/images/grab.svg' style='width: 8px; opacity: .20;' /></div>
-				";
-			}
+		$inactive_list .= "
+		<li class='list-group-item clearfix' data-user-id='{$member['id']}' data-member-id='{$member['member_id']}'>
+			<div class='col-xs-1'><img src='/public/images/grab.svg' style='width: 8px; opacity: .20;' /></div>
+			<div class='col-xs-2'>{$member['rank']} {$name}</div>
+			<div class='col-xs-3 text-{$status} text-center'>Seen {$last_seen}</div>
+			<div class='col-xs-3 removed-by text-center text-muted'></div>
+			<div class='col-xs-3 actions btn-group'><span class='pull-right'><a href='http://www.clanaod.net/forums/private.php?do=newpm&u={$member['member_id']}' class='popup-link btn btn-default btn-xs'><i class='fa fa-comment'></i> PM</a> <button class='btn btn-default btn-xs view-profile'><i class='fa fa-user'></i> View Profile</button></span> 
+			</div>
+		</li>
 
-			// build inactive ids for PM function
-			$inactive_ids = implode("&u[]=", $inactive_ids);
+		";
+	}
 
+	// build inactive ids for PM function
+	$inactive_ids = implode("&u[]=", $inactive_ids);
 
-			$breadcrumb = "
-			<ul class='breadcrumb'>
-				<li><a href='/'>Home</a></li>
-				<li class='active'>Manage Inactive Members</li>
-			</ul>
-			";
+	$breadcrumb = "
+	<ul class='breadcrumb'>
+		<li><a href='/'>Home</a></li>
+		<li class='active'>Manage inactive players</li>
+	</ul>
+	";
 
-			$out .= "
+	$out .= "
+	<div class='container fade-in'>
+		<div class='row'>{$breadcrumb}</div>
 
-
-			<div class='container fade-in'>
-				<div class='row'>{$breadcrumb}</div>
-
-				<div class='row'><div class='alert alert-warning'><strong>Note: </strong> Lifting inactive flag is not possible yet. Once you have flagged an individual, it is not possible to remove them at this time. Be sure only to flag those you mean to have removed.</div>
-
-
-				
-				<div class='platoon-name page-header'>
-					<h2><strong>Manage Inactive Members</strong></h2>
-				</div>
-				<p>Inactive members are pruned on a monthly basis. Use this tool to view members who are considered inactive, that is, their last forum activity (login or otherwise) exceeds 30 days. In order to ensure your subordinate members receive fair warning, you must make every possible attempt to get this user back in good standing with the clan. Once all efforts have been exhausted, flag the member for removal by adding them to the 'flag for removal' list. </p>
-				<p>Flagged members will be processed for removal by the date specified by the leader who is administering the inactivity clean up.</p>
-				";
+		<div class='page-header'>
+			<h2><strong>Manage inactive players</strong></h2>
+		</div>
+		<p>Inactive members are pruned on a monthly basis. Use this tool to manage members who are considered inactive, that is, their last forum activity (login or otherwise) exceeds 30 days. In order to ensure your subordinate members receive fair warning, you must make every possible attempt to get this user back in good standing with the clan. Once all efforts have been exhausted, flag the member for removal by adding them to the 'flag for removal' list. </p>
+		";
 
 
-				
-				if (count($inactives) || count($flagged_inactives)) {
+
+		$out .= "
+		<div class='margin-top-50'></div>		
+		<div class='page-header'>
+			<h3>List Management
+				<small class='text-muted'> To flag a member, drag them from the inactive list to the \"flagged\" list.</small></h3>
+			</div>";
+
+			if (count($inactives) || count($flagged_inactives)) {
 
 
-					if (count($flagged_inactives)) {
+				if (count($inactives)) {
 
-						// flagged inactives
-						$out .="
-						<div class='row margin-top-50'>
-							<div class='col-md-12'>
+				// inactive members not yet flagged
+					$out .="
+					<div class='row'>
+						<div class='col-md-12'>
 
-								<div class='panel panel-info'>
+							<div class='panel panel-info'>
 
-									<div class='panel-heading'><i class='fa fa-flag'></i> Members flagged for removal </div>
+								<div class='panel-heading'><i class='fa fa-clock-o fa-lg'></i> Your inactive members <span class='inactiveCount pull-right badge'>{$inactiveCount}</span></div>
 
-									<ul class='sortable' id='flagged-inactives' style='overflow-y: auto; max-height: 400px;'>
-										{$inactive_flagged}
-									</ul>
-
-								</div>
+								<ul class='sortable inactive-list' id='inactives' style='overflow-y: auto; max-height: 193px;'>
+									{$inactive_list}
+								</ul>
+								<div class='panel-footer clearfix'><a href='http://www.clanaod.net/forums/private.php?do=newpm&u[]={$inactive_ids}' class='pull-right popup-link btn btn-default btn-xs'><i class='fa fa-users'></i> Mass PM</a></div>
 							</div>
+						</div>
+					</div>";
 
-						</div>";
-
-					} else {
-
-						$out .="
-						<div class='row margin-top-50'>
-							<div class='col-md-12'>
-
-								<div class='panel panel-info'>
-
-									<div class='panel-heading'><i class='fa fa-flag'></i> Members flagged for removal </div>
-
-									<ul class='sortable' id='flagged-inactives' style='overflow-y: auto; max-height: 400px;'>
-										
-									</ul>
-
-
-
-								</div>
-							</div>
-						</div>";
-					}
-
-
-
-					if (count($inactives)) {
-
-						// inactive members not yet flagged
-						$out .="
-						<div class='row margin-top-20'>
-							<div class='col-md-12'>
-
-								<div class='panel panel-default'>
-
-									<div class='panel-heading'><strong>Your inactive members</strong> ({$inactiveCount})<a href='http://www.clanaod.net/forums/private.php?do=newpm&u[]={$inactive_ids}' class='pull-right popup-link btn btn-info btn-xs'><i class='fa fa-users'></i> Mass PM</a></div>
-
-									<ul class='sortable inactive-list' id='inactives' style='overflow-y: auto; max-height: 400px;'>
-										{$inactive_list}
-									</ul>
-
-								</div>
-							</div>
-						</div>";
-
-					} else {
-
-						$out .="
-						<div class='row margin-top-50'>
-							<div class='col-md-12 '>
-
-								<div class='panel panel-success'>
-
-									<div class='panel-heading'><i class='fa fa-check'></i> Congratulations!</div>
-
-									<li class='list-group-item'>You have no more inactive members to process!</li>
-
-								</div>
-							</div>
-						</div>";
-					}
-
-
-				// no members flagged or inactive... yet
 				} else {
 
 					$out .="
@@ -223,7 +165,7 @@ if ($params['page'] == "inactive") {
 
 								<div class='panel-heading'><i class='fa fa-check'></i> Congratulations!</div>
 
-								<li class='list-group-item'>None of your members are currently inactive!</li>
+								<li class='list-group-item'>You have no more inactive members to process!</li>
 
 							</div>
 						</div>
@@ -231,68 +173,132 @@ if ($params['page'] == "inactive") {
 				}
 
 
-				$out .= "</div>";
+				if (count($flagged_inactives)) {
+
+				// flagged inactives
+					$out .="
+					<div class='row'>
+						<div class='col-md-12'>
+
+						<div class='panel panel-danger'>
+
+								<div class='panel-heading'><i class='fa fa-trash-o fa-lg'></i> Members flagged for removal <span class='flagCount pull-right badge'>{$flaggedCount}</span></div>
+
+								<ul class='sortable' id='flagged-inactives' style='overflow-y: auto; max-height: 193px;'>
+									{$inactive_flagged}
+								</ul>
+
+							</div>
+						</div>
+
+					</div>";
+
+				} else {
+
+					$out .="
+					<div class='row'>
+						<div class='col-md-12'>
+
+							<div class='panel panel-info'>
+
+								<div class='panel-heading'><i class='fa fa-trash-o fa-lg'></i> Members flagged for removal </div>
+
+								<ul class='sortable' id='flagged-inactives' style='overflow-y: auto; max-height: 193px;'>
+
+								</ul>
 
 
 
-			// end container
+							</div>
+						</div>
+					</div>";
+				}
+
+
+		// no members flagged or inactive... yet
+			} else {
+
 				$out .="
-			</div>";
+				<div class='row margin-top-50'>
+					<div class='col-md-12 '>
 
+						<div class='panel panel-success'>
 
-		}
+							<div class='panel-heading'><i class='fa fa-check'></i> Congratulations!</div>
 
-		echo $out;
+							<li class='list-group-item'>None of your members are currently inactive!</li>
 
-
-		?>
-
-
-		<style type="text/css">
-			.sortable li:hover {
-				background-color: rgba(255,255,0,.1);
+						</div>
+					</div>
+				</div>";
 			}
-			.sortable { list-style-type: none !important; margin: 0 !important; padding: 0; margin-bottom: 0px; -webkit-padding-start: 0px !important; margin-left: -30px; background-color: rgba(0,0,0,.01); min-height: 45px; }
-			.sortable li { margin: 0px; cursor: move; display: block; }
-			.ui-state-highlight { height: 3.45em; line-height: 1.5em; background-color: rgba(255,255,0,.1); }
-			/* #flagged-inactives, #flagged-inactives div { color: rgba(0,0,0,.50) !important; } */
-			.view-profile { cursor: pointer;}
-		</style>
 
 
-		<script type="text/javascript">
-
-			$(".draggable").draggable({
-				connectToSortable: 'ul',
-				revert: 'invalid',
-				scroll: true, scrollSensitivity: 100
-			});
+			$out .= "</div>";
 
 
 
-			$(".view-profile").click(function() {
-				var userId = $(this).closest('.list-group-item').attr('data-user-id');
-				location.href = "/member/" + userId;
-			});
+		// end container
+			$out .="
+		</div>";
 
-			var itemMoved,  targetplatoon, sourcePlatoon, action = null;
-			$(".sortable").sortable({
-				revert: true,
-				connectWith: 'ul',
-				placeholder: "ui-state-highlight",
-				receive: function(event, ui) {
-					itemMoved = $(ui.item).attr('data-member-id');
-					targetList = $(this).attr('id');
 
-					if (targetList == "flagged-inactives") {
-						$(ui.item).find('.removed-by').show().html("Flagged by you");
-						action = 1;
-						context = " flagged for removal."
+	}
 
-					} else {
-						$(ui.item).find('.removed-by').empty();
-						context = " no longer flagged for removal."
-						action = 0;
+	echo $out;
+
+
+	?>
+
+
+	<style type="text/css">
+		.sortable li:hover { background-color: rgba(252,248,227, .7); }
+		.sortable { list-style-type: none !important; margin: 0 !important; padding: 0; margin-bottom: 0px; -webkit-padding-start: 0px !important; margin-left: -30px; background-color: rgba(0,0,0,.01); min-height: 45px; }
+		.sortable li { margin: 0px; cursor: move; display: block; }
+		.ui-state-highlight { height: 3.45em; line-height: 1.5em; background-color: rgba(252,248,227, .7); border: 1px solid #fff; }
+		.view-profile { cursor: pointer;}
+		.actions .btn { opacity: 0; }
+		.sortable li:hover .actions .btn { opacity: 1; }
+	</style>
+
+
+	<script type="text/javascript">
+
+		$(".draggable").draggable({
+			connectToSortable: 'ul',
+			revert: 'invalid',
+			scroll: true, scrollSensitivity: 100
+		});
+
+
+
+		$(".view-profile").click(function() {
+			var userId = $(this).closest('.list-group-item').attr('data-user-id');
+			location.href = "/member/" + userId;
+		});
+
+		var itemMoved,  targetplatoon, sourcePlatoon, action = null;
+		$(".sortable").sortable({
+			revert: true,
+			connectWith: 'ul',
+			placeholder: "ui-state-highlight",
+			receive: function(event, ui) {
+				itemMoved = $(ui.item).attr('data-member-id');
+				targetList = $(this).attr('id');
+
+				if (targetList == "flagged-inactives") {
+					$(ui.item).find('.removed-by').show().html("Flagged by you");
+					action = 1;
+					context = " flagged for removal.";
+
+					$(".flagCount").text(parseInt( $(".flagCount").text()) + 1 );
+					$(".inactiveCount").text(parseInt( $(".inactiveCount").text()) - 1 );
+
+				} else {
+					$(ui.item).find('.removed-by').empty();
+					context = " no longer flagged for removal."
+					action = 0;
+						// $(".flagCount").text(parseInt( $(".flagCount").text()) + 1 );
 					}
 
 					$.ajax({
@@ -326,4 +332,6 @@ if ($params['page'] == "inactive") {
 			});
 
 $("#flagged-inactives").draggable('disable');
+
+
 </script>

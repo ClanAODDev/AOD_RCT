@@ -34,7 +34,7 @@ $(function() {
                     member_id = $('#member_id').val();
 
                 if (/\D/.test(member_id)) {
-                    $(".message").html("<i class='fa fa-times'></i>  Member id must be a number.").effect("bounce");
+                    $(".message").html("<i class='fa fa-times'></i> Member id must be a number.").effect("bounce");
                     return false;
                 }
 
@@ -189,7 +189,7 @@ function loadThreadCheck() {
         $('.welcome-pm-btn').attr("data-clipboard-text", welcomeCopy);
         $(".pm-link").click(function(e) {
             e.preventDefault();
-            windowOpener($(this).attr("href" + member_id), "AOD Squad Tracking", "width=1000,height=600,scrollbars=yes");
+            windowOpener($(this).attr("href") + member_id, "AOD Squad Tracking", "width=1000,height=600,scrollbars=yes");
         });
 
     }
