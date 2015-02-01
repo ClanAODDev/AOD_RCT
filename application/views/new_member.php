@@ -18,8 +18,6 @@ $division_structure_thread = $game_info['division_structure_thread'];
 $welcome_forum = $game_info['welcome_forum'];
 
 
-
-
 /**
  * is user a squad leader or platoon leader
  * if not, they won't have any platoon information
@@ -108,8 +106,6 @@ $out .= "
 <div class='container fade-in'>
 	
 	{$breadcrumb}
-
-	<div class='alert-box'></div>
 
 	<div class='page-header'>
 		<h1><strong>Recruiting</strong> <small>Add New Member <span class='text-warning'></span></small></h1>
@@ -359,7 +355,7 @@ $out .= "
 
 						$out .="
 
-						<div class='tab-pane text-center fade-in' id='tab6'>
+						<div class='tab-pane text-center' id='tab6'>
 							<div class='alert alert-success'><i class='fa fa-check'></i> You have successfully completed <span class='player-name'>NaN</span>'s recruiting process! </div><p><strong>Don't forget to mark your recruit's division application \"
 							completed\" if they submitted one <a href='http://www.clanaod.net/forums/forumdisplay.php?f=457'>in the forums</a></strong>.</p><a href='/' class='btn btn-info'>Go back home</a>
 						</div>";
