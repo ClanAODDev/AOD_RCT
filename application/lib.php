@@ -664,9 +664,9 @@ function updateFlagged($id, $lid, $action)
             $query = "INSERT INTO inactive_flagged VALUES (:id, :lid)";
             $args = array( ':id' => $id, ':lid' => $lid );
         } else {
-            return $result = array('success' => false, 'message' => 'Inactive flag cannot be removed at this time.');
-            // $query = "DELETE FROM inactive_flagged WHERE member_id = :id";
-            // $args = array( ':id' => $id );
+            // return $result = array('success' => false, 'message' => 'Inactive flag cannot be removed at this time.');
+            $query = "DELETE FROM inactive_flagged WHERE member_id = :id";
+            $args = array( ':id' => $id );
         }
 
         try {
@@ -1019,6 +1019,33 @@ function checkThread($player, $thread)
 
 
 
+
+/*
+function get_help_items()
+{
+
+    global $pdo;
+    
+    if (dbConnect()) {
+
+        try {
+
+            $query = "SELECT ";
+
+            $query = $pdo->prepare($query);
+            $query->bindParam(':user', $uid);
+            $query->execute();
+            $query = $query->fetchAll();
+
+        }
+
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+    return $query;
+}
+*/
 
 
 function get_alerts($uid)
