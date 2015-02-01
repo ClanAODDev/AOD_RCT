@@ -121,7 +121,8 @@ if ($params['page'] == "inactive") {
 		<div class='page-header'>
 			<h2><strong>Manage inactive players</strong></h2>
 		</div>
-		<p>Inactive members are pruned on a monthly basis. Use this tool to manage members who are considered inactive, that is, their last forum activity (login or otherwise) exceeds 30 days. In order to ensure your subordinate members receive fair warning, you must make every possible attempt to get this user back in good standing with the clan. Once all efforts have been exhausted, flag the member for removal by adding them to the 'flag for removal' list. </p>
+		<p>Inactive members are pruned on a monthly basis. Use this tool to manage members who are considered inactive, that is, their last forum activity (login or otherwise) exceeds 30 days. In order to ensure your subordinate members receive fair warning, you must <strong>make every possible attempt</strong> to get this user back in good standing with the clan. Once all efforts have been exhausted, flag the member for removal by adding them to the 'flag for removal' list. </p>
+		<p>A member who returns, or corrects their inactivity will automatically be removed from this list, as long as they return before the end of the clean-up.</p>
 		";
 
 
@@ -136,51 +137,17 @@ if ($params['page'] == "inactive") {
 			if (count($inactives) || count($flagged_inactives)) {
 
 
-				if (count($inactives)) {
 
-				// inactive members not yet flagged
-					$out .="
-					<div class='row'>
-						<div class='col-md-12'>
-
-							<div class='panel panel-info'>
-
-								<div class='panel-heading'><i class='fa fa-clock-o fa-lg'></i> Your inactive members <span class='inactiveCount pull-right badge'>{$inactiveCount}</span></div>
-
-								<ul class='sortable inactive-list' id='inactives' style='overflow-y: auto; max-height: 193px;'>
-									{$inactive_list}
-								</ul>
-								<div class='panel-footer clearfix'><a href='http://www.clanaod.net/forums/private.php?do=newpm&u[]={$inactive_ids}' class='pull-right popup-link btn btn-default btn-xs'><i class='fa fa-users'></i> Mass PM</a></div>
-							</div>
-						</div>
-					</div>";
-
-				} else {
-
-					$out .="
-					<div class='row margin-top-50'>
-						<div class='col-md-12 '>
-
-							<div class='panel panel-success'>
-
-								<div class='panel-heading'><i class='fa fa-check'></i> Congratulations!</div>
-
-								<li class='list-group-item'>You have no more inactive members to process!</li>
-
-							</div>
-						</div>
-					</div>";
-				}
 
 
 				if (count($flagged_inactives)) {
 
-				// flagged inactives
+					// flagged inactives
 					$out .="
-					<div class='row'>
+					<div class='row flagged-section'>
 						<div class='col-md-12'>
 
-						<div class='panel panel-danger'>
+							<div class='panel panel-danger'>
 
 								<div class='panel-heading'><i class='fa fa-trash-o fa-lg'></i> Members flagged for removal <span class='flagCount pull-right badge'>{$flaggedCount}</span></div>
 
@@ -208,6 +175,43 @@ if ($params['page'] == "inactive") {
 								</ul>
 
 
+
+							</div>
+						</div>
+					</div>";
+				}
+				
+
+				if (count($inactives)) {
+
+					// inactive members not yet flagged
+					$out .="
+					<div class='row inactives-section'>
+						<div class='col-md-12'>
+
+							<div class='panel panel-info'>
+
+								<div class='panel-heading'><i class='fa fa-clock-o fa-lg'></i> Your inactive members <span class='inactiveCount pull-right badge'>{$inactiveCount}</span></div>
+
+								<ul class='sortable inactive-list' id='inactives' style='overflow-y: auto; max-height: 193px;'>
+									{$inactive_list}
+								</ul>
+								<div class='panel-footer clearfix'><a href='http://www.clanaod.net/forums/private.php?do=newpm&u[]={$inactive_ids}' class='pull-right popup-link btn btn-default btn-xs'><i class='fa fa-users'></i> Mass PM Players</a></div>
+							</div>
+						</div>
+					</div>";
+
+				} else {
+
+					$out .="
+					<div class='row'>
+						<div class='col-md-12 '>
+
+							<div class='panel panel-success'>
+
+								<div class='panel-heading'><i class='fa fa-check'></i> Congratulations!</div>
+
+								<li class='list-group-item'>You have no more inactive members to process!</li>
 
 							</div>
 						</div>
@@ -291,8 +295,15 @@ if ($params['page'] == "inactive") {
 					action = 1;
 					context = " flagged for removal.";
 
-					$(".flagCount").text(parseInt( $(".flagCount").text()) + 1 );
-					$(".inactiveCount").text(parseInt( $(".inactiveCount").text()) - 1 );
+					var flagCount = parseInt($(".flagCount").text());
+					var inactiveCount = parseInt($(".inactiveCount").text());
+
+					$(".flagCount").text(flagCount);
+					$(".inactiveCount").text(inactiveCount);
+
+					if (inactiveCount < 1) {
+						$("inactives-section").fadeOut();
+					}
 
 				} else {
 					$(ui.item).find('.removed-by').empty();
@@ -330,8 +341,5 @@ if ($params['page'] == "inactive") {
 
 				}
 			});
-
-$("#flagged-inactives").draggable('disable');
-
 
 </script>
