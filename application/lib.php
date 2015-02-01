@@ -1329,7 +1329,7 @@ function get_my_inactives($id, $type, $flagged=NULL)
             $query = "SELECT member.id, member.forum_name, member.member_id, member.last_activity, member.battlelog_name, member.bf4db_id, inactive_flagged.flagged_by, member.squad_leader_id, member.forum_posts, member.join_date FROM `member` 
             LEFT JOIN `rank` ON member.rank_id = rank.id  
             LEFT JOIN `inactive_flagged` ON member.member_id = inactive_flagged.member_id          
-            WHERE (status_id = 1 OR status_id = 999) AND (last_activity < CURDATE() - INTERVAL 30 DAY AND status_id = 1) AND ";
+            WHERE (status_id = 1 OR status_id = 999) AND (last_activity < CURDATE() - INTERVAL 29 DAY AND status_id = 1) AND ";
 
             switch ($type) {
                 case "sqd":
