@@ -152,11 +152,11 @@ $out .= "
 						$out .="
 						<div class='tab-pane' id='tab1'>
 							<div class='col-xs-12'>
-								<p>At this point, you have already established a potential recruit. The next step is to get him or her through AOD's recruiting process, and added to our division structure. If you have not already, you need to get your recruit into ventrilo. Your relationship to your new recruit is vital and begins with the first impression. Get to know them and make them feel welcome. This will make a huge difference down the road.</p>
+								<p>At this point, you have already established a potential recruit. The next step is to get him or her through AOD's recruiting process, and added to our division structure. If you have not already, you need to get your recruit into Teamspeak. Your relationship to your new recruit is vital and begins with the first impression. Get to know them and make them feel welcome. This will make a huge difference down the road.</p>
 
 								<p>Immediately, you need to emphasize the most important parts about being an active member of the AOD community:
 									<ul>
-										<li>You must <strong>be in Ventrilo</strong> whenever you're ingame.</li>
+										<li>You must <strong>be in Teamspeak</strong> whenever you're ingame.</li>
 										<li>You must <strong>login to the forums</strong> at least once a month.</li>
 										<li>You should strive to <strong>be a contributing member</strong> of the clan. This includes helping us populate the server, and staying loyal to our servers whenever possible.</li>
 										<li>You must <strong>show respect</strong> to other members as well as all other public players.</li>
@@ -164,7 +164,7 @@ $out .= "
 								</p>
 								<p>These are things you will rehash with the forum thread stickies, but reiterating is far better than leaving it out entirely. Don't give them any opportunity not to get that information.</p>
 
-								<p><a class='popup-link'  href='http://www.clanaod.net/forums/showthread.php?t=3293'><button type='button' class='btn btn-primary'>Vent Server Information</button></a> <a href='http://www.ventrilo.com/download.php' target='_blank'><button type='button' class='tool btn btn-primary' title='Right click to copy link'>Client Download</button></a></p>
+								<p><a class='popup-link'  href='http://www.clanaod.net/forums/showthread.php?t=3293'><button type='button' class='btn btn-primary'>Vent Server Information</button></a> <a href='http://www.teamspeak.com/?page=downloads&gclid=CJakz7CwwcMCFRQQ7AodsDsASA' target='_blank'><button type='button' class='tool btn btn-primary' title='Right click to copy link'>TS3 Client Download</button></a></p>
 
 							</div>
 						</div>";
@@ -252,7 +252,7 @@ $out .= "
 							<p>Now, you are ready to finalize your new recruit and take care of the paperwork associated with each new recruit. <strong>Be sure to ask</strong> if there are any questions or concerns your recruit may have. You should also remind him/her that <strong>you will be their squad leader</strong> and can come to you if they have any issues in the relative future.</p><p>Your next steps should include:</p>
 							<ul>
 								<li>Having them adjust their forum (AOD Member Info) profile settings</li>
-								<li>Changing their name on ventrilo <code class='rank-name'>NaN</code><i class='fa fa-copy copy-link text-primary player-name-copy' title='Copy link to clipboard' href='#'></i></li>
+								<li>Changing their name on Teamspeak <code class='rank-name'>NaN</code><i class='fa fa-copy copy-link text-primary player-name-copy' title='Copy link to clipboard' href='#'></i></li>
 								<li>Accepting or inviting them into the BF4 platoon on Battlelog</li>
 								<li>Give them the <a class='popup-link' href='http://www.clanaod.net/forums/showthread.php?t=3293'>channel password</a> and introduce them to the other members</li>
 							</ul>
