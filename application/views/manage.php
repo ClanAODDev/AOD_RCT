@@ -12,6 +12,7 @@ if ($params['page'] == "inactive") {
 	$out = NULL;
 	$my_squad = NULL;
 	$inactive_list = NULL;
+	$flagged_copy = NULL;
 
 	switch ($userRole) {
 
@@ -39,13 +40,15 @@ if ($params['page'] == "inactive") {
 	}
 
 	$flagged_inactives = get_my_inactives($id, $type, true);
-	$flaggedCount = count($flagged_inactives);
+	$flaggedCount = (count($flagged_inactives)) ? count($flagged_inactives) : 0;
 	foreach ($flagged_inactives as $member) {
 		
 		$last_seen = formatTime(strtotime($member['last_activity']));
 		$joined = date("Y-m-d", strtotime($member['join_date']));
 		$name = ucwords($member['forum_name']);
 		$updatedBy = get_forum_name($member['flagged_by']);
+
+		$flagged_copy .= ucwords($member['forum_name']) . " - http://www.clanaod.net/forums/member.php?u={$member['member_id']}\r\n"; 
 
 		$aod_games = count_aod_games($member['id'], date("Y-m-d"), date(strtotime('-30 days')));
 
@@ -72,7 +75,7 @@ if ($params['page'] == "inactive") {
 
 	$inactive_ids = array();
 	$inactives = get_my_inactives($id, $type);
-	$inactiveCount = count($inactives);
+	$inactiveCount = (count($inactives)) ? count($inactives) : 0;
 	foreach ($inactives as $member) {
 
 		$inactive_ids[] = $member['member_id'];
@@ -82,7 +85,7 @@ if ($params['page'] == "inactive") {
 
 		$aod_games = count_aod_games($member['id'], date("Y-m-d"), date(strtotime('-30 days')));
 
-			// visual cue for inactive squad members
+		// visual cue for inactive squad members
 		if (strtotime($last_seen) < strtotime('-30 days')) {
 			$status = 'danger';
 		} else if (strtotime($last_seen) < strtotime('-14 days')) {
@@ -99,9 +102,7 @@ if ($params['page'] == "inactive") {
 			<div class='col-xs-3 removed-by text-center text-muted'></div>
 			<div class='col-xs-3 actions btn-group'><span class='pull-right'><a href='http://www.clanaod.net/forums/private.php?do=newpm&u={$member['member_id']}' class='popup-link btn btn-default btn-xs'><i class='fa fa-comment'></i> PM</a> <button class='btn btn-default btn-xs view-profile'><i class='fa fa-user'></i> View Profile</button></span> 
 			</div>
-		</li>
-
-		";
+		</li>";
 	}
 
 	// build inactive ids for PM function
@@ -111,8 +112,7 @@ if ($params['page'] == "inactive") {
 	<ul class='breadcrumb'>
 		<li><a href='/'>Home</a></li>
 		<li class='active'>Manage inactive players</li>
-	</ul>
-	";
+	</ul>";
 
 	$out .= "
 	<div class='container fade-in'>
@@ -122,8 +122,7 @@ if ($params['page'] == "inactive") {
 			<h2><strong>Manage inactive players</strong></h2>
 		</div>
 		<p>Inactive members are pruned on a monthly basis. Use this tool to manage members who are considered inactive, that is, their last forum activity (login or otherwise) exceeds 30 days. In order to ensure your subordinate members receive fair warning, you must <strong>make every possible attempt</strong> to get this user back in good standing with the clan. Once all efforts have been exhausted, flag the member for removal by adding them to the 'flag for removal' list. </p>
-		<p>A member who returns, or corrects their inactivity will automatically be removed from this list, as long as they return before the end of the clean-up.</p>
-		";
+		<p>A member who returns, or corrects their inactivity will automatically be removed from this list, as long as they return before the end of the clean-up.</p>";
 
 
 
@@ -136,10 +135,6 @@ if ($params['page'] == "inactive") {
 
 			if (count($inactives) || count($flagged_inactives)) {
 
-
-
-
-
 				if (count($flagged_inactives)) {
 
 					// flagged inactives
@@ -148,12 +143,12 @@ if ($params['page'] == "inactive") {
 						<div class='col-md-12'>
 
 							<div class='panel panel-danger'>
-
 								<div class='panel-heading'><i class='fa fa-trash-o fa-lg'></i> Members flagged for removal <span class='flagCount pull-right badge'>{$flaggedCount}</span></div>
-
-								<ul class='sortable' id='flagged-inactives' style='overflow-y: auto; max-height: 193px;'>
+								<ul class='sortable striped-bg' id='flagged-inactives' style='overflow-y: auto; max-height: 193px;'>
 									{$inactive_flagged}
 								</ul>
+								<div class='panel-footer clearfix'><button type='button' class='copy-button btn btn-default tool pull-right' 	title='Copy to clipboard' data-clipboard-text='{$flagged_copy}'><i class='fa fa-copy'></i> Copy player list</button>
+								</div>
 
 							</div>
 						</div>
@@ -165,16 +160,10 @@ if ($params['page'] == "inactive") {
 					$out .="
 					<div class='row'>
 						<div class='col-md-12'>
-
-							<div class='panel panel-info'>
-
-								<div class='panel-heading'><i class='fa fa-trash-o fa-lg'></i> Members flagged for removal </div>
-
-								<ul class='sortable' id='flagged-inactives' style='overflow-y: auto; max-height: 193px;'>
-
+							<div class='panel panel-danger'>
+								<div class='panel-heading'><i class='fa fa-trash-o fa-lg'></i> Members flagged for removal <span class='flagCount pull-right badge'>{$flaggedCount}</span></div>
+								<ul class='sortable striped-bg' id='flagged-inactives' style='overflow-y: auto; max-height: 193px;'>
 								</ul>
-
-
 
 							</div>
 						</div>
@@ -182,44 +171,29 @@ if ($params['page'] == "inactive") {
 				}
 				
 
-				if (count($inactives)) {
+				//if (count($inactives)) {
 
 					// inactive members not yet flagged
-					$out .="
-					<div class='row inactives-section'>
-						<div class='col-md-12'>
+				$out .="
+				<div class='row inactives-section'>
+					<div class='col-md-12'>
 
-							<div class='panel panel-info'>
+						<div class='panel panel-info'>
 
-								<div class='panel-heading'><i class='fa fa-clock-o fa-lg'></i> Your inactive members <span class='inactiveCount pull-right badge'>{$inactiveCount}</span></div>
+							<div class='panel-heading'><i class='fa fa-clock-o fa-lg'></i> Your inactive members <span class='inactiveCount pull-right badge'>{$inactiveCount}</span></div>
 
-								<ul class='sortable inactive-list' id='inactives' style='overflow-y: auto; max-height: 193px;'>
-									{$inactive_list}
-								</ul>
-								<div class='panel-footer clearfix'><a href='http://www.clanaod.net/forums/private.php?do=newpm&u[]={$inactive_ids}' class='pull-right popup-link btn btn-default btn-xs'><i class='fa fa-users'></i> Mass PM Players</a></div>
-							</div>
+							<ul class='sortable inactive-list striped-bg' id='inactives' style='overflow-y: auto; max-height: 193px;'>
+								{$inactive_list}
+							</ul>
+							<div class='panel-footer clearfix'><a href='http://www.clanaod.net/forums/private.php?do=newpm&u[]={$inactive_ids}' class='pull-right popup-link btn btn-default'><i class='fa fa-users'></i> Mass PM Players</a></div>
 						</div>
-					</div>";
-
-				} else {
-
-					$out .="
-					<div class='row'>
-						<div class='col-md-12 '>
-
-							<div class='panel panel-success'>
-
-								<div class='panel-heading'><i class='fa fa-check'></i> Congratulations!</div>
-
-								<li class='list-group-item'>You have no more inactive members to process!</li>
-
-							</div>
-						</div>
-					</div>";
-				}
+					</div>
+				</div>";
 
 
-		// no members flagged or inactive... yet
+
+
+			// no members flagged or inactive... yet
 			} else {
 
 				$out .="
@@ -228,10 +202,10 @@ if ($params['page'] == "inactive") {
 
 						<div class='panel panel-success'>
 
-							<div class='panel-heading'><i class='fa fa-check'></i> Congratulations!</div>
-
+							<div class='panel-heading'><i class='fa fa-check'></i> Congratulations! <span class='inactiveCount pull-right badge'>{$inactiveCount}</span></div>
+							<ul class='striped-bg'>
 							<li class='list-group-item'>None of your members are currently inactive!</li>
-
+							</ul>
 						</div>
 					</div>
 				</div>";
@@ -239,7 +213,6 @@ if ($params['page'] == "inactive") {
 
 
 			$out .= "</div>";
-
 
 
 		// end container
@@ -295,51 +268,52 @@ if ($params['page'] == "inactive") {
 					action = 1;
 					context = " flagged for removal.";
 
-					var flagCount = parseInt($(".flagCount").text());
-					var inactiveCount = parseInt($(".inactiveCount").text());
+					var flagCount = parseInt($(".flagCount").text())+1,
+					inactiveCount = parseInt($(".inactiveCount").text())-1;
 
 					$(".flagCount").text(flagCount);
 					$(".inactiveCount").text(inactiveCount);
-
-					if (inactiveCount < 1) {
-						$("inactives-section").fadeOut();
-					}
 
 				} else {
 					$(ui.item).find('.removed-by').empty();
 					context = " no longer flagged for removal."
 					action = 0;
-						// $(".flagCount").text(parseInt( $(".flagCount").text()) + 1 );
-					}
 
-					$.ajax({
-						type: 'POST',
-						url: '/application/controllers/update_flagged.php',
-						data: {
-							action: action,
-							id: itemMoved
-						},
-						dataType: 'json',
-						success: function(response) {
+					var flagCount = parseInt($(".flagCount").text())-1,
+					inactiveCount = parseInt($(".inactiveCount").text())+1;
 
-							if (response.success === false) {
+					$(".flagCount").text(flagCount);
+					$(".inactiveCount").text(inactiveCount);
+				}
 
-								message = response.message;   
-								$(".alert-box").stop().html("<div class='alert alert-danger'>" + message + "</div>").effect('highlight').delay(1000).fadeOut();     
-							} else {
+				$.ajax({
+					type: 'POST',
+					url: '/application/controllers/update_flagged.php',
+					data: {
+						action: action,
+						id: itemMoved
+					},
+					dataType: 'json',
+					success: function(response) {
 
-								message = "Player " + itemMoved + context;
-								$(".alert-box").stop().html("<div class='alert alert-success'>" + message + "</div>").effect('highlight').delay(1000).fadeOut();
-							}
+						if (response.success === false) {
+
+							message = response.message;   
+							$(".alert-box").stop().html("<div class='alert alert-danger'>" + message + "</div>").effect('highlight').delay(1000).fadeOut();     
+						} else {
+
+							message = "Player " + itemMoved + context;
+							$(".alert-box").stop().html("<div class='alert alert-success'>" + message + "</div>").effect('highlight').delay(1000).fadeOut();
+						}
 
 
 
-						},
+					},
 
 						// fail: function()
 					});
 
-				}
-			});
+			}
+		});
 
 </script>
