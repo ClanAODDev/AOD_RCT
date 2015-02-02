@@ -1954,7 +1954,7 @@ function convertDivision($division) {
     $division = strtolower($division);
     switch ($division) {
 
-        case "battlefield 4":
+        case "battlefield":
         $id = 2;
         break;
 

@@ -185,7 +185,7 @@ if ($params['page'] == "inactive") {
 							<ul class='sortable inactive-list striped-bg' id='inactives' style='overflow-y: auto; max-height: 193px;'>
 								{$inactive_list}
 							</ul>
-							<div class='panel-footer clearfix'><a href='http://www.clanaod.net/forums/private.php?do=newpm&u[]={$inactive_ids}' class='pull-right popup-link btn btn-default'><i class='fa fa-users'></i> Mass PM Players</a></div>
+							<div class='panel-footer clearfix'><a href='http://www.clanaod.net/forums/private.php?do=newpm&u[]={$inactive_ids}' class='mass-pm-btn pull-right popup-link btn btn-default'><i class='fa fa-users'></i> Mass PM Players</a></div>
 						</div>
 					</div>
 				</div>";
@@ -274,6 +274,7 @@ if ($params['page'] == "inactive") {
 					$(".flagCount").text(flagCount);
 					$(".inactiveCount").text(inactiveCount);
 
+
 				} else {
 					$(ui.item).find('.removed-by').empty();
 					context = " no longer flagged for removal."
@@ -284,6 +285,7 @@ if ($params['page'] == "inactive") {
 
 					$(".flagCount").text(flagCount);
 					$(".inactiveCount").text(inactiveCount);
+
 				}
 
 				$.ajax({
@@ -299,11 +301,11 @@ if ($params['page'] == "inactive") {
 						if (response.success === false) {
 
 							message = response.message;   
-							$(".alert-box").stop().html("<div class='alert alert-danger'>" + message + "</div>").effect('highlight').delay(1000).fadeOut();     
+							$(".alert-box").stop().html("<div class='alert alert-danger'><i class='fa fa-times'></i> " + message + "</div>").effect('highlight').delay(1000).fadeOut();     
 						} else {
 
 							message = "Player " + itemMoved + context;
-							$(".alert-box").stop().html("<div class='alert alert-success'>" + message + "</div>").effect('highlight').delay(1000).fadeOut();
+							$(".alert-box").stop().html("<div class='alert alert-success'><i class='fa fa-check'></i> " + message + "</div>").effect('highlight').delay(1000).fadeOut();
 						}
 
 
