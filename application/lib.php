@@ -1147,7 +1147,7 @@ function build_user_tools($role) {
             "Recruit" => array(
                 'class' => 'addRct',
                 'title' => 'Add new recruit',
-                'descr' => 'Start the recruiting process with a brand new candidate',
+                'descr' => 'Start the recruiting process with a division candidate',
                 'icon' => 'plus-square text-success',
                 'link' => '/recruiting',
                 'disabled' => false
@@ -1172,7 +1172,7 @@ function build_user_tools($role) {
             "Recruit" => array(
                 'class' => 'addRct',
                 'title' => 'Add new recruit',
-                'descr' => 'Start the recruiting process with a brand new candidate',
+                'descr' => 'Start the recruiting process with a division candidate',
                 'icon' => 'plus-square text-success',
                 'link' => '/recruiting',
                 'disabled' => false
