@@ -12,7 +12,7 @@ if ($params['page'] == "inactive") {
 	$out = NULL;
 	$my_squad = NULL;
 	$inactive_list = NULL;
-	$flagged_copy = NULL;
+	$flagged_copy = "[list]";
 
 	switch ($userRole) {
 
@@ -48,7 +48,9 @@ if ($params['page'] == "inactive") {
 		$name = ucwords($member['forum_name']);
 		$updatedBy = get_forum_name($member['flagged_by']);
 
-		$flagged_copy .= ucwords($member['forum_name']) . " - http://www.clanaod.net/forums/member.php?u={$member['member_id']}\r\n"; 
+
+
+		$flagged_copy .= "[*]" . ucwords($member['forum_name']) . " - " . CLANAOD . "{$member['member_id']} - " . BATTLELOG . "{$member['battlelog_name']}"; 
 
 		$aod_games = count_aod_games($member['id'], date("Y-m-d"), date(strtotime('-30 days')));
 
@@ -72,6 +74,8 @@ if ($params['page'] == "inactive") {
 		</li>
 		";
 	}
+
+	$flagged_copy .= "[/list]";
 
 	$inactive_ids = array();
 	$inactives = get_my_inactives($id, $type);
