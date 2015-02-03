@@ -1464,29 +1464,26 @@ function get_platoon_members($pid)
 function get_division_ldrs($gid) {
 
     global $pdo;
-    $values = array();
 
     if (dbConnect()) 
     {
         try {
 
-            $sql = "SELECT member.id, member.forum_name, rank.abbr FROM member LEFT JOIN rank on member.rank_id = rank.id WHERE bf4_position_id = 1 AND member.game_id = {$gid}; 
-            SELECT member.id, member.forum_name, rank.abbr FROM member LEFT JOIN rank on member.rank_id = rank.id WHERE bf4_position_id = 2 AND member.game_id = {$gid};";
+            $sql = "SELECT member.id, member.forum_name, rank.abbr as rank, bf4_position.desc as bf4_position_desc FROM member 
+            LEFT JOIN rank on member.rank_id = rank.id 
+            LEFT JOIN `bf4_position` ON member.bf4_position_id = bf4_position.id 
+            WHERE bf4_position_id IN (1,2) AND member.game_id = {$gid}";
 
             $statement = $pdo->query($sql);
-            while($statement->columnCount())
-            {
-
-                $rowset[] = $statement->fetch();
-                $statement->nextRowset();
-            }
+            $statement->execute();
+            $result = $statement->fetchAll();
 
         } catch (PDOException $e) {
             return "ERROR:" . $e->getMessage();
         }
 
     }
-    return $rowset;
+    return $result;
 }
 
 function get_platoons($gid)

@@ -17,27 +17,23 @@ $game_descr = $game_info['description'];
 
 
 // fetch division leaders
+$divldrs = NULL;
 $leaders = get_division_ldrs($game_id);
-if ($leaders[0] && $leaders[1]) {
-	$co = $leaders[0]['abbr'] . " " . $leaders[0]['forum_name'];
-	$co_id = $leaders[0]['id'];
-	$xo = $leaders[1]['abbr'] . " " . $leaders[1]['forum_name'];
-	$xo_id = $leaders[1]['id'];
+if (count($leaders)) {
 
-	$leaders = "
-	<a href='/member/{$co_id}' class='list-group-item'>
-		<h5 class='pull-right'><i class='fa fa-shield fa-2x text-muted'></i></h5>
-		<h4 class='list-group-item-heading'><strong>{$co}</strong></h4>
-		<p class='list-group-item-text text-muted'>Division Commander</p>
-	</a>
-	<a href='/member/{$xo_id}' class='list-group-item'>
-		<h5 class='pull-right'><i class='fa fa-shield fa-2x text-muted'></i></h5>
-		<h4 class='list-group-item-heading'><strong>{$xo}</strong></h4>
-		<p class='list-group-item-text text-muted'>Division Executive Officer</p>
-	</a>
-	";
+	foreach($leaders as $leader) {
+
+		$divldrs .= "
+		<a href='/member/{$leader['id']}' class='list-group-item'>
+			<h5 class='pull-right'><i class='fa fa-shield fa-2x text-muted'></i></h5>
+			<h4 class='list-group-item-heading'><strong>{$leader['rank']} {$leader['forum_name']}</strong></h4>
+			<p class='list-group-item-text text-muted'>{$leader['bf4_position_desc']}</p>
+		</a>";
+
+	}
+
 } else {
-	$leaders = "<li class='list-group-item'>No leadership currently exists for this division.</li>";
+	$divldrs = "<li class='list-group-item'>No leadership currently exists for this division.</li>";
 }
 
 
@@ -101,7 +97,7 @@ $out .= "
 		<div class='col-md-4'>
 			<div class='panel panel-info'>
 				<div class='panel-heading'>Division Command Staff</div>
-				{$leaders}
+				{$divldrs}
 			</div>
 		</div>
 
