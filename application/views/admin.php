@@ -17,7 +17,7 @@ if ($userRole > 1) {
 
 
 	<div class='page-header'>
-		<h3><strong>Admin Functions</strong></h3>
+		<h3><strong>Administration</strong></h3>
 	</div>
 	<div class="row">
 		<div class="col-sm-2">
