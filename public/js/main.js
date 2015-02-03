@@ -240,7 +240,7 @@ $(function() {
 
     $("#members-table_paginate").addClass('text-center');
     $("#members-table_filter input").appendTo("#playerFilter").removeClass('input-sm');
-    $("#playerFilter input").attr("placeholder", "Search Players");
+    $("#playerFilter input").attr({"placeholder": "Search Players", "class": "form-control input-lg"});
     $("#members-table_filter label").remove();
 
     $(".DTTT_container .DTTT_button").removeClass('DTTT_button');
