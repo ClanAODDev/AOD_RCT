@@ -11,7 +11,7 @@ $grey = imagecolorallocate($im, 128, 128, 128);
 $black = imagecolorallocate($im, 255,255,255);
 
 //$im = imagecreatefrompng("red-stripe-bg.png");
-$im = imagecreatefrompng("red-stripe-bg.png");
+$im = imagecreatefrompng("../images/red-stripe-bg.png");
 
 
 $text = "Battlefield Division";
@@ -27,9 +27,9 @@ $r = 255;
 $g = 255;
 $b = 255;
 
-$font = "business.ttf";
+$font = "../business.ttf";
 
-imagettftext($im, 22, 0, 80, 57, imagecolorallocate($im, $r, $g, $b), "din-light.ttf", strtoupper($subtext));
+imagettftext($im, 22, 0, 80, 57, imagecolorallocate($im, $r, $g, $b), "../fonts/din-light.ttf", strtoupper($subtext));
 imagettftext($im, 6, 0, 23, $y, $grey, $font, strtoupper("#"));
 imagettftext($im, 6, 0, 45, $y, $grey, $font, strtoupper("Player"));
 imagettftext($im, 6, 0, 170, $y, $grey, $font, strtoupper("AOD Games"));
