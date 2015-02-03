@@ -120,6 +120,7 @@ function define_pages()
 
         'user' => "/user/(?'page'profile|messages|settings)",
         'help' => "/help",
+        'admin' => "/admin",
 
         'recruiting' => "/recruiting",
         'new_member' => "/recruiting/new-member",
