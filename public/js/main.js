@@ -240,7 +240,10 @@ $(function() {
 
     $("#members-table_paginate").addClass('text-center');
     $("#members-table_filter input").appendTo("#playerFilter").removeClass('input-sm');
-    $("#playerFilter input").attr({"placeholder": "Search Players", "class": "form-control input-lg"});
+    $("#playerFilter input").attr({
+        "placeholder": "Search Players",
+        "class": "form-control input-lg"
+    });
     $("#members-table_filter label").remove();
 
     $(".DTTT_container .DTTT_button").removeClass('DTTT_button');
@@ -255,12 +258,17 @@ $(function() {
         var active_count = readCookie('active_count');
         console.log("Activity counter: " + active_count);
         if (active_count < 31) {
-            $.post("/application/controllers/online_users.php", function(list) {
-                $(".userList").html(list);
-                $('.tool-user').powerTip({
-                    placement: 'n'
-                });
-            });
+
+            setTimeout(function() {
+                $.post("/application/controllers/online_users.php", function(list) {
+                    $(".userList").html(list);
+                    $('.tool-user').powerTip({
+                        placement: 'n'
+                    });
+                })
+
+            }, 2500)
+
 
         } else {
             $(".userList").html('<i class="fa fa-clock-o"></i> Idle. No longer refreshing.');
@@ -345,12 +353,11 @@ client.on("ready", function(readyEvent) {
 
 function windowOpener(url, name, args) {
 
-    if(typeof(popupWin) != "object" || popupWin.closed)  { 
-        popupWin =  window.open(url, name, args); 
-    } 
-    else{ 
-        popupWin.location.href = url; 
+    if (typeof(popupWin) != "object" || popupWin.closed) {
+        popupWin = window.open(url, name, args);
+    } else {
+        popupWin.location.href = url;
     }
 
-    popupWin.focus(); 
- }
+    popupWin.focus();
+}
