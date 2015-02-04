@@ -382,7 +382,7 @@ function userColor($user, $level)
         $span = "<span class='text-primary tool-user' title='Squad Leader'>" . $user . "</span>";
         break;
         default:
-        $span = "<span class='text-muted tool-user' title='Guest'>" . $user . "</span>";
+        $span = "<span class='text-muted tool-user' title='User'>" . $user . "</span>";
         break;
     }
     
@@ -584,7 +584,7 @@ function getUserRoleName($role)
 {
     switch ($role) {
         case 0:
-        $role = "Guest";
+        $role = "User";
         break;
         case 1:
         $role = "Squad Leader";
