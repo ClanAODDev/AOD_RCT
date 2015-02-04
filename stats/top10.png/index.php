@@ -2,82 +2,113 @@
 header('Content-Type: image/png');
 include("../../application/lib.php");
 
-$im = imagecreatetruecolor(900,900);
+$im = imagecreatetruecolor(900,330);
 $white = imagecolorallocate($im, 255, 255, 255);
 $grey = imagecolorallocate($im, 128, 128, 128);
 $black = imagecolorallocate($im, 255,255,255);
-
-//$im = imagecreatefrompng("red-stripe-bg.png");
-$im = imagecreatefrompng("../images/battlefield_bg.png");
-
-$date_string = date('d M', strtotime('-30 days')) . "-" . date('d M');
-
+$im = imagecreatefrompng("../images/big-bg.png");
 
 $text = "Battlefield Division";
-$subtext = "({$date_string})";
+$dateText = date('d M', strtotime('-30 days')) . "-" . date('d M');
 
 
-// settings
-$y = 90;
-$i = 1;
 
 // color
 $r = 255;
 $g = 255;
 $b = 255;
 
-$font = "../fonts/business.ttf";
-
-imagettftext($im, 22, 0, 80, 57, imagecolorallocate($im, $r, $g, $b), "../fonts/din-light.ttf", strtoupper($subtext));
-imagettftext($im, 6, 0, 23, $y, imagecolorallocate($im, 187,96,39), $font, strtoupper("#"));
-imagettftext($im, 6, 0, 45, $y, imagecolorallocate($im, 187,96,39), $font, strtoupper("Player"));
-imagettftext($im, 6, 0, 170, $y, imagecolorallocate($im, 187,96,39), $font, strtoupper("AOD Games"));
+$font = "../fonts/reaction.ttf";
 
 
-$top10 = getTop10();
+// x value positions
+$games_col_1 = 160;
+$num_col_1 = 23;
+$name_col_1 = 45;
 
-foreach ($top10 as $player) {
+$games_col_2 = 435;
+$num_col_2 = 300;
+$name_col_2 = 320;
 
-	$y = $y+20;
+
+/**
+ * get data
+ */
+
+if (dbConnect()) {
+	try {
+
+		$query1 = "SELECT forum_name, platoon.number, ( SELECT count(*) FROM activity WHERE activity.member_id = member.member_id AND activity.server LIKE 'AOD%' AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 1 day) AND CURRENT_TIMESTAMP ) AS aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id ORDER BY aod_games DESC LIMIT 10";	
+
+		$query2 = "SELECT forum_name, platoon.number, ( SELECT count(*) FROM activity WHERE activity.member_id = member.member_id AND activity.server LIKE 'AOD%' AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 30 day) AND CURRENT_TIMESTAMP ) AS aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id ORDER BY aod_games DESC LIMIT 10";
+
+		$query1 = $pdo->prepare($query1);
+		$query1->execute();
+		$daily = $query1->fetchAll();
+
+		$query2 = $pdo->prepare($query2);
+		$query2->execute();
+		$monthly = $query2->fetchAll();
+
+	}
+	catch (PDOException $e) {
+		echo "ERROR:" . $e->getMessage();
+	}
+}
+
+/**
+ * create elements
+ */
+
+// date
+imagettftext($im, 4, 0, 720, 240, imagecolorallocate($im, 80, 80, 80), $font, strtoupper($dateText));
 
 
+// daily stats
+
+$y = 65;
+$i = 1;
+
+imagettftext($im, 6, 0, $num_col_1, $y, imagecolorallocate($im, 80,80,80), $font, strtoupper("#"));
+imagettftext($im, 6, 0, $name_col_1, $y, imagecolorallocate($im, 80,80,80), $font, strtoupper("Player"));
+imagettftext($im, 6, 0, $games_col_1, $y, imagecolorallocate($im, 80,80,80), $font, strtoupper("AOD Games"));
+
+foreach ($daily as $player) {
+	$y = $y+17;
  	// number
-	imagettftext($im, 6, 0, 23, $y, imagecolorallocate($im, $r, $g, $b), $font, "{$i}.");
-
+	imagettftext($im, 6, 0, $num_col_1, $y, imagecolorallocate($im, 80, 80, 80), $font, "{$i}.");
 	// name
-	imagettftext($im, 6, 0, 45, $y, imagecolorallocate($im, $r, $g, $b), $font, strtoupper("{$player['forum_name']}."));
-
+	imagettftext($im, 6, 0, $name_col_1, $y, imagecolorallocate($im, $r, $g, $b), $font, substr(strtoupper($player['forum_name']), 0, 12));
 	// games
-	imagettftext($im, 6, 0, 170, $y, imagecolorallocate($im, $r, $g, $b), $font, "{$player['aod_games']}");
-	
+	imagettftext($im, 6, 0, $games_col_1, $y, imagecolorallocate($im, $r, $g, $b), $font, "{$player['aod_games']}");
+	$i++;
+
+}
+
+
+// monthly stats
+
+$y = 65;
+$i = 1;
+
+imagettftext($im, 6, 0, $num_col_2, $y, imagecolorallocate($im, 80,80,80), $font, strtoupper("#"));
+imagettftext($im, 6, 0, $name_col_2, $y, imagecolorallocate($im, 80,80,80), $font, strtoupper("Player"));
+imagettftext($im, 6, 0, $games_col_2, $y, imagecolorallocate($im, 80,80,80), $font, strtoupper("AOD Games"));
+
+foreach ($monthly as $player) {
+	$y = $y+17;
+ 	// number
+	imagettftext($im, 6, 0, $num_col_2, $y, imagecolorallocate($im, 80, 80, 80), $font, "{$i}.");
+	// name
+	imagettftext($im, 6, 0, $name_col_2, $y, imagecolorallocate($im, $r, $g, $b), $font, substr(strtoupper($player['forum_name']), 0, 12));
+	// games
+	imagettftext($im, 6, 0, $games_col_2, $y, imagecolorallocate($im, $r, $g, $b), $font, "{$player['aod_games']}");
 	$i++;
 
 }
 
 
 
-
-function getTop10()
-{
-
-	global $pdo;
-
-	if (dbConnect()) {
-
-		try {
-			$query = "SELECT forum_name, platoon.number, ( SELECT count(*) FROM activity WHERE activity.member_id = member.member_id AND activity.server LIKE 'AOD%' AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 30 day) AND CURRENT_TIMESTAMP ) AS aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id ORDER BY aod_games DESC LIMIT 10";
-
-			$query = $pdo->prepare($query);
-			$query->execute();
-			$query = $query->fetchAll();
-
-		}
-		catch (PDOException $e) {
-			return "ERROR:" . $e->getMessage();
-		}
-	}
-	return $query;
-}
 
 
 
