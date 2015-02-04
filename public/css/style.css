@@ -50,7 +50,11 @@
  	/* The html and body elements cannot have any padding or margin. */
  }
 
- .danger {
+ body {
+  background: #fafafa url("/public/images/hl-bg.jpg") 50% 0 no-repeat;
+}
+
+.danger {
   background-color: rgba(255, 41, 28, .1);
 }
 
@@ -198,8 +202,8 @@ a[disabled] { pointer-events: none; }
 }
 
 .vertical-align {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 

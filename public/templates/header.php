@@ -53,7 +53,7 @@
 					<a class="navbar-brand" href="/"><i class="fa fa-check-square-o"></i> <strong>AOD</strong> <small>Squad Management</small></a>
 				</div>
 
-				<?php if (isLoggedIn() && ($userRole > 0)) { ?>
+				<?php if (isLoggedIn()) { ?>
 				
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav navbar-right">
@@ -147,28 +147,15 @@
 								<li><a href="#" data-toggle="pill" class="logout-btn"><i class="fa fa-lock pull-right"></i> Logout</a></li>
 							</ul>
 						</li>
-
-						<li> <a href="/admin" role="button">Admin CP</a> </li>
+						
 						<li> <a href="/help" role="button">Help</a> </li>
+
+						<?php if ($userRole > 1) { ?>
+						<li> <a href="/admin" role="button">Admin CP</a> </li>
+						<?php } ?>
 
 					</ul>
 				</div><!--/.nav-collapse -->
-
-				<?php } else if (isLoggedIn()) { ?>
-
-				<div class="navbar-collapse collapse">
-					<ul class="nav navbar-nav navbar-right">
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">User CP<span class="caret"></span></a>
-							<ul class="dropdown-menu" role="menu">
-								<li class="disabled"><a href="#" disabled><?php echo ucwords($curUser) . " (". getUserRoleName($userRole). ")"; ?></a></li>
-								<li class="divider"></li>
-								<li><a href="#" data-toggle="pill" class="logout-btn"><i class="fa fa-lock pull-right"></i> Logout</a></li>
-							</ul>
-						</li>
-
-					</ul>
-				</div>
 
 				<?php } else { ?>
 
@@ -180,7 +167,7 @@
 
 				<?php } ?>		
 				<div class='container row'  style='position: absolute; margin-top: 10px;'>
-				<div class='alert-box'></div>
+					<div class='alert-box'></div>
 				</div>
 			</div>
 		</div>
