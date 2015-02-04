@@ -27,7 +27,7 @@ if (count($leaders)) {
 		<a href='/member/{$leader['id']}' class='list-group-item'>
 			<h5 class='pull-right'><i class='fa fa-shield fa-2x text-muted'></i></h5>
 			<h4 class='list-group-item-heading'><strong>{$leader['rank']} {$leader['forum_name']}</strong></h4>
-			<p class='list-group-item-text text-muted'>{$leader['bf4_position_desc']}</p>
+			<p class='list-group-item-text text-muted'>{$leader['position_desc']}</p>
 		</a>";
 
 	}

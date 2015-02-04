@@ -22,7 +22,7 @@ if (isLoggedIn()) {
     $user_platoon = $member_info['platoon_id'];
     $user_game = $member_info['game_id'];
     $myUserId = $member_info['userid'];
-    $user_position = $member_info['bf4_position_id'];
+    $user_position = $member_info['position_id'];
 
 
     if (!is_null($member_info['forum_id'])) {
@@ -267,10 +267,10 @@ function get_user_info($name)
 
         try {
 
-            $sth = $pdo->prepare("SELECT users.id as userid, member.id as member_id, member_id as forum_id, username, forum_name, rank_id, role, email, idle, platoon_id, last_logged, bf4_position_id, game_id, last_forum_login, last_forum_post, join_date, member.game_id FROM users 
+            $sth = $pdo->prepare("SELECT users.id as userid, member.id as member_id, member_id as forum_id, username, forum_name, rank_id, role, email, idle, platoon_id, last_logged, position_id, game_id, last_forum_login, last_forum_post, join_date, member.game_id FROM users 
                 LEFT JOIN member ON users.username = member.forum_name
                 LEFT JOIN games ON games.id = member.game_id
-                LEFT JOIN bf4_position ON member.bf4_position_id = bf4_position.id
+                LEFT JOIN position ON member.position_id = position.id
                 LEFT JOIN rank ON member.rank_id = rank.id
                 WHERE users.username = :username");
             
@@ -704,7 +704,7 @@ function updateMember($uid, $fname, $blog, $bf4db, $mid, $plt, $sqdldr, $positio
     // check for defined values and append if set
     if (!is_null($plt)) { $query .= ",platoon_id = :platoon"; }
     if (!is_null($sqdldr)) { $query .= ",squad_leader_id = :sqdldr"; }
-    if (!is_null($position)) { $query .= ",bf4_position_id = :position"; }
+    if (!is_null($position)) { $query .= ",position_id = :position"; }
 
     // finish up the query
     $query .= " WHERE id = :uid";
@@ -778,12 +778,12 @@ function createUser($user, $email, $credential)
  * @param  string $battlelog_name  battlelog name
  * @param  int $bf4dbid            bf4db id
  * @param  int $platoon_id         platoon id
- * @param  int $bf4_position_id    position id (in bf4_position)
+ * @param  int $position_id    position id (in position)
  * @param  int $squadleader_id     squad leader id
  * @param  int $game_id            game id (from games)
  * @return error                   will return an error if query fails
  */
-function createMember($forum_name, $member_id, $battlelog_name, $bf4dbid, $platoon_id, $bf4_position_id, $squadleader_id, $game_id)
+function createMember($forum_name, $member_id, $battlelog_name, $bf4dbid, $platoon_id, $position_id, $squadleader_id, $game_id)
 {
     global $pdo;
     
@@ -791,7 +791,7 @@ function createMember($forum_name, $member_id, $battlelog_name, $bf4dbid, $plato
         try {
 
             // status of 999 is pending. Will reset to 1 when reflected as a new member via arch_sync
-            $query = $pdo->prepare("INSERT INTO member ( forum_name, member_id, battlelog_name, bf4db_id, platoon_id, bf4_position_id, squad_leader_id, game_id, rank_id, status_id, last_forum_login, last_activity, last_forum_post ) VALUES ( :forum, :member_id, :battlelog, :bf4db, :platoon, :bf4_pos, :sqdldr, :game, :rank, 999, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP )         
+            $query = $pdo->prepare("INSERT INTO member ( forum_name, member_id, battlelog_name, bf4db_id, platoon_id, position_id, squad_leader_id, game_id, rank_id, status_id, last_forum_login, last_activity, last_forum_post ) VALUES ( :forum, :member_id, :battlelog, :bf4db, :platoon, :bf4_pos, :sqdldr, :game, :rank, 999, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP )         
 
                 ON DUPLICATE KEY UPDATE
                 forum_name = :forum,
@@ -805,7 +805,7 @@ function createMember($forum_name, $member_id, $battlelog_name, $bf4dbid, $plato
                 ':battlelog' => $battlelog_name,
                 ':bf4db' => $bf4dbid,
                 ':platoon' => $platoon_id,
-                ':bf4_pos' => $bf4_position_id,
+                ':bf4_pos' => $position_id,
                 ':sqdldr' => $squadleader_id,
                 ':game' => $game_id,
                 ':rank' => 1
@@ -1256,9 +1256,9 @@ function get_members()
 
         try {
 
-            $query = "SELECT member.forum_name, member.member_id, bf4_position.desc as bf4_position_desc, bf4_position.id as bf4_position_id, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr FROM `member` 
+            $query = "SELECT member.forum_name, member.member_id, position.desc as position_desc, position.id as position_id, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr FROM `member` 
             LEFT JOIN `rank` ON member.rank_id = rank.id 
-            LEFT JOIN `bf4_position` ON member.bf4_position_id = bf4_position.id 
+            LEFT JOIN `position` ON member.position_id = position.id 
             WHERE (status_id = 1 OR status_id = 999) ORDER BY member.rank_id DESC";
             $query = $pdo->prepare($query);
             $query->bindParam(':pid', $pid);
@@ -1284,7 +1284,7 @@ function get_gen_pop($pid)
 
             $query = "SELECT member.id, member.forum_name, member.member_id, member.last_activity, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr as rank FROM `member` 
             LEFT JOIN `rank` on member.rank_id = rank.id 
-            WHERE  member.bf4_position_id = 7 AND (status_id = 1 OR status_id = 999) AND platoon_id = :pid
+            WHERE  member.position_id = 7 AND (status_id = 1 OR status_id = 999) AND platoon_id = :pid
             ORDER BY member.last_activity ASC";
 
             $query = $pdo->prepare($query);
@@ -1442,10 +1442,10 @@ function get_platoon_members($pid)
 
         try {
 
-            $query = "SELECT member.id, member.forum_name, member.member_id,  bf4_position.desc as bf4_position_desc, bf4_position.id as bf4_position_id, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr as rank, join_date, last_forum_login, last_forum_post, last_activity, forum_posts FROM `member` 
+            $query = "SELECT member.id, member.forum_name, member.member_id,  position.desc as position_desc, position.id as position_id, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr as rank, join_date, last_forum_login, last_forum_post, last_activity, forum_posts FROM `member` 
             LEFT JOIN `rank` on member.rank_id = rank.id 
-            LEFT JOIN `bf4_position` ON member.bf4_position_id = bf4_position.id 
-            WHERE (status_id = 1 OR status_id = 999) AND platoon_id = :pid AND bf4_position_id NOT IN (3,2,1)
+            LEFT JOIN `position` ON member.position_id = position.id 
+            WHERE (status_id = 1 OR status_id = 999) AND platoon_id = :pid AND position_id NOT IN (3,2,1)
             ORDER BY member.rank_id DESC";
             
             $query = $pdo->prepare($query);
@@ -1469,10 +1469,10 @@ function get_division_ldrs($gid) {
     {
         try {
 
-            $sql = "SELECT member.id, member.forum_name, rank.abbr as rank, bf4_position.desc as bf4_position_desc FROM member 
+            $sql = "SELECT member.id, member.forum_name, rank.abbr as rank, position.desc as position_desc FROM member 
             LEFT JOIN rank on member.rank_id = rank.id 
-            LEFT JOIN `bf4_position` ON member.bf4_position_id = bf4_position.id 
-            WHERE bf4_position_id IN (1,2) AND member.game_id = {$gid}";
+            LEFT JOIN `position` ON member.position_id = position.id 
+            WHERE position_id IN (1,2) AND member.game_id = {$gid}";
 
             $statement = $pdo->query($sql);
             $statement->execute();
@@ -1601,11 +1601,11 @@ function get_squad_leaders($gid, $pid=false)
 
         try {
 
-            // bf4_position_id 5 = squad leader
+            // position_id 5 = squad leader
             $query = "SELECT member.id, last_activity, rank.abbr as rank, member_id, forum_name as name, platoon.name as platoon_name FROM member 
             LEFT JOIN platoon ON platoon.id = member.platoon_id
             LEFT JOIN rank ON rank.id = member.rank_id  
-            WHERE member.game_id = :gid AND bf4_position_id = 5";
+            WHERE member.game_id = :gid AND position_id = 5";
 
             if ($pid) {
                 $query .= " AND platoon_id = :pid ";
@@ -1638,10 +1638,10 @@ function get_member($mid) {
 
         try {
 
-            $query = "SELECT member.id, rank.abbr as rank, bf4_position.desc as position, forum_name, member_id, battlelog_name, bf4db_id, rank_id,  platoon_id, bf4_position_id, squad_leader_id, status_id, game_id, join_date, last_forum_login, last_activity, member.game_id, last_forum_post, forum_posts, status.desc FROM member 
+            $query = "SELECT member.id, rank.abbr as rank, position.desc as position, forum_name, member_id, battlelog_name, bf4db_id, rank_id,  platoon_id, position_id, squad_leader_id, status_id, game_id, join_date, last_forum_login, last_activity, member.game_id, last_forum_post, forum_posts, status.desc FROM member 
             LEFT JOIN users ON users.username = member.forum_name 
             LEFT JOIN games ON games.id = member.game_id
-            LEFT JOIN bf4_position ON bf4_position.id = member.bf4_position_id
+            LEFT JOIN position ON position.id = member.position_id
             LEFT JOIN rank ON rank.id = member.rank_id
             LEFT JOIN status ON status.id = member.status_id WHERE member.id = :mid";
             $query = $pdo->prepare($query);
@@ -1686,7 +1686,7 @@ function get_positions($my_position) {
 
     try {
 
-        $query = $pdo->prepare("SELECT `desc`, `id` FROM bf4_position WHERE id >= :my_position");
+        $query = $pdo->prepare("SELECT `desc`, `id` FROM position WHERE id >= :my_position");
         $query->bindParam(':my_position', $my_position);
         $query->execute();
         $query = $query->fetchAll();

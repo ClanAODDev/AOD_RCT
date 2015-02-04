@@ -24,7 +24,7 @@ if ($_POST && $_POST['id']) {
 	$game_id = $game_info['id'];
 	$platoon_id = $member['platoon_id'];
 	$squadldr = $member['squad_leader_id'];
-	$cur_position = $member['bf4_position_id'];
+	$cur_position = $member['position_id'];
 
 	switch ($userRole) {
 		case 1:
