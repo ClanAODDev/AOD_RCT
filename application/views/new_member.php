@@ -165,7 +165,7 @@ $out .= "
 
 								<p>These are things you will rehash with the forum thread stickies, but reiterating is far better than leaving it out entirely. Don't give them any opportunity not to get that information.</p>
 
-								<p><a class='popup-link'  href='http://www.clanaod.net/forums/showthread.php?t=97502'><button type='button' class='btn btn-primary'>Teamspeak Server Information</button></a> <a href='http://www.teamspeak.com/?page=downloads&gclid=CJakz7CwwcMCFRQQ7AodsDsASA' target='_blank'><button type='button' class='tool btn btn-primary' title='Right click to copy link'>TS3 Client Download</button></a>  <a href='http://www.clanaod.net/forums/showthread.php?t=72805' target='_blank'><button type='button' class='tool btn btn-primary' title='Recruitment Process Thread'>Recruitment Process Thread</button></a></p>
+								<p><a class='popup-link'  href='http://www.clanaod.net/forums/showthread.php?t=97502'><button type='button' class='btn btn-primary'>Teamspeak Server Information</button></a> <a href='http://www.teamspeak.com/?page=downloads&gclid=CJakz7CwwcMCFRQQ7AodsDsASA' target='_blank'><button type='button' class='tool btn btn-primary' title='Right click to copy link'>TS3 Client Download</button></a>  <a href='http://www.clanaod.net/forums/showthread.php?t=72805' target='_blank' class='popup-link'><button type='button' class='tool btn btn-primary' title='Recruitment Process Thread'>Recruitment Process Thread</button></a></p>
 
 							</div>
 						</div>";
