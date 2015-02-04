@@ -441,6 +441,38 @@ function get_user_avatar($forum_id, $type = "thumb")
 
 
 
+function get_division_toplist($option, $max) {
+    switch ($option) {
+        case "daily":
+        $query = "SELECT forum_name, platoon.number, ( SELECT count(*) FROM activity WHERE activity.member_id = member.member_id AND activity.server LIKE 'AOD%' AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 1 day) AND CURRENT_TIMESTAMP ) AS aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id ORDER BY aod_games DESC LIMIT {$max}";
+        break;
+
+        case "monthly":
+        $query = "SELECT forum_name, platoon.number, ( SELECT count(*) FROM activity WHERE activity.member_id = member.member_id AND activity.server LIKE 'AOD%' AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 30 day) AND CURRENT_TIMESTAMP ) AS aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id ORDER BY aod_games DESC LIMIT {$max}";
+        break;
+    }
+    
+    global $pdo;
+
+    if (dbConnect()) {
+        try {
+
+            $query = $pdo->prepare($query);
+            $query->execute();
+            $result = $query->fetchAll();
+
+        }
+        catch (PDOException $e) {
+            echo "ERROR:" . $e->getMessage();
+        }
+
+        return $result;
+    }
+
+}
+
+
+
 function get_games()
 {
 
@@ -684,8 +716,8 @@ function updateFlagged($id, $lid, $action)
             return $result = array('success' => false, 'message' => 'Error: ' . $e->getMessage());
         }
     } else {
-     return $result = array('success' => false, 'message' => 'Error: Something went wrong.');
- }
+       return $result = array('success' => false, 'message' => 'Error: Something went wrong.');
+   }
 }
 
 
@@ -1658,9 +1690,9 @@ function get_member($mid) {
 }
 
 function get_statuses() {
-   global $pdo;
+ global $pdo;
 
-   if (dbConnect()) {
+ if (dbConnect()) {
 
     try {
 
@@ -1678,11 +1710,11 @@ return $query;
 
 
 function get_positions($my_position) {
-   global $pdo;
+ global $pdo;
 
-   $my_position = (isDev()) ? 0 : $my_position;
+ $my_position = (isDev()) ? 0 : $my_position;
 
-   if (dbConnect()) {
+ if (dbConnect()) {
 
     try {
 
@@ -1766,19 +1798,19 @@ function formatTime($ptime)
     }
 
     $a = array( 365 * 24 * 60 * 60  =>  'year',
-     30 * 24 * 60 * 60  =>  'month',
-     24 * 60 * 60  =>  'day',
-     60 * 60  =>  'hour',
-     60  =>  'minute',
-     1  =>  'second'
-     );
-    $a_plural = array( 'year'   => 'years',
-       'month'  => 'months',
-       'day'    => 'days',
-       'hour'   => 'hours',
-       'minute' => 'minutes',
-       'second' => 'seconds'
+       30 * 24 * 60 * 60  =>  'month',
+       24 * 60 * 60  =>  'day',
+       60 * 60  =>  'hour',
+       60  =>  'minute',
+       1  =>  'second'
        );
+    $a_plural = array( 'year'   => 'years',
+     'month'  => 'months',
+     'day'    => 'days',
+     'hour'   => 'hours',
+     'minute' => 'minutes',
+     'second' => 'seconds'
+     );
 
     foreach ($a as $secs => $str)
     {

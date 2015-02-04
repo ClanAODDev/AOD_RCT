@@ -35,26 +35,11 @@ $name_col_2 = 320;
  * get data
  */
 
-if (dbConnect()) {
-	try {
+$daily = get_division_toplist("daily", 10);
+$monthly = get_division_toplist("monthly", 10);
 
-		$query1 = "SELECT forum_name, platoon.number, ( SELECT count(*) FROM activity WHERE activity.member_id = member.member_id AND activity.server LIKE 'AOD%' AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 1 day) AND CURRENT_TIMESTAMP ) AS aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id ORDER BY aod_games DESC LIMIT 10";	
 
-		$query2 = "SELECT forum_name, platoon.number, ( SELECT count(*) FROM activity WHERE activity.member_id = member.member_id AND activity.server LIKE 'AOD%' AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 30 day) AND CURRENT_TIMESTAMP ) AS aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id ORDER BY aod_games DESC LIMIT 10";
 
-		$query1 = $pdo->prepare($query1);
-		$query1->execute();
-		$daily = $query1->fetchAll();
-
-		$query2 = $pdo->prepare($query2);
-		$query2->execute();
-		$monthly = $query2->fetchAll();
-
-	}
-	catch (PDOException $e) {
-		echo "ERROR:" . $e->getMessage();
-	}
-}
 
 /**
  * create elements
