@@ -111,9 +111,8 @@ foreach ($monthly as $player) {
 
 
 
-
-
 imagepng($im);
+imagepng($im, "../toplist-cache.png");
 imagedestroy($im); 
 
 /*
