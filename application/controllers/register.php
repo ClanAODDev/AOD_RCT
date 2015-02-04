@@ -12,7 +12,7 @@ $email = $_POST['email'];
 
 if (stristr($user, 'aod_')) {
 	$data['success'] = false;
-	$data['message'] = "Please do not include 'AOD_' to your username";
+	$data['message'] = "Please do not use 'AOD_' in your username";
 
 } else if ($pass != $passVerify) {
 
