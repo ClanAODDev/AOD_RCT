@@ -3,8 +3,6 @@ header('Content-Type: image/png');
 
 include("../../application/lib.php");
 
-
-
 $im = imagecreatetruecolor(900,900);
 $white = imagecolorallocate($im, 255, 255, 255);
 $grey = imagecolorallocate($im, 128, 128, 128);
@@ -27,7 +25,7 @@ $r = 255;
 $g = 255;
 $b = 255;
 
-$font = "../business.ttf";
+$font = "../fonts/business.ttf";
 
 imagettftext($im, 22, 0, 80, 57, imagecolorallocate($im, $r, $g, $b), "../fonts/din-light.ttf", strtoupper($subtext));
 imagettftext($im, 6, 0, 23, $y, $grey, $font, strtoupper("#"));
