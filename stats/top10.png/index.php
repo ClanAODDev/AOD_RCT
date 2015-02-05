@@ -83,7 +83,7 @@ imagettftext($im, 6, 0, $games_col_2, $y, $orange, $tinyfont, strtoupper("AOD Ga
 
 foreach ($monthly['players'] as $player) {
 	$y = $y+20;
-	$name = strtoupper($player['rank']) . " " . substr(strtoupper($player['forum_name']), 0, 15);
+	$name = strtoupper($player['rank']) . " " . strtoupper($player['forum_name']);
  	// number
 	imagettftext($im, 6, 0, $num_col_2, $y, $orange, $tinyfont, "{$i}.");
 	// name
