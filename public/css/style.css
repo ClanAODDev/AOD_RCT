@@ -51,7 +51,7 @@
  }
 
  body {
-  background: #fcfcfc url("/public/images/hl-bg.jpg") 50% 0 no-repeat;
+  background: #fcfcfc url("/public/images/hl-bg.jpg") 50% no-repeat fixed;
 }
 
 .danger {
