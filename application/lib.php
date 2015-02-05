@@ -458,9 +458,9 @@ function get_division_toplist($option, $max) {
     }
 
     $totalAODquery = "SELECT round(
+
         (SELECT count(*) FROM activity WHERE activity.server LIKE 'AOD%' AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 30 day) AND CURRENT_TIMESTAMP) 
-        / count(*)*100   
-        ) FROM activity WHERE activity.datetime BETWEEN DATE_SUB( NOW(), INTERVAL 30 day ) AND CURRENT_TIMESTAMP";
+        / count(*)*100, 1) FROM activity WHERE activity.datetime BETWEEN DATE_SUB( NOW(), INTERVAL 30 day ) AND CURRENT_TIMESTAMP";
 
 global $pdo;
 

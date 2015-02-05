@@ -7,12 +7,13 @@ $im = imagecreatetruecolor(900,330);
 // color
 $white = imagecolorallocate($im, 255, 255, 255);
 $grey = imagecolorallocate($im, 128, 128, 128);
-$black = imagecolorallocate($im, 255,255,255);
+$darkergrey = imagecolorallocate($im, 30,30,30);
 $orange = imagecolorallocate($im, 255,108,0);
 $darkGrey = imagecolorallocate($im, 50,50,50);
 $im = imagecreatefrompng("../images/big-bg.png");
 
 $text = "Battlefield Division";
+$datesub = "AOD games / Total games";
 $dateText = date('d M', strtotime('-30 days')) . "-" . date('d M');
 
 $tinyfont = "../fonts/copy0855.ttf";
@@ -28,7 +29,7 @@ $games_col_2 = 465;
 $num_col_2 = 300;
 $name_col_2 = 320;
 
-$total_percent_x = 615;
+$total_percent_x = 590;
 $total_percent_y = 160;
 
 
@@ -47,6 +48,7 @@ $monthly = get_division_toplist("monthly", 10);
 
 // date
 imagettftext($im, 6, 0, 715, 240, $darkGrey, $tinyfont, strtoupper($dateText));
+imagettftext($im, 6, 0, 612, 100, $darkergrey, $tinyfont, strtoupper($datesub));
 
 
 // daily stats
