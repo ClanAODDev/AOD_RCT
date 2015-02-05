@@ -449,11 +449,11 @@ function get_user_avatar($forum_id, $type = "thumb")
 function get_division_toplist($option, $max) {
     switch ($option) {
         case "daily":
-        $query = "SELECT forum_name, platoon.number, ( SELECT count(*) FROM activity WHERE activity.member_id = member.member_id AND activity.server LIKE 'AOD%' AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 1 day) AND CURRENT_TIMESTAMP ) AS aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id ORDER BY aod_games DESC LIMIT {$max}";
+        $query = "SELECT forum_name, platoon.number, rank.abbr as rank, ( SELECT count(*) FROM activity WHERE activity.member_id = member.member_id AND activity.server LIKE 'AOD%' AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 1 day) AND CURRENT_TIMESTAMP ) AS aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id LEFT JOIN rank ON member.rank_id = rank.id ORDER BY aod_games DESC LIMIT {$max}";
         break;
 
         case "monthly":
-        $query = "SELECT forum_name, platoon.number, ( SELECT count(*) FROM activity WHERE activity.member_id = member.member_id AND activity.server LIKE 'AOD%' AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 30 day) AND CURRENT_TIMESTAMP ) AS aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id ORDER BY aod_games DESC LIMIT {$max}";
+        $query = "SELECT forum_name, platoon.number, rank.abbr as rank, ( SELECT count(*) FROM activity WHERE activity.member_id = member.member_id AND activity.server LIKE 'AOD%' AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 30 day) AND CURRENT_TIMESTAMP ) AS aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id LEFT JOIN rank ON member.rank_id = rank.id ORDER BY aod_games DESC LIMIT {$max}";
         break;
     }
 
@@ -1284,7 +1284,7 @@ function get_member_name($name)
             $query = "SELECT member.forum_name, games.full_name as game_name, member.id, rank.abbr FROM member 
             LEFT JOIN rank ON member.rank_id = rank.id 
             LEFT JOIN games ON member.game_id = games.id 
-            WHERE member.forum_name LIKE CONCAT('%', :name, '%') 
+            WHERE member.forum_name LIKE CONCAT('%', :name, '%')
             ORDER BY member.rank_id DESC
             LIMIT 25";
             $query = $pdo->prepare($query);

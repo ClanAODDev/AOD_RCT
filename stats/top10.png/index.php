@@ -60,12 +60,13 @@ imagettftext($im, 6, 0, $games_col_1, $y, $orange, $tinyfont, strtoupper("AOD Ga
 
 foreach ($daily['players'] as $player) {
 	$y = $y+20;
+	$name = strtoupper($player['rank']) . " " . substr(strtoupper($player['forum_name']), 0, 12);
  	// number
 	imagettftext($im, 6, 0, $num_col_1, $y, $orange, $tinyfont, "{$i}.");
 	// name
-	imagettftext($im, 6, 0, $name_col_1, $y, $white, $tinyboldfont, substr(strtoupper($player['forum_name']), 0, 12));
+	imagettftext($im, 6, 0, $name_col_1, $y, $white, $tinyfont, $name);
 	// games
-	imagettftext($im, 6, 0, $games_col_1, $y, $white, $tinyfont, "{$player['aod_games']}");
+	imagettftext($im, 6, 0, $games_col_1, $y, $white, $tinyboldfont, "{$player['aod_games']}");
 	$i++;
 
 }
@@ -82,12 +83,13 @@ imagettftext($im, 6, 0, $games_col_2, $y, $orange, $tinyfont, strtoupper("AOD Ga
 
 foreach ($monthly['players'] as $player) {
 	$y = $y+20;
+	$name = strtoupper($player['rank']) . " " . substr(strtoupper($player['forum_name']), 0, 15);
  	// number
 	imagettftext($im, 6, 0, $num_col_2, $y, $orange, $tinyfont, "{$i}.");
 	// name
-	imagettftext($im, 6, 0, $name_col_2, $y, $white, $tinyboldfont, substr(strtoupper($player['forum_name']), 0, 12));
+	imagettftext($im, 6, 0, $name_col_2, $y, $white, $tinyfont, $name);
 	// games
-	imagettftext($im, 6, 0, $games_col_2, $y, $white, $tinyfont, "{$player['aod_games']}");
+	imagettftext($im, 6, 0, $games_col_2, $y, $white, $tinyboldfont, "{$player['aod_games']}");
 	$i++;
 
 }
