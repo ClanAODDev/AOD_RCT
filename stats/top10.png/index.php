@@ -20,11 +20,11 @@ $tinyboldfont = "../fonts/copy0866.ttf";
 $bigfont = "../fonts/din-black.otf";
 
 // x value positions
-$games_col_1 = 160;
+$games_col_1 = 190;
 $num_col_1 = 23;
 $name_col_1 = 45;
 
-$games_col_2 = 435;
+$games_col_2 = 465;
 $num_col_2 = 300;
 $name_col_2 = 320;
 
