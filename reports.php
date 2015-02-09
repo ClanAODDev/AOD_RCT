@@ -14,6 +14,7 @@ if (!isset($_GET) || (isset($_GET['personaId']) && isset($_GET['username']))) {
 		$data = json_decode($json);
 		$player_id = $data->player->id;
 
+
 		echo "<h2>Fetched player id: {$player_id}</h2>";
 
 	} else if (isset($_GET['personaId'])) {
@@ -28,7 +29,7 @@ if (!isset($_GET) || (isset($_GET['personaId']) && isset($_GET['username']))) {
 
 	foreach ($reports as $report) {
 		$date = DateTime::createFromFormat('U', $report->createdAt)->format('M d');
-		echo "{$report->gameReportId}<br />{$report->name}<br />{$date}<br /><br />";
+		echo "{$report->gameReportId}<br />{$report->name}<br />{$report->map}<br />{$date}<br /><br />";
 	}
 	
 }
