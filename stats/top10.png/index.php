@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: image/png');
-include("../../../application/lib.php");
+include("../../application/lib.php");
 
 $im = imagecreatetruecolor(900,330);
 
