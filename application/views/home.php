@@ -173,113 +173,114 @@ $out .= "
 		<div class='col-md-12'>
 			<div class='jumbotron striped-bg'>
 				<h1>Howdy, <strong>{$curUser}</strong>! :)</h1>
-				<p>This is the activity tracker for the {$longname} division! Click the help link at the top for more information.</p>
-			</div>
-		</div> <!-- end col -->
-	</div> <!-- end end row -->";
+<p>This is the activity tracker for the {$longname} division! Click the help link at the top for more information.</p>
+</div>
+</div> <!-- end col -->
+</div> <!-- end end row -->";
 
 
 	// player search bar
-	$out .= "
-	<div class='row'>
-		<div class='col-md-12'>
-			<div class='panel panel-info'>
-				<div class='panel-heading'><i class='fa fa-search fa-lg'></i> <strong>Player Search</strong></div>
-				<div class='panel-body'>
-					<input type='text' class='form-control input-lg' name='member-search' id='member-search' placeholder='Type a player name' />
-					<div id='member-search-results' class='scroll'></div> 
-				</div>
+$out .= "
+<div class='row'>
+	<div class='col-md-12'>
+		<div class='panel panel-info'>
+			<div class='panel-heading'><i class='fa fa-search fa-lg'></i> <strong>Player Search</strong></div>
+			<div class='panel-body'>
+				<input type='text' class='form-control input-lg' name='member-search' id='member-search' placeholder='Type a player name' />
+				<div id='member-search-results' class='scroll'></div> 
 			</div>
 		</div>
-	</div>";
+	</div>
+</div>";
 
 
 	// alerts section
-	$out .= "
-	<div class='row'>
-		<div class='col-md-12'>
-			{$alerts_list}
-		</div>
-	</div>";
+$out .= "
+<div class='row'>
+	<div class='col-md-12'>
+		{$alerts_list}
+	</div>
+</div>";
 
 	// is user approved?
-	if ($userRole == 0) {
-		$out .= "
-		<div class='alert alert-warning' role='alert'><i class=\"fa fa-exclamation-triangle\"></i> You are currently a guest. You will need to have an administrator approve your account before you can use this application</div>";
-	} else {
+if ($userRole == 0) {
+	$out .= "
+	<div class='panel panel-body'>
+		<p> Welcome to the Member Tracking Tool, <strong>{$curUser}</strong>.</p>
+	</div>";
+} else {
 
 
 
 
 		// left side
-		$out .= "
-		<div class='row'>";
+	$out .= "
+	<div class='row'>";
 
 
 			// start leader tools
-			$out .= "
-			<div class='col-md-5'>
-				<div class='panel panel-primary'>
-					<div class='panel-heading'><strong>{$roleName} Quick Tools</strong></div>
-					<div class='list-group'>
-						{$tools}
-					</div>
+		$out .= "
+		<div class='col-md-5'>
+			<div class='panel panel-primary'>
+				<div class='panel-heading'><strong>{$roleName} Quick Tools</strong></div>
+				<div class='list-group'>
+					{$tools}
 				</div>
-				";
+			</div>
+			";
 
 
 				// personnel view
 				// depending on user role (1 = squad leader, 2 = platoon leader)
 
-				if ($userRole == 1) {
+			if ($userRole == 1) {
 
 					// squad
-					$out .= "
-					<div class='panel panel-default'>
-						<div class='panel-heading'><strong> Your Squad</strong> {$squadCount}<span class='pull-right text-muted'>Last seen</span></div>
+				$out .= "
+				<div class='panel panel-default'>
+					<div class='panel-heading'><strong> Your Squad</strong> {$squadCount}<span class='pull-right text-muted'>Last seen</span></div>
 
-						<div class='list-group' id='squad'>
-							{$my_squad}
+					<div class='list-group' id='squad'>
+						{$my_squad}
 
-						</div>
-					</div>";
-
-				} else if ($userRole == 2) {
+					</div>
+				</div>";
+			} else if ($userRole == 2) {
 
 					// platoon
-					$out .= "				
-					<div class='panel panel-default'>
-						<div class='panel-heading'><strong> Your Platoon</strong> {$platoonCount}<span class='pull-right text-muted'>Last seen</span></div>
+				$out .= "				
+				<div class='panel panel-default'>
+					<div class='panel-heading'><strong> Your Platoon</strong> {$platoonCount}<span class='pull-right text-muted'>Last seen</span></div>
 
-						<div class='list-group' id='squads'>
+					<div class='list-group' id='squads'>
 
-							{$my_platoon}
+						{$my_platoon}
 
-						</div>
-					</div>";
+					</div>
+				</div>";
 
-				}
+			}
 
-				$out .= "
-			</div>";
+			$out .= "
+		</div>";
 			// end leader tools and info column
 
 
 			// announcements
-			$out .= "
-			<div class='col-md-7'>
-				{$posts}
-			</div>
-			";
+		$out .= "
+		<div class='col-md-7'>
+			{$posts}
+		</div>
+		";
 
-			$out .="
-		</div>";
+		$out .="
+	</div>";
 		// end announcements
 
-	}
+}
 
 	// end container
-	$out .=" 
+$out .=" 
 </div>";
 
 
