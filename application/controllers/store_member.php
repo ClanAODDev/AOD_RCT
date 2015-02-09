@@ -19,10 +19,18 @@ $platoon = ($userRole >= 3 || isDev()) ? $_POST['platoon'] : $user_platoon;
 // else squad member
 $position_id = ($squadLdr == 0 && ($userRole >= 2 || isDev()) ) ? 7 : 6;
 
-// attempt to fetch bf4dbid, also validates battlelog name
+
+// disable bf4db id check for now... allow bf3, hardline players
 if (!$bf4db = get_bf4db_id($battlelog)) {
-	$data = array('success' => false, 'message' => 'Invalid battlelog name.', 'battlelog' => true);
-} else if (createMember($forumName, $member_id, $battlelog, $bf4db, $platoon, $position_id, $squadLdr, $user_game)) {
+	$bf4db = 0;
+}
+
+// attempt to fetch bf4dbid, also validates battlelog name
+// if (!) {
+//	$data = array('success' => false, 'message' => 'Invalid battlelog name.', 'battlelog' => true);
+// } else 
+
+if (createMember($forumName, $member_id, $battlelog, $bf4db, $platoon, $position_id, $squadLdr, $user_game)) {
 	$data = array('success' => true, 'message' => 'Member entry created');
 } else {
 	$data = array('success' => false, 'message' => 'Something went wrong...');
