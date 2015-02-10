@@ -202,11 +202,15 @@ $out .= "
 	</div>
 </div>";
 
-	// is user approved?
+// is user a regular member, no editing privileges?
 if ($userRole == 0) {
 	$out .= "
-	<div class='panel panel-body'>
-		<p> Welcome to the Member Tracking Tool, <strong>{$curUser}</strong>.</p>
+	<div class='panel panel-default'>
+	<div class='panel-heading'>Welcome to the activity tracker!</div>
+		<div class='panel-body'>
+			<p>As a clan member, you have access to see the activity data for all members within the clan, so long as your particular division is supported by this tool. To get started, select your division from the \"divisions\" dropdown above.</p>
+			<p>To view a particular member, simply type their name in the search box above.</p>
+		</div>
 	</div>";
 } else {
 
