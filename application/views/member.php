@@ -55,7 +55,7 @@ if ($member = get_member($userId)) {
 	// server history
 	$past_games = get_player_games($member_id);
 	$games = NULL;
-	$i = 0;
+	$i = 1;
 
 	if (count($past_games)) {
 
@@ -69,7 +69,7 @@ if ($member = get_member($userId)) {
 					<td class='text-muted'>{$date}</td>
 				</tr>";
 
-				if ($i >= $maxGames) {
+				if ($i == $maxGames) {
 					break;
 				}
 				$i++;
