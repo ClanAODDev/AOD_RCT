@@ -1249,7 +1249,7 @@ function build_user_tools($role)
                     'descr' => 'View inactive members and flag for removal',
                     'icon' => 'flag',
                     'link' => '/manage/inactive',
-                    'disabled' => false
+                    'disabled' => true
                 )
             );
             break;
@@ -1272,7 +1272,7 @@ function build_user_tools($role)
                     'descr' => 'View inactive members and flag for removal',
                     'icon' => 'flag',
                     'link' => '/manage/inactive',
-                    'disabled' => false
+                    'disabled' => true
                 )
             );
             break;
@@ -1295,7 +1295,7 @@ function build_user_tools($role)
                     'descr' => 'View inactivity reports and prepare for removal',
                     'icon' => 'flag',
                     'link' => '/manage/inactive',
-                    'disabled' => false
+                    'disabled' => true
                 )
             );
             break;
@@ -1524,10 +1524,10 @@ function get_player_games($mid)
     global $pdo;
     
     if (dbConnect()) {
-        
+       
         try {
             
-            $query = "SELECT server, datetime FROM `activity` WHERE member_id = :mid ORDER BY datetime DESC LIMIT 25";
+            $query = "SELECT server, datetime FROM `activity` WHERE member_id = :mid ORDER BY datetime DESC";
             
             $query = $pdo->prepare($query);
             $query->bindParam(':mid', $mid);
