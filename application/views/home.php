@@ -110,7 +110,7 @@ if ($userRole == 1) {
 
 
 		// fetch announcements for main page
-		$postsArray = get_posts("main_page", 3);
+		$postsArray = get_posts("main_page", 3, $userRole);
 		$posts = NULL;
 
 		if (!empty($postsArray)) {
@@ -183,7 +183,7 @@ $out .= "
 $out .= "
 <div class='row'>
 	<div class='col-md-12'>
-		<div class='panel panel-info'>
+		<div class='panel panel-primary'>
 			<div class='panel-heading'><i class='fa fa-search fa-lg'></i> <strong>Player Search</strong></div>
 			<div class='panel-body'>
 				<input type='text' class='form-control input-lg' name='member-search' id='member-search' placeholder='Type a player name' />
@@ -205,13 +205,17 @@ $out .= "
 // is user a regular member, no editing privileges?
 if ($userRole == 0) {
 	$out .= "
-	<div class='panel panel-default'>
+	<div class='panel panel-info'>
 	<div class='panel-heading'>Welcome to the activity tracker!</div>
 		<div class='panel-body'>
 			<p>As a clan member, you have access to see the activity data for all members within the clan, so long as your particular division is supported by this tool. To get started, select your division from the \"divisions\" dropdown above.</p>
 			<p>To view a particular member, simply type their name in the search box above.</p>
 		</div>
-	</div>";
+	</div>
+
+	{$posts}";
+
+
 } else {
 
 
@@ -267,10 +271,10 @@ if ($userRole == 0) {
 
 			$out .= "
 		</div>";
-			// end leader tools and info column
+		// end leader tools and info column
 
 
-			// announcements
+		// announcements
 		$out .= "
 		<div class='col-md-7'>
 			{$posts}

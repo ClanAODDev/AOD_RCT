@@ -1194,7 +1194,7 @@ function get_alerts($uid)
 
 
 
-function get_posts($type, $limit)
+function get_posts($type, $limit, $role)
 {
     
     global $pdo;
@@ -1207,11 +1207,12 @@ function get_posts($type, $limit)
             member.id, member.member_id, posts.title, posts.content, posts.date, posts.forum_id, posts.reply_id, posts.type, users.username, users.role FROM posts 
             LEFT JOIN users ON posts.user = users.id 
             LEFT JOIN member ON posts.forum_id = member.member_id 
-            WHERE posts.type = :type
+            WHERE posts.type = :type AND posts.visibility <= :role
             ORDER BY posts.date DESC
             LIMIT :limiter";
             $query = $pdo->prepare($query);
             $query->bindParam(':type', $type);
+            $query->bindParam(':role', $role);
             $query->bindValue(':limiter', (int) trim($limit), PDO::PARAM_INT);
             $query->execute();
             $query = $query->fetchAll();
