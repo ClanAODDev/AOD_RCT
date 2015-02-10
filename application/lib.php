@@ -1,8 +1,5 @@
 <?php
 
-/*error_reporting(E_ALL);
-ini_set('display_errors', '1');*/
-
 include_once("config.php");
 include_once("modules/vbfunctions.php");
 
@@ -471,11 +468,11 @@ function get_division_toplist($option, $max)
 {
     switch ($option) {
         case "daily":
-            $query = "SELECT forum_name, platoon.number, rank.abbr as rank, ( SELECT count(*) FROM activity WHERE activity.member_id = member.member_id AND activity.server LIKE 'AOD%' AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 1 day) AND CURRENT_TIMESTAMP ) AS aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id LEFT JOIN rank ON member.rank_id = rank.id ORDER BY aod_games DESC LIMIT {$max}";
+            $query = "SELECT forum_name, member_id, platoon.number, rank.abbr as rank, ( SELECT count(*) FROM activity WHERE activity.member_id = member.member_id AND activity.server LIKE 'AOD%' AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 1 day) AND CURRENT_TIMESTAMP ) AS aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id LEFT JOIN rank ON member.rank_id = rank.id ORDER BY aod_games DESC LIMIT {$max}";
             break;
         
         case "monthly":
-            $query = "SELECT forum_name, platoon.number, rank.abbr as rank, ( SELECT count(*) FROM activity WHERE activity.member_id = member.member_id AND activity.server LIKE 'AOD%' AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 30 day) AND CURRENT_TIMESTAMP ) AS aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id LEFT JOIN rank ON member.rank_id = rank.id ORDER BY aod_games DESC LIMIT {$max}";
+            $query = "SELECT forum_name, member_id, platoon.number, rank.abbr as rank, ( SELECT count(*) FROM activity WHERE activity.member_id = member.member_id AND activity.server LIKE 'AOD%' AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 30 day) AND CURRENT_TIMESTAMP ) AS aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id LEFT JOIN rank ON member.rank_id = rank.id ORDER BY aod_games DESC LIMIT {$max}";
             break;
     }
     
@@ -1582,7 +1579,7 @@ function get_division_ldrs($gid)
     if (dbConnect()) {
         try {
             
-            $sql = "SELECT member.id, member.forum_name, rank.abbr as rank, position.desc as position_desc FROM member 
+            $sql = "SELECT member.id, member.member_id as forum_id, member.forum_name, rank.abbr as rank, position.desc as position_desc FROM member 
             LEFT JOIN rank on member.rank_id = rank.id 
             LEFT JOIN `position` ON member.position_id = position.id 
             WHERE position_id IN (1,2) AND member.game_id = {$gid}";

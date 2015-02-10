@@ -23,6 +23,8 @@ if (count($leaders)) {
 
 	foreach($leaders as $leader) {
 
+
+
 		$divldrs .= "
 		<a href='/member/{$leader['id']}' class='list-group-item'>
 			<h5 class='pull-right'><i class='fa fa-shield fa-2x text-muted'></i></h5>
@@ -56,12 +58,31 @@ foreach ($platoons as $row) {
 }
 
 if (!empty($platoon_items)) {
-
 	$platoon_list = $platoon_items;
-
 } else {
-
 	$platoon_list = "<li class='list-group-item'>No platoons currently exist for this division.</li>";
+}
+
+if ($game_id == 2) {
+
+	// statistics
+	$toplistMonthly = null;
+	$monthly = get_division_toplist("monthly", 25);
+	$i = 1;
+	foreach ($monthly['players'] as $mem) {
+		$toplistMonthly .= "<tr><td class='text-center text-muted'>{$i}</td><td>{$mem['rank']} {$mem['forum_name']}</td><td><strong>{$mem['aod_games']}</strong></td></tr>";
+		$i++;
+	}
+
+	$toplistDaily = null;
+	$monthly = get_division_toplist("daily", 25);
+	$i = 1;
+	foreach ($monthly['players'] as $mem) {
+		$toplistDaily .= "<tr><td class='text-center text-muted'>{$i}</td><td>{$mem['rank']} {$mem['forum_name']}</td><td><strong>{$mem['aod_games']}</strong></td></tr>";
+		$i++;
+	}
+
+	// end statistics
 
 }
 
@@ -103,53 +124,46 @@ $out .= "
 
 	</div>";
 
+	// bf statistics
+	if ($game_id == 2) {
 
-	// statistics section
-	
+		// statistics section
+		$out .="
+		<div class='row col-md-12 margin-top-50'>
 
-	/* $out .="
-	<div class='row'>
-		<div class='col-md-12 page-header'>
-			<h3>Division Statistics</h3>
-		</div>
-	</div>
-
-	<div class='row'>
-
-		<div class='col-md-4'>
-			<div class='panel panel-default'>
-				<div class='panel-heading'>Active Platoons</div>
-				<div class='list-group'>
-					{$platoon_list}
-				</div>
+			<div class='page-header'>
+				<h3>Division Statistics</h3>
 			</div>
 		</div>
 
-		<div class='col-md-4'>
-			<div class='panel panel-default'>
-				<div class='panel-heading'>Active Platoons</div>
-				<div class='list-group'>
-					{$platoon_list}
+		<div class='row'>
+
+
+
+			<div class='col-md-6'>
+				<div class='panel panel-primary'>
+
+					<div class='panel-heading'>Daily Most Active Players</div>
+					<table class='table table-striped table-hover'>
+						{$toplistDaily}
+					</table>
+				</div>
+			</div>
+
+
+			<div class='col-md-6'>
+				<div class='panel panel-primary'>
+
+					<div class='panel-heading'>Monthly Most Active Players</div>
+					<table class='table table-striped table-hover'>
+						{$toplistMonthly}
+					</table>
 				</div>
 			</div>
 		</div>
+		"; 
 
-		<div class='col-md-4'>
-			<div class='panel panel-default'>
-				<div class='panel-heading'>Active Platoons</div>
-				<div class='list-group'>
-					{$platoon_list}
-				</div>
-			</div>
-		</div> 
-
-	</div>
-
-
-
-
-
-	"; */
+	}
 
 
 	$out .= "
