@@ -1,5 +1,7 @@
 <?php
 header('Content-Type: image/png');
+
+date_default_timezone_set('America/New_York');
 include("../../application/lib.php");
 
 $im = imagecreatetruecolor(900, 330);
