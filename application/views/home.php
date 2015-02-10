@@ -40,10 +40,6 @@ if ($userRole == 1) {
 	}
 
 
-
-
-
-
 // platoon leader personnel view
 } else if ($userRole == 2) {
 	$squad_leaders = get_squad_leaders($user_game, $user_platoon);
