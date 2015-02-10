@@ -3,6 +3,7 @@
 if (!isset($_SESSION['secure_access']) || (isset($_SESSION['secure_access']) && $_SESSION['secure_access'] !== true)) { header("Location: /404/"); }
 
 $out = NULL;
+$platoonPm = array();
 
 $platoon = $params['platoon'];
 $game_info = get_game_info($params['division']);
@@ -55,6 +56,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 
 				foreach ($members as $row) {
 
+					$platoonPm[] = $row['member_id'];
 					$total_games = count_total_games($row['member_id'], $first_date_in_range, $last_date_in_range);
 					$aod_games = count_aod_games($row['member_id'], $first_date_in_range, $last_date_in_range);
 					$percent_aod = ($aod_games > 0 ) ? (($aod_games)/($total_games))*100 : NULL;
