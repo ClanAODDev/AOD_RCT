@@ -37,7 +37,7 @@ $total_percent_y = 160;
  */
 try {
 
-	$daily   = get_division_toplist("dailyd", 10);
+	$daily   = get_division_toplist("daily", 10);
 	$monthly = get_division_toplist("monthly", 10);
 
 	if (!$daily || !$monthly) {
@@ -55,7 +55,6 @@ try {
     
     
     // daily stats
-    
     $y = 65;
     $i = 1;
     
