@@ -6,6 +6,7 @@ $out = NULL;
 $editPanel = NULL;
 $alerts = NULL;
 $userId = $params['id'];
+$maxGames = MAX_GAMES;
 
 if ($member = get_member($userId)) {
 
@@ -54,14 +55,25 @@ if ($member = get_member($userId)) {
 	// server history
 	$past_games = get_player_games($member_id);
 	$games = NULL;
+	$i = 0;
+
 	if (count($past_games)) {
-		foreach ($past_games as $game) {
-			$date = formatTime(strtotime($game['datetime']));
-			$games .= "
-			<tr>
-				<td>{$game['server']}</td>
-				<td class='text-muted'>{$date}</td>
-			</tr>";
+
+			foreach ($past_games as $game) {
+				$totalGames = $game['lastmonth_games'];
+
+				$date = formatTime(strtotime($game['datetime']));
+				$games .= "
+				<tr>
+					<td>{$game['server']}</td>
+					<td class='text-muted'>{$date}</td>
+				</tr>";
+
+				if ($i >= $maxGames) {
+					break;
+				}
+				$i++;
+			
 		}
 	} else if (is_null($bf4dbid) || empty($bf4dbid)) {
 		$games = "<li class='list-group-item text-muted'>This player does not have a BF4DB id stored. You should update it.</li>";
@@ -164,7 +176,7 @@ if ($member = get_member($userId)) {
 
 			<div class='col-md-9'>
 				<div class='panel panel-primary'>
-					<div class='panel-heading'><strong>Recent server activity</strong><small class='pull-right'>Last 30 days</small></div>
+					<div class='panel-heading'><strong>BF4 Server Activity</strong> ({$totalGames} games in 30 days)<span class='pull-right'> Last {$maxGames} games</span></div>
 					<table class='table table-striped table-hover'>
 						<tbody>
 							{$games}

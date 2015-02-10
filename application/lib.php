@@ -1527,7 +1527,7 @@ function get_player_games($mid)
        
         try {
             
-            $query = "SELECT server, datetime FROM `activity` WHERE member_id = :mid ORDER BY datetime DESC";
+            $query = "SELECT (SELECT count(*) FROM `activity` WHERE member_id = :mid AND datetime BETWEEN DATE_SUB( NOW(), INTERVAL 29 day ) AND CURRENT_TIMESTAMP) as lastmonth_games, server, datetime FROM `activity` WHERE member_id = :mid ORDER BY datetime DESC";
             
             $query = $pdo->prepare($query);
             $query->bindParam(':mid', $mid);
