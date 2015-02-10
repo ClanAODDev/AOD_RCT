@@ -32,9 +32,6 @@ $name_col_2  = 320;
 $total_percent_x = 590;
 $total_percent_y = 160;
 
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-
 /**
  * get data
  */
@@ -46,7 +43,6 @@ try {
 	if (!$daily || !$monthly) {
 		throw new Exception("Query could not be completed", 1);
 	}
-
 
 
     /**
