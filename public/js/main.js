@@ -38,6 +38,10 @@ $(function() {
         $(this).tab('show');
     });
 
+    $("#members-table tr").click(function(){
+        window.location.href = "/member/" + $(this).attr('data-id');
+    })
+
 
     /**
      * navigation links for user cp
@@ -165,6 +169,7 @@ $(function() {
     var selected = new Array();
 
     var table = $('#members-table').DataTable({
+        "autoWidth": true,
         "sDom": '<"clear">tfrip',
         "order": [],
         "columnDefs": [{

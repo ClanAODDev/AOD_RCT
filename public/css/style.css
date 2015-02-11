@@ -105,6 +105,9 @@ table.dataTable thead th, table.dataTable thead td, table.dataTable.no-footer, t
   border: none !important;
 }
 
+#members-table tr {
+  cursor: pointer;
+}
 
 #members-table_info {
   float: none !important;

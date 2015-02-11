@@ -41,7 +41,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 		<table class='table table-striped table-hover' id='members-table'>
 			<thead>
 				<tr>
-					<th style='width: 160px;'><b>Member</b></th>
+					<th><b>Member</b></th>
 					<th class='nosearch text-center hidden-xs hidden-sm'><b>Rank</b></th>
 					<th class='text-center hidden-xs hidden-sm'><b>Joined</b></th>
 					<th class='text-center'><b>Last Active</b></th>
@@ -68,11 +68,9 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 					$lastActive = formatTime(strtotime($row['last_activity']));
 					$status = lastSeenColored($lastActive);
 
-					$profile = "<a class='tool' title='View Profile' href='/member/" . $row['id'] . "'><i class='fa fa-user'></i></a>";
-
 					$members_table .= "
-					<tr data-id='{$row['id']}' class=''>
-						<td>" . memberColor($row['forum_name'], $row['position_id']) . " <span class='pull-right'>{$profile}</span></td>
+					<tr data-id='{$row['id']}'>
+						<td>" . memberColor($row['forum_name'], $row['position_id']) . "</td>
 						<td class='text-center hidden-xs hidden-sm'>{$rank}</td>
 						
 						<td class='text-center hidden-xs hidden-sm'>{$joindate}</td>
