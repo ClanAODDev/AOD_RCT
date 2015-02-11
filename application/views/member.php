@@ -8,6 +8,9 @@ $alerts = NULL;
 $userId = $params['id'];
 $maxGames = MAX_GAMES;
 
+$first_date_in_range = date("Y-m-d", strtotime("now - 30 days"));
+$last_date_in_range = date("Y-m-d", strtotime("now"));
+
 if ($member = get_member($userId)) {
 
 	// member data
@@ -33,8 +36,6 @@ if ($member = get_member($userId)) {
 	$userId = $member['id'];
 	$battlelog_name = $member['battlelog_name'];
 
-
-
 	// member activity greater than 14 days (warning)
 	if (strtotime($last_seen) < strtotime('-30 days')) {
 		$alerts .= "<div class='alert alert-danger fade-in'><i class='fa fa-exclamation-triangle'></i> Player has not logged into the forums in {$wng_last_seen}!</div>";
@@ -49,9 +50,6 @@ if ($member = get_member($userId)) {
 	}
 
 
-
-
-
 	// server history
 	$past_games = get_player_games($member_id);
 	$games = NULL;
@@ -59,22 +57,24 @@ if ($member = get_member($userId)) {
 
 	if (count($past_games)) {
 
-			foreach ($past_games as $game) {
-				$totalGames = $game['lastmonth_games'];
+		foreach ($past_games as $game) {
+			$totalGames = $game['lastmonth_games'];
 
-				$date = formatTime(strtotime($game['datetime']));
-				$games .= "
-				<tr>
-					<td>{$game['server']}</td>
-					<td class='text-muted'>{$date}</td>
-				</tr>";
+			$date = formatTime(strtotime($game['datetime']));
+			$games .= "
+			<tr>
+				<td>{$game['server']}</td>
+				<td class='text-muted'>{$date}</td>
+			</tr>";
 
-				if ($i == $maxGames) {
-					break;
-				}
-				$i++;
+			if ($i == $maxGames) {
+				break;
+			}
+
+			$i++;
 			
 		}
+
 	} else if (is_null($bf4dbid) || empty($bf4dbid)) {
 		$games = "<li class='list-group-item text-muted'>This player does not have a BF4DB id stored. You should update it.</li>";
 	} else {
@@ -119,7 +119,17 @@ if ($member = get_member($userId)) {
 	";
 
 	$avatar = get_user_avatar($member_id, 'large');
-	$privmsg = "<a class='btn btn-default btn-xs popup-link' href='" . PRIVMSG . $member_id . "' target='_blank'><i class='fa fa-comment'></i> Private Message</a>";
+	$privmsg = "<a class='btn btn-default btn-xs popup-link' href='" . PRIVMSG . $member_id . "' target='_blank'><i class='fa fa-comment'></i> Send PM</a>";
+	$email = "<a class='btn btn-default btn-xs popup-link' href='" . EMAIL . $member_id . "' target='_blank'><i class='fa fa-envelope'></i> Send Email</a>";
+
+
+	// games bar
+	$aod_games = count_aod_games($member_id, $first_date_in_range, $last_date_in_range);
+	$aod_bar = "<div class='progress text-center follow-tool' title='<small><center>{$aod_games} of {$total_games}<br />{$percent_aod}%</center></small>' style='width: 60px; margin: 0 auto; height: 15px; vertical-align:middle;'><div class='progress-bar progress-bar-" . getPercentageColor($percent_aod) . " progress-bar-striped' role='progressbar' aria-valuenow='72' aria-valuemin='0' aria-valuemax='50' style='width: ". $percent_aod . "%'><span style='display: none;'>{$percent_aod}%</span></div></div>";
+
+
+
+
 
 	$out .= "
 	<div class='container fade-in'>
@@ -130,7 +140,7 @@ if ($member = get_member($userId)) {
 		<div class='page-header vertical-align'>
 			<div class='col-xs-1 hidden-sm hidden-xs'>{$avatar}</div>
 			<div class='col-xs-7'>
-				<h2><strong>{$rank} {$name}</strong><br />{$privmsg}</h2>
+				<h2><strong>{$rank} {$name}</strong><br />{$privmsg} {$email}</h2>
 			</div>			
 			<div class='col-xs-4'>
 				{$editPanel}
