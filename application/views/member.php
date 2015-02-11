@@ -127,7 +127,7 @@ if ($member = get_member($userId)) {
 	$aod_games = count_aod_games($member_id, $first_date_in_range, $last_date_in_range);
 	$percent_aod = ($aod_games > 0 ) ? (($aod_games)/($totalGames))*100 : NULL;
 	$percent_aod = number_format((float)$percent_aod, 2, '.', '');
-	$aod_bar = "<div class='progress text-center follow-tool' title='<small><center>{$aod_games} of {$totalGames}<br />{$percent_aod}%</center></small>' style='width: 100%; margin: 0 auto; height: 35px; vertical-align:middle;'><div class='progress-bar progress-bar-" . getPercentageColor($percent_aod) . " progress-bar-striped active' role='progressbar' aria-valuenow='72' aria-valuemin='0' aria-valuemax='50' style='width: ". $percent_aod . "%'><span style='display: none;'>{$percent_aod}%</span></div></div>";
+	$aod_bar = "<div class='progress text-center follow-tool' title='<small><center>{$aod_games} of {$totalGames}<br />{$percent_aod}%</center></small>' style='width: 100%; margin: 0 auto; height: 20px; vertical-align:middle;'><div class='progress-bar progress-bar-" . getPercentageColor($percent_aod) . " progress-bar-striped active' role='progressbar' aria-valuenow='72' aria-valuemin='0' aria-valuemax='50' style='width: ". $percent_aod . "%'><span style='display: none;'>{$percent_aod}%</span></div></div>";
 
 
 
@@ -152,11 +152,6 @@ if ($member = get_member($userId)) {
 
 		<div class='row margin-top-20'>
 			<div class='col-md-3'>
-
-				<div class='panel panel-info'>
-					<div class='panel-heading'><strong>AOD Participation</strong><span class='badge pull-right'>{$aod_games} Games</span></div>
-					<div class='panel-body'>{$aod_bar}</div>
-				</div>
 
 				<div class='panel panel-info'>
 					<div class='panel-heading'><strong>Member Information</strong></div>
@@ -192,6 +187,11 @@ if ($member = get_member($userId)) {
 			<!--/end left side bar-->
 
 			<div class='col-md-9'>
+			
+				<div class='panel panel-info'>
+					<div class='panel-heading'><strong>AOD Participation</strong><span class='badge pull-right'>{$aod_games} Games</span></div>
+					<div class='panel-body'>{$aod_bar}</div>
+				</div>
 
 				<div class='panel panel-primary'>
 					<div class='panel-heading'><strong>BF4 Server Activity</strong> ({$totalGames} games in 30 days)<span class='pull-right'> Last {$maxGames} games</span></div>
