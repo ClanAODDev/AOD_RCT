@@ -38,7 +38,7 @@ $(function() {
         $(this).tab('show');
     });
 
-    $("#members-table tr").click(function(){
+    $("#members-table tbody tr").click(function(){
         window.location.href = "/member/" + $(this).attr('data-id');
     })
 
