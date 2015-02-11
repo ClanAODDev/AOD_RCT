@@ -16,7 +16,7 @@ $im         = imagecreatefrompng("../images/big-bg.png");
 
 $text     = "Battlefield Division";
 $datesub  = "AOD games / Total games";
-$dateText = date('d M', strtotime('-30 days')) . "-" . date('d M');
+$dateText = date('d M', strtotime('-30 days')) . " - " . date('d M');
 
 $tinyfont     = "../fonts/copy0855.ttf";
 $tinyboldfont = "../fonts/copy0866.ttf";
