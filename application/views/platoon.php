@@ -70,7 +70,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 
 					$members_table .= "
 					<tr data-id='{$row['id']}'>
-						<td>" . memberColor($row['forum_name'], $row['position_id']) . "</td>
+						<td>" . memberColor(ucwords($row['forum_name']), $row['position_id']) . "</td>
 						<td class='text-center hidden-xs hidden-sm'>{$rank}</td>
 						
 						<td class='text-center hidden-xs hidden-sm'>{$joindate}</td>
