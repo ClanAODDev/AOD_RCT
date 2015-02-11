@@ -41,9 +41,9 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 		<table class='table table-striped table-hover' id='members-table'>
 			<thead>
 				<tr>
-					<th style='width: 120px;'><b>Member</b></th>
+					<th style='width: 160px;'><b>Member</b></th>
 					<th class='nosearch text-center hidden-xs hidden-sm'><b>Rank</b></th>
-					<th class='text-center hidden-xs hidden-sm'><b>Join Date</b></th>
+					<th class='text-center hidden-xs hidden-sm'><b>Joined</b></th>
 					<th class='text-center'><b>Last Active</b></th>
 					<th class='text-center tool' title='In AOD servers'><b>AOD</b></th>
 					<th class='text-center'><b>Overall</b></th>
@@ -64,7 +64,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 					$overall_aod_games[] = $aod_games;
 					$overall_aod_percent[] = $percent_aod;
 					$rank = $row['rank'];
-					$joindate = date("Y-m-d", strtotime($row['join_date']));
+					$joindate = date("Y", strtotime($row['join_date']));
 					$lastActive = formatTime(strtotime($row['last_activity']));
 					$status = lastSeenColored($lastActive);
 
@@ -81,7 +81,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 						<td class='text-center'>{$aod_games}</td>
 						<td class='text-center'>{$total_games}</td>
 
-						<td class='text-center'><div class='progress text-center follow-tool' title='<small><center>{$aod_games} of {$total_games}<br />{$percent_aod}%</center></small>' style='width: 60px; margin: 0 auto; height: 15px; vertical-align:middle;'><div class='progress-bar progress-bar-" . getPercentageColor($percent_aod) . " progress-bar-striped' role='progressbar' aria-valuenow='72' aria-valuemin='0' aria-valuemax='50' style='width: ". $percent_aod . "%'><span style='display: none;'>{$percent_aod}%</span></div></div></td>
+						<td class='text-center'><div class='progress text-center follow-tool' title='<small><center>{$aod_games} of {$total_games}<br />{$percent_aod}%</center></small>' style='width: 100%; margin: 0 auto; height: 15px; vertical-align:middle;'><div class='progress-bar progress-bar-" . getPercentageColor($percent_aod) . " progress-bar-striped' role='progressbar' aria-valuenow='72' aria-valuemin='0' aria-valuemax='50' style='width: ". $percent_aod . "%'><span style='display: none;'>{$percent_aod}%</span></div></div></td>
 
 						<td class='text-center col-hidden'>" . $row['rank_id'] . "</td>
 						<td class='text-center col-hidden'>" . $row['last_activity'] . "</td>
@@ -115,15 +115,36 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 	$overall_aod_percent = array_sum($overall_aod_percent) / count($overall_aod_percent);
 	$overall_aod_games = array_sum($overall_aod_games);
 
+	// platoon pm array
+	$platoonPm = implode("&u[]=", $platoonPm);
+
+
+	// build tools if user can edit member
+	if ($userRole >= 2) {
+		$editPanel .= "
+
+		<div class='btn-group pull-right'>
+
+			<button type='button' class='btn btn-default disabled'>Edit</button>
+			<a class='btn btn-default popup-link' href='http://www.clanaod.net/forums/private.php?do=newpm&amp;u[]={$platoonPm}' target='_blank'><i class='fa fa-comment'></i> Send PM</a>
+		</div>
+
+		";
+	}
+
 
 	// build page structure
 	$out .= "
 	<div class='container fade-in'>
 		<div class='row'>{$breadcrumb}</div>
-		<div class='row'>
-			<div class='col-md-12 platoon-name page-header'>
+		<div class='row page-header'>
+			<div class='col-xs-7 platoon-name'>
 				<h2><img src='/public/images/game_icons/large/{$shortname}.png' /> <strong>{$platoon_name}</strong> <small class='platoon-number'>". ordSuffix($platoon). " Platoon</small></h2>
 			</div>
+			<div class='col-xs-5'>
+				{$editPanel}
+			</div>
+
 		</div>";
 
 
@@ -145,32 +166,32 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 				</div>
 
 				<!--<div class='panel panel-default'>
-					<div class='panel-heading'>Game Inactivity</div>
-					<div class='panel-body count-detail-big striped-bg follow-tool' title='{$inactive_count} out of {$member_count} with < {$max} AOD games'>
-						<span class='count-animated percentage'>{$inactive_percent}</span>
-					</div>
-				</div>-->
-			</div>
-
-
-			<div class='col-md-9'>			
-
-				<div class='panel panel-default'>
-					<!-- Default panel contents -->
-					<div class='panel-heading'><div class='download-area hidden-xs'></div>Platoon members (last 30 days)<span></span></div>
-					<div class='panel-body border-bottom'><div id='playerFilter'></div>
-				</div> 
-				{$members_table}
-				<div class='panel-footer text-muted text-center' id='member-footer'></div>
-			</div>
+				<div class='panel-heading'>Game Inactivity</div>
+				<div class='panel-body count-detail-big striped-bg follow-tool' title='{$inactive_count} out of {$member_count} with < {$max} AOD games'>
+					<span class='count-animated percentage'>{$inactive_percent}</span>
+				</div>
+			</div>-->
 		</div>
 
-		";
+
+		<div class='col-md-9'>			
+
+			<div class='panel panel-default'>
+				<!-- Default panel contents -->
+				<div class='panel-heading'><div class='download-area hidden-xs'></div>Platoon members (last 30 days)<span></span></div>
+				<div class='panel-body border-bottom'><div id='playerFilter'></div>
+			</div> 
+			{$members_table}
+			<div class='panel-footer text-muted text-center' id='member-footer'></div>
+		</div>
+	</div>
+
+	";
 
 		// end container
-		$out .= "
-	</div>
-	";
+	$out .= "
+</div>
+";
 
 } else {
 
