@@ -4,7 +4,7 @@ header('Content-Type: image/png');
 date_default_timezone_set('America/New_York');
 include("../../application/lib.php");
 
-$im = imagecreatetruecolor(900, 330);
+$im = imagecreatetruecolor(960, 330);
 
 // color
 $white      = imagecolorallocate($im, 255, 255, 255);
@@ -15,7 +15,6 @@ $darkGrey   = imagecolorallocate($im, 50, 50, 50);
 $im         = imagecreatefrompng("../images/big-bg.png");
 
 $text     = "Battlefield Division";
-$datesub  = "AOD games / Total games";
 $dateText = date('d M', strtotime('-30 days')) . " - " . date('d M');
 
 $tinyfont     = "../fonts/copy0855.ttf";
@@ -52,9 +51,7 @@ try {
      */
     
     // date
-    imagettftext($im, 6, 0, 715, 240, $darkGrey, $tinyfont, strtoupper($dateText));
-    imagettftext($im, 6, 0, 612, 100, $darkergrey, $tinyfont, strtoupper($datesub));
-    
+    imagettftext($im, 6, 0, 715, 240, $darkGrey, $tinyfont, strtoupper($dateText));    
     
     // daily stats
     $y = 65;
