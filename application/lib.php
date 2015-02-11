@@ -1259,7 +1259,7 @@ function build_user_tools($role)
                 'descr' => 'View inactive members and flag for removal',
                 'icon' => 'flag',
                 'link' => '/manage/inactive',
-                'disabled' => true
+                'disabled' => false
                 )
             );
         break;
@@ -1282,7 +1282,7 @@ function build_user_tools($role)
                 'descr' => 'View inactive members and flag for removal',
                 'icon' => 'flag',
                 'link' => '/manage/inactive',
-                'disabled' => true
+                'disabled' => false
                 )
             );
         break;
@@ -1305,7 +1305,7 @@ function build_user_tools($role)
                 'descr' => 'View inactivity reports and prepare for removal',
                 'icon' => 'flag',
                 'link' => '/manage/inactive',
-                'disabled' => true
+                'disabled' => false
                 )
             );
         break;
