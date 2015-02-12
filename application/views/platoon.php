@@ -124,7 +124,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 		<div class='btn-group pull-right'>
 
 			<button type='button' class='btn btn-default disabled'>Edit</button>
-			<a class='btn btn-default popup-link' href='http://www.clanaod.net/forums/private.php?do=newpm&amp;u[]={$platoonPm}' target='_blank'><i class='fa fa-comment'></i> Send PM</a>
+			<a class='btn btn-default popup-link' href='http://www.clanaod.net/forums/private.php?do=newpm&amp;u[]={$platoonPm}' target='_blank'><i class='fa fa-comment'></i> Send Platoon PM</a>
 		</div>
 
 		";
