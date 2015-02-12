@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>AOD | Squad Management</title>
+	<title>AOD | <?php echo APP_TITLE; ?></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="Shortcut Icon" href="/public/images/favicon.ico" type="image/x-icon" />
 
@@ -50,7 +50,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="/"><i class="fa fa-check-square-o"></i> <strong>AOD</strong> <small>Squad Management</small></a>
+					<a class="navbar-brand" href="/"><i class="fa fa-check-square-o"></i> <strong>AOD</strong> <small><?php echo APP_TITLE; ?></small></a>
 				</div>
 
 				<?php if (isLoggedIn()) { ?>
