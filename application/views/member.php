@@ -127,7 +127,7 @@ if ($member = get_member($userId)) {
 	$aod_games = count_aod_games($member_id, $first_date_in_range, $last_date_in_range);
 	$percent_aod = ($aod_games > 0 ) ? (($aod_games)/($totalGames))*100 : NULL;
 	$percent_aod = number_format((float)$percent_aod, 2, '.', '');
-	$aod_bar = "<div class='progress text-center follow-tool' title='<small><center>{$aod_games} of {$totalGames}<br />{$percent_aod}%</center></small>' style='width: 100%; margin: 0 auto; height: 20px; vertical-align:middle;'><div class='progress-bar progress-bar-" . getPercentageColor($percent_aod) . " progress-bar-striped active' role='progressbar' aria-valuenow='72' aria-valuemin='0' aria-valuemax='50' style='width: ". $percent_aod . "%'><span style='display: none;'>{$percent_aod}%</span></div></div>";
+	$aod_bar = "<div class='progress text-center follow-tool' title='<small><center>{$aod_games} of {$totalGames}<br />{$percent_aod}%</center></small>' style='width: 100%; margin: 0 auto; height: 30px; vertical-align:middle;'><div class='progress-bar progress-bar-" . getPercentageColor($percent_aod) . " progress-bar-striped active' role='progressbar' aria-valuenow='72' aria-valuemin='0' aria-valuemax='50' style='width: ". $percent_aod . "%'><span style='display: none;'>{$percent_aod}%</span></div></div>";
 
 
 
