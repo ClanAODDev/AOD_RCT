@@ -913,13 +913,17 @@ function createMember($forum_name, $member_id, $battlelog_name, $bf4dbid, $plato
         try {
 
             // status of 999 is pending. Will reset to 1 when reflected as a new member via arch_sync
-            $query = $pdo->prepare("INSERT INTO member ( forum_name, member_id, battlelog_name, bf4db_id, platoon_id, position_id, squad_leader_id, game_id, rank_id, status_id, last_forum_login, last_activity, last_forum_post ) VALUES ( :forum, :member_id, :battlelog, :bf4db, :platoon, :bf4_pos, :sqdldr, :game, :rank, 999, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP )         
+            $query = $pdo->prepare("INSERT INTO member ( forum_name, member_id, battlelog_name, bf4db_id, platoon_id, position_id, squad_leader_id, game_id, rank_id, status_id, last_forum_login, last_activity, last_forum_post, recruiter ) VALUES ( :forum, :member_id, :battlelog, :bf4db, :platoon, :bf4_pos, :sqdldr, :game, :rank, 999, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, :sqdldr )         
 
                 ON DUPLICATE KEY UPDATE
                 forum_name = :forum,
+                position_id = :bf4_pos,
                 battlelog_name = :battlelog,
-                status_id = 999, 
-                bf4db_id = :bf4db");
+                status_id = 999,
+                platoon_id = :platoon,
+                squad_leader_id = :sqdldr, 
+                bf4db_id = :bf4db,
+                recruiter = :sqdldr");
             
             $query->execute(array(
                 ':forum' => $forum_name,
@@ -930,7 +934,7 @@ function createMember($forum_name, $member_id, $battlelog_name, $bf4dbid, $plato
                 ':bf4_pos' => $position_id,
                 ':sqdldr' => $squadleader_id,
                 ':game' => $game_id,
-                ':rank' => 1
+                ':rank' => 1,
                 ));
         }
         
