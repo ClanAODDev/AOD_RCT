@@ -17,16 +17,8 @@ if ($userRole > 1) {
 
 		<div class='page-header'>
 			<h1><strong>Administration</strong></h1>
-
-
 		</div>
-		<p>Several administrative functions exist to manage the application settings, perform admin tasks such as contacting members via email, and updating application data on demand. These tools are subject to change and may be unavailable without prior warning. Please do not use a tool if you are not completely certain of its purpose.</p>
 
-
-
-		<div class='page-header margin-top-50'>
-			<h3>Admin Tools</h3>
-		</div>
 
 		<div class='row'>
 			<div class='col-sm-2'>
