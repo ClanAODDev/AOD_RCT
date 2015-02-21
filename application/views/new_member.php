@@ -335,10 +335,12 @@ $out .= "
 												<div class='col-md-8'>
 													<p>Finally, a request must be made so your new recruit can be set as an AOD member on the forums, and be able to see all the hidden content specifically for our division.</p>
 													<p>You will need to copy the member id to the right, and use it in the form that appears using the button below.</p>
+													<p>Keep in mind that you do not have to enter a name into the member status request if their name doesn't need to change. You need only enter the member id.</p>
 													<p class='margin-top-20'><a class='popup-link' href='http://www.clanaod.net/forums/misc.php?do=form&fid=39' class='text-center' target='_blank'><button type='button' class='btn btn-primary'>Submit Request</button></a></p>
 												</div>
 												<div class='col-md-4 well'>
 													<p><strong>Forum User ID</strong>:</p>
+													<button type='button' class='member-status-btn copy-button btn btn-default tool pull-right' title='Copy to clipboard'><i class='fa fa-copy'></i></button>
 													<code class='final_member_id'></code>
 												</div>
 

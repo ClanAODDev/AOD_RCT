@@ -183,6 +183,7 @@ function loadThreadCheck() {
 
         // final member id for request
         $(".final_member_id").html(member_id);
+        $('.member-status-btn').attr("data-clipboard-text", member_id);
 
         // welcome PM
         $("#welcome-pm .welcome-code").html(welcomeCode);
