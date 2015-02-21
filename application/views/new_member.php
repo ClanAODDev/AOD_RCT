@@ -255,7 +255,7 @@ $out .= "
 								<li>Having them adjust their forum (AOD Member Info) profile settings</li>
 								<li>Changing their name on Teamspeak <code class='rank-name'>NaN</code><i class='fa fa-copy copy-link text-primary player-name-copy' title='Copy link to clipboard' href='#'></i></li>
 								<li>Accepting or inviting them into the BF4 platoon on Battlelog</li>
-								<li>Give them the <a class='popup-link' href='http://www.clanaod.net/forums/showthread.php?t=3293'>channel password</a> and introduce them to the other members</li>
+								<li>Introducing them to the other members in the division</li>
 							</ul>
 
 						</div>";
