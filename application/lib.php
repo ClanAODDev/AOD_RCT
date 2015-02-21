@@ -1397,7 +1397,7 @@ function get_members()
     return $query;
 }
 
-function get_gen_pop($pid)
+function get_gen_pop($pid, $order_by_rank = false)
 {
 
     global $pdo, $member_info;
@@ -1409,7 +1409,13 @@ function get_gen_pop($pid)
             $query = "SELECT member.id, member.forum_name, member.member_id, member.last_activity, member.battlelog_name, member.bf4db_id, member.rank_id, rank.abbr as rank FROM `member` 
             LEFT JOIN `rank` on member.rank_id = rank.id 
             WHERE  member.position_id = 7 AND (status_id = 1 OR status_id = 999) AND platoon_id = :pid
-            ORDER BY member.last_activity ASC";
+            ";
+
+            if ($order_by_rank) {
+                $query .= " ORDER BY member.rank_id DESC, member.forum_name ASC ";
+            } else {
+                $query .= " ORDER BY member.last_activity ASC ";
+            }
             
             $query = $pdo->prepare($query);
             $query->bindParam(':pid', $pid);
@@ -1429,7 +1435,7 @@ function get_gen_pop($pid)
  * @param  int $mid member id
  * @return array    returns array if squad members
  */
-function get_my_squad($mid)
+function get_my_squad($mid, $order_by_rank = false)
 {
 
     global $pdo, $member_info;
@@ -1441,7 +1447,13 @@ function get_my_squad($mid)
             $query = "SELECT member.id, member.forum_name, member.member_id, member.last_activity, member.battlelog_name, member.bf4db_id, member.forum_posts, member.join_date, member.rank_id, rank.abbr as rank FROM `member` 
             LEFT JOIN `rank` on member.rank_id = rank.id 
             WHERE  member.squad_leader_id = :mid AND (status_id = 1 OR status_id = 999)
-            ORDER BY member.last_activity ASC";
+            ";
+
+            if ($order_by_rank) {
+                $query .= " ORDER BY member.rank_id DESC, member.forum_name ASC ";
+            } else {
+                $query .= " ORDER BY member.last_activity ASC ";
+            }
             
             $query = $pdo->prepare($query);
             $query->bindParam(':mid', $mid);
@@ -1457,9 +1469,29 @@ function get_my_squad($mid)
 }
 
 
+function get_part_timers($gid)
+{
 
-// need a function to fetch inactive flagged players
-// LEFT JOIN `inactive_flagged` ON member.member_id = inactive_flagged.member_id
+    global $pdo;
+    
+    if (dbConnect()) {
+
+        try {
+
+            $query = "SELECT * FROM part_timers WHERE game_id = :gid";
+            $query = $pdo->prepare($query);
+            $query->bindParam(':gid', $gid);
+            $query->execute();
+            $query = $query->fetchAll();
+            
+        }
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+    return $query;
+}
+
 
 
 /**
@@ -1512,9 +1544,7 @@ function get_my_inactives($id, $type, $flagged = NULL)
                 $query .= "(member.member_id NOT IN (SELECT member_id FROM inactive_flagged)) AND ";
                 $query .= $args . " ORDER BY member.last_activity ASC";
             }
-            
-            
-            
+    
             
             // add arguments
             
@@ -1718,7 +1748,7 @@ function get_platoon_number_from_id($platoon, $division)
  * @param  int $gid game id (from games)
  * @return array    array of le squad leaders
  */
-function get_squad_leaders($gid, $pid = false)
+function get_squad_leaders($gid, $pid = false, $order_by_rank = false)
 {
 
     global $pdo;
@@ -1736,8 +1766,14 @@ function get_squad_leaders($gid, $pid = false)
             if ($pid) {
                 $query .= " AND platoon_id = :pid ";
             }
-            
-            $query .= " ORDER BY platoon.id, forum_name";
+                    
+            if ($order_by_rank) {
+                $query .= " ORDER BY member.rank_id DESC, member.forum_name ASC ";
+            } else {
+                $query .= "  ORDER BY platoon.id, forum_name";
+            }
+
+
             $query = $pdo->prepare($query);
             $query->bindParam(':gid', $gid);
             
@@ -1775,6 +1811,22 @@ function get_member($mid)
             $query->bindParam(':mid', $mid);
             $query->execute();
             $query = $query->fetch();
+
+            // check for member_id if results false
+            if (!$query) {
+
+                $query = "SELECT member.id, rank.abbr as rank, position.desc as position, forum_name, member_id, battlelog_name, bf4db_id, rank_id,  platoon_id, position_id, squad_leader_id, status_id, game_id, join_date, last_forum_login, last_activity, member.game_id, last_forum_post, forum_posts, status.desc FROM member 
+                LEFT JOIN users ON users.username = member.forum_name 
+                LEFT JOIN games ON games.id = member.game_id
+                LEFT JOIN position ON position.id = member.position_id
+                LEFT JOIN rank ON rank.id = member.rank_id
+                LEFT JOIN status ON status.id = member.status_id WHERE member.member_id = :mid";
+                $query = $pdo->prepare($query);
+                $query->bindParam(':mid', $mid);
+                $query->execute();
+                $query = $query->fetch();
+
+            }
             
         }
         catch (PDOException $e) {
