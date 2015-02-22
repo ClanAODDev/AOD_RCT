@@ -1478,7 +1478,7 @@ function get_part_timers($gid)
 
         try {
 
-            $query = "SELECT * FROM part_timers WHERE game_id = :gid";
+            $query = "SELECT member_id, forum_name, battlelog_name FROM part_timers WHERE game_id = :gid";
             $query = $pdo->prepare($query);
             $query->bindParam(':gid', $gid);
             $query->execute();
@@ -1624,10 +1624,37 @@ function get_division_ldrs($gid)
     if (dbConnect()) {
         try {
 
-            $sql = "SELECT member.id, member.member_id as forum_id, member.forum_name, rank.abbr as rank, position.desc as position_desc FROM member 
+            $sql = "SELECT member.id, member.member_id as forum_id, member.forum_name, rank.abbr as rank, member.battlelog_name, position.desc as position_desc FROM member 
             LEFT JOIN rank on member.rank_id = rank.id 
             LEFT JOIN `position` ON member.position_id = position.id 
             WHERE position_id IN (1,2) AND member.game_id = {$gid}";
+            
+            $statement = $pdo->query($sql);
+            $statement->execute();
+            $result = $statement->fetchAll();
+            
+        }
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+        
+    }
+    return $result;
+}
+
+
+function get_general_sergeants($gid)
+{
+
+    global $pdo;
+    
+    if (dbConnect()) {
+        try {
+
+            $sql = "SELECT member.id, member.member_id as forum_id, member.forum_name, rank.abbr as rank, position.desc as position_desc, member.battlelog_name FROM member 
+            LEFT JOIN rank on member.rank_id = rank.id 
+            LEFT JOIN `position` ON member.position_id = position.id 
+            WHERE position_id = 3 AND member.game_id = {$gid}";
             
             $statement = $pdo->query($sql);
             $statement->execute();
@@ -1758,7 +1785,7 @@ function get_squad_leaders($gid, $pid = false, $order_by_rank = false)
         try {
 
             // position_id 5 = squad leader
-            $query = "SELECT member.id, last_activity, rank.abbr as rank, member_id, forum_name as name, platoon.name as platoon_name FROM member 
+            $query = "SELECT member.id, last_activity, rank.abbr as rank, member_id, forum_name as name, platoon.name as platoon_name, member.battlelog_name FROM member 
             LEFT JOIN platoon ON platoon.id = member.platoon_id
             LEFT JOIN rank ON rank.id = member.rank_id  
             WHERE member.game_id = :gid AND position_id = 5";
