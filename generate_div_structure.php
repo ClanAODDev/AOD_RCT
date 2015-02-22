@@ -28,7 +28,7 @@ $min_num_squad_leaders = 2;
 
 
 // game icons
-$bf4_icon = "[img]http://i.imgur.com/bxZItoj.png[/img]";
+$bf4_icon = "[img]http://i.imgur.com/WjKYT85.png[/img]";
 $bfh_icon = "[img]http://i.imgur.com/L51wBk8.png[/img]";
 
 
@@ -200,8 +200,8 @@ $out .= "[tr][td]<br />[center][size=3][color={$platoon_pos_color}][b]Part Time 
 $out .= "[/table]<br /><br />";
 
 
-$out .= "[table='width: 1200']";
-$out .= "[tr][/center][td]<br />";
+$out .= "[table='width: 1100']";
+$out .= "[tr][td][center]";
 
 
 $partTimers = get_part_timers($game);
@@ -219,9 +219,45 @@ foreach ($partTimers as $member) {
 	
 }
 
-$out .= "[/td][/center]";
+$out .= "[/center][/td]";
+
+$out .= "[/tr][/table]<br /><br />";
+
+
+
+
+
+
+/**
+ * ---------------------------
+ * -----------LOAS------------
+ * ---------------------------
+ */
+$i = 1;
+
+$out .= "<br />[table='width: 1100']";
+$out .= "[tr][td]<br />[center][size=3][color={$platoon_pos_color}][b]Leaves of Absence[/b][/color][/size][/center][/td][/tr]";
+$out .= "[/table]<br /><br />";
+
+
+$out .= "[table='width: 1100']";
+$out .= "[tr][td][center]";
+
+
+$loas = get_leaves_of_absence($game);
+foreach ($loas as $member) {
+	$date_end = date("M d, Y", strtotime($member['date_end']));
+	$aod_url = "[url=" . CLANAOD . $member['member_id'] . "]";
+	$out .= "{$aod_url}{$member['rank']} {$member['forum_name']}[/url]<br />[b]Ends[/b] {$date_end}<br />{$member['reason']}<br /><br />";
+
+	$i++;
+	
+}
+
+$out .= "[/center][/td]";
 
 $out .= "[/tr][/table]";
+
 
 
 

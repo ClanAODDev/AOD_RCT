@@ -1430,6 +1430,34 @@ function get_gen_pop($pid, $order_by_rank = false)
     return $query;
 }
 
+
+
+function get_leaves_of_absence($gid) {
+
+    global $pdo, $member_info;
+
+    if (dbConnect()) {
+
+        try {
+
+            $query = "SELECT LOA.member_id, LOA.reason, LOA.date_end, member.forum_name, rank.abbr as rank FROM LOA
+            LEFT JOIN member ON member.member_id = LOA.member_id
+            LEFT JOIN rank ON rank.id = member.rank_id
+            WHERE member.game_id = :gid";
+
+            $query = $pdo->prepare($query);
+            $query->bindParam(':gid', $gid);
+            $query->execute();
+            $query = $query->fetchAll();
+
+        }
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+    return $query;
+}
+
 /**
  * fetches squad members based on member id
  * @param  int $mid member id
@@ -1544,7 +1572,7 @@ function get_my_inactives($id, $type, $flagged = NULL)
                 $query .= "(member.member_id NOT IN (SELECT member_id FROM inactive_flagged)) AND ";
                 $query .= $args . " ORDER BY member.last_activity ASC";
             }
-    
+
             
             // add arguments
             
@@ -1793,7 +1821,7 @@ function get_squad_leaders($gid, $pid = false, $order_by_rank = false)
             if ($pid) {
                 $query .= " AND platoon_id = :pid ";
             }
-                    
+
             if ($order_by_rank) {
                 $query .= " ORDER BY member.rank_id DESC, member.forum_name ASC ";
             } else {
