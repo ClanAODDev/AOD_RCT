@@ -253,7 +253,7 @@ $out .= "
 							<p>Now, you are ready to finalize your new recruit and take care of the paperwork associated with each new recruit. <strong>Be sure to ask</strong> if there are any questions or concerns your recruit may have. You should also remind him/her that <strong>you will be their squad leader</strong> and can come to you if they have any issues in the relative future.</p><p>Your next steps should include:</p>
 							<ul>
 								<li>Having them adjust their forum (AOD Member Info) profile settings</li>
-								<li>Changing their name on Teamspeak <code class='rank-name'>NaN</code><i class='fa fa-copy copy-link text-primary player-name-copy' title='Copy link to clipboard' href='#'></i></li>
+								<li>Changing their name on Teamspeak <code class='rank-name'>NaN</code><i class='fa fa-copy text-primary player-name-copy copy-button' title='Copy link to clipboard' href='#'></i></li>
 								<li>Accepting or inviting them into the BF4 platoon on Battlelog</li>
 								<li>Introducing them to the other members in the division</li>
 							</ul>

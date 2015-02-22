@@ -2,9 +2,6 @@
 
 if (!isset($_SESSION['secure_access']) || (isset($_SESSION['secure_access']) && $_SESSION['secure_access'] !== true)) { header("Location: /404/"); }
 
-ini_set('display_errors', 1); 
-error_reporting(E_ALL);
-
 $out = NULL;
 $platoon_items = NULL;
 
@@ -78,7 +75,7 @@ if ($game_id == 2) {
 	$monthly = get_division_toplist("daily", 25);
 	$i = 1;
 	foreach ($monthly['players'] as $mem) {
-		$toplistDaily .= "<tr><td class='text-center text-muted'>{$i}</td><td>{$mem['rank']} {$mem['forum_name']}</td><td><strong>{$mem['aod_games']}</strong></td></tr>";
+		$toplistDaily .= "<tr href='#'><td class='text-center text-muted'>{$i}</td><td>{$mem['rank']} {$mem['forum_name']}</td><td><strong>{$mem['aod_games']}</strong></td></tr>";
 		$i++;
 	}
 

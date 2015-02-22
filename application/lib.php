@@ -119,6 +119,8 @@ function define_pages()
         'user' => "/user/(?'page'profile|messages|settings)",
         'help' => "/help",
         'admin' => "/admin",
+
+        'gen_div' => "/generate/division-structure",
         
         'recruiting' => "/recruiting",
         'new_member' => "/recruiting/new-member",
@@ -1278,6 +1280,15 @@ function build_user_tools($role)
                 'disabled' => false
                 ),
 
+            "DivisionStructureGenerator" => array(
+                'class' => 'divGenerator',
+                'title' => 'Generate division structure',
+                'descr' => 'Generate a new division structure skeleton',
+                'icon' => 'cog text-info',
+                'link' => '#',
+                'disabled' => false
+                ),
+
             "Inactives" => array(
                 'class' => 'revInactives',
                 'title' => 'Review inactive members',
@@ -1298,6 +1309,15 @@ function build_user_tools($role)
                 'descr' => 'Start the recruiting process with a division candidate',
                 'icon' => 'plus-square text-success',
                 'link' => '/recruiting',
+                'disabled' => false
+                ),
+
+            "DivisionStructureGenerator" => array(
+                'class' => 'divGenerator',
+                'title' => 'Generate division structure',
+                'descr' => 'Generate a new division structure skeleton',
+                'icon' => 'cog text-info',
+                'link' => '#',
                 'disabled' => false
                 ),
 
@@ -2241,56 +2261,245 @@ function get_bf4db_id($user)
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 /**
- * encryption / decryption
+ * Division Structure Generator
+ * Generates a BB-code division structure based on current database data
+ *
+ * Hardcoded values for BF division. Could be used to generate other division
+ * structures later, but not pertinent at the moment.
  */
+function generate_division_structure() {
+
+    // BF division = 2
+    $game = 2;
+
+    // colors
+    $division_leaders_color = "#00FF00";
+    $platoon_leaders_color = "#00FF00";
+    $squad_leaders_color = "#FFA500";
+
+    $div_name_color = "#FF0000";
+    $platoon_num_color = "#FF0000";
+    $platoon_pos_color = "#40E0D0";
+
+    // misc settings
+    $min_num_squad_leaders = 2;
 
 
-/*function encrypt($plain, $key) { 
-$iv_size        = mcrypt_get_iv_size(MCRYPT_RIJNDAEL_128, MCRYPT_MODE_CBC); 
-$iv                = mcrypt_create_iv($iv_size, MCRYPT_RAND); 
-$key                = PBKDF2($key, $iv, 1, 32); 
-$crypted        = mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $key, $plain, 
-MCRYPT_MODE_CBC, $iv); 
+    // game icons
+    $bf4_icon = "[img]http://i.imgur.com/WjKYT85.png[/img]";
+    $bfh_icon = "[img]http://i.imgur.com/L51wBk8.png[/img]";
 
-return base64_encode($iv.$crypted); 
-} 
 
-function decrypt($crypted, $key) { 
-$crypted        = base64_decode($crypted); 
-$iv                = substr($crypted, 0, 16); 
-$key                = PBKDF2($key, $iv, 1, 32); 
-$crypted        = substr($crypted, 16); 
 
-return mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, $crypted, 
-MCRYPT_MODE_CBC, $iv); 
-} 
-*/
-/** 
- * PHP PBKDF2 Implementation. 
- * 
- * For more information see: http://www.ietf.org/rfc/rfc2898.txt 
- * 
- * @param string $p                password 
- * @param string $s                salt 
- * @param integer $c                iteration count (use 1000 or higher) 
- * @param integer $dkl        derived key length 
- * @param string $algo        hash algorithm 
- * @return string                        derived key of correct length 
- */
-/*function PBKDF2($p, $s, $c, $dkl, $algo = 'sha1') { 
-$kb = ceil($dkl / strlen(hash($algo, null, true))); 
-$dk = ''; 
-for($block = 1; $block <= $kb; ++$block) { 
-$ib = $b = hash_hmac($algo, $s.pack('N', $block), $p, true); 
-for($i = 1; $i < $c; ++$i) 
-$ib ^= ($b = hash_hmac($algo, $b, $p, true)); 
-$dk.= $ib; 
-} 
-return substr($dk, 0, $dkl); 
-} 
+    // header
+    $out = "[table='width: 1000']";
+    $i = 1;
+    $out .= "[tr][td]";
 
-$crypted = encrypt("Message", "Secret Passphrase"); 
-$plain = decrypt($crypted, "Secret Passphrase"); 
-*/
-?>
+    // banner
+    $out .= "[center][img]http://i.imgur.com/iWpjGZG.png[/img][/center]<br />";
+
+    /**
+     * ---------------------------
+     * ------division leaders-----
+     * ---------------------------
+     */
+
+    $out .= "<br /><br />[center][size=5][color={$div_name_color}][b][i][u]Division Leaders[/u][/i][/b][/color][/size][/center]<br />";
+    $out .= "[center][size=4]";
+    $divleaders = get_division_ldrs($game);
+
+    foreach ($divleaders as $leader) {
+        $aod_url = "[url=" . CLANAOD . $leader['forum_id'] . "]";
+        $bl_url = "[url=" . BATTLELOG . $leader['battlelog_name']. "]";
+        $out .= "{$aod_url}[color={$division_leaders_color}]{$leader['rank']} {$leader['forum_name']}[/url]{$bl_url}  {$bf4_icon}[/url][/color] - {$leader['position_desc']}<br />";
+    }
+
+    $out .= "[/size][/center]<br /><br />";
+
+
+
+    /**
+     * ---------------------------
+     * -----general sergeants-----
+     * ---------------------------
+     */
+
+    $genSgts = get_general_sergeants($game);
+    $out .= "[center][size=3][color={$platoon_pos_color}]General Sergeants[/color]<br />";
+    foreach ($genSgts as $sgt) {
+        $aod_url = "[url=" . CLANAOD . $sgt['forum_id'] . "]";
+        $bl_url = "[url=" . BATTLELOG . $sgt['battlelog_name']. "]";
+        $out .= "{$aod_url}{$sgt['rank']} {$sgt['forum_name']}[/url]{$bl_url}  {$bf4_icon}[/url]<br />";
+    }
+    $out .= "[/size][/center]";
+
+    $out .= "[/td][/tr][/table]";
+
+
+    /**
+     * ---------------------------
+     * ---------platoons----------
+     * ---------------------------
+     */
+
+    $out .= "<br /><br />[table='width: 1100']";
+
+    $platoons = get_platoons($game);
+    foreach ($platoons as $platoon) {
+        if ($i == 1) {
+            $out .= "[tr]";
+            $out .= "[td]";
+        } else {
+            $out .= "[td]";
+        }
+
+
+        $out .= "[size=5][color={$platoon_num_color}]Platoon {$i}[/color][/size] <br />[i][size=3]{$platoon['platoon_name']}[/size][/i]<br /><br />";
+
+        // platoon leader
+        $leader = get_member($platoon['leader_id']);
+        $aod_url = "[url=" . CLANAOD . $leader['member_id'] . "]";
+        $bl_url = "[url=" . BATTLELOG . $leader['battlelog_name']. "]";
+        $out .= "{$aod_url}[size=3][color={$platoon_pos_color}]Platoon Leader[/color]<br />[color={$platoon_leaders_color}]{$leader['rank']} {$leader['forum_name']}[/color][/size][/url]{$bl_url}  {$bf4_icon}[/url]<br /><br />";
+
+        // squad leaders
+        $squadleaders = get_squad_leaders($game, $platoon['platoon_id'], true);
+
+        $mcount = 0;
+        foreach ($squadleaders as $sqdldr) {
+
+            $aod_url = "[url=" . CLANAOD . $sqdldr['member_id'] . "]";
+            $bl_url = "[url=" . BATTLELOG . $sqdldr['battlelog_name']. "]";
+            $out .= "[size=3][color={$platoon_pos_color}]Squad Leader[/color]<br />{$aod_url}[color={$squad_leaders_color}]{$sqdldr['rank']} {$sqdldr['name']}[/color][/url]{$bl_url}  {$bf4_icon}[/url][/size]<br />";
+
+            // squad members
+            $squadmembers = get_my_squad($sqdldr['member_id'], true);
+            $out .= "[size=1][list=1]";
+
+            foreach ($squadmembers as $member) {
+                $aod_url = "[url=" . CLANAOD . $member['member_id'] . "]";  
+                $bl_url = "[url=" . BATTLELOG . $member['battlelog_name']. "]";
+                $out .= "[*]{$aod_url}{$member['rank']} {$member['forum_name']}[/url]{$bl_url}  {$bf4_icon}[/url]<br />";
+            }
+
+            $out .= "[/list][/size]<br />";
+            $mcount++;
+        }
+
+        if ($mcount < $min_num_squad_leaders) {
+            // minimum of 2 squad leaders per platoon
+            $min_num_squad_leaders = ($min_num_squad_leaders < 2) ? 2 : $min_num_squad_leaders;
+            for ($mcount = $mcount; $mcount < $min_num_squad_leaders; $mcount++)
+                $out .= "[size=3][color={$platoon_pos_color}]Squad Leader[/color]<br />[color={$squad_leaders_color}]TBA[/color][/size]<br />";
+        }
+
+        $out .= "<br /><br />";
+
+
+        /**
+         * ---------------------------
+         * ----general population-----
+         * ---------------------------
+         */
+
+        $genpop = get_gen_pop($platoon['platoon_id'], true);
+        $out .= "[size=3][color={$platoon_pos_color}]Members[/color][/size]<br />[size=1]";
+        foreach ($genpop as $member) {
+            $bl_url = "[url=" . BATTLELOG . $member['battlelog_name']. "]";
+            $aod_url = "[url=" . CLANAOD . $member['member_id'] . "]";
+            $out .= "{$aod_url}{$member['rank']} {$member['forum_name']}[/url]{$bl_url}  {$bf4_icon}[/url]<br />";
+
+        }
+
+        $out .= "[/size]";
+        $out .= "[/td]";
+
+        $i++;
+
+    }
+    // end last platoon
+    $out .= "[/tr][/table]<br /><br />";
+
+
+    /**
+     * ---------------------------
+     * --------part timers--------
+     * ---------------------------
+     */
+    $i = 1;
+
+    $out .= "<br />[table='width: 1000']";
+    $out .= "[tr][td]<br />[center][size=3][color={$platoon_pos_color}][b]Part Time Members[/b][/color][/size][/center][/td][/tr]";
+    $out .= "[/table]<br /><br />";
+
+
+    $out .= "[table='width: 1000']";
+    $out .= "[tr][td][center]";
+
+
+    $partTimers = get_part_timers($game);
+
+    foreach ($partTimers as $member) {
+
+        if ($i % 10 == 0) {
+            $out .= "[/td][td]";
+        }
+        $bl_url = "[url=" . BATTLELOG . $member['battlelog_name']. "]";
+        $aod_url = "[url=" . CLANAOD . $member['member_id'] . "]";
+        $out .= "{$aod_url}AOD_{$member['forum_name']}[/url]{$bl_url}  {$bf4_icon}[/url]<br />";
+
+        $i++;
+
+    }
+
+    $out .= "[/center][/td]";
+    $out .= "[/tr][/table]<br /><br />";
+
+
+    /**
+     * ---------------------------
+     * -----------LOAS------------
+     * ---------------------------
+     */
+    
+    $i = 1;
+
+    $out .= "<br />[table='width: 1000']";
+    $out .= "[tr][td]<br />[center][size=3][color={$platoon_pos_color}][b]Leaves of Absence[/b][/color][/size][/center][/td][/tr]";
+    $out .= "[/table]<br /><br />";
+
+
+    $out .= "[table='width: 1000']";
+    $out .= "[tr][td][center]";
+
+
+    $loas = get_leaves_of_absence($game);
+    foreach ($loas as $member) {
+        $date_end = date("M d, Y", strtotime($member['date_end']));
+        $aod_url = "[url=" . CLANAOD . $member['member_id'] . "]";
+        $out .= "{$aod_url}{$member['rank']} {$member['forum_name']}[/url]<br />[b]Ends[/b] {$date_end}<br />{$member['reason']}<br /><br />";
+
+        $i++;
+
+    }
+
+    $out .= "[/center][/td]";
+    $out .= "[/tr][/table]";
+
+    return $out;
+}

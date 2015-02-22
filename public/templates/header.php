@@ -58,6 +58,21 @@
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav navbar-right">
 
+						<?php if ($userRole > 0) { ?>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Tools<span class="caret"></span></a>
+
+							<ul class="dropdown-menu" role="menu">
+								<?php 
+								$roleName = getUserRoleName($userRole);
+								echo "<li class='disabled'><a href='#' disabled>{$roleName}</a></li><li class='divider'></li>";
+								foreach (build_user_tools($userRole) as $tool) { 
+									echo "<li><a href='{$tool['link']}' class='{$tool['class']}'>{$tool['title']}</a></li>";
+								} ?>
+							</ul>
+						</li>
+						<?php } ?>
+
 						<!-- divisions -->
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Divisions <span class="caret"></span></a>
@@ -151,7 +166,7 @@
 						<li> <a href="/help" role="button">Help</a> </li>
 
 						<?php if ($userRole > 1) { ?>
-						<li> <a href="/admin" role="button">Admin CP</a> </li>
+						<!--<li> <a href="/admin" role="button">Admin CP</a> </li>-->
 						<?php } ?>
 
 					</ul>
