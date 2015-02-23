@@ -103,9 +103,7 @@ if ($member = get_member($userId)) {
 	$squadleader = (isset($squad_leader_id)) ? get_forum_name($squad_leader_id) : NULL;
 	
 	// is this player a squad member, and does he have a squad leader assigned?
-	if (!is_null($squadleader) && $position_id == 6) {
-		$squad_leader_item = "<li class='list-group-item text-right'><span class='pull-left'><strong>Squad Leader: </strong></span> <span class='text-muted'>{$squadleader}</span></li>";
-	}
+	$squad_leader_item = (!is_null($squadleader) && $position_id == 6) ? "<li class='list-group-item text-right'><span class='pull-left'><strong>Squad Leader: </strong></span> <span class='text-muted'>{$squadleader}</span></li>" : NULL;
 
 	// for platoon info if it exists
 	$platoon_link = ($platoon_name) ? "<li><a href='/divisions/{$short_game_name}/{$platoon}'>{$platoon_name}</a></li>" : NULL;
