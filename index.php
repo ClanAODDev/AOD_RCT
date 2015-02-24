@@ -34,7 +34,15 @@ foreach ( $rules as $action => $rule ) {
 
 	if ( preg_match( '~^'.$rule.'$~i', $uri, $params ) ) {
 
-		if (isLoggedIn()) {
+		$path_parts = explode("/", $action);
+
+		// handle stats requests differently
+		if ($path_parts[0] == "stats") {
+
+			include(VIEWS . $action . ".php");
+			exit;
+
+		} else if (isLoggedIn()) {
 
 			include(TEMPLATES . "header.php");
 			if((@include VIEWS . $action . ".php") === false) {

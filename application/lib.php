@@ -111,10 +111,14 @@ function define_pages()
     
     // build page rules for routing system
     $rules = array(
+
+        // stats
+        'stats/top10/division' => "/stats/top10/division.png",
+
         // view (user level)
         'view/member' => "/member/(?'id'\d+)",
-        'view/division' => "/divisions/(?'division'" . $divisions . ")",
-        'view/platoon' => "/divisions/(?'division'" . $divisions . ")/(?'platoon'\d+)",
+        'view/division' => "/divisions/(?'division'{$divisions})",
+        'view/platoon' => "/divisions/(?'division'{$divisions})/(?'platoon'\d+)",
 
         // manage
         'manage/inactive' => "/manage/inactive-members",
