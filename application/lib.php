@@ -111,22 +111,29 @@ function define_pages()
     
     // build page rules for routing system
     $rules = array(
-        'member' => "/member/(?'id'\d+)",
-        'division' => "/divisions/(?'division'" . $divisions . ")",
-        'platoon' => "/divisions/(?'division'" . $divisions . ")/(?'platoon'\d+)",
+        // view (user level)
+        'view/member' => "/member/(?'id'\d+)",
+        'view/division' => "/divisions/(?'division'" . $divisions . ")",
+        'view/platoon' => "/divisions/(?'division'" . $divisions . ")/(?'platoon'\d+)",
+
+        // manage
         'manage/inactive' => "/manage/inactive-members",
+        'manage/division' => "/manage/division",
         
-        'user' => "/user/(?'page'profile|messages|settings)",
-        'help' => "/help",
-        'admin' => "/admin",
+        // user
+        'user/settings' => "/settings",
+        'user/help' => "/help",
+        'user/register' => "/register",
+        'user/logout' => "/logout",
 
+        // admin
+        'admin/main' => "/admin",
+
+        // recruiting
+        'recruiting/main' => "/recruiting",
+        'recruiting/new_member' => "/recruiting/new-member",
+        // 'recruiting/existing_member' => "/recruiting/existing-member",
         
-
-        'recruiting' => "/recruiting",
-        'new_member' => "/recruiting/new-member",
-        'existing_member' => "/recruiting/existing-member",
-        'register' => "/register",
-        'logout' => "/logout",
         'home' => "/"
         );
     
