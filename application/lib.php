@@ -114,7 +114,7 @@ function define_pages()
         'member' => "/member/(?'id'\d+)",
         'division' => "/divisions/(?'division'" . $divisions . ")",
         'platoon' => "/divisions/(?'division'" . $divisions . ")/(?'platoon'\d+)",
-        'manage' => "/manage/(?'page'division|platoon|squad|inactive)",
+        'manage/inactive' => "/manage/inactive-members",
         
         'user' => "/user/(?'page'profile|messages|settings)",
         'help' => "/help",
@@ -1262,7 +1262,7 @@ function build_user_tools($role)
                 'title' => 'Review inactive members',
                 'descr' => 'View inactive members and flag for removal',
                 'icon' => 'flag',
-                'link' => '/manage/inactive',
+                'link' => '/manage/inactive-members',
                 'disabled' => false
                 )
             );
@@ -1294,7 +1294,7 @@ function build_user_tools($role)
                 'title' => 'Review inactive members',
                 'descr' => 'View inactive members and flag for removal',
                 'icon' => 'flag',
-                'link' => '/manage/inactive',
+                'link' => '/manage/inactive-members',
                 'disabled' => false
                 )
             );
@@ -1326,7 +1326,7 @@ $tools = array(
         'title' => 'Review inactive reports',
         'descr' => 'View inactivity reports and prepare for removal',
         'icon' => 'flag',
-        'link' => '/manage/inactive',
+        'link' => '/manage/inactive-members',
         'disabled' => false
         )
     );
@@ -2282,7 +2282,7 @@ function get_battlelog_id($battlelogName) {
     $data = json_decode($json);
     $personaId = $data->player->id;
 
-    if isset($personaId) {
+    if (isset($personaId)) {
         return $personaId;    
     } else {
         return false;
@@ -2303,7 +2303,13 @@ function get_battlelog_reports($player_id) {
     $json = file_get_contents($new_url);
     $data = json_decode($json);
 
-    $reports = $data->data->gameReports;
+    $reports = $data->data->gameReports;   
+
+    /*foreach ($reports as $report) {
+        $date = DateTime::createFromFormat('U', $report->createdAt)->format('M d');
+        echo "{$report->gameReportId}<br />{$report->name}<br />{$report->map}<br />{$date}<br /><br />";
+    }
+    */
 }
 
 
@@ -2312,12 +2318,6 @@ function get_battlelog_reports($player_id) {
 
 
 
-
-
-foreach ($reports as $report) {
-    $date = DateTime::createFromFormat('U', $report->createdAt)->format('M d');
-    echo "{$report->gameReportId}<br />{$report->name}<br />{$report->map}<br />{$date}<br /><br />";
-}
 
 
 
