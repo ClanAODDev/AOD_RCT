@@ -2,7 +2,7 @@
 
 define('APP_ROOT', realpath(dirname(__FILE__)));
 
-include 'config.php';
+include './config.php';
 
 // already installed
 if( defined('GITHUB_ACCESS_TOKEN') ) {

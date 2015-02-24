@@ -120,8 +120,8 @@ function define_pages()
         'help' => "/help",
         'admin' => "/admin",
 
-        'gen_div' => "/generate/division-structure",
         
+      
         'recruiting' => "/recruiting",
         'new_member' => "/recruiting/new-member",
         'existing_member' => "/recruiting/existing-member",

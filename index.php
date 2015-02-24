@@ -33,6 +33,8 @@ $rules = define_pages();
 
 
 foreach ( $rules as $action => $rule ) {
+
+
 	
 	if ( preg_match( '~^'.$rule.'$~i', $uri, $params ) ) {
 
@@ -41,7 +43,7 @@ foreach ( $rules as $action => $rule ) {
 			include(TEMPLATES . "header.php");
 			if((@include VIEWS . $action . ".php") === false) {
 				include(TEMPLATES . "404.html");
-			}			
+			}
 			include(TEMPLATES . "footer.php");
 			exit;
 

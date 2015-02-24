@@ -3,7 +3,7 @@
 session_start();
 
 define('APP_ROOT', realpath(dirname(__FILE__)));
-include 'config.php';
+include './config.php';
 
 if( isset($_SESSION['logged_in']) ) {
   header('Location: index.php');

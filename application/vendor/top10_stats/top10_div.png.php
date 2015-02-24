@@ -2,7 +2,6 @@
 header('Content-Type: image/png');
 
 date_default_timezone_set('America/New_York');
-include("../../application/lib.php");
 
 $im = imagecreatetruecolor(960, 330);
 
@@ -12,7 +11,7 @@ $grey       = imagecolorallocate($im, 128, 128, 128);
 $darkergrey = imagecolorallocate($im, 30, 30, 30);
 $orange     = imagecolorallocate($im, 255, 108, 0);
 $darkGrey   = imagecolorallocate($im, 50, 50, 50);
-$im         = imagecreatefrompng("../images/big-bg.png");
+$im         = imagecreatefrompng("/public/images/big-bg.png");
 
 $text     = "Battlefield Division";
 $dateText = date('d M', strtotime('-30 days')) . " - " . date('d M');
@@ -105,14 +104,14 @@ try {
 }
 catch (Exception $e) {
 
-	$im = imagecreatefrompng("../images/big-bg-error.png");
+	$im = imagecreatefrompng("/public/images/big-bg-error.png");
 	imagettftext($im, 6, 0, 10, 320, $darkGrey, $tinyfont, strtoupper($e->getMessage()));
 
 }
 
 
 imagepng($im);
-imagepng($im, "../toplist-cache.png");
+imagepng($im, "/public/images/toplist-cache.png");
 imagedestroy($im);
 
 /*
