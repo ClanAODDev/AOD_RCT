@@ -75,3 +75,19 @@ $(".sortable").sortable({
 
     }
 });
+
+$(".draggable").draggable({
+    connectToSortable: 'ul'
+});
+
+var itemMoved, targetplatoon, sourcePlatoon;
+$(".sortable").sortable({
+    connectWith: 'ul',
+    placeholder: "ui-state-highlight",
+    receive: function(event, ui) {
+        itemMoved = $(ui.item).attr('data-id');
+        targetPlatoon = $(this).attr('id');
+        alert("Player " + itemMoved + " now belongs to " + targetPlatoon);
+
+    }
+});
