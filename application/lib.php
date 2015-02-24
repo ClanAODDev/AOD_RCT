@@ -2,6 +2,7 @@
 
 include_once("config.php");
 include_once("modules/vbfunctions.php");
+include_once("modules/curl_agents.php");
 
 session_regenerate_id();
 date_default_timezone_set('America/New_York');
@@ -2251,7 +2252,6 @@ function get_bf4db_id($user)
 }
 
 
-
 /**
  * fetch battlelog id from BF4 Stats
  * @param  string $battlelogName player's battlelog name
@@ -2259,16 +2259,59 @@ function get_bf4db_id($user)
  */
 function get_battlelog_id($battlelogName) {
     $url = "http://api.bf4stats.com/api/playerInfo?plat=pc&name={$battlelogName}";
-    $json = file_get_contents($url);
-    $data = json_decode($json);
-    $personaId = $data->player->id;
+    $headers = get_headers($url); 
 
-    if (isset($personaId)) {
-        return $personaId;    
+    if (stripos($headers[0], '40') !== false || stripos($headers[0], '50') !== false) 
+    { 
+        $result = array('error' => true, 'message' => 'Player not found, or server down.');
+
     } else {
-        return false;
+
+        $json = file_get_contents($url);
+        $data = json_decode($json);
+        $personaId = $data->player->id;
+        $result = array('error' => false, 'id' => $personaId);
+
     }
-    
+
+    return $result;
+}
+
+
+
+
+/**
+ * ------------------------------------------------------
+ * BF4 battlelog stuff
+ * ------------------------------------------------------
+ */
+
+
+
+function download_bl_reports($personaId) {
+
+    $agent = random_user_agent();
+
+    $options = array(
+      'http'=>array(
+        'method'=>"GET",
+        'header'=>"Accept-language: en\r\n" .
+        "Cookie: foo=bar\r\n" .
+        "User-Agent: {$agent}\r\n"
+        )
+      );
+
+    $context = stream_context_create($options);
+
+    // http://battlelog.battlefield.com/bf4/warsawbattlereportspopulate/302422941/2048/1/
+
+    $url = "http://battlelog.battlefield.com/bf4/warsawbattlereportspopulate/{$personaId}/2048/1/";
+    $json = file_get_contents($url, false, $context);
+    $data = json_decode($json);
+
+    $reports = $data->data->gameReports;
+
+    return $reports;
 }
 
 
@@ -2279,20 +2322,63 @@ function get_battlelog_id($battlelogName) {
  *
  * need to come up with recursive method to retrieve last 30 days worth
  */
-function get_battlelog_reports($player_id) {
-    $url = "http://battlelog.battlefield.com/bf4/warsawbattlereportspopulate/{$player_id}/2048/1/";
-    $json = file_get_contents($new_url);
-    $data = json_decode($json);
+function parse_battlelog_reports($personaId) {
 
-    $reports = $data->data->gameReports;   
+    $reports = download_bl_reports($personaId);
 
-    /*foreach ($reports as $report) {
-        $date = DateTime::createFromFormat('U', $report->createdAt)->format('M d');
-        echo "{$report->gameReportId}<br />{$report->name}<br />{$report->map}<br />{$date}<br /><br />";
+    $monthAgo = strtotime('-30 days'); 
+    $arrayReports = array();
+    $i = 1;
+
+    foreach ($reports as $report) {
+        $unix_date = $report->createdAt;
+        $date = DateTime::createFromFormat('U', $unix_date)->format('M d');
+
+        $arrayReports[$i]['reportId'] = $report->gameReportId;
+        $arrayReports[$i]['serverName'] = $report->name;
+        $arrayReports[$i]['map'] = $report->map;
+        $arrayReports[$i]['date'] = $date;
+
+        $i++;
     }
-    */
+
+
+
+    return $arrayReports;
 }
 
+
+
+
+// testing
+/*if (isset($_GET['guy_reports'])) {
+
+    $personaId = get_battlelog_id("aguybrush");
+    $reports = parse_battlelog_reports($personaId);
+
+    var_dump($reports);
+
+    die;
+
+}
+*/
+
+
+
+
+
+if (isset($_GET['test'])) {
+
+    $result = get_battlelog_id($_GET['test']);
+
+    if ($result['error']) {
+        echo $result['message'];
+    } else {
+        echo $result['id'];
+    }
+   
+    die;
+}
 
 
 
