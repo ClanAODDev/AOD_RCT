@@ -118,7 +118,7 @@ if ($userRole > 0) {
 		<div class='row'>{$breadcrumb}</div>
 
 		<div class='page-header'>
-			<h2><strong>Manage inactive players</strong></h2>
+			<h2><strong>Manage <small>Inactive Members</small></strong></h2>
 		</div>
 		<p>Inactive members are pruned on a monthly basis. Use this tool to manage members who are considered inactive, that is, their last forum activity (login or otherwise) exceeds 30 days. In order to ensure your subordinate members receive fair warning, you must <strong>make every possible attempt</strong> to get this user back in good standing with the clan. Once all efforts have been exhausted, flag the member for removal by adding them to the 'flag for removal' list. </p>
 		<p>A member who returns, or corrects their inactivity will automatically be removed from this list, as long as they return before the end of the clean-up.</p>";
