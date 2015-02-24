@@ -100,7 +100,7 @@ if ($member = get_member($userId)) {
 	$battlelog = (empty($battlelog_name)) ? NULL : "<a target='_blank' href='" . BATTLELOG . $battlelog_name . "' class='list-group-item'>Battlelog <span class='pull-right'><i class='text-info fa fa-external-link'></i></span></a>";
 	$bf4db = (empty($bf4dbid)) ? NULL : "<a target='_blank' href='" . BF4DB . $bf4dbid . "' class='list-group-item'>BF4DB <span class='pull-right'><i class='text-info fa fa-external-link'></i></span></a>";
 	$forums = "<a target='_blank' href='" . CLANAOD . $member_id . "' class='list-group-item'>AOD Forum <span class='pull-right'><i class='text-info fa fa-external-link'></i></span></a>";
-	$squadleader = (isset($squad_leader_id)) ? get_forum_name($squad_leader_id) : NULL;
+	$squadleader = (isset($squad_leader_id)) ? ucwords(get_forum_name($squad_leader_id)) : NULL;
 	
 	// is this player a squad member, and does he have a squad leader assigned?
 	$squad_leader_item = (!is_null($squadleader) && $position_id == 6) ? "<li class='list-group-item text-right'><span class='pull-left'><strong>Squad Leader: </strong></span> <span class='text-muted'>{$squadleader}</span></li>" : NULL;
