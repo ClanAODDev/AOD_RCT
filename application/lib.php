@@ -2281,7 +2281,13 @@ function get_battlelog_id($battlelogName) {
     $json = file_get_contents($url);
     $data = json_decode($json);
     $personaId = $data->player->id;
-    return $personaId;
+
+    if isset($personaId) {
+        return $personaId;    
+    } else {
+        return false;
+    }
+    
 }
 
 
@@ -2296,6 +2302,7 @@ function get_battlelog_reports($player_id) {
     $url = "http://battlelog.battlefield.com/bf4/warsawbattlereportspopulate/{$player_id}/2048/1/";
     $json = file_get_contents($new_url);
     $data = json_decode($json);
+
     $reports = $data->data->gameReports;
 }
 
