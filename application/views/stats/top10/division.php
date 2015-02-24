@@ -4,7 +4,6 @@ if (!isset($_SESSION['secure_access']) || (isset($_SESSION['secure_access']) && 
 header('Content-Type: image/png');
 date_default_timezone_set('America/New_York');
 
-$root = getenv("DOCUMENT_ROOT");
 $im = imagecreatetruecolor(960, 330);
 
 // color
@@ -13,14 +12,14 @@ $grey       = imagecolorallocate($im, 128, 128, 128);
 $darkergrey = imagecolorallocate($im, 30, 30, 30);
 $orange     = imagecolorallocate($im, 255, 108, 0);
 $darkGrey   = imagecolorallocate($im, 50, 50, 50);
-$im         = imagecreatefrompng("{$root}/public/images/stats_templates/top10/big-bg.png");
+$im         = imagecreatefrompng(ROOT . "/public/images/stats_templates/top10/big-bg.png");
 
 $text     = "Battlefield Division";
 $dateText = date('d M', strtotime('-30 days')) . " - " . date('d M');
 
-$tinyfont     = "{$root}/public/fonts/copy0855.ttf";
-$tinyboldfont = "{$root}/public/fonts/copy0866.ttf";
-$bigfont      = "{$root}/public/fonts/din-black.otf";
+$tinyfont     = ROOT . "/public/fonts/copy0855.ttf";
+$tinyboldfont = ROOT . "/public/fonts/copy0866.ttf";
+$bigfont      = ROOT . "/public/fonts/din-black.otf";
 
 // x value positions
 $games_col_1 = 190;
