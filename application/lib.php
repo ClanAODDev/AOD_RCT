@@ -121,7 +121,7 @@ function define_pages()
         'admin' => "/admin",
 
         
-      
+
         'recruiting' => "/recruiting",
         'new_member' => "/recruiting/new-member",
         'existing_member' => "/recruiting/existing-member",
@@ -1298,41 +1298,41 @@ function build_user_tools($role)
                 'disabled' => false
                 )
             );
-        break;
-        
+break;
+
         // division leader
-        case 3:
-        $tools = array(
-            "Recruit" => array(
-                'class' => 'addRct',
-                'title' => 'Add new recruit',
-                'descr' => 'Start the recruiting process with a division candidate',
-                'icon' => 'plus-square text-success',
-                'link' => '/recruiting',
-                'disabled' => false
-                ),
+case 3:
+$tools = array(
+    "Recruit" => array(
+        'class' => 'addRct',
+        'title' => 'Add new recruit',
+        'descr' => 'Start the recruiting process with a division candidate',
+        'icon' => 'plus-square text-success',
+        'link' => '/recruiting',
+        'disabled' => false
+        ),
 
-            "DivisionStructureGenerator" => array(
-                'class' => 'divGenerator',
-                'title' => 'Generate division structure',
-                'descr' => 'Generate a new division structure skeleton',
-                'icon' => 'cog text-info',
-                'link' => '#',
-                'disabled' => false
-                ),
+    "DivisionStructureGenerator" => array(
+        'class' => 'divGenerator',
+        'title' => 'Generate division structure',
+        'descr' => 'Generate a new division structure skeleton',
+        'icon' => 'cog text-info',
+        'link' => '#',
+        'disabled' => false
+        ),
 
-            "Inactives" => array(
-                'class' => 'revInactives',
-                'title' => 'Review inactive reports',
-                'descr' => 'View inactivity reports and prepare for removal',
-                'icon' => 'flag',
-                'link' => '/manage/inactive',
-                'disabled' => false
-                )
-            );
-        break;
-    }
-    return $tools;
+    "Inactives" => array(
+        'class' => 'revInactives',
+        'title' => 'Review inactive reports',
+        'descr' => 'View inactivity reports and prepare for removal',
+        'icon' => 'flag',
+        'link' => '/manage/inactive',
+        'disabled' => false
+        )
+    );
+break;
+}
+return $tools;
 }
 
 
@@ -2209,7 +2209,6 @@ function lastSeenFlag($last_seen)
     return $status;
 }
 
-
 function convertDivision($division)
 {
     $division = strtolower($division);
@@ -2227,6 +2226,16 @@ function convertDivision($division)
 }
 
 
+
+
+
+
+
+
+
+/**
+ * cURL functions
+ */
 function get_bf4db_id($user)
 {
 
@@ -2262,6 +2271,33 @@ function get_bf4db_id($user)
 
 
 
+/**
+ * fetch battlelog id from BF4 Stats
+ * @param  string $battlelogName player's battlelog name
+ * @return int                   battlelog personaId
+ */
+function get_battlelog_id($battlelogName) {
+    $url = "http://api.bf4stats.com/api/playerInfo?plat=pc&name={$battlelogName}";
+    $json = file_get_contents($url);
+    $data = json_decode($json);
+    $personaId = $data->player->id;
+    return $personaId;
+}
+
+
+/**
+ * fetches battlelog reports (max of 10 for now)
+ * @param  int $player_id player's personaId
+ * @return array            array of game reports
+ *
+ * need to come up with recursive method to retrieve last 30 days worth
+ */
+function get_battlelog_reports($player_id) {
+    $url = "http://battlelog.battlefield.com/bf4/warsawbattlereportspopulate/{$player_id}/2048/1/";
+    $json = file_get_contents($new_url);
+    $data = json_decode($json);
+    $reports = $data->data->gameReports;
+}
 
 
 
@@ -2271,6 +2307,10 @@ function get_bf4db_id($user)
 
 
 
+foreach ($reports as $report) {
+    $date = DateTime::createFromFormat('U', $report->createdAt)->format('M d');
+    echo "{$report->gameReportId}<br />{$report->name}<br />{$report->map}<br />{$date}<br /><br />";
+}
 
 
 
