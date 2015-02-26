@@ -45,9 +45,11 @@ foreach ( $rules as $action => $rule ) {
 		} else if (isLoggedIn()) {
 
 			include(TEMPLATES . "header.php");
-			if((@include VIEWS . $action . ".php") === false) {
+
+			if ((@include VIEWS . $action . ".php") === false) {
 				include(TEMPLATES . "404.html");
 			}
+
 			include(TEMPLATES . "footer.php");
 			exit;
 
@@ -61,7 +63,7 @@ foreach ( $rules as $action => $rule ) {
 		} else {
 
 			include(TEMPLATES . "header.php");
-			include(VIEWS . "login.php");
+			include(VIEWS . "user/login.php");
 			include(TEMPLATES . "footer.php");
 			exit;
 
