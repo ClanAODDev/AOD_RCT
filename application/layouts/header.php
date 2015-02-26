@@ -1,5 +1,6 @@
 <html>
 <head>
+
 	<title>AOD | <?php echo APP_TITLE; ?></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="Shortcut Icon" href="/public/images/favicon.ico" type="image/x-icon" />
@@ -22,10 +23,12 @@
 	<link rel="stylesheet" type="text/css" href="/public/css/jquery.powertip.min.css">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">	
 	<link href="//cdn.datatables.net/responsive/1.0.3/css/dataTables.responsive.css" rel="stylesheet">	
+
 	<link href="/public/css/jquery.dataTables.min.css" rel="stylesheet">
 	<link href="/public/css/dataTables.tableTools.css" rel="stylesheet">
 	
 	<link rel="stylesheet" type="text/css" href="/public/css/style.css">
+
 </head>
 <body>
 
@@ -50,7 +53,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="/"><i class="fa fa-check-square-o"></i> <strong>AOD</strong> <small><?php echo APP_TITLE; ?></small></a>
+					<a class="navbar-brand" href="/"><img src='/public/images/logo.svg' class='pull-left'  /> <strong class='logo'>AOD</strong> <small><?php echo APP_TITLE; ?></small></a>
 				</div>
 
 				<?php if (isLoggedIn()) { ?>
