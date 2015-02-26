@@ -1,5 +1,15 @@
 <?php
 
+
+/*if (extension_loaded('gd') && function_exists('gd_info')) {
+    echo "PHP GD library is installed on your web server";
+}
+else {
+    echo "PHP GD library is NOT installed on your web server";
+}
+die;
+*/
+
 include_once("config.php");
 include_once("modules/vbfunctions.php");
 include_once("modules/curl_agents.php");
@@ -815,9 +825,11 @@ function updateMember($uid, $fname, $blog, $bf4db, $mid, $plt, $sqdldr, $positio
     
     // slightly unorthodox means of throwing together the query
     // but it should work without too much of a headache
+    // 
+    
     
     // initial query
-    $query = "UPDATE member SET forum_name = :fname, battlelog_name = :blog, member_id = :mid, bf4db_id = :bf4db";
+    $query = "UPDATE member SET forum_name = :fname, battlelog_name = :blog, member_id = :mid";  // , bf4db_id = :bf4db
     
     // check for defined values and append if set
     if (!is_null($plt)) {
@@ -840,7 +852,7 @@ function updateMember($uid, $fname, $blog, $bf4db, $mid, $plt, $sqdldr, $positio
             $values = array(
                 ':fname' => $fname,
                 ':blog' => $blog,
-                ':bf4db' => $bf4db,
+                                        // ':bf4db' => $bf4db,
                 ':mid' => $mid,
                 ':uid' => $uid
                 );
@@ -1412,7 +1424,7 @@ function get_gen_pop($pid, $order_by_rank = false)
             ";
 
             if ($order_by_rank) {
-                $query .= " ORDER BY member.rank_id DESC, member.forum_name ASC ";
+                $query .= " ORDER BY member.rank_id DESC, member.join_date ASC ";
             } else {
                 $query .= " ORDER BY member.last_activity ASC ";
             }
@@ -1474,11 +1486,10 @@ function get_my_squad($mid, $order_by_rank = false)
 
             $query = "SELECT member.id, member.forum_name, member.member_id, member.last_activity, member.battlelog_name, member.bf4db_id, member.forum_posts, member.join_date, member.rank_id, rank.abbr as rank FROM `member` 
             LEFT JOIN `rank` on member.rank_id = rank.id 
-            WHERE  member.squad_leader_id = :mid AND (status_id = 1 OR status_id = 999)
-            ";
+            WHERE member.squad_leader_id = :mid AND (member.status_id = 1 OR member.status_id = 999) AND member.position_id = 6";
 
             if ($order_by_rank) {
-                $query .= " ORDER BY member.rank_id DESC, member.forum_name ASC ";
+                $query .= " ORDER BY member.rank_id DESC, member.join_date ASC ";
             } else {
                 $query .= " ORDER BY member.last_activity ASC ";
             }
@@ -1856,7 +1867,7 @@ function get_member($mid)
 
         try {
 
-            $query = "SELECT member.id, rank.abbr as rank, position.desc as position, forum_name, member_id, battlelog_name, bf4db_id, rank_id,  platoon_id, position_id, squad_leader_id, status_id, game_id, join_date, last_forum_login, last_activity, member.game_id, last_forum_post, forum_posts, status.desc FROM member 
+            $query = "SELECT member.id, rank.abbr as rank, position.desc as position, recruiter, forum_name, member_id, battlelog_name, bf4db_id, rank_id,  platoon_id, position_id, squad_leader_id, status_id, game_id, join_date, last_forum_login, last_activity, member.game_id, last_forum_post, forum_posts, status.desc FROM member 
             LEFT JOIN users ON users.username = member.forum_name 
             LEFT JOIN games ON games.id = member.game_id
             LEFT JOIN position ON position.id = member.position_id
@@ -2270,6 +2281,8 @@ function get_battlelog_id($battlelogName) {
         $json = file_get_contents($url);
         $data = json_decode($json);
         $personaId = $data->player->id;
+
+        // returning array
         $result = array('error' => false, 'id' => $personaId);
 
     }

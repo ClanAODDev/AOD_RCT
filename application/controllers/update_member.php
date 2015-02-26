@@ -27,13 +27,17 @@ if ($userRole > 2 || isDev()) {	$platoon = $_POST['platoon']; }
 if (canEdit($uid) == true) {
 
 	// attempt to fetch bf4dbid, also validates battlelog name
-	if (!$bf4db = get_bf4db_id($battlelog)) {
+/*	if (!$bf4db = get_bf4db_id($battlelog)) {
 		$data = array('success' => false, 'message' => 'Invalid battlelog name.', 'battlelog' => false);
-	} else {
+	} else {*/
 		// modify the member
+		
+		// disable bf4db
+		$bf4db = NULL;
+
 		$result = updateMember($uid, $forumName, $battlelog, $bf4db, $member_id, $platoon, $sqdldr, $position);
 		$data = array('success' => $result['success'], 'message' => $result['message']);
-	}
+	//}
 
 } else {
 	$data = array('success' => false, 'message' => 'You do not have permission to modify this player.');
