@@ -11,13 +11,15 @@ die;
 */
 
 include_once("config.php");
-include_once("modules/vbfunctions.php");
-include_once("modules/curl_agents.php");
+include_once(ROOT . "/application/routes.php");
+include_once(ROOT . "/application/modules/vbfunctions.php");
+include_once(ROOT . "/application/modules/curl_agents.php");
+
 
 session_regenerate_id();
 date_default_timezone_set('America/New_York');
 
-define('ROOT', getenv("DOCUMENT_ROOT"));
+
 
 /**
  * data collection for user logged in
@@ -96,66 +98,6 @@ function isLoggedIn()
     return false;
 }
 
-
-/**
- * Defines rules for router system
- * See commented examples for a guide
- * @return array defined rules
- */
-function define_pages()
-{
-
-    /*
-    'picture'   => "/picture/(?'text'[^/]+)/(?'id'\d+)",    // '/picture/some-text/51'
-    'album'     => "/album/(?'album'[\w\-]+)",              // '/album/album-slug'
-    'category'  => "/category/(?'category'[\w\-]+)",        // '/category/category-slug'
-    'page'      => "/page/(?'page'about|contact)",          // '/page/about', '/page/contact'
-    'post'      => "/(?'post'[\w\-]+)",                     // '/post-slug'
-    'home'      => "/"
-    */
-    
-    global $divisions;
-    
-    // combine divisions for rulesets
-    if (!is_null($divisions)) {
-        $divisions = implode("|", $divisions);
-    }
-    
-    
-    // build page rules for routing system
-    $rules = array(
-
-        // stats
-        'stats/top10/division' => "/stats/top10/division.png",
-
-        // view (user level)
-        'view/member' => "/member/(?'id'\d+)",
-        'view/division' => "/divisions/(?'division'{$divisions})",
-        'view/platoon' => "/divisions/(?'division'{$divisions})/(?'platoon'\d+)",
-
-        // manage
-        'manage/inactive' => "/manage/inactive-members",
-        'manage/division' => "/manage/division",
-        
-        // user
-        'user/settings' => "/settings",
-        'user/help' => "/help",
-        'user/register' => "/register",
-        'user/logout' => "/logout",
-
-        // admin
-        'admin/main' => "/admin",
-
-        // recruiting
-        'recruiting/main' => "/recruiting",
-        'recruiting/new_member' => "/recruiting/new-member",
-        // 'recruiting/existing_member' => "/recruiting/existing-member",
-        
-        'home' => "/"
-        );
-    
-    return $rules;
-}
 
 /**
  * Generates a url based on arguments found in url

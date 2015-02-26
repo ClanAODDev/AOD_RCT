@@ -37,7 +37,7 @@ if ($member = get_member($userId)) {
 	$userId = $member['id'];
 	$battlelog_name = $member['battlelog_name'];
 	$squad_leader_id = $member['squad_leader_id'];
-	$recruiter = (($member['recruiter']) != 0) ? get_forum_name($member['recruiter']) : "Not set";
+	$recruiter = (($member['recruiter']) != 0) ? strtoupper(get_forum_name($member['recruiter'])) : "Not set";
 
 	// member activity greater than 14 days (warning)
 	if (strtotime($last_seen) < strtotime('-30 days')) {

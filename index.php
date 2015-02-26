@@ -1,26 +1,19 @@
 <?php
 
-/**
- * AOD RCT Application
- * Intended to meet the initial needs
- * of the BF4 division within AOD
- **/
-
 session_start();
 ob_start();
 
+/**
+ * prevent direct access to views
+ */
 $_SESSION['secure_access'] = true; 
 
+// link functions
 include "application/lib.php";
 
-define( 'TEMPLATES', dirname( __FILE__ ) . '/application/layouts/' );
-define( 'VIEWS', dirname( __FILE__ ) . '/application/views/' );
-
-$uri = rtrim( dirname($_SERVER["SCRIPT_NAME"]), '/' );
-$uri = '/' . trim( str_replace( $uri, '', $_SERVER['REQUEST_URI'] ), '/' );
-$uri = urldecode( $uri );
-
-// update status to idle = 0
+/**
+ * handle activity logging for online tracking
+ */
 if (isLoggedIn()) { 
 	if (isset($_COOKIE['active_count'])) {		
 		setcookie('active_count', 0);
@@ -28,7 +21,11 @@ if (isLoggedIn()) {
 	updateUserActivityStatus($member_info['userid'], true);
 }
 
-$rules = define_pages();
+/**
+ * routing system
+ */
+
+$rules = routing();
 
 foreach ( $rules as $action => $rule ) {
 
