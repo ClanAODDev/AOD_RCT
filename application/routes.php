@@ -9,21 +9,11 @@ $uri = urldecode( $uri );
 
 /**
  * Defines rules for router system
- * See commented examples for a guide
  * @return array defined rules
  */
 
 function routing()
 {
-
-    /*
-    'picture'   => "/picture/(?'text'[^/]+)/(?'id'\d+)",    // '/picture/some-text/51'
-    'album'     => "/album/(?'album'[\w\-]+)",              // '/album/album-slug'
-    'category'  => "/category/(?'category'[\w\-]+)",        // '/category/category-slug'
-    'page'      => "/page/(?'page'about|contact)",          // '/page/about', '/page/contact'
-    'post'      => "/(?'post'[\w\-]+)",                     // '/post-slug'
-    'home'      => "/"
-    */
     
     global $divisions;
     
@@ -67,3 +57,13 @@ function routing()
     
     return $rules;
 }
+
+
+    /*
+    'picture'   => "/picture/(?'text'[^/]+)/(?'id'\d+)",    // '/picture/some-text/51'
+    'album'     => "/album/(?'album'[\w\-]+)",              // '/album/album-slug'
+    'category'  => "/category/(?'category'[\w\-]+)",        // '/category/category-slug'
+    'page'      => "/page/(?'page'about|contact)",          // '/page/about', '/page/contact'
+    'post'      => "/(?'post'[\w\-]+)",                     // '/post-slug'
+    'home'      => "/"
+    */

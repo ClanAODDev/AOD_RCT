@@ -1032,6 +1032,7 @@ function validatePassword($pass, $user)
     
 }
 
+
 function curl_last_url( /*resource*/ $ch, /*int*/ &$maxredirect = null)
 {
     $mr = $maxredirect === null ? 5 : intval($maxredirect);
@@ -1306,7 +1307,7 @@ function get_member_name($name)
 
         try {
 
-            $query = "SELECT member.forum_name, games.full_name as game_name, member.id, rank.abbr FROM member 
+            $query = "SELECT member.forum_name, games.full_name as game_name, member.id, member.member_id, rank.abbr FROM member 
             LEFT JOIN rank ON member.rank_id = rank.id 
             LEFT JOIN games ON member.game_id = games.id 
             WHERE member.forum_name LIKE CONCAT('%', :name, '%')
@@ -1809,32 +1810,16 @@ function get_member($mid)
 
         try {
 
-            $query = "SELECT member.id, rank.abbr as rank, position.desc as position, recruiter, forum_name, member_id, battlelog_name, bf4db_id, rank_id,  platoon_id, position_id, squad_leader_id, status_id, game_id, join_date, last_forum_login, last_activity, member.game_id, last_forum_post, forum_posts, status.desc FROM member 
+            $query = "SELECT member.id, rank.abbr as rank, position.desc as position, forum_name, member_id, battlelog_name, bf4db_id, rank_id,  platoon_id, position_id, squad_leader_id, status_id, game_id, join_date, last_forum_login, last_activity, member.game_id, last_forum_post, forum_posts, status.desc FROM member 
             LEFT JOIN users ON users.username = member.forum_name 
             LEFT JOIN games ON games.id = member.game_id
             LEFT JOIN position ON position.id = member.position_id
             LEFT JOIN rank ON rank.id = member.rank_id
-            LEFT JOIN status ON status.id = member.status_id WHERE member.id = :mid";
+            LEFT JOIN status ON status.id = member.status_id WHERE member.member_id = :mid";
             $query = $pdo->prepare($query);
             $query->bindParam(':mid', $mid);
             $query->execute();
             $query = $query->fetch();
-
-            // check for member_id if results false
-            if (!$query) {
-
-                $query = "SELECT member.id, rank.abbr as rank, position.desc as position, forum_name, member_id, battlelog_name, bf4db_id, rank_id,  platoon_id, position_id, squad_leader_id, status_id, game_id, join_date, last_forum_login, last_activity, member.game_id, last_forum_post, forum_posts, status.desc FROM member 
-                LEFT JOIN users ON users.username = member.forum_name 
-                LEFT JOIN games ON games.id = member.game_id
-                LEFT JOIN position ON position.id = member.position_id
-                LEFT JOIN rank ON rank.id = member.rank_id
-                LEFT JOIN status ON status.id = member.status_id WHERE member.member_id = :mid";
-                $query = $pdo->prepare($query);
-                $query->bindParam(':mid', $mid);
-                $query->execute();
-                $query = $query->fetch();
-
-            }
             
         }
         catch (PDOException $e) {
@@ -2331,7 +2316,7 @@ if (isset($_GET['test'])) {
     } else {
         echo $result['id'];
     }
-   
+
     die;
 }
 

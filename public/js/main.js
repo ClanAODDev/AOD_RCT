@@ -20,10 +20,10 @@ $(function() {
 
 
     $(".edit-member").click(function() {
-        var user_id = $(this).parent().attr('data-user-id');
+        var member_id = $(this).parent().attr('data-member-id');
 
         $(".viewPanel .viewer").load("/application/controllers/ajax-view-member.php", {
-            id: user_id
+            id: member_id
         });
         $(".viewPanel").modal();
     });

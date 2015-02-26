@@ -34,9 +34,16 @@ foreach ( $rules as $action => $rule ) {
 		$path_parts = explode("/", $action);
 
 		// handle stats requests differently
-		if ($path_parts[0] == "stats") {
+		if (!isLoggedIn() && isset($path_parts[0]) && $path_parts[0] == "stats") {
 
 			include(VIEWS . $action . ".php");
+			exit;
+
+		} else if (!isLoggedIn() && isset($path_parts[1]) && $path_parts[1] == "register") {
+
+			include(TEMPLATES . "header.php");
+			include(VIEWS . $action . ".php");
+			include(TEMPLATES . "footer.php");
 			exit;
 
 		} else if (isLoggedIn()) {
@@ -47,13 +54,6 @@ foreach ( $rules as $action => $rule ) {
 				include(TEMPLATES . "404.html");
 			}
 
-			include(TEMPLATES . "footer.php");
-			exit;
-
-		} else if (!isLoggedIn() && ($action == "register")) {
-
-			include(TEMPLATES . "header.php");
-			include(VIEWS . $action . ".php");
 			include(TEMPLATES . "footer.php");
 			exit;
 

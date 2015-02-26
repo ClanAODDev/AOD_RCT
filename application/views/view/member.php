@@ -37,7 +37,13 @@ if ($member = get_member($userId)) {
 	$userId = $member['id'];
 	$battlelog_name = $member['battlelog_name'];
 	$squad_leader_id = $member['squad_leader_id'];
-	$recruiter = (($member['recruiter']) != 0) ? strtoupper(get_forum_name($member['recruiter'])) : "Not set";
+	
+	// recruiter info
+	$recruiter_id = $member['recruiter'];
+	$recruiter_name = (($recruiter_id) != 0) ? ucwords(get_forum_name($recruiter_id)) : "Not set";
+	$recruiter = (isset($recruiter_id)) ? "<a class='list-group-item text-right' href='/member/{$recruiter_id}'><span class='pull-left'><strong>Recruiter: </strong></span> <span class='text-muted'>{$recruiter_name}</span></a>" : "<li class='list-group-item text-right'><span class='pull-left'><strong>Recruiter: </strong></span> <span class='text-muted'>{$recruiter_name}</span></li>";
+
+
 
 	// member activity greater than 14 days (warning)
 	if (strtotime($last_seen) < strtotime('-30 days')) {
@@ -164,7 +170,7 @@ if ($member = get_member($userId)) {
 						{$platoon_item}
 						<li class='list-group-item text-right'><span class='pull-left'><strong>Position: </strong></span> <span class='text-muted'>{$position}</span></li>
 						{$squad_leader_item}
-						<li class='list-group-item text-right'><span class='pull-left'><strong>Recruiter: </strong></span> <span class='text-muted'>{$recruiter}</span></li>
+						{$recruiter}
 					</ul>
 				</div>
 

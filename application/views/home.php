@@ -17,7 +17,7 @@ if ($userRole == 1) {
 	if ($squad_members) {
 		foreach ($squad_members as $squad_member) {
 			$name = ucwords($squad_member['forum_name']);
-			$id = $squad_member['id'];
+			$id = $squad_member['member_id'];
 			$rank = $squad_member['rank'];
 			$last_seen = formatTime(strtotime($squad_member['last_activity']));
 
@@ -64,7 +64,7 @@ if ($userRole == 1) {
 
 				foreach ($squad_members as $squad_member) {
 					$rank = $squad_member['rank'];
-					$id = $squad_member['id'];
+					$id = $squad_member['member_id'];
 					$name = ucwords($squad_member['forum_name']);
 					$last_seen = formatTime(strtotime($squad_member['last_activity']));
 					$status = lastSeenColored($last_seen);
@@ -87,7 +87,7 @@ if ($userRole == 1) {
 
 				foreach ($gen_pop as $gen_member) {
 					$rank = $gen_member['rank'];
-					$id = $gen_member['id'];
+					$id = $gen_member['member_id'];
 					$name = ucwords($gen_member['forum_name']);
 					$last_seen = formatTime(strtotime($gen_member['last_activity']));
 					$status = lastSeenColored($last_seen);
@@ -112,7 +112,7 @@ if ($userRole == 1) {
 		if (!empty($postsArray)) {
 			foreach ($postsArray as $post) {
 				$title = $post['title'];
-				$authorId = $post['id']; 
+				$authorId = $post['member_id']; 
 				$content = htmlspecialchars_decode($post['content']);
 				$authorAva = get_user_avatar($post['forum_id']); 
 				$authorName = $post['username'];

@@ -69,7 +69,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 					$status = lastSeenColored($lastActive);
 
 					$members_table .= "
-					<tr data-id='{$row['id']}'>
+					<tr data-id='{$row['member_id']}'>
 						<td>" . memberColor(ucwords($row['forum_name']), $row['position_id']) . "</td>
 						<td class='text-center hidden-xs hidden-sm'>{$rank}</td>
 						

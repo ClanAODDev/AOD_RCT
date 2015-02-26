@@ -19,7 +19,7 @@ if (isset($_GET['name'])) {
 
 		foreach($results as $row) {
 			$name = ucwords($row['forum_name']);
-			$id = $row['id'];
+			$id = $row['member_id'];
 			$rank = $row['abbr'];
 			$game = $row['game_name'];
 			$out .= "

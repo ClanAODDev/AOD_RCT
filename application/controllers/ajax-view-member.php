@@ -97,7 +97,7 @@ if ($_POST && $_POST['id']) {
 		<h4 class='modal-title'>Editing {$rank} {$forum_name}</h4>
 	</div>
 	<form id='edit-form'>
-		<div class='modal-body'>
+		<div class='modal-body' style='overflow-y: scroll; max-height: 400px;'>
 			<div class='message alert' style='display: none;'></div>
 
 			<input type='hidden' id='uid' name='uid' value='{$id}' />

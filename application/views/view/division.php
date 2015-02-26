@@ -20,10 +20,8 @@ if (count($leaders)) {
 
 	foreach($leaders as $leader) {
 
-
-
 		$divldrs .= "
-		<a href='/member/{$leader['id']}' class='list-group-item'>
+		<a href='/member/{$leader['forum_id']}' class='list-group-item'>
 			<h5 class='pull-right'><i class='fa fa-shield fa-2x text-muted'></i></h5>
 			<h4 class='list-group-item-heading'><strong>{$leader['rank']} {$leader['forum_name']}</strong></h4>
 			<p class='list-group-item-text text-muted'>{$leader['position_desc']}</p>
@@ -75,7 +73,7 @@ if ($game_id == 2) {
 	$monthly = get_division_toplist("daily", 25);
 	$i = 1;
 	foreach ($monthly['players'] as $mem) {
-		$toplistDaily .= "<tr href='#'><td class='text-center text-muted'>{$i}</td><td>{$mem['rank']} {$mem['forum_name']}</td><td><strong>{$mem['aod_games']}</strong></td></tr>";
+		$toplistDaily .= "<tr data-id='{$mem['member_id']}'><td class='text-center text-muted'>{$i}</td><td>{$mem['rank']} {$mem['forum_name']}</td><td><strong>{$mem['aod_games']}</strong></td></tr>";
 		$i++;
 	}
 
@@ -138,7 +136,7 @@ $out .= "
 
 
 			<div class='col-md-6'>
-				<div class='panel panel-primary'>
+				<div class='panel panel-primary toplist'>
 
 					<div class='panel-heading'>Daily Most Active Players</div>
 					<table class='table table-striped table-hover'>
@@ -149,7 +147,7 @@ $out .= "
 
 
 			<div class='col-md-6'>
-				<div class='panel panel-primary'>
+				<div class='panel panel-primary toplist'>
 
 					<div class='panel-heading'>Monthly Most Active Players</div>
 					<table class='table table-striped table-hover'>
