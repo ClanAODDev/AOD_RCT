@@ -65,4 +65,7 @@ define('PERCENTAGE_CUTOFF_GREEN', 75);
 define('PERCENTAGE_CUTOFF_AMBER', 50);
 define('INACTIVE_MIN', 0);
 define('INACTIVE_MAX', 25);
+
+// define root for pathing
+define('ROOT', getenv("DOCUMENT_ROOT"));
 ```
