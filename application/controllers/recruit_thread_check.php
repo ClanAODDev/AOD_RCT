@@ -31,7 +31,7 @@ if (isset($_GET['player']) && (isset($_GET['game']))) {
 
 
 				$out .= "
-				<li class=\"list-group-item thread\">{$title} <i class='fa fa-copy copy-link text-primary' title='Copy link to clipboard' href='#' data-clipboard-text='{$thread}'></i>";
+				<li class=\"list-group-item thread\">{$title} <i class='fa fa-copy copy-button-rct text-primary' title='Copy link to clipboard' href='#' data-clipboard-text='{$thread}'></i>";
 					$out .= ($status) ? $success : $failure;
 					$out .= "
 				</li>";
