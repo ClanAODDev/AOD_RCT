@@ -168,7 +168,7 @@ $out .= "
 	<div class='row tour-intro'>
 		<div class='col-md-12'>
 			<div class='jumbotron striped-bg'>
-				<h1>Howdy, <strong>{$curUser}</strong>! :)</h1>
+				<h1>{$welcomeWord}, <strong>{$curUser}</strong>!</h1>
 <p>This is the activity tracker for the {$longname} division! Click the help link at the top for more information.</p>
 </div>
 </div> <!-- end col -->
