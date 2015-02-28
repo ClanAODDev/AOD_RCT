@@ -51,7 +51,7 @@ foreach ( $rules as $action => $rule ) {
 			include(TEMPLATES . "header.php");
 
 			if ((@include VIEWS . $action . ".php") === false) {
-				include(TEMPLATES . "404.html");
+				include(TEMPLATES . "404.php");
 			}
 
 			include(TEMPLATES . "footer.php");
@@ -70,7 +70,7 @@ foreach ( $rules as $action => $rule ) {
 
 // if no page is found, show the 404 page
 include(TEMPLATES . "header.php");
-include(TEMPLATES . "404.html");
+include(TEMPLATES . "404.php");
 include(TEMPLATES . "footer.php");
 exit;
 
