@@ -58,15 +58,13 @@ if ($member = get_member($userId)) {
 	}
 
 	// server history
-	$past_games = get_player_games($member_id);
+	$games_list = get_player_games($member_id, $first_date_in_range, $last_date_in_range);
 	$games = NULL;
 	$i = 1;
 
-	if (count($past_games)) {
+	if (count($games_list)) {
 
-		foreach ($past_games as $game) {
-			$totalGames = $game['lastmonth_games'];
-
+		foreach ($games_list as $game) {
 			$date = formatTime(strtotime($game['datetime']));
 			$games .= "
 			<tr>
@@ -132,10 +130,12 @@ if ($member = get_member($userId)) {
 
 
 	// games bar
+	$count_all_games = count_total_games($member_id, $first_date_in_range, $last_date_in_range);
 	$aod_games = count_aod_games($member_id, $first_date_in_range, $last_date_in_range);
-	$percent_aod = ($aod_games > 0 ) ? (($aod_games)/($totalGames))*100 : NULL;
+
+	$percent_aod = ($aod_games > 0 ) ? (($aod_games)/($count_all_games))*100 : NULL;
 	$percent_aod = number_format((float)$percent_aod, 2, '.', '');
-	$aod_bar = "<div class='progress text-center follow-tool' title='<small><center>{$aod_games} of {$totalGames}<br />{$percent_aod}%</center></small>' style='width: 100%; margin: 0 auto; height: 30px; vertical-align:middle;'><div class='progress-bar progress-bar-" . getPercentageColor($percent_aod) . " progress-bar-striped active' role='progressbar' aria-valuenow='72' aria-valuemin='0' aria-valuemax='50' style='width: ". $percent_aod . "%'><span style='display: none;'>{$percent_aod}%</span></div></div>";
+	$aod_bar = "<div class='progress text-center follow-tool' title='<small><center>{$aod_games} of {$count_all_games}<br />{$percent_aod}%</center></small>' style='width: 100%; margin: 0 auto; height: 30px; vertical-align:middle;'><div class='progress-bar progress-bar-" . getPercentageColor($percent_aod) . " progress-bar-striped active' role='progressbar' aria-valuenow='72' aria-valuemin='0' aria-valuemax='50' style='width: ". $percent_aod . "%'><span style='display: none;'>{$percent_aod}%</span></div></div>";
 	
 	
 	
@@ -203,7 +203,7 @@ if ($member = get_member($userId)) {
 				</div>
 
 				<div class='panel panel-primary'>
-					<div class='panel-heading'><strong>BF4 Server Activity</strong> ({$totalGames} games in 30 days)<span class='pull-right'> Last {$maxGames} games</span></div>
+					<div class='panel-heading'><strong>BF4 Server Activity</strong> ({$count_all_games} games in 30 days)<span class='pull-right'> Last {$maxGames} games</span></div>
 					<table class='table table-striped table-hover'>
 						<tbody>
 							{$games}
