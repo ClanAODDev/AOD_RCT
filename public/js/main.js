@@ -1,5 +1,21 @@
 $(function() {
 
+
+    // powers live search for members
+    $('#member-search').keyup(function(e) {
+        clearTimeout($.data(this, 'timer'));
+        if (e.keyCode == 13) {
+            member_search();
+        } else {
+            $(this).data('timer', setTimeout(member_search, 900));
+        }
+
+        if (!$('#member-search').val()) {
+            $('#member-search-results').empty();
+        }
+    })
+
+
     $(".alert").alert()
 
     $('.alert').bind('closed.bs.alert', function() {
@@ -85,7 +101,6 @@ $(function() {
                     }, 1000);
 
                 } else if (data['success'] === false) {
-                    console.log(data);
                     $('#login-panel').addClass('has-error');
                     $('.msg').addClass('alert alert-danger').html("<i class=\"fa fa-times-circle\"></i> <small>" + data['message'] + "</small>");
                     $('.msg').effect("bounce");
@@ -265,7 +280,6 @@ $(function() {
     // update users online
     (function() {
         var active_count = readCookie('active_count');
-        console.log("Activity counter: " + active_count);
         if (active_count < 31) {
 
             setTimeout(function() {
@@ -285,20 +299,6 @@ $(function() {
         }
         setTimeout(arguments.callee, 30000);
     }())
-
-    // powers live search for members
-    $('#member-search').keyup(function(e) {
-        clearTimeout($.data(this, 'timer'));
-        if (e.keyCode == 13) {
-            member_search();
-        } else {
-            $(this).data('timer', setTimeout(member_search, 900));
-        }
-
-        if (!$('#member-search').val()) {
-            $('#member-search-results').empty();
-        }
-    })
 
 });
 
@@ -633,7 +633,6 @@ $(function() {
 
 function loadThreadCheck() {
 
-    console.log("Thread check init.");
 
     // setting these here since we know we have them
     var player = $('#forumname').val(),
@@ -707,68 +706,6 @@ function loadThreadCheck() {
 }
 
 
-
-$(function() {
-
-    // auto select values
-    var sqdldr = $("#cur_sqd").val(),
-        plt = $("#cur_plt").val(),
-        pos = $("#cur_pos").val();
-
-    $("#platoon option[value=" + plt + "]").attr("selected", "selected");
-    $("#sqdldr option[value=" + sqdldr + "]").attr("selected", "selected");
-    $("#position option[value=" + pos + "]").attr("selected", "selected");
-
-    $("#edit-form").submit(function(event) {
-        event.preventDefault();
-
-        $("#edit-form :submit").html("Loading").attr('class', 'btn btn-block btn-default disabled');
-
-        var uid = $("#uid").val(),
-            mid = $("#member_id").val(),
-            fname = $("#forum_name").val(),
-            platoon = $("#platoon").val(),
-            sqdldr = $("#sqdldr").val(),
-            blog = $("#battlelog").val(),
-            position = $("#position").val();
-
-        updateMember(uid, mid, fname, blog, platoon, sqdldr, position);
-    });
-
-});
-
-function updateMember(uid, mid, fname, blog, platoon, sqdldr, position) {
-    setTimeout(function() {
-        $.post("/application/controllers/update_member.php", {
-                uid: uid,
-                mid: mid,
-                fname: fname,
-                blog: blog,
-                platoon: platoon,
-                squad: sqdldr,
-                position: position
-            },
-
-            function(data) {
-                $("#edit-form :submit").html("Submit Info").attr('class', 'btn btn-block btn-success');
-                if (data.success === false) {
-                    if (data.battlelog === false) {
-                        $("#edit-form .battlelog-group").addClass("has-error");
-                    }
-                    $("#edit-form .message").html(data.message).addClass("alert-danger").show();
-
-                    return false;
-                } else {
-                    $("#edit-form .message").show().html(data.message).removeClass("alert-danger").addClass('alert-success').delay(1000).fadeOut();
-                    $(".has-error").removeClass("has-error");
-                }
-
-            }, "json")
-    }, 1000)
-}
-
-
-
 function ucwords(str) {
     return (str + '')
         .replace(/^([a-z\u00E0-\u00FC])|\s+([a-z\u00E0-\u00FC])/g, function($1) {
@@ -779,12 +716,11 @@ function ucwords(str) {
 
 function windowOpener(url, name, args) {
 
-    if(typeof(popupWin) != "object" || popupWin.closed)  { 
-        popupWin =  window.open(url, name, args); 
-    } 
-    else{ 
-        popupWin.location.href = url; 
+    if (typeof(popupWin) != "object" || popupWin.closed) {
+        popupWin = window.open(url, name, args);
+    } else {
+        popupWin.location.href = url;
     }
 
-    popupWin.focus(); 
- }
+    popupWin.focus();
+}
