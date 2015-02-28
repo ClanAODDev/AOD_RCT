@@ -2367,7 +2367,7 @@ function generate_division_structure() {
     $out .= "[tr][td]";
 
     // banner
-    $out .= "[center][img]http://i.imgur.com/iWpjGZG.png[/img][/center]<br />";
+    $out .= "[center][img]http://i.imgur.com/iWpjGZG.png[/img][/center]\r\n";
 
     /**
      * ---------------------------
@@ -2375,17 +2375,17 @@ function generate_division_structure() {
      * ---------------------------
      */
 
-    $out .= "<br /><br />[center][size=5][color={$div_name_color}][b][i][u]Division Leaders[/u][/i][/b][/color][/size][/center]<br />";
+    $out .= "\r\n\r\n[center][size=5][color={$div_name_color}][b][i][u]Division Leaders[/u][/i][/b][/color][/size][/center]\r\n";
     $out .= "[center][size=4]";
     $divleaders = get_division_ldrs($game);
 
     foreach ($divleaders as $leader) {
         $aod_url = "[url=" . CLANAOD . $leader['forum_id'] . "]";
         $bl_url = "[url=" . BATTLELOG . $leader['battlelog_name']. "]";
-        $out .= "{$aod_url}[color={$division_leaders_color}]{$leader['rank']} {$leader['forum_name']}[/url]{$bl_url}  {$bf4_icon}[/url][/color] - {$leader['position_desc']}<br />";
+        $out .= "{$aod_url}[color={$division_leaders_color}]{$leader['rank']} {$leader['forum_name']}[/url]{$bl_url}  {$bf4_icon}[/url][/color] - {$leader['position_desc']}\r\n";
     }
 
-    $out .= "[/size][/center]<br /><br />";
+    $out .= "[/size][/center]\r\n\r\n";
 
 
 
@@ -2396,11 +2396,11 @@ function generate_division_structure() {
      */
 
     $genSgts = get_general_sergeants($game);
-    $out .= "[center][size=3][color={$platoon_pos_color}]General Sergeants[/color]<br />";
+    $out .= "[center][size=3][color={$platoon_pos_color}]General Sergeants[/color]\r\n";
     foreach ($genSgts as $sgt) {
         $aod_url = "[url=" . CLANAOD . $sgt['forum_id'] . "]";
         $bl_url = "[url=" . BATTLELOG . $sgt['battlelog_name']. "]";
-        $out .= "{$aod_url}{$sgt['rank']} {$sgt['forum_name']}[/url]{$bl_url}  {$bf4_icon}[/url]<br />";
+        $out .= "{$aod_url}{$sgt['rank']} {$sgt['forum_name']}[/url]{$bl_url}  {$bf4_icon}[/url]\r\n";
     }
     $out .= "[/size][/center]";
 
@@ -2413,7 +2413,7 @@ function generate_division_structure() {
      * ---------------------------
      */
 
-    $out .= "<br /><br />[table='width: 1100']";
+    $out .= "\r\n\r\n[table='width: 1100']";
 
     $platoons = get_platoons($game);
     foreach ($platoons as $platoon) {
@@ -2425,13 +2425,13 @@ function generate_division_structure() {
         }
 
 
-        $out .= "[size=5][color={$platoon_num_color}]Platoon {$i}[/color][/size] <br />[i][size=3]{$platoon['platoon_name']}[/size][/i]<br /><br />";
+        $out .= "[size=5][color={$platoon_num_color}]Platoon {$i}[/color][/size] \r\n[i][size=3]{$platoon['platoon_name']}[/size][/i]\r\n\r\n";
 
         // platoon leader
         $leader = get_member($platoon['leader_id']);
         $aod_url = "[url=" . CLANAOD . $leader['member_id'] . "]";
         $bl_url = "[url=" . BATTLELOG . $leader['battlelog_name']. "]";
-        $out .= "{$aod_url}[size=3][color={$platoon_pos_color}]Platoon Leader[/color]<br />[color={$platoon_leaders_color}]{$leader['rank']} {$leader['forum_name']}[/color][/size][/url]{$bl_url}  {$bf4_icon}[/url]<br /><br />";
+        $out .= "{$aod_url}[size=3][color={$platoon_pos_color}]Platoon Leader[/color]\r\n[color={$platoon_leaders_color}]{$leader['rank']} {$leader['forum_name']}[/color][/size][/url]{$bl_url}  {$bf4_icon}[/url]\r\n\r\n";
 
         // squad leaders
         $squadleaders = get_squad_leaders($game, $platoon['platoon_id'], true);
@@ -2441,7 +2441,7 @@ function generate_division_structure() {
 
             $aod_url = "[url=" . CLANAOD . $sqdldr['member_id'] . "]";
             $bl_url = "[url=" . BATTLELOG . $sqdldr['battlelog_name']. "]";
-            $out .= "[size=3][color={$platoon_pos_color}]Squad Leader[/color]<br />{$aod_url}[color={$squad_leaders_color}]{$sqdldr['rank']} {$sqdldr['name']}[/color][/url]{$bl_url}  {$bf4_icon}[/url][/size]<br />";
+            $out .= "[size=3][color={$platoon_pos_color}]Squad Leader[/color]\r\n{$aod_url}[color={$squad_leaders_color}]{$sqdldr['rank']} {$sqdldr['name']}[/color][/url]{$bl_url}  {$bf4_icon}[/url][/size]\r\n";
 
             // squad members
             $squadmembers = get_my_squad($sqdldr['member_id'], true);
@@ -2450,10 +2450,10 @@ function generate_division_structure() {
             foreach ($squadmembers as $member) {
                 $aod_url = "[url=" . CLANAOD . $member['member_id'] . "]";  
                 $bl_url = "[url=" . BATTLELOG . $member['battlelog_name']. "]";
-                $out .= "[*]{$aod_url}{$member['rank']} {$member['forum_name']}[/url]{$bl_url}  {$bf4_icon}[/url]<br />";
+                $out .= "[*]{$aod_url}{$member['rank']} {$member['forum_name']}[/url]{$bl_url}  {$bf4_icon}[/url]\r\n";
             }
 
-            $out .= "[/list][/size]<br />";
+            $out .= "[/list][/size]\r\n";
             $mcount++;
         }
 
@@ -2461,10 +2461,10 @@ function generate_division_structure() {
             // minimum of 2 squad leaders per platoon
             $min_num_squad_leaders = ($min_num_squad_leaders < 2) ? 2 : $min_num_squad_leaders;
             for ($mcount = $mcount; $mcount < $min_num_squad_leaders; $mcount++)
-                $out .= "[size=3][color={$platoon_pos_color}]Squad Leader[/color]<br />[color={$squad_leaders_color}]TBA[/color][/size]<br />";
+                $out .= "[size=3][color={$platoon_pos_color}]Squad Leader[/color]\r\n[color={$squad_leaders_color}]TBA[/color][/size]\r\n";
         }
 
-        $out .= "<br /><br />";
+        $out .= "\r\n\r\n";
 
 
         /**
@@ -2474,11 +2474,11 @@ function generate_division_structure() {
          */
 
         $genpop = get_gen_pop($platoon['platoon_id'], true);
-        $out .= "[size=3][color={$platoon_pos_color}]Members[/color][/size]<br />[size=1]";
+        $out .= "[size=3][color={$platoon_pos_color}]Members[/color][/size]\r\n[size=1]";
         foreach ($genpop as $member) {
             $bl_url = "[url=" . BATTLELOG . $member['battlelog_name']. "]";
             $aod_url = "[url=" . CLANAOD . $member['member_id'] . "]";
-            $out .= "{$aod_url}{$member['rank']} {$member['forum_name']}[/url]{$bl_url}  {$bf4_icon}[/url]<br />";
+            $out .= "{$aod_url}{$member['rank']} {$member['forum_name']}[/url]{$bl_url}  {$bf4_icon}[/url]\r\n";
 
         }
 
@@ -2489,7 +2489,7 @@ function generate_division_structure() {
 
     }
     // end last platoon
-    $out .= "[/tr][/table]<br /><br />";
+    $out .= "[/tr][/table]\r\n\r\n";
 
 
     /**
@@ -2499,9 +2499,9 @@ function generate_division_structure() {
      */
     $i = 1;
 
-    $out .= "<br />[table='width: 1000']";
-    $out .= "[tr][td]<br />[center][size=3][color={$platoon_pos_color}][b]Part Time Members[/b][/color][/size][/center][/td][/tr]";
-    $out .= "[/table]<br /><br />";
+    $out .= "\r\n[table='width: 1000']";
+    $out .= "[tr][td]\r\n[center][size=3][color={$platoon_pos_color}][b]Part Time Members[/b][/color][/size][/center][/td][/tr]";
+    $out .= "[/table]\r\n\r\n";
 
 
     $out .= "[table='width: 1000']";
@@ -2517,14 +2517,14 @@ function generate_division_structure() {
         }
         $bl_url = "[url=" . BATTLELOG . $member['battlelog_name']. "]";
         $aod_url = "[url=" . CLANAOD . $member['member_id'] . "]";
-        $out .= "{$aod_url}AOD_{$member['forum_name']}[/url]{$bl_url}  {$bf4_icon}[/url]<br />";
+        $out .= "{$aod_url}AOD_{$member['forum_name']}[/url]{$bl_url}  {$bf4_icon}[/url]\r\n";
 
         $i++;
 
     }
 
     $out .= "[/center][/td]";
-    $out .= "[/tr][/table]<br /><br />";
+    $out .= "[/tr][/table]\r\n\r\n";
 
 
     /**
@@ -2535,9 +2535,9 @@ function generate_division_structure() {
     
     $i = 1;
 
-    $out .= "<br />[table='width: 1000']";
-    $out .= "[tr][td]<br />[center][size=3][color={$platoon_pos_color}][b]Leaves of Absence[/b][/color][/size][/center][/td][/tr]";
-    $out .= "[/table]<br /><br />";
+    $out .= "\r\n[table='width: 1000']";
+    $out .= "[tr][td]\r\n[center][size=3][color={$platoon_pos_color}][b]Leaves of Absence[/b][/color][/size][/center][/td][/tr]";
+    $out .= "[/table]\r\n\r\n";
 
 
     $out .= "[table='width: 1000']";
@@ -2548,7 +2548,7 @@ function generate_division_structure() {
     foreach ($loas as $member) {
         $date_end = date("M d, Y", strtotime($member['date_end']));
         $aod_url = "[url=" . CLANAOD . $member['member_id'] . "]";
-        $out .= "{$aod_url}{$member['rank']} {$member['forum_name']}[/url]<br />[b]Ends[/b] {$date_end}<br />{$member['reason']}<br /><br />";
+        $out .= "{$aod_url}{$member['rank']} {$member['forum_name']}[/url]\r\n[b]Ends[/b] {$date_end}\r\n{$member['reason']}\r\n\r\n";
 
         $i++;
 
