@@ -176,7 +176,7 @@ $(function() {
 
     var table = $('#members-table').DataTable({
         "autoWidth": true,
-        "sDom": '<"clear">tfrip',
+        "sDom": 'T<"clear">tfrip',
         "order": [],
         "columnDefs": [{
             "targets": 'no-search',
@@ -200,7 +200,7 @@ $(function() {
             $("#members-table_info").contents().appendTo("#member-footer");
         },
 
-        /*        "oTableTools": {
+        "oTableTools": {
             "sRowSelect": "multi",
             "sSwfPath": "/public/swf/copy_csv_xls_pdf.swf",
             "aButtons": [{
@@ -224,7 +224,7 @@ $(function() {
                 }],
                 "bSelectedOnly": true
             }]
-        }*/
+        }
 
 
 
