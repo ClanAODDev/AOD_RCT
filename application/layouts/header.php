@@ -59,7 +59,13 @@
 				<?php if (isLoggedIn()) { ?>
 				
 				<div class="navbar-collapse collapse">
-					<ul class="nav navbar-nav navbar-right">
+
+
+				<ul class="nav navbar-nav navbar-right">
+				
+				</ul>
+
+					<ul class="nav navbar-nav navbar-left">
 
 						<?php if ($userRole > 0) { ?>
 						<li class="dropdown">
