@@ -15,7 +15,6 @@ include_once(ROOT . "/application/routes.php");
 include_once(ROOT . "/application/modules/vbfunctions.php");
 include_once(ROOT . "/application/modules/curl_agents.php");
 
-
 session_regenerate_id();
 date_default_timezone_set('America/New_York');
 
@@ -77,6 +76,9 @@ if (isLoggedIn()) {
         $divisions[] = $shortname;
     }
 }
+
+$welcomes = array('Hey', 'Howdy', 'Yo', 'Hi');
+$welcomeWord = $welcomes[array_rand($welcomes)];
 
 /**
  * primary functions
