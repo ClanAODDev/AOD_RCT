@@ -157,7 +157,7 @@
 
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">User CP<span class="caret"></span></a>
 							<ul class="dropdown-menu" role="menu">
-								<li class="disabled"><a href="#" disabled><?php echo $curUser ?><span class="pull-right"><?php echo $avatar; ?></span></a></li>
+								<li><a href="/member/<?php echo $forumId; ?>"><?php echo $curUser ?><span class="pull-right"><?php echo $avatar; ?></span></a></li>
 								<li class="divider"></li>
 								<li><a href="#" data-toggle="pill" class="settings-btn"> Settings</a></li>
 								<li><a href="http://www.clanaod.net/forums/member.php?u=<?php echo $forumId; ?>" target="_blank"> Forum profile</a></li>

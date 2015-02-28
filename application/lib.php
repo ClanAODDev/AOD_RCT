@@ -15,7 +15,6 @@ include_once(ROOT . "/application/routes.php");
 include_once(ROOT . "/application/modules/vbfunctions.php");
 include_once(ROOT . "/application/modules/curl_agents.php");
 
-
 session_regenerate_id();
 date_default_timezone_set('America/New_York');
 
@@ -77,6 +76,9 @@ if (isLoggedIn()) {
         $divisions[] = $shortname;
     }
 }
+
+$welcomes = array('Hey', 'Howdy', 'Yo', 'Hi');
+$welcomeWord = $welcomes[array_rand($welcomes)];
 
 /**
  * primary functions
@@ -1495,7 +1497,7 @@ function get_my_inactives($id, $type, $flagged = NULL)
             $query = "SELECT member.id, member.forum_name, member.member_id, member.last_activity, member.battlelog_name, member.bf4db_id, inactive_flagged.flagged_by, member.squad_leader_id, member.forum_posts, member.join_date FROM `member` 
             LEFT JOIN `rank` ON member.rank_id = rank.id  
             LEFT JOIN `inactive_flagged` ON member.member_id = inactive_flagged.member_id          
-            WHERE (status_id = 1 OR status_id = 999) AND (last_activity < CURDATE() - INTERVAL 29 DAY AND status_id = 1) AND ";
+            WHERE (status_id = 1 OR status_id = 999) AND (last_activity < CURDATE() - INTERVAL 30 DAY AND status_id = 1) AND ";
             
             switch ($type) {
                 case "sqd":
@@ -1542,32 +1544,6 @@ function get_my_inactives($id, $type, $flagged = NULL)
     }
     return $query;
 }
-
-
-function get_player_games($mid)
-{
-
-    global $pdo;
-    
-    if (dbConnect()) {
-
-        try {
-
-            $query = "SELECT (SELECT count(*) FROM `activity` WHERE member_id = :mid AND datetime BETWEEN DATE_SUB( NOW(), INTERVAL 29 day ) AND CURRENT_TIMESTAMP) as lastmonth_games, server, datetime FROM `activity` WHERE member_id = :mid ORDER BY datetime DESC";
-            
-            $query = $pdo->prepare($query);
-            $query->bindParam(':mid', $mid);
-            $query->execute();
-            $query = $query->fetchAll();
-            
-        }
-        catch (PDOException $e) {
-            return "ERROR:" . $e->getMessage();
-        }
-    }
-    return $query;
-}
-
 
 
 function get_platoon_members($pid)
@@ -1810,7 +1786,7 @@ function get_member($mid)
 
         try {
 
-            $query = "SELECT member.id, rank.abbr as rank, position.desc as position, forum_name, member_id, battlelog_name, bf4db_id, rank_id,  platoon_id, position_id, squad_leader_id, status_id, game_id, join_date, last_forum_login, last_activity, member.game_id, last_forum_post, forum_posts, status.desc FROM member 
+            $query = "SELECT member.id, rank.abbr as rank, position.desc as position, forum_name, member_id, battlelog_name, bf4db_id, rank_id,  platoon_id, position_id, squad_leader_id, status_id, game_id, join_date, recruiter, last_forum_login, last_activity, member.game_id, last_forum_post, forum_posts, status.desc FROM member 
             LEFT JOIN users ON users.username = member.forum_name 
             LEFT JOIN games ON games.id = member.game_id
             LEFT JOIN position ON position.id = member.position_id
@@ -1893,13 +1869,13 @@ function count_total_games($member_id, $bdate, $edate)
             $query->bindParam(':bdate', $bdate);
             $query->bindParam(':edate', $edate);
             $query->execute();
-            $query = $query->fetchAll();
+            $query = $query->fetchColumn();
         }
         catch (PDOException $e) {
             return "ERROR:" . $e->getMessage();
         }
     }
-    return $query[0]['games'];
+    return $query;
 }
 
 function count_aod_games($member_id, $bdate, $edate)
@@ -1914,20 +1890,48 @@ function count_aod_games($member_id, $bdate, $edate)
 
         # count total AOD games played for a single member
         try {
-            $query = "SELECT count(*) AS games FROM activity WHERE member_id = :mid AND server LIKE 'AOD%' AND datetime between :bdate AND :edate";
+            $query = "SELECT count(*) FROM activity WHERE member_id = :mid AND server LIKE '%AOD%' AND datetime between :bdate AND :edate";
             $query = $pdo->prepare($query);
             $query->bindParam(':mid', $member_id);
             $query->bindParam(':bdate', $bdate);
             $query->bindParam(':edate', $edate);
             $query->execute();
-            $query = $query->fetchAll();
+            $query = $query->fetchColumn();
         }
         catch (PDOException $e) {
             return "ERROR:" . $e->getMessage();
         }
     }
-    return $query[0]['games'];
+    return $query;
 }
+
+
+
+function get_player_games($mid, $bdate, $edate)
+{
+
+    global $pdo;
+    
+    if (dbConnect()) {
+
+        try {
+
+            $query = "SELECT server, datetime FROM `activity` WHERE member_id = :mid ORDER BY datetime DESC";
+            
+            $query = $pdo->prepare($query);
+            $query->bindParam(':mid', $mid);
+            $query->execute();
+            $query = $query->fetchAll();
+            
+        }
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+    return $query;
+}
+
+
 
 
 function formatTime($ptime)
@@ -2281,8 +2285,6 @@ function parse_battlelog_reports($personaId) {
 
         $i++;
     }
-
-
 
     return $arrayReports;
 }

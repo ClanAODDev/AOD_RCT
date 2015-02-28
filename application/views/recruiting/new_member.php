@@ -128,7 +128,7 @@ $out .= "
 		</div>
 
 		<div class='progress striped-bg'>
-			<div class='bar progress-bar progress-bar-striped progress-bar-success active' ></div>
+			<div class='bar progress-bar progress-bar-rct progress-bar-striped progress-bar-success active' ></div>
 		</div>
 
 

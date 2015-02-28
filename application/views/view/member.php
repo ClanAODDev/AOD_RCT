@@ -41,7 +41,7 @@ if ($member = get_member($userId)) {
 	// recruiter info
 	$recruiter_id = $member['recruiter'];
 	$recruiter_name = (($recruiter_id) != 0) ? ucwords(get_forum_name($recruiter_id)) : "Not set";
-	$recruiter = (isset($recruiter_id)) ? "<a class='list-group-item text-right' href='/member/{$recruiter_id}'><span class='pull-left'><strong>Recruiter: </strong></span> <span class='text-muted'>{$recruiter_name}</span></a>" : "<li class='list-group-item text-right'><span class='pull-left'><strong>Recruiter: </strong></span> <span class='text-muted'>{$recruiter_name}</span></li>";
+	$recruiter = (($recruiter_id) != 0) ? "<a class='list-group-item text-right' href='/member/{$recruiter_id}'><span class='pull-left'><strong>Recruiter: </strong></span> <span class='text-muted'>{$recruiter_name}</span></a>" : "<li class='list-group-item text-right'><span class='pull-left'><strong>Recruiter: </strong></span> <span class='text-muted'>{$recruiter_name}</span></li>";
 
 
 
@@ -58,15 +58,13 @@ if ($member = get_member($userId)) {
 	}
 
 	// server history
-	$past_games = get_player_games($member_id);
+	$games_list = get_player_games($member_id, $first_date_in_range, $last_date_in_range);
 	$games = NULL;
 	$i = 1;
 
-	if (count($past_games)) {
+	if (count($games_list)) {
 
-		foreach ($past_games as $game) {
-			$totalGames = $game['lastmonth_games'];
-
+		foreach ($games_list as $game) {
 			$date = formatTime(strtotime($game['datetime']));
 			$games .= "
 			<tr>
@@ -116,7 +114,6 @@ if ($member = get_member($userId)) {
 	$platoon_link = ($platoon_name) ? "<li><a href='/divisions/{$short_game_name}/{$platoon}'>{$platoon_name}</a></li>" : NULL;
 	$platoon_item = ($platoon_name) ? "<li class='list-group-item text-right'><span class='pull-left'><strong>Platoon: </strong></span> <span class='text-muted'>{$platoon_name}</span></li>" : NULL;
 
-
 	$breadcrumb = "
 	<ul class='breadcrumb'>
 		<li><a href='/'>Home</a></li>
@@ -130,18 +127,15 @@ if ($member = get_member($userId)) {
 	$privmsg = "<a class='btn btn-default btn-xs popup-link' href='" . PRIVMSG . $member_id . "' target='_blank'><i class='fa fa-comment'></i> Send PM</a>";
 	$email = "<a class='btn btn-default btn-xs popup-link' href='" . EMAIL . $member_id . "' target='_blank'><i class='fa fa-envelope'></i> Send Email</a>";
 
-
 	// games bar
+	$count_all_games = count_total_games($member_id, $first_date_in_range, $last_date_in_range);
 	$aod_games = count_aod_games($member_id, $first_date_in_range, $last_date_in_range);
-	$percent_aod = ($aod_games > 0 ) ? (($aod_games)/($totalGames))*100 : NULL;
+
+	$percent_aod = ($aod_games > 0 ) ? (($aod_games)/($count_all_games))*100 : NULL;
 	$percent_aod = number_format((float)$percent_aod, 2, '.', '');
-	$aod_bar = "<div class='progress text-center follow-tool' title='<small><center>{$aod_games} of {$totalGames}<br />{$percent_aod}%</center></small>' style='width: 100%; margin: 0 auto; height: 30px; vertical-align:middle;'><div class='progress-bar progress-bar-" . getPercentageColor($percent_aod) . " progress-bar-striped active' role='progressbar' aria-valuenow='72' aria-valuemin='0' aria-valuemax='50' style='width: ". $percent_aod . "%'><span style='display: none;'>{$percent_aod}%</span></div></div>";
-	
-	
-	
+	$aod_bar = "<div class='progress text-center follow-tool' title='<small><center>{$aod_games} of {$count_all_games}<br />{$percent_aod}%</center></small>' style='width: 100%; margin: 0 auto; height: 30px; vertical-align:middle;'><div class='progress-bar progress-bar-" . getPercentageColor($percent_aod) . " progress-bar-striped active' role='progressbar' aria-valuenow='72' aria-valuemin='0' aria-valuemax='50' style='width: ". $percent_aod . "%'><span style='display: none;'>{$percent_aod}%</span></div></div>";
 	
 	// output player view
-
 	$out .= "
 	<div class='container fade-in'>
 		{$breadcrumb}
@@ -196,14 +190,14 @@ if ($member = get_member($userId)) {
 			<!--/end left side bar-->
 
 			<div class='col-md-9'>
-			
+				
 				<div class='panel panel-info'>
 					<div class='panel-heading'><strong>AOD Participation</strong><span class='badge pull-right'>{$aod_games} Games</span></div>
 					<div class='panel-body'>{$aod_bar}</div>
 				</div>
 
 				<div class='panel panel-primary'>
-					<div class='panel-heading'><strong>BF4 Server Activity</strong> ({$totalGames} games in 30 days)<span class='pull-right'> Last {$maxGames} games</span></div>
+					<div class='panel-heading'><strong>BF4 Server Activity</strong> ({$count_all_games} games in 30 days)<span class='pull-right'> Last {$maxGames} games</span></div>
 					<table class='table table-striped table-hover'>
 						<tbody>
 							{$games}

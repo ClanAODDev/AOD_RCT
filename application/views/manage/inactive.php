@@ -59,7 +59,7 @@ if ($userRole > 0) {
 		}
 
 		$inactive_flagged .= "
-		<li class='list-group-item clearfix' data-user-id='{$member['id']}' data-member-id='{$member['member_id']}'>
+		<li class='list-group-item clearfix' data-user-id='{$member['member_id']}' data-member-id='{$member['member_id']}'>
 			<div class='col-xs-1'><img src='/public/images/grab.svg' style='width: 8px; opacity: .20;' /></div>
 			<div class='col-xs-2'>{$member['rank']} {$name}</div>
 			<div class='col-xs-3 text-{$status} text-center'>Seen {$last_seen}</div>
@@ -94,7 +94,7 @@ if ($userRole > 0) {
 		}
 
 		$inactive_list .= "
-		<li class='list-group-item clearfix' data-user-id='{$member['id']}' data-member-id='{$member['member_id']}'>
+		<li class='list-group-item clearfix' data-user-id='{$member['member_id']}' data-member-id='{$member['member_id']}'>
 			<div class='col-xs-1'><img src='/public/images/grab.svg' style='width: 8px; opacity: .20;' /></div>
 			<div class='col-xs-2'>{$member['rank']} {$name}</div>
 			<div class='col-xs-3 text-{$status} text-center'>Seen {$last_seen}</div>

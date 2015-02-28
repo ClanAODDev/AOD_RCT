@@ -37,7 +37,7 @@ foreach ($platoons as $platoon) {
 
 $out = "
 <div class='container fade-in'>
-	<div class='row'>{$breadcrumb}</div>
+	{$breadcrumb}
 
 	<div class='page-header'>
 		<h2><strong>Manage</strong> <small>Division Members</small></h2>

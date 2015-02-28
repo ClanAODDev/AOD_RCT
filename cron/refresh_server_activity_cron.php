@@ -96,6 +96,7 @@ if (sizeof($query) == 0) {
 				# value that we can use to only insert new records into the database.
 				$hash = hash('sha256',$row['member_id'].$matches[2][$i]);
 				$query .= "(".$row['member_id'].",'".$matches[1][$i]."','".$matches[2][$i]."','".$hash."')";
+
 				if($i < $len-1) {
 					$query .= ",";
 				}
@@ -106,6 +107,7 @@ if (sizeof($query) == 0) {
 				if (DEBUG_MODE) echo $query."\n";
 				$query = $pdo->prepare($query);
 				$query->execute();
+				
 			} catch (PDOException $e) {
 				echo $e->getMessage()."\n";
 				exit;

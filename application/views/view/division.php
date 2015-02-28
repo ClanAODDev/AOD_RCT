@@ -91,7 +91,7 @@ $breadcrumb = "
 // game specific data
 $out .= "
 <div class='container fade-in'>
-	<div class='row col-md-12'>{$breadcrumb}</div>
+	{$breadcrumb}
 
 	<div class='page-header'>
 		<h2><strong><img src='/public/images/game_icons/large/{$shortname}.png' /> {$game_name} Division</strong></h2>

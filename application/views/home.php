@@ -168,14 +168,21 @@ $out .= "
 	<div class='row tour-intro'>
 		<div class='col-md-12'>
 			<div class='jumbotron striped-bg'>
-				<h1>Howdy, <strong>{$curUser}</strong>! :)</h1>
+				<h1>{$welcomeWord}, <strong>{$curUser}</strong>!</h1>
 <p>This is the activity tracker for the {$longname} division! Click the help link at the top for more information.</p>
 </div>
 </div> <!-- end col -->
 </div> <!-- end end row -->";
 
+// alerts section
+$out .= "
+<div class='row'>
+	<div class='col-md-12'>
+		{$alerts_list}
+	</div>
+</div>";
 
-	// player search bar
+// player search bar
 $out .= "
 <div class='row'>
 	<div class='col-md-12'>
@@ -190,13 +197,6 @@ $out .= "
 </div>";
 
 
-	// alerts section
-$out .= "
-<div class='row'>
-	<div class='col-md-12'>
-		{$alerts_list}
-	</div>
-</div>";
 
 // is user a regular member, no editing privileges?
 if ($userRole == 0) {
