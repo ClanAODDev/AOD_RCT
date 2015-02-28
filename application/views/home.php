@@ -174,8 +174,15 @@ $out .= "
 </div> <!-- end col -->
 </div> <!-- end end row -->";
 
+// alerts section
+$out .= "
+<div class='row'>
+	<div class='col-md-12'>
+		{$alerts_list}
+	</div>
+</div>";
 
-	// player search bar
+// player search bar
 $out .= "
 <div class='row'>
 	<div class='col-md-12'>
@@ -190,13 +197,6 @@ $out .= "
 </div>";
 
 
-	// alerts section
-$out .= "
-<div class='row'>
-	<div class='col-md-12'>
-		{$alerts_list}
-	</div>
-</div>";
 
 // is user a regular member, no editing privileges?
 if ($userRole == 0) {
