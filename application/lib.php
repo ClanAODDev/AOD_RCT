@@ -51,7 +51,6 @@ if (isLoggedIn()) {
     /**
      * generate alerts
      */
-    
     $alerts_list = NULL;
     $alerts      = get_alerts($myUserId);
     if (count($alerts)) {
@@ -66,17 +65,22 @@ if (isLoggedIn()) {
     /**
      * generate game list for navigation and main page
      */
-    
-    $game_list    = NULL;
-    $game_options = "<option>Select a division</option>";
-    $divisions    = array();
-    $games        = get_games();
+    $main_game_list = NULL;
+    $game_list = NULL;
+    $divisions = array();
+    $games = get_games();
     
     foreach ($games as $game) {
         $shortname = strtolower($game['short_name']);
         $longname  = $game['full_name'];
+        $descr = $game['short_descr'];
         $game_list .= "<li><a href='/divisions/{$shortname}'><img src='/public/images/game_icons/tiny/{$shortname}.png' class='pull-right' /> {$longname}</a></li>";
-        $game_options .= "<option value='/divisions/{$shortname}'>{$longname}</option>";
+        $main_game_list .= "
+        <a href='/divisions/{$shortname}' class='list-group-item' style='padding-bottom: 18px;'>
+            <span class='pull-left' style='margin-right: 20px; vertical-align: middle;'><img src='/public/images/game_icons/large/{$shortname}.png' /></span>
+            <h4 class='list-group-item-heading'><strong>{$longname}</strong></h4>
+            <p class='list-group-item-text'>{$descr}</p>
+        </a>";
         $divisions[] = $shortname;
     }
 }
