@@ -169,7 +169,7 @@ if ($member = get_member($userId)) {
 				</div>
 
 				<div class='panel panel-info'>
-					<div class='panel-heading'><strong>Activity</strong></div>
+					<div class='panel-heading'><strong>Forum Activity</strong></div>
 					<ul class='list-group'>
 						<li class='list-group-item text-right'><span class='pull-left'><strong class=''>Joined:</strong></span> <span class='text-muted'>{$joined}</span></li>
 						<li class='list-group-item text-right'><span class='pull-left'><strong class=''>Last seen:</strong></span> <span class='text-muted'>{$last_seen}</span></li>
