@@ -140,7 +140,7 @@ ul.nav {
 }
 
 .toplist tbody tr {
-  cursor: pointer;
+  cursor: pointer !important;
 }
 
 code.post-code {
@@ -654,31 +654,6 @@ license: MIT
 author: bootply.com
 */
 
-
-#masthead { 
- min-height:250px;
-}
-
-#masthead h1 {
- font-size: 30px;
- line-height: 1;
- padding-top:20px;
-}
-
-#masthead .well {
- margin-top:8%;
-}
-
-@media screen and (min-width: 768px) {
-  #masthead h1 {
-    font-size: 50px;
-  }
-}
-
-.navbar-bright {
- background-color:#111155;
- color:#fff;
-}
 
 .affix-top,.affix{
  position: static;

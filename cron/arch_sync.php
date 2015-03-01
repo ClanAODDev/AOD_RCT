@@ -1,7 +1,7 @@
 <?php
 
 include('config.php');
-include('/usr/share/aod/html/application/lib.php');
+include(ROOT . '/application/lib.php');
 
 $division = "";
 
