@@ -63,7 +63,7 @@ if ($game_id == 2) {
 	$monthly = get_monthly_bf4_toplist(10);
 	$i = 1;
 	foreach ($monthly['players'] as $mem) {
-		$toplistMonthly .= "<tr><td class='text-center text-muted'>{$i}</td><td>{$mem['rank']} {$mem['forum_name']}</td><td><strong>{$mem['aod_games']}</strong></td></tr>";
+		$toplistMonthly .= "<tr data-id='{$mem['member_id']}'><td class='text-center text-muted'>{$i}</td><td>{$mem['rank']} {$mem['forum_name']}</td><td><strong>{$mem['aod_games']}</strong></td></tr>";
 		$i++;
 	}
 
