@@ -17,6 +17,7 @@ if ($_POST && $_POST['id']) {
 	$rank = $member['rank'];
 	$battlelog_name = $member['battlelog_name'];
 	$member_id = $member['member_id'];
+	$recruiter = $member['recruiter'];
 	$id = $member['id'];
 	$game_info = get_game_info($member['game_id']);
 	$short_game_name = $game_info['short_name'];
@@ -107,7 +108,7 @@ if ($_POST && $_POST['id']) {
 
 			<div class='form-group'>
 				<label for='forum_name' class='control-label'>Forum Name</label>
-				<input type='text' class='form-control' id='forum_name' value='{$forum_name}'>
+				<input type='text' class='form-control' id='forum_name' value='{$forum_name}' disabled>
 			</div>
 
 			<div class='form-group'>
@@ -121,6 +122,11 @@ if ($_POST && $_POST['id']) {
 				<input type='text' class='form-control' id='battlelog' value='{$battlelog_name}'>
 			</div>
 
+			<div class='form-group'>
+				<label for='recruiter' class='control-label'>Recruiter ID</label>
+				<input type='number' class='form-control' id='recruiter' value='{$recruiter}'>
+			</div>
+
 			<div class='form-group platoon-group' style='display: {$assignmentPltFieldDisplay}'>
 				<label for='platoon' class='control-label'>Platoon</label>
 				<select name='platoon' id='platoon' class='form-control'>{$platoons}</select>
@@ -129,7 +135,6 @@ if ($_POST && $_POST['id']) {
 			<div class='form-group sqdldr-group' style='display: {$assignmentSqdFieldDisplay}'>
 				<label for='sqdldr' class='control-label'>Squad Leader</label>
 				<select name='sqdldr' id='sqdldr' class='form-control'>{$squadLeaders}</select>
-
 			</div>
 
 			<div class='form-group position-group' style='display: {$assignmentPosFieldDisplay}'>

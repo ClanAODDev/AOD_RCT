@@ -733,7 +733,7 @@ function updateFlagged($id, $lid, $action)
 
 
 
-function updateMember($uid, $fname, $blog, $bf4db, $mid, $plt, $sqdldr, $position)
+function updateMember($uid, $fname, $blog, $bf4db, $mid, $plt, $sqdldr, $position, $recruiter)
 {
     global $pdo;
     
@@ -743,7 +743,7 @@ function updateMember($uid, $fname, $blog, $bf4db, $mid, $plt, $sqdldr, $positio
     
     
     // initial query
-    $query = "UPDATE member SET forum_name = :fname, battlelog_name = :blog, member_id = :mid, bf4db_id = :bf4db"; 
+    $query = "UPDATE member SET forum_name = :fname, battlelog_name = :blog, member_id = :mid, bf4db_id = :bf4db, recruiter = :recruiter"; 
     
     // check for defined values and append if set
     if (!is_null($plt)) {
@@ -768,7 +768,9 @@ function updateMember($uid, $fname, $blog, $bf4db, $mid, $plt, $sqdldr, $positio
                 ':blog' => $blog,
                 ':bf4db' => $bf4db,
                 ':mid' => $mid,
-                ':uid' => $uid
+                ':uid' => $uid,
+                ':recruiter' => $recruiter
+
                 );
             
             // only bind parameters if they are set
@@ -1170,8 +1172,15 @@ function get_forum_name($mid)
         catch (PDOException $e) {
             return "ERROR:" . $e->getMessage();
         }
+
+
     }
-    return $query;
+    
+    if (count($query)) {
+        return $query;
+    } else {
+        return false;
+    }
 }
 
 

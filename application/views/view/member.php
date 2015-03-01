@@ -40,8 +40,8 @@ if ($member = get_member($userId)) {
 	
 	// recruiter info
 	$recruiter_id = $member['recruiter'];
-	$recruiter_name = (($recruiter_id) != 0) ? ucwords(get_forum_name($recruiter_id)) : "Not set";
-	$recruiter = (($recruiter_id) != 0) ? "<a class='list-group-item text-right' href='/member/{$recruiter_id}'><span class='pull-left'><strong>Recruiter: </strong></span> <span class='text-muted'>{$recruiter_name}</span></a>" : "<li class='list-group-item text-right'><span class='pull-left'><strong>Recruiter: </strong></span> <span class='text-muted'>{$recruiter_name}</span></li>";
+	$recruiter_name = (($recruiter_id != 0) && $recruiter_name = get_forum_name($recruiter_id)) ? ucwords($recruiter_name) : "Not set or invalid";
+	$recruiter = (($recruiter_name) != "Not set or invalid") ? "<a class='list-group-item text-right' href='/member/{$recruiter_id}'><span class='pull-left'><strong>Recruiter: </strong></span> <span class='text-muted'>{$recruiter_name}</span></a>" : "<li class='list-group-item text-right'><span class='pull-left'><strong>Recruiter: </strong></span> <span class='text-muted'>{$recruiter_name}</span></li>";
 
 
 

@@ -14,6 +14,7 @@ $position = NULL;
 $forumName = $_POST['fname'];
 $battlelog = $_POST['blog'];
 $member_id = $_POST['mid'];
+$recruiter = $_POST['recruiter'];
 $uid = $_POST['uid'];
 
 
@@ -32,7 +33,7 @@ if (canEdit($uid) == true) {
 	} else {
 
 		// modify the member
-		$result = updateMember($uid, $forumName, $battlelog, $bf4db, $member_id, $platoon, $sqdldr, $position);
+		$result = updateMember($uid, $forumName, $battlelog, $bf4db, $member_id, $platoon, $sqdldr, $position, $recruiter);
 		$data = array('success' => $result['success'], 'message' => $result['message']);
 	}
 
