@@ -22,7 +22,7 @@ if (isset($_SESSION['loggedIn'])) {
 			$usersArray = array();
 
 			foreach ($online_users as $user) {
-				$id = $user['id'];
+				$id = $user['member_id'];
 				$string = ($user['idle'] == 1) ? "<i class='fa fa-clock-o text-muted'></i> ". userColor(ucwords($user['username']), 99) : userColor(ucwords($user['username']), $user['role']);
 				$usersArray[] = "<a href='/member/{$id}'>{$string}</a>";
 			}
