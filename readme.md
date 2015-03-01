@@ -2,7 +2,7 @@
 Activity tracking application for a gaming organization
 
 ## Author
-Guybrush, Sc0rp10n66, Ichigobankai09
+Guybrush, Sc0rp10n66, Ichigobankai09, Gofish
 
 *Thanks to Sc0rp10n66 for his contributions and work on integration with BF4DB*
 
