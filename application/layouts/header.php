@@ -194,3 +194,13 @@
 				</div>
 			</div>
 		</div>
+
+
+		<div class='container margin-top-20'>
+			<div class='row'>
+				<div class='col-md-12'>
+					<input type='text' class='form-control' name='member-search' id='member-search' placeholder='Search for a player...' />
+					<div id='member-search-results' class='scroll' style='width: 95%;'></div> 
+				</div>
+			</div>
+		</div>

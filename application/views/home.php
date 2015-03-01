@@ -162,21 +162,6 @@ $out .= "
 <div class='container fade-in margin-top-20'>";
 
 
-	// player search bar
-	$out .= "
-	<div class='row'>
-		<div class='col-md-12'>
-			<div class='panel panel-primary'>
-				<div class='panel-heading'><i class='fa fa-search fa-lg'></i> <strong>Player Search</strong></div>
-				<div class='panel-body'>
-					<input type='text' class='form-control input-lg' name='member-search' id='member-search' placeholder='Type a player name' />
-					<div id='member-search-results' class='scroll'></div> 
-				</div>
-			</div>
-		</div>
-	</div>";
-
-
 	// tour jumbo tron
 	$out .="
 	<div class='row tour-intro'>
@@ -184,7 +169,7 @@ $out .= "
 			<div class='jumbotron striped-bg'>
 				<h1>{$welcomeWord}, <strong>{$curUser}</strong>!</h1>
 				<p>This is the activity tracker for the {$longname} division! Visit the help section for more information.</p>
-				<p><a class='btn btn-primary btn-lg' href='/help'' role='button'>Learn more »</a></p>
+				<p><a class='btn btn-primary btn-lg' href='/help'' role='button'>Learn more <i class='fa fa-arrow-right'></i></a></p>
 			</div>
 		</div> <!-- end col -->
 	</div> <!-- end end row -->";
