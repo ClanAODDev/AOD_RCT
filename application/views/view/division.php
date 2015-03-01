@@ -96,6 +96,8 @@ $out .= "
 		<h2><strong><img src='/public/images/game_icons/large/{$shortname}.png' /> {$game_name} Division</strong></h2>
 	</div>
 
+	<p>{$game_descr}</p><hr>
+
 	
 
 	<div class='row'>

@@ -62,6 +62,8 @@ if (isLoggedIn()) {
             }
         }
 
+
+
     /**
      * generate game list for navigation and main page
      */
@@ -79,7 +81,7 @@ if (isLoggedIn()) {
         <a href='/divisions/{$shortname}' class='list-group-item' style='padding-bottom: 18px;'>
             <span class='pull-left' style='margin-right: 20px; vertical-align: middle;'><img src='/public/images/game_icons/large/{$shortname}.png' /></span>
             <h4 class='list-group-item-heading'><strong>{$longname}</strong></h4>
-            <p class='list-group-item-text'>{$descr}</p>
+            <p class='list-group-item-text text-muted'>{$descr}</p>
         </a>";
         $divisions[] = $shortname;
     }
@@ -87,6 +89,8 @@ if (isLoggedIn()) {
 
 $welcomes = array('Hey', 'Howdy', 'Yo', 'Hi');
 $welcomeWord = $welcomes[array_rand($welcomes)];
+
+
 
 /**
  * primary functions

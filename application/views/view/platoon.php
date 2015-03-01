@@ -134,7 +134,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 	// build page structure
 	$out .= "
 	<div class='container fade-in'>
-		<div class='row'>{$breadcrumb}</div>
+		{$breadcrumb}
 		<div class='row page-header'>
 			<div class='col-xs-7 platoon-name'>
 				<h2><img src='/public/images/game_icons/large/{$shortname}.png' /> <strong>{$platoon_name}</strong> <small class='platoon-number'>". ordSuffix($platoon). " Platoon</small></h2>

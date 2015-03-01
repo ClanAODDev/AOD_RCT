@@ -144,7 +144,7 @@ if ($userRole == 1) {
 				<a href='{$tool['link']}' class='list-group-item {$tool['class']} {$disabled}'>
 					<h4 class='pull-right text-muted'><i class='fa fa-{$tool['icon']} fa-lg'></i></h4>
 					<h4 class='list-group-item-heading'><strong>{$tool['title']}</strong></h4>
-					<p class='list-group-item-text'>{$tool['descr']}</p>
+					<p class='list-group-item-text text-muted'>{$tool['descr']}</p>
 				</a>";
 			}
 
