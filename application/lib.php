@@ -448,7 +448,8 @@ function get_division_toplist($option, $max)
 {
     switch ($option) {
         case "daily":
-        $query = "SELECT forum_name, member_id, platoon.number, rank.abbr as rank, ( SELECT count(*) FROM activity WHERE activity.member_id = member.member_id AND activity.server LIKE 'AOD%' AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 1 day) AND CURRENT_TIMESTAMP ) AS aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id LEFT JOIN rank ON member.rank_id = rank.id WHERE status_id = 1 ORDER BY aod_games DESC LIMIT {$max}";
+        $query = "SELECT forum_name, member_id, platoon.number, rank.abbr AS rank, (SELECT count(*) FROM
+            activity WHERE activity.member_id = member.member_id AND activity. SERVER LIKE 'AOD%' AND activity.datetime >= DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)) as aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id LEFT JOIN rank ON member.rank_id = rank.id WHERE status_id = 1 ORDER BY aod_games DESC LIMIT {$max}";
         break;
         
         case "monthly":
