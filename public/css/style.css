@@ -614,7 +614,12 @@ div.DTTT_container {
 }
 
 
-
+.cancel-rct a {
+  background-color: #ff4136 !important;
+  border-color: #ff1103 !important;
+  color: #FFF !important;
+  display: none !important;
+}
 
 /**
  * manage section
@@ -633,7 +638,7 @@ div.DTTT_container {
  /** 
   * help
   */
- 
+  
  /*
 A Bootstrap 3.1 affix sidebar template
 from http://bootply.com
