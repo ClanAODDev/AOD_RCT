@@ -60,7 +60,7 @@ if ($game_id == 2) {
 
 	// statistics
 	$toplistMonthly = null;
-	$monthly = get_division_toplist(10);
+	$monthly = get_monthly_bf4_toplist(10);
 	$i = 1;
 	foreach ($monthly['players'] as $mem) {
 		$toplistMonthly .= "<tr><td class='text-center text-muted'>{$i}</td><td>{$mem['rank']} {$mem['forum_name']}</td><td><strong>{$mem['aod_games']}</strong></td></tr>";

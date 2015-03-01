@@ -2203,7 +2203,7 @@ function get_daily_bf4_toplist($max) {
  * @param  int $max       max players to show
  * @return array          array of players returned 
  */
-function get_division_toplist($max) {
+function get_monthly_bf4_toplist($max) {
 
     // monthly
     $query = "SELECT forum_name, member_id, platoon.number, rank.abbr as rank, ( SELECT count(*) FROM activity WHERE activity.member_id = member.member_id AND (server LIKE 'AOD%' OR server LIKE ' AOD%') AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 30 day) AND CURRENT_TIMESTAMP ) AS aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id LEFT JOIN rank ON member.rank_id = rank.id WHERE status_id = 1 ORDER BY aod_games DESC LIMIT {$max}";

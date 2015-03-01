@@ -38,8 +38,8 @@ $total_percent_y = 160;
  */
 try {
 
-	$daily   = get_division_toplist("daily", 10);
-	$monthly = get_division_toplist("monthly", 10);
+	$daily   = get_daily_bf4_toplist(10);
+	$monthly = get_monthly_bf4_toplist(10);
 
 	if (!$daily || !$monthly) {
 		throw new Exception("Query could not be completed", 1);
@@ -61,7 +61,7 @@ try {
     imagettftext($im, 6, 0, $name_col_1, $y, $orange, $tinyfont, strtoupper("Player"));
     imagettftext($im, 6, 0, $games_col_1, $y, $orange, $tinyfont, strtoupper("AOD Games"));
     
-    foreach ($daily['players'] as $player) {
+    foreach ($daily as $player) {
     	$y    = $y + 20;
     	$name = strtoupper($player['rank']) . " " . strtoupper($player['forum_name']);
         // number
