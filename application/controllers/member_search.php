@@ -25,7 +25,6 @@ if (isset($_GET['name'])) {
 			$out .= "
 			<a href='/member/{$id}' class='list-group-item'>
 				<strong>{$rank} {$name}</strong>
-				<span class='text-muted pull-right'>{$game}</span>
 			</a>";	
 		} 
 

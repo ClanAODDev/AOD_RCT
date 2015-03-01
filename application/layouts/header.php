@@ -61,7 +61,18 @@
 				<div class="navbar-collapse collapse">
 
 
-					<ul class="nav navbar-nav navbar-right">
+
+
+					<form class="navbar-form navbar-right" role="search">
+						<div class="form-group">
+							<input type='text' class='form-control' name='member-search' id='member-search' role='search' placeholder='Search for a player...' />
+							<div id='member-search-results' class='scroll'></div> 
+						</div>
+					</form>
+
+
+					<ul class="nav navbar-nav navbar-left">
+
 						<li class="dropdown">
 
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">User CP<span class="caret"></span></a>
@@ -80,10 +91,6 @@
 						<!--<li> <a href="/admin" role="button">Admin CP</a> </li>-->
 						<?php } ?>
 
-
-					</ul>
-
-					<ul class="nav navbar-nav navbar-left">
 
 						<?php if ($userRole > 0) { ?>
 						<li class="dropdown">
@@ -196,11 +203,11 @@
 		</div>
 
 
-		<div class='container margin-top-20'>
-			<div class='row'>
-				<div class='col-md-12'>
-					<input type='text' class='form-control' name='member-search' id='member-search' placeholder='Search for a player...' />
-					<div id='member-search-results' class='scroll' style='width: 95%;'></div> 
-				</div>
-			</div>
+<!-- 		<div class='container margin-top-20'>
+	<div class='row'>
+		<div class='col-md-12'>
+			<input type='text' class='form-control' name='member-search' id='member-search' placeholder='Search for a player...' />
+			<div id='member-search-results' class='scroll' style='width: 95%;'></div> 
 		</div>
+	</div>
+</div> -->
