@@ -33,8 +33,6 @@ if (count($leaders)) {
 	$divldrs = "<li class='list-group-item'>No leadership currently exists for this division.</li>";
 }
 
-
-
 // generate list of existing platoons for game
 $platoons = get_platoons($game_id);
 
@@ -62,7 +60,7 @@ if ($game_id == 2) {
 
 	// statistics
 	$toplistMonthly = null;
-	$monthly = get_division_toplist("monthly", 25);
+	$monthly = get_division_toplist(10);
 	$i = 1;
 	foreach ($monthly['players'] as $mem) {
 		$toplistMonthly .= "<tr><td class='text-center text-muted'>{$i}</td><td>{$mem['rank']} {$mem['forum_name']}</td><td><strong>{$mem['aod_games']}</strong></td></tr>";
@@ -70,9 +68,10 @@ if ($game_id == 2) {
 	}
 
 	$toplistDaily = null;
-	$monthly = get_division_toplist("daily", 25);
+	$daily = get_daily_bf4_toplist(10);
+
 	$i = 1;
-	foreach ($monthly['players'] as $mem) {
+	foreach ($daily as $mem) {
 		$toplistDaily .= "<tr data-id='{$mem['member_id']}'><td class='text-center text-muted'>{$i}</td><td>{$mem['rank']} {$mem['forum_name']}</td><td><strong>{$mem['aod_games']}</strong></td></tr>";
 		$i++;
 	}

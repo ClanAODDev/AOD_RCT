@@ -84,6 +84,34 @@ $welcomeWord = $welcomes[array_rand($welcomes)];
  * primary functions
  */
 
+function dbConnect()
+{
+    global $pdo;
+    $conn = '';
+
+    $now = new DateTime();
+    $mins = $now->getOffset() / 60;
+    $sgn = ($mins < 0 ? -1 : 1);
+    $mins = abs($mins);
+    $hrs = floor($mins / 60);
+    $mins -= $hrs * 60;
+    $offset = sprintf('%+d:%02d', $hrs*$sgn, $mins);
+
+    try {
+        $pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
+        $pdo->exec("SET time_zone='$offset';");
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    }
+    
+    catch (PDOException $e) {
+        if (DEBUG_MODE)
+            echo "<div class='alert alert-danger'><i class='fa fa-exclamation-circle'></i><strong>Database connection error</strong>: " . $e->getMessage() . "</div>";
+    }
+    
+    return true;
+}
+
+
 
 /**
  * Checks to see if session data exists
@@ -187,34 +215,6 @@ function singledigitToWord($number)
     return $word;
 }
 
-
-
-function dbConnect()
-{
-    global $pdo;
-    $conn = '';
-
-    $now = new DateTime();
-    $mins = $now->getOffset() / 60;
-    $sgn = ($mins < 0 ? -1 : 1);
-    $mins = abs($mins);
-    $hrs = floor($mins / 60);
-    $mins -= $hrs * 60;
-    $offset = sprintf('%+d:%02d', $hrs*$sgn, $mins);
-
-    try {
-        $pdo = new PDO("mysql:host=" . DB_HOST . ";dbname=" . DB_NAME, DB_USER, DB_PASS);
-        $pdo->exec("SET time_zone='$offset';");
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    }
-    
-    catch (PDOException $e) {
-        if (DEBUG_MODE)
-            echo "<div class='alert alert-danger'><i class='fa fa-exclamation-circle'></i><strong>Database connection error</strong>: " . $e->getMessage() . "</div>";
-    }
-    
-    return true;
-}
 
 function getPercentageColor($pct)
 {
@@ -435,65 +435,6 @@ function get_user_avatar($forum_id, $type = "thumb")
         return "<img src='{$unknown}' class='img-thumbnail avatar-{$type}' />";
     }
     
-}
-
-
-/**
- * fetch top players in division (measured in games played on AOD servers)
- * @param  string $option daily or monthly option
- * @param  int $max       max players to show
- * @return array          array of players returned 
- */
-function get_division_toplist($option, $max)
-{
-    switch ($option) {
-        case "daily":
-        $query = "SELECT forum_name, member_id, platoon.number, rank.abbr AS rank, (SELECT count(*) FROM
-            activity WHERE activity.member_id = member.member_id AND activity. SERVER LIKE 'AOD%' AND activity.datetime >= DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)) as aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id LEFT JOIN rank ON member.rank_id = rank.id WHERE status_id = 1 ORDER BY aod_games DESC LIMIT {$max}";
-        break;
-        
-        case "monthly":
-        $query = "SELECT forum_name, member_id, platoon.number, rank.abbr as rank, ( SELECT count(*) FROM activity WHERE activity.member_id = member.member_id AND activity.server LIKE 'AOD%' AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 30 day) AND CURRENT_TIMESTAMP ) AS aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id LEFT JOIN rank ON member.rank_id = rank.id WHERE status_id = 1 ORDER BY aod_games DESC LIMIT {$max}";
-        break;
-    }
-    
-    if (!isset($query)) {
-        return false;
-        
-    }
-    
-    $totalAODquery = "SELECT round((SELECT count(*) FROM activity WHERE activity.server LIKE 'AOD%' AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 30 day) AND CURRENT_TIMESTAMP) 
-        / count(*)*100, 1) FROM activity WHERE activity.datetime BETWEEN DATE_SUB( NOW(), INTERVAL 30 day ) AND CURRENT_TIMESTAMP";
-
-global $pdo;
-
-if (dbConnect()) {
-    try {
-
-        $data = array();
-
-        $query = $pdo->prepare($query);
-        $query->execute();
-        $result = $query->fetchAll();
-
-        if ($option == "monthly") {
-
-            $totalAODquery = $pdo->prepare($totalAODquery);
-            $totalAODquery->execute();
-            $totalPercentage = $totalAODquery->fetchColumn();
-
-            $data["total_percentage"] = $totalPercentage;
-        }
-    }
-    catch (PDOException $e) {
-        return false;
-    }
-
-    $data["players"] = $result;
-
-    return $data;
-}
-
 }
 
 
@@ -1852,89 +1793,6 @@ function get_positions($my_position)
 
 
 
-
-function count_total_games($member_id, $bdate, $edate)
-{
-
-    global $pdo;
-    
-    if (dbConnect()) {
-
-        #$first_day_of_month = date("Y-m-d", strtotime("first day of" . $date)) . ' 00:00:00';
-        #$last_day_of_month  = date("Y-m-d", strtotime("last day of" . $date)). ' 23:59:59';
-
-        try {
-            $query = "SELECT count(*) AS games FROM activity WHERE member_id = :mid AND datetime between :bdate AND :edate";
-            $query = $pdo->prepare($query);
-            $query->bindParam(':mid', $member_id);
-            $query->bindParam(':bdate', $bdate);
-            $query->bindParam(':edate', $edate);
-            $query->execute();
-            $query = $query->fetchColumn();
-        }
-        catch (PDOException $e) {
-            return "ERROR:" . $e->getMessage();
-        }
-    }
-    return $query;
-}
-
-function count_aod_games($member_id, $bdate, $edate)
-{
-
-    global $pdo;
-    
-    if (dbConnect()) {
-
-        #$first_day_of_month = date("Y-m-d", strtotime("first day of" . $date)) . ' 00:00:00';
-        #$last_day_of_month  = date("Y-m-d", strtotime("last day of" . $date)). ' 23:59:59';
-
-        # count total AOD games played for a single member
-        try {
-            $query = "SELECT count(*) FROM activity WHERE member_id = :mid AND server LIKE '%AOD%' AND datetime between :bdate AND :edate";
-            $query = $pdo->prepare($query);
-            $query->bindParam(':mid', $member_id);
-            $query->bindParam(':bdate', $bdate);
-            $query->bindParam(':edate', $edate);
-            $query->execute();
-            $query = $query->fetchColumn();
-        }
-        catch (PDOException $e) {
-            return "ERROR:" . $e->getMessage();
-        }
-    }
-    return $query;
-}
-
-
-
-function get_player_games($mid, $bdate, $edate)
-{
-
-    global $pdo;
-    
-    if (dbConnect()) {
-
-        try {
-
-            $query = "SELECT server, datetime FROM `activity` WHERE member_id = :mid ORDER BY datetime DESC";
-            
-            $query = $pdo->prepare($query);
-            $query->bindParam(':mid', $mid);
-            $query->execute();
-            $query = $query->fetchAll();
-            
-        }
-        catch (PDOException $e) {
-            return "ERROR:" . $e->getMessage();
-        }
-    }
-    return $query;
-}
-
-
-
-
 function formatTime($ptime)
 {
     $etime = time() - $ptime;
@@ -2310,21 +2168,151 @@ function parse_battlelog_reports($personaId) {
 
 
 
-if (isset($_GET['test'])) {
 
-    $result = get_battlelog_id($_GET['test']);
 
-    if ($result['error']) {
-        echo $result['message'];
-    } else {
-        echo $result['id'];
+
+/**
+ * AOD GAMES CALCULATIONS
+ */
+
+
+
+function get_daily_bf4_toplist($max) {
+    $query = "SELECT forum_name, member_id, platoon.number, rank.abbr AS rank, (SELECT count(*) FROM activity WHERE activity.member_id = member.member_id AND (server LIKE 'AOD%' OR server LIKE ' AOD%') AND activity.datetime >= DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)) as aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id LEFT JOIN rank ON member.rank_id = rank.id WHERE status_id = 1 ORDER BY aod_games DESC LIMIT {$max}"; 
+
+    if (dbConnect()) {
+        global $pdo;
+
+        try {
+            $query = $pdo->prepare($query);
+            $query->execute();
+            $result = $query->fetchAll();
+        }
+        catch (PDOException $e) {
+            return false;
+        }
+
+        return $result;
+    }
+}
+
+
+/**
+ * fetch top players in division (measured in games played on AOD servers)
+ * @param  string $option daily or monthly option
+ * @param  int $max       max players to show
+ * @return array          array of players returned 
+ */
+function get_division_toplist($max) {
+
+    // monthly
+    $query = "SELECT forum_name, member_id, platoon.number, rank.abbr as rank, ( SELECT count(*) FROM activity WHERE activity.member_id = member.member_id AND (server LIKE 'AOD%' OR server LIKE ' AOD%') AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 30 day) AND CURRENT_TIMESTAMP ) AS aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id LEFT JOIN rank ON member.rank_id = rank.id WHERE status_id = 1 ORDER BY aod_games DESC LIMIT {$max}";
+
+    // percentage query
+    $totalAODquery = "SELECT round((SELECT count(*) FROM activity WHERE (server LIKE 'AOD%' OR server LIKE ' AOD%') AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 30 day) AND CURRENT_TIMESTAMP) / count(*)*100, 1) FROM activity WHERE activity.datetime BETWEEN DATE_SUB( NOW(), INTERVAL 30 day ) AND CURRENT_TIMESTAMP";
+
+    global $pdo;
+
+    if (dbConnect()) {
+        try {
+
+            $data = array();
+
+            $query = $pdo->prepare($query);
+            $query->execute();
+            $result = $query->fetchAll();
+
+            $totalAODquery = $pdo->prepare($totalAODquery);
+            $totalAODquery->execute();
+            $totalPercentage = $totalAODquery->fetchColumn();
+
+            $data["total_percentage"] = $totalPercentage;
+        }
+
+        catch (PDOException $e) {
+            return false;
+        }
+
+        $data["players"] = $result;
+        return $data;
     }
 
-    die;
+}
+
+
+function count_total_games($member_id, $bdate, $edate)
+{
+
+    global $pdo;
+    
+    if (dbConnect()) {
+
+        try {
+            $query = "SELECT count(*) AS games FROM activity WHERE member_id = :mid AND datetime between :bdate AND :edate";
+            $query = $pdo->prepare($query);
+            $query->bindParam(':mid', $member_id);
+            $query->bindParam(':bdate', $bdate);
+            $query->bindParam(':edate', $edate);
+            $query->execute();
+            $query = $query->fetchColumn();
+        }
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+    return $query;
+}
+
+
+function count_aod_games($member_id, $bdate, $edate)
+{
+
+    global $pdo;
+    
+    if (dbConnect()) {
+
+        # count total AOD games played for a single member
+        try {
+            $query = "SELECT count(*) FROM activity WHERE member_id = :mid AND (server LIKE 'AOD%' OR server LIKE ' AOD%') AND datetime between :bdate AND :edate";
+            $query = $pdo->prepare($query);
+            $query->bindParam(':mid', $member_id);
+            $query->bindParam(':bdate', $bdate);
+            $query->bindParam(':edate', $edate);
+            $query->execute();
+            $query = $query->fetchColumn();
+        }
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+    return $query;
 }
 
 
 
+function get_player_games($mid, $bdate, $edate)
+{
+
+    global $pdo;
+    
+    if (dbConnect()) {
+
+        try {
+
+            $query = "SELECT server, datetime FROM `activity` WHERE member_id = :mid ORDER BY datetime DESC";
+            
+            $query = $pdo->prepare($query);
+            $query->bindParam(':mid', $mid);
+            $query->execute();
+            $query = $query->fetchAll();
+            
+        }
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+    return $query;
+}
 
 
 
