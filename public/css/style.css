@@ -139,6 +139,10 @@ ul.nav {
   width: 200px;
 }
 
+.toplist tbody tr {
+  cursor: pointer;
+}
+
 code.post-code {
   max-height: 300px;
 }

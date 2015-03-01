@@ -33,6 +33,10 @@ $(function() {
         windowOpener($(this).attr("href"), "AOD Squad Tracking", "width=600,height=600,scrollbars=yes");
     });
 
+    $(".toplist tbody tr").click(function() {
+        window.location.href = "/member/" + $(this).attr('data-id');
+    });
+
 
     $(".edit-member").click(function() {
         var member_id = $(this).parent().attr('data-member-id');
