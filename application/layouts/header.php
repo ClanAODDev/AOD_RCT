@@ -61,9 +61,27 @@
 				<div class="navbar-collapse collapse">
 
 
-				<ul class="nav navbar-nav navbar-right">
-				
-				</ul>
+					<ul class="nav navbar-nav navbar-right">
+						<li class="dropdown">
+
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">User CP<span class="caret"></span></a>
+							<ul class="dropdown-menu" role="menu">
+								<li><a href="/member/<?php echo $forumId; ?>"><?php echo $curUser ?><span class="pull-right"><?php echo $avatar; ?></span></a></li>
+								<li class="divider"></li>
+								<li><a href="#" data-toggle="pill" class="settings-btn"> Settings</a></li>
+								<li><a href="http://www.clanaod.net/forums/member.php?u=<?php echo $forumId; ?>" target="_blank"> Forum profile</a></li>
+								<li> <a href="/help" role="button">Help</a> </li>
+								<li class="divider"></li>
+								<li><a href="#" data-toggle="pill" class="logout-btn"><i class="fa fa-lock pull-right"></i> Logout</a></li>
+							</ul>
+						</li>						
+
+						<?php if ($userRole > 1) { ?>
+						<!--<li> <a href="/admin" role="button">Admin CP</a> </li>-->
+						<?php } ?>
+
+
+					</ul>
 
 					<ul class="nav navbar-nav navbar-left">
 
@@ -158,26 +176,6 @@
 							</div>
 						</li> -->
 						<!-- end notifications menu -->
-
-						<li class="dropdown">
-
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">User CP<span class="caret"></span></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="/member/<?php echo $forumId; ?>"><?php echo $curUser ?><span class="pull-right"><?php echo $avatar; ?></span></a></li>
-								<li class="divider"></li>
-								<li><a href="#" data-toggle="pill" class="settings-btn"> Settings</a></li>
-								<li><a href="http://www.clanaod.net/forums/member.php?u=<?php echo $forumId; ?>" target="_blank"> Forum profile</a></li>
-								<li> <a href="/help" role="button">Help</a> </li>
-								<li class="divider"></li>
-								<li><a href="#" data-toggle="pill" class="logout-btn"><i class="fa fa-lock pull-right"></i> Logout</a></li>
-							</ul>
-						</li>
-						
-						
-
-						<?php if ($userRole > 1) { ?>
-						<!--<li> <a href="/admin" role="button">Admin CP</a> </li>-->
-						<?php } ?>
 
 					</ul>
 				</div><!--/.nav-collapse -->
