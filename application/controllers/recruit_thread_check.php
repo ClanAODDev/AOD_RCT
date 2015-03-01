@@ -56,3 +56,5 @@ if (isset($_GET['player']) && (isset($_GET['game']))) {
 } 
 
 ?>
+
+<script src='/public/js/check_threads.js'></script>
