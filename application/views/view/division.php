@@ -132,8 +132,6 @@ $out .= "
 
 		<div class='row'>
 
-
-
 			<div class='col-md-6'>
 				<div class='panel panel-primary toplist'>
 
@@ -143,7 +141,6 @@ $out .= "
 					</table>
 				</div>
 			</div>
-
 
 			<div class='col-md-6'>
 				<div class='panel panel-primary toplist'>
