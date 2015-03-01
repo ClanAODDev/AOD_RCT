@@ -426,6 +426,25 @@ function memberColor($user, $level)
 }
 
 
+function build_user_tools($role)
+{
+    global $pdo;
+    if (dbConnect()) {
+        try {
+            $query = "SELECT tool_name as title, tool_descr as descr, tool_path as link, icon, class, disabled FROM user_tools  WHERE role_id <= :role";
+            $query = $pdo->prepare($query);
+            $query->bindParam(':role', $role);
+            $query->execute();
+            $query = $query->fetchAll();
+        }
+
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+    return $query;
+}
+
 
 function get_user_avatar($forum_id, $type = "thumb")
 {
