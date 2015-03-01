@@ -16,7 +16,6 @@ ini_set('display_errors', 1);*/
 
 include_once("config.php");
 include_once(ROOT . "/application/routes.php");
-include_once(ROOT . "/application/tools.php");
 include_once(ROOT . "/application/modules/vbfunctions.php");
 include_once(ROOT . "/application/modules/curl_agents.php");
 
