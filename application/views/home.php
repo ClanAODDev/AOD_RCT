@@ -169,7 +169,8 @@ $out .= "
 		<div class='col-md-12'>
 			<div class='jumbotron striped-bg'>
 				<h1>{$welcomeWord}, <strong>{$curUser}</strong>!</h1>
-<p>This is the activity tracker for the {$longname} division! Click the help link at the top for more information.</p>
+<p>This is the activity tracker for the {$longname} division! Visit the help section for more information.</p>
+<p><a class='btn btn-primary btn-lg' href='/help'' role='button'>Learn more »</a></p>
 </div>
 </div> <!-- end col -->
 </div> <!-- end end row -->";

@@ -167,12 +167,13 @@
 								<li class="divider"></li>
 								<li><a href="#" data-toggle="pill" class="settings-btn"> Settings</a></li>
 								<li><a href="http://www.clanaod.net/forums/member.php?u=<?php echo $forumId; ?>" target="_blank"> Forum profile</a></li>
+								<li> <a href="/help" role="button">Help</a> </li>
 								<li class="divider"></li>
 								<li><a href="#" data-toggle="pill" class="logout-btn"><i class="fa fa-lock pull-right"></i> Logout</a></li>
 							</ul>
 						</li>
 						
-						<li> <a href="/help" role="button">Help</a> </li>
+						
 
 						<?php if ($userRole > 1) { ?>
 						<!--<li> <a href="/admin" role="button">Admin CP</a> </li>-->
