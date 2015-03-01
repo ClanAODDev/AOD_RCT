@@ -302,7 +302,7 @@ function onlineUsers()
         if (dbConnect()) {
             try {
                 // grab active users in past 2 minutes
-                $sth = $pdo->prepare('SELECT member.id, username, role, idle FROM users LEFT JOIN member ON users.username = member.forum_name WHERE last_seen >= CURRENT_TIMESTAMP - INTERVAL 10 MINUTE ORDER BY idle, last_seen DESC');
+                $sth = $pdo->prepare('SELECT member.id, member.member_id, username, role, idle FROM users LEFT JOIN member ON users.username = member.forum_name WHERE last_seen >= CURRENT_TIMESTAMP - INTERVAL 10 MINUTE ORDER BY idle, last_seen DESC');
                 $sth->execute();
                 $users = $sth->fetchAll();
             }
