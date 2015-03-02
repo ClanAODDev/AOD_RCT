@@ -9,7 +9,7 @@ $(function() {
         var pm_url = 'http://www.clanaod.net/forums/private.php?do=newpm&u[]=' + joinedIds;
 
         if (searchIDs.length > 0) {
-            windowOpener(pm_url, "Mass PM", "width=800,height=600,scrollbars=yes");
+            windowOpener(pm_url, "Mass PM", "width=900,height=600,scrollbars=yes");
 
         } else {
             alert('You must select someone to PM!')
@@ -60,7 +60,7 @@ $(function() {
     // popup link
     $(".popup-link").click(function(e) {
         e.preventDefault();
-        windowOpener($(this).attr("href"), "AOD Squad Tracking", "width=600,height=600,scrollbars=yes");
+        windowOpener($(this).attr("href"), "AOD Squad Tracking", "width=900,height=600,scrollbars=yes");
     });
 
     $(".toplist tbody tr").click(function() {
