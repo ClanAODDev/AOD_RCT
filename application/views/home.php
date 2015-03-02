@@ -258,7 +258,7 @@ $out .= "
 							{$my_platoon}
 
 						</div>
-						<div class='panel-footer'><button id='pm-checked' class='btn btn-success btn-sm toggle-pm pull-right' style='display: none;'>Send PM</button>  <button class='btn btn-default btn-sm toggle-pm pull-right'>PM Members</button><div class='clearfix'></div></div>
+						<div class='panel-footer'><button id='pm-checked' class='btn btn-success btn-sm toggle-pm pull-right' style='display: none;'>Send PM (<span class='count-pm'>0</span>)</button>  <button class='btn btn-default btn-sm toggle-pm pull-right'>PM Members</button><div class='clearfix'></div></div>
 					</div>";
 
 				}
