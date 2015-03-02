@@ -30,7 +30,7 @@ $(function() {
 
 function updateMember(uid, mid, fname, blog, platoon, sqdldr, position, recruiter) {
     setTimeout(function() {
-        $.post("/application/controllers/update_member.php", {
+        $.post("/application/ajax/update_member.php", {
                 uid: uid,
                 mid: mid,
                 fname: fname,

@@ -61,7 +61,7 @@ $(function() {
 
                 $.ajax({
                     type: 'POST',
-                    url: '/application/controllers/store_member.php',
+                    url: '/application/ajax/store_member.php',
                     data: {
                         name: forumName,
                         battlelog: battlelog,
@@ -206,7 +206,7 @@ function loadThreadCheck() {
     $(".thread-results").html('<img src="/public/images/loading.gif " class="margin-top-20" />');
 
     $.ajax({
-        url: "/application/controllers/recruit_thread_check.php",
+        url: "/application/ajax/recruit_thread_check.php",
         data: {
             player: player,
             game: game

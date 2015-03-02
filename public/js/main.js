@@ -10,7 +10,7 @@ $(function() {
 
         if (searchIDs.length > 0) {
             windowOpener(pm_url, "Mass PM", "width=800,height=600,scrollbars=yes");
-            window.refresh();
+
         } else {
             alert('You must select someone to PM!')
         }
@@ -18,9 +18,8 @@ $(function() {
     });
 
     $(".toggle-pm").click(function() {
-        $("#squads input:checkbox, #squad input:checkbox").toggle();
-        $("#pm-checked").toggle();
-        $(".pm-text").toggle();
+        $("#squads input:checkbox, #squad input:checkbox").show();
+        $("#pm-checked").show();
     });
 
 
@@ -51,7 +50,7 @@ $(function() {
         var id = $(this).data('id'),
             user = $(this).data('user');
 
-        $.post("/application/controllers/update_alert.php", {
+        $.post("/application/ajax/update_alert.php", {
             id: id,
             user: user
         });
@@ -71,7 +70,7 @@ $(function() {
     $(".edit-member").click(function() {
         var member_id = $(this).parent().attr('data-member-id');
 
-        $(".viewPanel .viewer").load("/application/controllers/ajax-view-member.php", {
+        $(".viewPanel .viewer").load("/application/ajax/ajax-view-member.php", {
             id: member_id
         });
         $(".viewPanel").modal();
@@ -122,7 +121,7 @@ $(function() {
     $('#login').submit(function(e) {
         e.preventDefault();
 
-        $.post("/application/controllers/login.php",
+        $.post("/application/ajax/login.php",
             $(this).serialize(),
             function(data) {
                 if (data['success'] === true) {
@@ -149,7 +148,7 @@ $(function() {
     $('#register').submit(function(e) {
         e.preventDefault();
 
-        $.post("/application/controllers/register.php",
+        $.post("/application/ajax/register.php",
             $(this).serialize(),
             function(data) {
                 if (data['success'] === true) {
@@ -316,7 +315,7 @@ $(function() {
         if (active_count < 31) {
 
             setTimeout(function() {
-                $.post("/application/controllers/online_users.php", function(list) {
+                $.post("/application/ajax/online_users.php", function(list) {
                     $(".userList").html(list);
                     $('.tool-user').powerTip({
                         placement: 'n'
@@ -360,7 +359,7 @@ function setCookie(cname, cvalue, exdays) {
 function member_search() {
     if ($('#member-search').val()) {
         $.ajax({
-            url: '/application/controllers/member_search.php',
+            url: '/application/ajax/member_search.php',
             type: 'get',
             data: {
                 name: $('input#member-search').val()

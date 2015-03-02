@@ -60,7 +60,7 @@ $(function() {
             $.ajax({
 
                 type: 'POST',
-                url: '/application/controllers/update_flagged.php',
+                url: '/application/ajax/update_flagged.php',
                 data: {
                     action: action,
                     id: itemMoved
