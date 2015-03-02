@@ -69,7 +69,7 @@ if ($userRole == 1) {
 					$last_seen = formatTime(strtotime($squad_member['last_activity']));
 					$status = lastSeenColored($last_seen);
 
-					$my_platoon .= "<a href='/member/{$id}' class='list-group-item'>{$rank} {$name}<small class='pull-right text-{$status}'>{$last_seen}</small></a>";
+					$my_platoon .= "<a href='/member/{$id}' class='list-group-item'><input type='checkbox' data-id='{$id}' style='margin-right: 10px; display: none;'>{$rank} {$name}<small class='pull-right text-{$status}'>{$last_seen}</small></a>";
 				}
 
 				$my_platoon .= "</div>";
@@ -92,7 +92,7 @@ if ($userRole == 1) {
 					$last_seen = formatTime(strtotime($gen_member['last_activity']));
 					$status = lastSeenColored($last_seen);
 
-					$my_platoon .= "<a href='/member/{$id}' class='list-group-item'>{$rank} {$name}<small class='pull-right text-{$status}'>{$last_seen}</small></a>";
+					$my_platoon .= "<a href='/member/{$id}' class='list-group-item'><input type='checkbox' data-id='{$id}' style='margin-right: 10px; display: none;'>{$rank} {$name}<small class='pull-right text-{$status}'>{$last_seen}</small></a>";
 				}
 				$my_platoon .= "</div>";
 
@@ -245,6 +245,7 @@ $out .= "
 
 						</div>
 					</div>";
+
 				} else if ($userRole == 2) {
 
 					// platoon
@@ -257,6 +258,7 @@ $out .= "
 							{$my_platoon}
 
 						</div>
+						<div class='panel-footer'><button id='pm-checked' class='btn btn-success btn-sm toggle-pm pull-right' style='display: none;'>Send PM</button>  <button class='btn btn-default btn-sm toggle-pm pull-right'>PM Members</button><div class='clearfix'></div></div>
 					</div>";
 
 				}

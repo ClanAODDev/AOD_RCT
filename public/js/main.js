@@ -1,5 +1,31 @@
 $(function() {
 
+    $("#pm-checked").click(function(event) {
+        event.preventDefault();
+        var searchIDs = $("#squads input:checkbox:checked").map(function() {
+            return $(this).data('id');
+        }).get();
+        var joinedIds = searchIDs.join('&u[]=');
+        var pm_url = 'http://www.clanaod.net/forums/private.php?do=newpm&u[]=' + joinedIds;
+
+
+
+
+        if (searchIDs.length > 0) {
+            windowOpener(pm_url, "Mass PM", "width=600,height=600,scrollbars=yes");
+        } else {
+            alert('You must select someone to PM!')
+            return false;
+        }
+
+    });
+
+    $(".toggle-pm").click(function() {
+        $("#squads input:checkbox").toggle();
+        $("#pm-checked").toggle();
+        $(".pm-text").toggle();
+    })
+
     // powers live search for members
     $('#member-search').keyup(function(e) {
         clearTimeout($.data(this, 'timer'));
@@ -19,7 +45,7 @@ $(function() {
 
     $('.alert').bind('closed.bs.alert', function() {
         var id = $(this).data('id'),
-            user = $(this).data('user');
+        user = $(this).data('user');
 
         $.post("/application/controllers/update_alert.php", {
             id: id,
@@ -71,25 +97,25 @@ $(function() {
     /**
      * navigation links for user cp
      */
-    $('.logout-btn').click(function(e) {
+     $('.logout-btn').click(function(e) {
         e.preventDefault();
         window.location.href = "/logout";
     });
-    $('.settings-btn').click(function(e) {
+     $('.settings-btn').click(function(e) {
         e.preventDefault();
         window.location.href = "/user/settings";
     });
-    $('.profile-btn').click(function(e) {
+     $('.profile-btn').click(function(e) {
         e.preventDefault();
         window.location.href = "/user/profile";
     });
-    $('.messages-btn').click(function(e) {
+     $('.messages-btn').click(function(e) {
         e.preventDefault();
         window.location.href = "/user/messages";
     });
 
 
-    $('#login').submit(function(e) {
+     $('#login').submit(function(e) {
         e.preventDefault();
 
         $.post("/application/controllers/login.php",
@@ -116,7 +142,7 @@ $(function() {
 
 
 
-    $('#register').submit(function(e) {
+     $('#register').submit(function(e) {
         e.preventDefault();
 
         $.post("/application/controllers/register.php",
@@ -141,9 +167,9 @@ $(function() {
     });
 
 
-    $('.fade-in').fadeIn('slow');
+     $('.fade-in').fadeIn('slow');
 
-    $('.count-animated').each(function() {
+     $('.count-animated').each(function() {
         var $this = $(this);
         jQuery({
             Counter: 0
@@ -162,37 +188,37 @@ $(function() {
         });
     });
 
-    $('.follow-tool').powerTip({
+     $('.follow-tool').powerTip({
         followMouse: true
     });
 
-    $('.tool').powerTip({
+     $('.tool').powerTip({
         placement: 'n'
     });
 
-    $('.tool-s').powerTip({
+     $('.tool-s').powerTip({
         placement: 's'
     });
 
-    $('.tool-e').powerTip({
+     $('.tool-e').powerTip({
         placement: 'e'
     });
 
-    $('.tool-ne').powerTip({
+     $('.tool-ne').powerTip({
         placement: 'ne'
     });
 
-    var platoonNum = parseInt($('.platoon-number').text());
+     var platoonNum = parseInt($('.platoon-number').text());
 
-    var formattedDate = new Date();
-    var d = formattedDate.getDate();
-    var m = (formattedDate.getMonth() + 1);
-    var y = formattedDate.getFullYear();
-    var nowDate = y + "-" + m + "-" + d;
+     var formattedDate = new Date();
+     var d = formattedDate.getDate();
+     var m = (formattedDate.getMonth() + 1);
+     var y = formattedDate.getFullYear();
+     var nowDate = y + "-" + m + "-" + d;
 
-    var selected = new Array();
+     var selected = new Array();
 
-    var table = $('#members-table').DataTable({
+     var table = $('#members-table').DataTable({
         "autoWidth": true,
         "sDom": 'T<"clear">tfrip',
         "order": [],
@@ -204,10 +230,10 @@ $(function() {
             "visible": false,
             "searchable": false
         }, {
-            "iDataSort": 7, // sort rank by rank id
+            "iDataSort": 6, // sort rank by rank id
             "aTargets": [1]
         }, {
-            "iDataSort": 8, // sort activity by last login date
+            "iDataSort": 7, // sort activity by last login date
             "aTargets": [3]
         }],
         stateSave: true,
@@ -248,9 +274,9 @@ $(function() {
 
     });
 
-    $('#members-table tbody').on('click', 'tr', function() {
-        console.log(table.row(this).data());
-    });
+$('#members-table tbody').on('click', 'tr', function() {
+    console.log(table.row(this).data());
+});
 
 
     /*    // if true, exists and don't show tour
@@ -265,19 +291,19 @@ $(function() {
     });*/
 
 
-    $("#members-table_paginate").addClass('text-center');
-    $("#members-table_filter input").appendTo("#playerFilter").removeClass('input-sm');
-    $("#playerFilter input").attr({
-        "placeholder": "Search Players",
-        "class": "form-control input-lg"
-    });
-    $("#members-table_filter label").remove();
+$("#members-table_paginate").addClass('text-center');
+$("#members-table_filter input").appendTo("#playerFilter").removeClass('input-sm');
+$("#playerFilter input").attr({
+    "placeholder": "Search Players",
+    "class": "form-control input-lg"
+});
+$("#members-table_filter label").remove();
 
-    $(".DTTT_container .DTTT_button").removeClass('DTTT_button');
-    $(".DTTT_container").appendTo('.download-area');
-    $(".DTTT_container a").addClass('btn btn-xs btn-info tool').attr('title', 'Download table data').text("Export").css('margin-top', '5px');
+$(".DTTT_container .DTTT_button").removeClass('DTTT_button');
+$(".DTTT_container").appendTo('.download-area');
+$(".DTTT_container a").addClass('btn btn-xs btn-info tool').attr('title', 'Download table data').text("Export").css('margin-top', '5px');
 
-    $(".no-sort").removeClass("sorting");
+$(".no-sort").removeClass("sorting");
 
 
     // update users online
@@ -348,9 +374,9 @@ function member_search() {
  * ZeroClipboard support
  */
 
-var client = new ZeroClipboard($('.copy-button'));
+ var client = new ZeroClipboard($('.copy-button'));
 
-client.on("ready", function(readyEvent) {
+ client.on("ready", function(readyEvent) {
     // alert( "ZeroClipboard SWF is ready!" );
 
     client.on("aftercopy", function(event) {
@@ -363,7 +389,7 @@ client.on("ready", function(readyEvent) {
 });
 
 
-function windowOpener(url, name, args) {
+ function windowOpener(url, name, args) {
 
     if (typeof(popupWin) != "object" || popupWin.closed) {
         popupWin = window.open(url, name, args);
@@ -390,20 +416,7 @@ function selectText(containerid) {
 
 function ucwords(str) {
     return (str + '')
-        .replace(/^([a-z\u00E0-\u00FC])|\s+([a-z\u00E0-\u00FC])/g, function($1) {
-            return $1.toUpperCase();
-        });
+    .replace(/^([a-z\u00E0-\u00FC])|\s+([a-z\u00E0-\u00FC])/g, function($1) {
+        return $1.toUpperCase();
+    });
 }
-
-
-function windowOpener(url, name, args) {
-
-    if (typeof(popupWin) != "object" || popupWin.closed) {
-        popupWin = window.open(url, name, args);
-    } else {
-        popupWin.location.href = url;
-    }
-
-    popupWin.focus();
-}
-
