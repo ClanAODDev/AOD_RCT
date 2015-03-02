@@ -2,26 +2,23 @@ $(function() {
 
     $("#pm-checked").click(function(event) {
         event.preventDefault();
-        var searchIDs = $("#squads input:checkbox:checked").map(function() {
+        var searchIDs = $("#squads input:checkbox:checked, #squad input:checkbox:checked").map(function() {
             return $(this).data('id');
         }).get();
         var joinedIds = searchIDs.join('&u[]=');
         var pm_url = 'http://www.clanaod.net/forums/private.php?do=newpm&u[]=' + joinedIds;
 
-
-
-
         if (searchIDs.length > 0) {
-            windowOpener(pm_url, "Mass PM", "width=600,height=600,scrollbars=yes");
+            windowOpener(pm_url, "Mass PM", "width=800,height=600,scrollbars=yes");
+            window.refresh();
         } else {
             alert('You must select someone to PM!')
-            return false;
         }
 
     });
 
     $(".toggle-pm").click(function() {
-        $("#squads input:checkbox").toggle();
+        $("#squads input:checkbox, #squad input:checkbox").toggle();
         $("#pm-checked").toggle();
         $(".pm-text").toggle();
     });

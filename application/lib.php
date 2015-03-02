@@ -2125,7 +2125,7 @@ function parse_battlelog_reports($personaId) {
 
 
 function get_daily_bf4_toplist($max) {
-    $query = "SELECT forum_name, member_id, platoon.number, rank.abbr AS rank, (SELECT count(*) FROM activity WHERE activity.member_id = member.member_id AND (server LIKE 'AOD%' OR server LIKE ' AOD%') AND activity.datetime >= DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)) as aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id LEFT JOIN rank ON member.rank_id = rank.id WHERE status_id = 1 ORDER BY aod_games DESC LIMIT {$max}"; 
+    $query = "SELECT forum_name, member_id, platoon.number, rank.abbr AS rank, (SELECT count(*) FROM activity WHERE activity.member_id = member.member_id AND (server LIKE '%AOD%') AND activity.datetime >= DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)) as aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id LEFT JOIN rank ON member.rank_id = rank.id WHERE status_id = 1 ORDER BY aod_games DESC LIMIT {$max}"; 
 
     if (dbConnect()) {
         global $pdo;
@@ -2153,10 +2153,10 @@ function get_daily_bf4_toplist($max) {
 function get_monthly_bf4_toplist($max) {
 
     // monthly
-    $query = "SELECT forum_name, member_id, platoon.number, rank.abbr as rank, ( SELECT count(*) FROM activity WHERE activity.member_id = member.member_id AND (server LIKE 'AOD%' OR server LIKE ' AOD%') AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 30 day) AND CURRENT_TIMESTAMP ) AS aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id LEFT JOIN rank ON member.rank_id = rank.id WHERE status_id = 1 ORDER BY aod_games DESC LIMIT {$max}";
+    $query = "SELECT forum_name, member_id, platoon.number, rank.abbr as rank, ( SELECT count(*) FROM activity WHERE activity.member_id = member.member_id AND (server LIKE '%AOD%') AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 30 day) AND CURRENT_TIMESTAMP ) AS aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id LEFT JOIN rank ON member.rank_id = rank.id WHERE status_id = 1 ORDER BY aod_games DESC LIMIT {$max}";
 
     // percentage query
-    $totalAODquery = "SELECT round((SELECT count(*) FROM activity WHERE (server LIKE 'AOD%' OR server LIKE ' AOD%') AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 30 day) AND CURRENT_TIMESTAMP) / count(*)*100, 1) FROM activity WHERE activity.datetime BETWEEN DATE_SUB( NOW(), INTERVAL 30 day ) AND CURRENT_TIMESTAMP";
+    $totalAODquery = "SELECT round((SELECT count(*) FROM activity WHERE (server LIKE '%AOD%') AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 30 day) AND CURRENT_TIMESTAMP) / count(*)*100, 1) FROM activity WHERE activity.datetime BETWEEN DATE_SUB( NOW(), INTERVAL 30 day ) AND CURRENT_TIMESTAMP";
 
     global $pdo;
 
@@ -2220,7 +2220,7 @@ function count_aod_games($member_id, $bdate, $edate)
 
         # count total AOD games played for a single member
         try {
-            $query = "SELECT count(*) FROM activity WHERE member_id = :mid AND (server LIKE 'AOD%' OR server LIKE ' AOD%') AND datetime between :bdate AND :edate";
+            $query = "SELECT count(*) FROM activity WHERE member_id = :mid AND (server LIKE '%AOD%') AND datetime between :bdate AND :edate";
             $query = $pdo->prepare($query);
             $query->bindParam(':mid', $member_id);
             $query->bindParam(':bdate', $bdate);
