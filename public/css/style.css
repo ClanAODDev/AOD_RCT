@@ -327,6 +327,13 @@ h2.pull-right {
   letter-spacing: -5px;
 }
 
+.pm-checkbox {
+  display: none;
+  position: absolute;
+  zoom: 1.6;
+  top: 3px;
+}
+
 
 .hr {
   height: 10px;
@@ -369,6 +376,11 @@ h2.pull-right {
 .member-actions i:hover {
   color: grey;
 }
+
+.member-item-push {
+  padding-left: 25px;
+}
+
 
 
 .dropdown-menu > .disabled > a {

@@ -10,7 +10,6 @@ $(function() {
 
         if (searchIDs.length > 0) {
             windowOpener(pm_url, "Mass PM", "width=900,height=600,scrollbars=yes");
-
         } else {
             alert('You must select someone to PM!')
         }
@@ -18,8 +17,9 @@ $(function() {
     });
 
     $(".toggle-pm").click(function() {
-        $("#squads input:checkbox, #squad input:checkbox").show();
-        $("#pm-checked").show();
+        $("#squads input:checkbox, #squad input:checkbox").toggle();
+        $("#pm-checked").toggle();
+        $(".member-item").toggleClass('member-item-push');
     });
 
 
@@ -38,9 +38,9 @@ $(function() {
             $(this).data('timer', setTimeout(member_search, 900));
         }
 
-         $('#member-search').focusout(function() {
+        if (!$('#member-search').val()) {
             $('#member-search-results').empty();
-         })
+        }
 
     })
 

@@ -69,7 +69,7 @@ if ($userRole == 1) {
 					$last_seen = formatTime(strtotime($squad_member['last_activity']));
 					$status = lastSeenColored($last_seen);
 
-					$my_platoon .= "<a href='/member/{$id}' class='list-group-item'><input type='checkbox' data-id='{$id}' style='margin-right: 10px; display: none;'>{$rank} {$name}<small class='pull-right text-{$status}'>{$last_seen}</small></a>";
+					$my_platoon .= "<a href='/member/{$id}' class='list-group-item'><input type='checkbox' data-id='{$id}' class='pm-checkbox'><span class=' member-item'>{$rank} {$name}</span><small class='pull-right text-{$status}'>{$last_seen}</small></a>";
 				}
 
 				$my_platoon .= "</div>";
@@ -92,7 +92,7 @@ if ($userRole == 1) {
 					$last_seen = formatTime(strtotime($gen_member['last_activity']));
 					$status = lastSeenColored($last_seen);
 
-					$my_platoon .= "<a href='/member/{$id}' class='list-group-item'><input type='checkbox' data-id='{$id}' style='margin-right: 10px; display: none;'>{$rank} {$name}<small class='pull-right text-{$status}'>{$last_seen}</small></a>";
+					$my_platoon .= "<a href='/member/{$id}' class='list-group-item'><input type='checkbox' data-id='{$id}' class='pm-checkbox'><span class='member-item'>{$rank} {$name}</span><small class='pull-right text-{$status}'>{$last_seen}</small></a>";
 				}
 				$my_platoon .= "</div>";
 
