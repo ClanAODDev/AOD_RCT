@@ -38,9 +38,10 @@ $(function() {
             $(this).data('timer', setTimeout(member_search, 900));
         }
 
-        if (!$('#member-search').val()) {
+         $('#member-search').focusout(function() {
             $('#member-search-results').empty();
-        }
+         })
+
     })
 
 
