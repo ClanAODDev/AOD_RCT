@@ -103,7 +103,6 @@ if ($member = get_member($userId)) {
 	$loaHideClass = NULL;
 	if (($status_id == 3) && ($loaInfo = get_member_loa($member_id))) {
 		$loaStatus = "<div class='panel panel-warning'><div class='panel-heading'>Leave of Absence Information</div><div class='list-group'><li class='list-group-item'><strong>Reason:</strong> <span class='pull-right'>{$loaInfo['reason']}</span></li><li class='list-group-item'><strong>Expires:</strong><span class='pull-right'> {$loaInfo['date_end']}</span></li></div></div>";
-		$loaHideClass = "hidden";
 	}
 
 
@@ -201,12 +200,12 @@ if ($member = get_member($userId)) {
 			<div class='col-md-9'>
 				{$loaStatus}
 
-				<div class='panel panel-info {$loaHideClass}'>
+				<div class='panel panel-info'>
 					<div class='panel-heading'><strong>AOD Participation</strong><span class='badge pull-right'>{$aod_games} Games</span></div>
 					<div class='panel-body'>{$aod_bar}</div>
 				</div>
 
-				<div class='panel panel-primary {$loaHideClass}'>
+				<div class='panel panel-primary'>
 					<div class='panel-heading'><strong>BF4 Server Activity</strong> ({$count_all_games} games in 30 days)<span class='pull-right'> Last {$maxGames} games</span></div>
 					<table class='table table-striped table-hover'>
 						<tbody>
