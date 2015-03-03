@@ -5,7 +5,7 @@ include('../lib.php');
 $out = NULL;
 
 if (isset($_GET['name'])) {
-	$results = get_member_name($_GET['name']);
+	$results = search_name($_GET['name']);
 
 	if (empty($results)) {
 
