@@ -100,9 +100,13 @@ if ($member = get_member($userId)) {
 
 	// loa infp
 	$loaStatus = NULL;
-	$loaHideClass = NULL;
-	if (($status_id == 3) && ($loaInfo = get_member_loa($member_id))) {
-		$loaStatus = "<div class='panel panel-warning'><div class='panel-heading'>Leave of Absence Information</div><div class='list-group'><li class='list-group-item'><strong>Reason:</strong> <span class='pull-right'>{$loaInfo['reason']}</span></li><li class='list-group-item'><strong>Expires:</strong><span class='pull-right'> {$loaInfo['date_end']}</span></li></div></div>";
+	if ($status_id == 3) {
+		if (member_has_loa($member_id)) {
+			$loaStatus = "<div class='alert alert-warning'><i class='fa fa-clock-o fa-lg'></i>  <strong>{$name}</strong> currently has a leave of absence in place.</div>";
+		} else {
+			$loaStatus = "<div class='alert alert-danger'><i class='fa fa-exclamation-triangle fa-lg'></i>  <strong>{$name}</strong> is currently listed as having an LOA, but no LOA exists on file. Has this member's LOA been revoked?</div>";
+		}
+		
 	}
 
 

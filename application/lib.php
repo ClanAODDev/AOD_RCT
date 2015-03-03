@@ -1382,7 +1382,7 @@ function get_leaves_of_absence($gid) {
 
 
 
-function get_member_loa($mid) {
+function member_has_loa($mid) {
 
     global $pdo;
 
@@ -1390,7 +1390,7 @@ function get_member_loa($mid) {
 
         try {
 
-            $query = "SELECT reason, date_end FROM loa WHERE member_id = :mid";
+            $query = "SELECT count(*) WHERE member_id = :mid";
             $query = $pdo->prepare($query);
             $query->bindParam(':mid', $mid);
             $query->execute();
@@ -1403,7 +1403,7 @@ function get_member_loa($mid) {
     }
 
     if (count($query)) {
-        return $query;
+        return true;
     } else {
         return false;
     }
