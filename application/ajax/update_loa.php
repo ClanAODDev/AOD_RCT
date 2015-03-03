@@ -19,7 +19,7 @@ if ($name != false) {
 			$data = array('success' => false, 'message' => $loa['message']);
 			
 		} else {
-			$data = array('success' => true, 'name' => $name, 'date' => date('M d, Y', strtotime($date)), 'reason' => $reason);
+			$data = array('success' => true, 'id' => $id, 'name' => $name, 'date' => date('M d, Y', strtotime($date)), 'reason' => $reason);
 			
 		}
 

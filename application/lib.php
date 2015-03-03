@@ -1381,6 +1381,36 @@ function get_leaves_of_absence($gid) {
 
 
 
+
+function get_member_loa($mid) {
+
+    global $pdo;
+
+    if (dbConnect()) {
+
+        try {
+
+            $query = "SELECT reason, date_end FROM loa WHERE member_id = :mid";
+            $query = $pdo->prepare($query);
+            $query->bindParam(':mid', $mid);
+            $query->execute();
+            $query = $query->fetch();
+
+        }
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+
+    if (count($query)) {
+        return $query;
+    } else {
+        return false;
+    }
+}
+
+
+
 function count_expired_loas($gid) {
 
     global $pdo, $member_info;

@@ -139,7 +139,7 @@ ul.nav {
   width: 200px;
 }
 
-.toplist tbody tr {
+.toplist tbody tr, #loas tbody tr {
   cursor: pointer !important;
 }
 

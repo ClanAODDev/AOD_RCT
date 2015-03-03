@@ -111,6 +111,9 @@ $(function() {
         }
     });
 
+    $("#loas tbody tr").click(function(){
+        window.location.href = "/member/" + $(this).attr('data-id');
+    })
 
     // LOA ADD
     $("#loa-update").submit(function(e) {
@@ -124,7 +127,7 @@ $(function() {
             data: $("#loa-update").serialize(),
             success: function(data) {
                 if (data.success) {
-                    var $newRow = $("<tr class='new'><td>" + data.name + "</td><td>" + data.date + "</td><td>" + data.reason + "</td><td class='text-center'><i class='fa fa-check text-success fa-lg' title='Active'></i></td></tr>");
+                    var $newRow = $("<tr data-id='" + data.id + "'><td>" + data.name + "</td><td>" + data.date + "</td><td>" + data.reason + "</td><td class='text-center'><i class='fa fa-check text-success fa-lg' title='Active'></i></td></tr>");
 
                     $("#loas tbody tr:last").after($newRow);
                     $newRow.effect("highlight", {}, 3000);
