@@ -58,9 +58,20 @@ if (isLoggedIn()) {
             $alerts_list .= "
             <div data-id='{$alert['id']}' data-user='{$myUserId}' class='alert-dismissable alert alert-{$alert['type']} fade in' role='alert'>
                 <button type='button' class='close' data-dismiss='alert'><span aria-hidden='true'>&times;</span><span class='sr-only'>Close</span></button>
-                {$alert['content']} </div>";
-            }
+                {$alert['content']} 
+            </div>";
         }
+    }
+
+
+    /**
+     * oblig alerts
+     */
+    $obligAlerts = NULL;
+    $loa_expired = count_expired_loas($user_game);
+    if ($loa_expired > 0 && $userRole >= 2) {
+        $obligAlerts = "<div class='alert alert-danger'><i class='fa fa-exclamation-triangle'></i> Your division has <strong>{$loa_expired}</strong> expired leaves of absence! <a href='/manage/leaves-of-absence' class='alert-link pull-right'>Manage leaves of absence</a></div>";
+    }
 
 
 
@@ -578,6 +589,9 @@ function userExists($string)
     }
 }
 
+
+
+
 function hasher($info, $encdata = false)
 {
     $strength = "10";
@@ -682,6 +696,36 @@ function updateAlert($alert, $uid)
         return false;
     }
 }
+
+
+function updateLoa($id, $date, $reason)
+{
+    global $pdo;
+    
+    if (dbConnect()) {
+
+        try {
+            $query = $pdo->prepare("INSERT INTO loa ( member_id, date_end, reason ) VALUES ( :id, :date, :reason )");
+            $query->execute(array(
+                ':id' => $id,
+                ':date' => $date,
+                ':reason' => $reason
+                ));
+        }
+
+        catch (PDOException $e) {
+            if ($e->errorInfo[1] == 1062) {
+                return array('success' => false, 'message' => 'Member already has an LOA!');
+            } else {
+                return array('success' => false, 'message' => $e->getMessage());
+            }
+            
+        }
+        return array('success' => true);
+    } 
+    
+}
+
 
 
 function updateFlagged($id, $lid, $action)
@@ -1189,7 +1233,37 @@ function get_forum_name($mid)
 
 
 
-function get_member_name($name)
+function get_member_name($id)
+{
+
+    global $pdo;
+    
+    if (dbConnect()) {
+
+        try {
+
+            $query = "SELECT member.forum_name FROM member WHERE member.member_id = :id";
+            $query = $pdo->prepare($query);
+            $query->bindParam(':id', $id);
+            $query->execute();
+            $query = $query->fetchColumn();
+            
+        }
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+
+    if (count($query)) {
+        return $query;
+    } else {
+        return false;
+    }
+    
+}
+
+
+function search_name($name)
 {
 
     global $pdo;
@@ -1289,12 +1363,36 @@ function get_leaves_of_absence($gid) {
             $query = "SELECT loa.member_id, loa.reason, loa.date_end, member.forum_name, rank.abbr as rank FROM loa
             LEFT JOIN member ON member.member_id = loa.member_id
             LEFT JOIN rank ON rank.id = member.rank_id
-            WHERE member.game_id = :gid";
+            WHERE member.game_id = :gid AND loa.active = 1
+            ORDER BY loa.date_end";
 
             $query = $pdo->prepare($query);
             $query->bindParam(':gid', $gid);
             $query->execute();
             $query = $query->fetchAll();
+
+        }
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+    return $query;
+}
+
+
+
+function count_expired_loas($gid) {
+
+    global $pdo, $member_info;
+
+    if (dbConnect()) {
+
+        try {
+
+            $query = "SELECT count(*) FROM loa WHERE date_end < NOW()";
+            $query = $pdo->prepare($query);
+            $query->execute();
+            $query = $query->fetchColumn();
 
         }
         catch (PDOException $e) {
