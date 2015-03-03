@@ -112,4 +112,30 @@ $(function() {
     });
 
 
+    // LOA ADD
+    $("#loa-update").submit(function(e) {
+        e.preventDefault();
+
+        var url = "/application/ajax/update_loa.php";
+        $.ajax({
+            type: "POST",
+            url: url,
+            dataType: 'json',
+            data: $("#loa-update").serialize(),
+            success: function(data) {
+                if (data.success) {
+                    var $newRow = $("<tr class='new'><td>" + data.name + "</td><td>" + data.date + "</td><td>" + data.reason + "</td><td class='text-center'><i class='fa fa-check text-success fa-lg' title='Active'></i></td></tr>");
+
+                    $("#loas tbody tr:last").after($newRow);
+                    $newRow.effect("highlight", {}, 3000);
+
+                    $('#loa-update')[0].reset();
+                } else {
+                    $(".alert").attr('class', 'alert alert-danger').html("<i class='fa fa-exclamation-triangle fa-lg'></i> " + data.message).show().delay(2000).fadeOut();
+                }
+            }
+        });
+        return false;
+    });
+
 });
