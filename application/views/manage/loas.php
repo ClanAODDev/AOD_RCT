@@ -14,6 +14,13 @@ $game_info = get_game_info($user_game);
 $game_icon = strtolower($game_info['short_name']);
 $game_icon = "<img class='pull-right' src='/public/images/game_icons/large/{$game_icon}.png'/>";
 
+// count expired
+$obligAlerts = NULL;
+$loa_expired = count_expired_loas($user_game);
+if ($loa_expired > 0) {
+	$obligAlerts = "<div class='alert alert-warning'><p><i class='fa fa-exclamation-triangle'></i> Your division has expired leaves of absence which need to be handled. If the LOA is older than one month, then the member may be eligible for removal. If the LOA is in place for an extenuating circumstance, the expired LOA should be deleted, and a new one created in its place.</p></div>";
+}
+
 // fetch leaves of absence
 $loas = get_leaves_of_absence($user_game);
 $loaList = NULL;
@@ -49,6 +56,7 @@ $out = "
 
 	// current loas
 	$out .= "
+	{$obligAlerts}
 	<div class='alert hide'></div>
 	<div class='panel panel-primary margin-top-20'>
 		<div class='panel-heading'>Current Leaves of Absence</div>

@@ -70,7 +70,7 @@ if (isLoggedIn()) {
     $obligAlerts = NULL;
     $loa_expired = count_expired_loas($user_game);
     if ($loa_expired > 0 && $userRole >= 2) {
-        $obligAlerts = "<div class='alert alert-danger'><i class='fa fa-exclamation-triangle'></i> Your division has <strong>{$loa_expired}</strong> expired leaves of absence! <a href='/manage/leaves-of-absence' class='alert-link pull-right'>Manage leaves of absence</a></div>";
+        $obligAlerts = "<div class='alert alert-warning'><i class='fa fa-exclamation-triangle'></i> Your division has <strong>{$loa_expired}</strong> expired leaves of absence! <a href='/manage/leaves-of-absence' class='alert-link'>Manage leaves of absence</a></div>";
     }
 
 
