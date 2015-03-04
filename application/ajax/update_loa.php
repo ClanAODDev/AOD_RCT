@@ -6,7 +6,6 @@ $id = $_POST['id'];
 $member_id = $member_info['forum_id'];
 
 
-// adding an LOA
 if (isset($_POST['remove'])) {
 
 	// revoking an LOA
@@ -15,7 +14,7 @@ if (isset($_POST['remove'])) {
 		if ( $revoked['success'] == false ) {
 			$data = array('success' => false, 'message' => $revoked['message']);
 		} else {
-			$data = array('success' => true, 'message' => "Leave of absence successfully revoked.");
+			$data = array('success' => true, 'message' => "Leave of absence successfully removed.");
 		}
 	}
 
@@ -42,6 +41,7 @@ if (isset($_POST['remove'])) {
 	$data = NULL;
 	$date = date('Y-m-d', strtotime($_POST['date']));
 	$reason = $_POST['reason'];
+	$comment = htmlentities($_POST['comment'], ENT_QUOTES);
 	$name = get_member_name($id);
 
 	// validate member id and get name
@@ -51,13 +51,13 @@ if (isset($_POST['remove'])) {
 		if (strtotime($date) > strtotime('now')) {
 
 			// validate submission
-			if ( $loa = ( addLoa($id, $date, $reason) ) ) {
+			if ( $loa = ( addLoa($id, $date, $reason, $comment) ) ) {
 
 				// if submission failed
 				if ( $loa['success'] == false ) {
 					$data = array('success' => false, 'message' => $loa['message']);
 				} else {
-					$data = array('success' => true, 'id' => $id, 'name' => $name, 'date' => date('M d, Y', strtotime($date)), 'reason' => $reason);
+					$data = array('success' => true, 'Request successfully submitted!', 'id' => $id, 'name' => $name, 'date' => date('M d, Y', strtotime($date)), 'reason' => $reason);
 				}
 			} else {
 				$data = array('success' => false, 'message' => $loa['message']);

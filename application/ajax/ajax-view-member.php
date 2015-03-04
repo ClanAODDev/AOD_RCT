@@ -94,7 +94,7 @@ if ($_POST && $_POST['id']) {
 
 	$out .= "
 	<div class='modal-header'>
-		<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>
+		<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'><i class='fa fa-times-circle'></i></span></button>
 		<h4 class='modal-title'>Editing {$rank} {$forum_name}</h4>
 	</div>
 	<form id='edit-form'>
@@ -145,9 +145,12 @@ if ($_POST && $_POST['id']) {
 
 		</div>
 		<div class='modal-footer'>
-			<button type='submit' class='btn btn-block btn-success'>Save Info</button> 
+			<div class='btn-group'>
+			<button data-dismiss='modal' class='btn btn-default'>Cancel</button> <button type='submit' class='btn btn-success'>Save Info</button> 
+			</div>
+				</form>
 		</div>
-	</form>
+
 	<script src='/public/js/view.js'></script>";
 
 } else {

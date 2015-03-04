@@ -23,15 +23,19 @@ if ($loa_expired > 0) {
 
 // revoke power?
 $revokeBtn = NULL;
+$approveBtn = NULL;
+$contactBtn = NULL;
 $ploaTable = NULL;
-
-if ($userRole >= 2) {
-	$revokeBtn = "<button class='btn btn-danger btn-sm revoke-loa-btn' title='Revoke LOA'>Revoke</button>";
-}
 
 // fetch leaves of absence
 $appLoas = get_approved_loas($user_game);
 $pendLoas = get_pending_loas($user_game);
+
+if ($userRole >= 2) {
+	$pendingActions = "<td class='text-center loa-actions' style='opacity: .2;'><button class='btn btn-default btn-block view-pending-loa' title='Review LOA'>Review LOA</button></td>";
+	$activeActions = "<td class='text-center loa-actions' style='opacity: .2;'><button class='btn btn-default btn-block view-active-loa' title='Review LOA'>Review LOA</button></td>";
+}
+
 
 
 
@@ -39,25 +43,24 @@ $pendLoas = get_pending_loas($user_game);
 if (count($pendLoas)) {
 	foreach ($pendLoas as $member) {
 		$date_end = date("M d, Y", strtotime($member['date_end']));
+		$comment = htmlentities($member['comment'], ENT_QUOTES);
 		$expired = ( strtotime($date_end) < strtotime('now')) ? true : false;
 		$status_icon =  "<h4><span class='label bg-warning'><i class='fa fa-clock-o' title='Pending'></i> Pending</span></h4>";
-		$contact = "<a class='btn btn-default btn-sm popup-link' href='" . PRIVMSG . "{$member['member_id']}'>Send PM</a>";
-		$approve = "<a class='btn btn-success btn-sm approve-loa-btn' href='#'>Approve</a>";
 
 		$ploaList .= "
-		<tr data-id='{$member['member_id']}'>
+		<tr data-id='{$member['member_id']}' data-comment='{$comment}'>
 			<td>{$member['forum_name']}</td> 
 			<td>{$member['reason']}</td>
 			<td>{$date_end}</td>
 			<td class='text-center' style='vertical-align: middle;'>{$status_icon}</td>
-			<td class='text-right loa-actions' style='opacity: .2;'><div class='btn-group'>{$contact} {$approve}</div></td>
+			{$pendingActions}
 		</tr>";
 
 		$i++;
 	}
 
 	$ploaTable = "
-	<div class='panel panel-default margin-top-20' id='pending-loas'>
+	<div class='panel panel-primary margin-top-20' id='pending-loas'>
 		<div class='panel-heading'>Pending Leaves of Absence</div>
 		<table class='table table-striped table-hover' id='ploas'>
 			<thead>
@@ -75,24 +78,23 @@ if (count($pendLoas)) {
 	</div>";
 }
 
-
-
 // do we have any active leaves of absence?
 if (count($appLoas)) {
 	foreach ($appLoas as $member) {
 		$date_end = date("M d, Y", strtotime($member['date_end']));
 		$expired = ( strtotime($date_end) < strtotime('now')) ? true : false;
+		$comment = htmlentities($member['comment'], ENT_QUOTES);
 		$date_end = ($expired) ? "<span class='text-danger' title='Expired'>{$date_end}</span>" : $date_end;
+		$approved_by = get_forum_name($member['approved_by']);
 		$status_icon = ($expired) ? "<h4><span class='label bg-danger'><i class='fa fa-times-circle' title='Expired'></i> Expired</span></h4>" : "<h4><span class='label bg-success'><i class='fa fa-check' title='Active'></i> Active</span></h4>";
-		$contact = "<a class='btn btn-default btn-sm popup-link' href='" . PRIVMSG . "{$member['member_id']}'>Send PM</a>";
 
 		$loaList .= "
-		<tr data-id='{$member['member_id']}'>
+		<tr data-id='{$member['member_id']}' data-approval='{$approved_by}' data-comment='{$comment}'>
 			<td>{$member['forum_name']}</td> 
 			<td>{$member['reason']}</td>
 			<td>{$date_end}</td>
 			<td class='text-center' style='vertical-align: middle;'>{$status_icon}</td>
-			<td class='text-right loa-actions' style='opacity: .2;'><div class='btn-group'>{$contact} {$revokeBtn}</div></td>
+			{$activeActions}
 		</tr>";
 
 		$i++;
@@ -113,13 +115,15 @@ $out = "
 
 
 	// pending loas
-	$out .= $ploaTable;
-
+	if ($userRole >= 2) {
+		$out .= $ploaTable;
+	}
+	
 
 	// current loas
 	$out .= "
 	<div class='alert hide loa-alerts'></div>
-	<div class='panel panel-default margin-top-20' id='active-loas'>
+	<div class='panel panel-primary margin-top-20' id='active-loas'>
 		<div class='panel-heading'>Approved Leaves of Absence</div>
 		<table class='table table-striped table-hover' id='loas'>
 			<thead>
@@ -151,7 +155,7 @@ $out = "
 						<td><input type='number' class='form-control' name='id' placeholder='Member id' required></input></td>
 						<td><input type='date' class='form-control' name='date' required></input></td>
 						<td><select class='form-control' name='reason' required><option>Military</option><option>School</option><option>Work</option><option>Medical</option><option>Personal</option></select></td>
-						<td class='text-center'><button class='btn btn-success' type='submit'>ADD LOA</button></td>
+						<td class='text-center'><button class='btn btn-block btn-success' type='submit'>ADD LOA</button></td>
 					</form>
 				</tr>
 			</tbody>

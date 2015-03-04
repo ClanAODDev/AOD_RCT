@@ -699,18 +699,19 @@ function updateAlert($alert, $uid)
 }
 
 
-function addLoa($id, $date, $reason)
+function addLoa($id, $date, $reason, $comment)
 {
     global $pdo;
     
     if (dbConnect()) {
 
         try {
-            $query = $pdo->prepare("INSERT INTO loa ( member_id, date_end, reason ) VALUES ( :id, :date, :reason )");
+            $query = $pdo->prepare("INSERT INTO loa ( member_id, date_end, reason, comment ) VALUES ( :id, :date, :reason, :comment )");
             $query->execute(array(
                 ':id' => $id,
                 ':date' => $date,
-                ':reason' => $reason
+                ':reason' => $reason,
+                ':comment' => $comment
                 ));
         }
 
@@ -1361,7 +1362,7 @@ function get_approved_loas($gid) {
 
         try {
 
-            $query = "SELECT loa.member_id, loa.reason, loa.date_end, member.forum_name, rank.abbr as rank FROM loa
+            $query = "SELECT loa.member_id, loa.reason, loa.date_end, loa.approved_by, loa.comment, member.forum_name, rank.abbr as rank FROM loa
             LEFT JOIN member ON member.member_id = loa.member_id
             LEFT JOIN rank ON rank.id = member.rank_id
             WHERE member.game_id = :gid and loa.approved = 1
@@ -1388,7 +1389,7 @@ function get_pending_loas($gid) {
 
         try {
 
-            $query = "SELECT loa.member_id, loa.reason, loa.date_end, member.forum_name, rank.abbr as rank FROM loa
+            $query = "SELECT loa.member_id, loa.reason, loa.date_end, loa.comment, member.forum_name, rank.abbr as rank FROM loa
             LEFT JOIN member ON member.member_id = loa.member_id
             LEFT JOIN rank ON rank.id = member.rank_id
             WHERE member.game_id = :gid and loa.approved = 0

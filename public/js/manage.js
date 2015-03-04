@@ -110,44 +110,137 @@ $(function() {
     });
 
 
-    // LOA ADD
-    $("#loa-update").submit(function(e) {
+
+
+
+
+    /**
+     * LOA management
+     */
+
+    // pending view loa
+
+    var view_pending_loa = "<div class='viewer fadeIn animate'><div class='modal-header'><button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'><i class='fa fa-times-circle'></i></span></button><h4>Review Leave of Absence</h4></div><div class='modal-body'><strong>Reason for request</strong>: <textarea class='form-control' style='resize:vertical; min-height: 100px;' id='comment' class='comment' /></div><div class='modal-footer'><div class='btn-group'><button type='button' class='btn btn-success approve-loa-btn'>Approve</button> <button type='button' class='btn btn-danger deny-loa-btn'>Deny</button><button type='button' data-dismiss='modal' class='btn'>Close</button></div></div></div></div>";
+
+    $(".view-pending-loa").click(function() {
+        var id = $(this).closest('tr').attr('data-id'),
+            comment = $(this).closest('tr').attr('data-comment');
+
+        $(".viewPanel .viewer").html(view_pending_loa);
+        $(".modal #comment").html(comment);
+
+        $(".modal").attr('data-id', id).modal();
+    })
+
+
+
+    // deny LOA
+
+    $(".modal").delegate(".deny-loa-btn", "click", function(e) {
+
         e.preventDefault();
 
-        var url = "/application/ajax/update_loa.php";
+        var url = "/application/ajax/update_loa.php",
+            id = $('.modal').attr('data-id');
+
         $.ajax({
             type: "POST",
             url: url,
             dataType: 'json',
-            data: $("#loa-update").serialize(),
+            data: {
+                remove: true,
+                id: id
+            },
+
             success: function(data) {
                 if (data.success) {
-                    var $newRow = $("<tr data-id='" + data.id + "'><td>" + data.name + "</td><td>" + data.reason + "</td><td>" + data.date + "</td><td class='text-center'><h4><span class='label bg-success'><i class='fa fa-check fa-lg' title='Active'></i> Active</span></h4></td><td class='text-right loa-actions' style='opacity: .2;'><div class='btn-group'><a class='btn btn-default popup-link' href='http://www.clanaod.net/forums/private.php?do=newpm&amp;u=" + data.id + "'>PM</a></div></td></tr>");
 
-                    $("#loas tbody tr:last").after($newRow);
-                    $newRow.effect("highlight", {}, 3000);
-                    $('#loa-update')[0].reset();
+                    $('.modal').modal('hide');
+
+                    $('*[data-id="' + id + '"]').effect('highlight').hide("fade", {
+                        direction: "out"
+                    }, "slow");
+                    $(".loa-alerts").attr('class', 'alert alert-success loa-alerts').html("<i class='fa fa-check fa-lg'></i> " + data.message).show().delay(2000).fadeOut();
 
                 } else {
                     $(".loa-alerts").attr('class', 'alert alert-danger loa-alerts').html("<i class='fa fa-exclamation-triangle fa-lg'></i> " + data.message).show().delay(2000).fadeOut();
+                    $('.modal').modal('hide');
                 }
             }
         });
-        return false;
-    });
 
-    var revoke_confirm = "<div class='viewer fadeIn animate'><div class='modal-header'><strong>Are you sure?</strong></div><div class='modal-body'><p>Once a player's LOA is revoked, their status must be updated on the forums. Additionally, if this is a revocation, the member should be flagged for removal.</p></div><div class='modal-footer'><button type='button' data-dismiss='modal' class='btn btn-primary' id='delete'>Revoke LOA</button><button type='button' data-dismiss='modal' class='btn'>Cancel</button></div></div></div>";
+    })
 
+
+    // approve LOA
+    $(".modal").delegate(".approve-loa-btn", "click", function(e) {
+
+        e.preventDefault();
+
+        var url = "/application/ajax/update_loa.php",
+            id = $('.modal').attr('data-id');
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            dataType: 'json',
+            data: {
+                approve: true,
+                id: id
+            },
+
+            success: function(data) {
+                if (data.success) {
+
+                    $('.modal').modal('hide');
+
+                    $('*[data-id="' + id + '"]').effect('highlight').hide("fade", {
+                        direction: "out"
+                    }, "slow");
+                    $(".loa-alerts").attr('class', 'alert alert-success loa-alerts').html("<i class='fa fa-check fa-lg'></i> " + data.message).show().delay(2000).fadeOut();
+
+                } else {
+                    $(".loa-alerts").attr('class', 'alert alert-danger loa-alerts').html("<i class='fa fa-exclamation-triangle fa-lg'></i> " + data.message).show().delay(2000).fadeOut();
+                    $('.modal').modal('hide');
+                }
+            }
+        });
+
+    })
+
+
+
+
+
+    // active view loa
+
+     $('#loas').delegate(".view-active-loa", "click", function(e) {
+        var id = $(this).closest('tr').attr('data-id'),
+            comment = $(this).closest('tr').attr('data-comment'),
+            approval = $(this).closest('tr').attr('data-approval');
+
+        $(".viewPanel .viewer").html(view_active_loa);
+        $(".modal #comment").html(comment);
+        $(".modal #approval").val(approval);
+        $(".modal").attr('data-id', id).modal();
+
+    })
+
+
+    var view_active_loa = "<div class='viewer fadeIn animate'><div class='modal-header'><button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'><i class='fa fa-times-circle'></i></span></button><h4>Review Leave of Absence</h4></div><div class='modal-body'><p><strong>Approved by</strong>: <input class='form-control' id='approval' /></p><p><strong>Reason for request</strong>: <textarea class='form-control' style='resize:vertical;' id='comment' class='comment' /></p></div><div class='modal-footer'> <div class='btn-group'> <button type='button' class='btn btn-primary pm-btn'>PM Player</button><button type='button' class='btn btn-danger revoke-loa-btn'>Revoke</button>  <button type='button' data-dismiss='modal' class='btn'>Close</button></div></div></div></div>";
 
     // revoke LOA
-    $(".revoke-loa-btn").click(function(e) {
+    var revoke_confirm = "<div class='viewer fadeIn animate'><div class='modal-header'><button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'><i class='fa fa-times-circle'></i></span></button><h4>Confirm revoke leave of absence</h4></div><div class='modal-body'><p>Once a player's LOA is revoked, their status must be updated on the forums. Additionally, if this is a revocation, the member should be flagged for removal.</p></div><div class='modal-footer'> <div class='btn-group'><button type='button' data-dismiss='modal' class='btn btn-primary' id='delete'>Revoke LOA</button> <button type='button' data-dismiss='modal' class='btn'>Cancel</button></div></div></div></div>";
+
+
+    $(".modal").delegate(".revoke-loa-btn", "click", function(e) {
 
         e.preventDefault();
 
         $(".viewPanel .viewer").html(revoke_confirm);
 
         var url = "/application/ajax/update_loa.php",
-            id = $(this).closest('#loas tbody tr').attr('data-id');
+            id = $('.modal').attr('data-id');
 
         $('.modal').modal({
             backdrop: 'static',
@@ -170,8 +263,11 @@ $(function() {
                             }, "slow");
                             $(".loa-alerts").attr('class', 'alert alert-success loa-alerts').html("<i class='fa fa-check fa-lg'></i> " + data.message).show().delay(2000).fadeOut();
 
+                            $('.modal').modal('hide');
+
                         } else {
                             $(".loa-alerts").attr('class', 'alert alert-danger loa-alerts').html("<i class='fa fa-exclamation-triangle fa-lg'></i> " + data.message).show().delay(2000).fadeOut();
+                            $('.modal').modal('hide');
                         }
                     }
                 });
@@ -180,36 +276,65 @@ $(function() {
     })
 
 
-    // approve LOA
-    $(".approve-loa-btn").click(function(e) {
 
+
+
+    var add_loa = "<div class='viewer fadeIn animate'><div class='modal-header'><button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'><i class='fa fa-times-circle'></i></span></button><h4>Request Leave of Absence</h4></div><div class='modal-body'><strong>Reason for request</strong>: <textarea class='form-control' style='resize:vertical; min-height: 100px;' id='comment' name='comment' class='comment' required/></div><div class='modal-footer'><div class='btn-group'> <button type='button' data-dismiss='modal' class='btn'>Cancel</button> <button type='button' id='submit' class='btn btn-success'>Submit</button> </div></div></div></div>";
+
+
+    // LOA ADD
+    $("#loa-update").submit(function(e) {
         e.preventDefault();
 
-        var url = "/application/ajax/update_loa.php",
-            id = $(this).closest('#ploas tbody tr').attr('data-id');
+        var url = "/application/ajax/update_loa.php";
 
-        $.ajax({
-            type: "POST",
-            url: url,
-            dataType: 'json',
-            data: {
-                approve: true,
-                id: id
-            },
+        $(".viewPanel .viewer").html(add_loa);
 
-            success: function(data) {
-                if (data.success) {
-                    $('*[data-id="' + id + '"]').effect('highlight').hide("fade", {
-                        direction: "out"
-                    }, "slow");
-                    $(".loa-alerts").attr('class', 'alert alert-success loa-alerts').html("<i class='fa fa-check fa-lg'></i> " + data.message).show().delay(2000).fadeOut();
+        $('.modal').modal({
+            backdrop: 'static',
+            keyboard: false
+        })
+            .one('click', '#submit', function(e) {
 
-                } else {
-                    $(".loa-alerts").attr('class', 'alert alert-danger loa-alerts').html("<i class='fa fa-exclamation-triangle fa-lg'></i> " + data.message).show().delay(2000).fadeOut();
-                }
-            }
-        });
+                var comment = $(".modal #comment").val();
+                
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    dataType: 'json',
+                    data: $("#loa-update").serialize() + "&comment=" + comment,
+                    success: function(data) {
+                        if (data.success) {
+                            var $newRow = $("<tr data-id='" + data.id + "'><td>" + data.name + "</td><td>" + data.reason + "</td><td>" + data.date + "</td><td class='text-center'><h4><span class='label bg-warning'><i class='fa fa-check fa-lg' title='Pending'></i> Pending</span></h4></td><td class='text-center loa-actions' style='opacity: .2;'><button class='btn btn-default btn-block view-active-loa' title='Review LOA'>Review LOA</button></td></tr>");
 
-    })
+                            $("#loas tbody tr:last").after($newRow);
+                            $newRow.effect("highlight", {}, 3000);
+                            $('#loa-update')[0].reset();
+
+                            $('.modal').modal('hide');
+
+                        } else {
+                            $('.modal').modal('hide');
+                            $(".loa-alerts").attr('class', 'alert alert-danger loa-alerts').html("<i class='fa fa-exclamation-triangle fa-lg'></i> " + data.message).show().delay(2000).fadeOut();
+                            
+                        }
+                    }
+                });
+                return false;
+
+            });
+
+    });
+
+
+
+
+
+
+    // contact
+    $('.loa-pm').click(function() {
+        var pm_url = 'http://www.clanaod.net/forums/private.php?do=newpm&u=' + $(this).closest('tr').attr('data-id');
+        windowOpener(pm_url, "Mass PM", "width=900,height=600,scrollbars=yes");
+    });
 
 });
