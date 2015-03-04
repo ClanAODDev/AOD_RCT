@@ -76,6 +76,10 @@
   margin: 0 !important;
 }
 
+#squad input[type="checkbox"], #squads input[type="checkbox"]{
+  zoom: 1.8;
+}
+
 #searchclear {
   position: absolute;
   right: 5px;
@@ -139,8 +143,12 @@ ul.nav {
   width: 200px;
 }
 
-.toplist tbody tr, #loas tbody tr {
+.toplist tbody tr {
   cursor: pointer !important;
+}
+
+#loas tbody tr:hover .loa-actions, #ploas tbody tr:hover .loa-actions {
+  opacity: 1 !important;
 }
 
 code.post-code {

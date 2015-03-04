@@ -14,7 +14,8 @@ die;
 error_reporting(E_ALL);
 ini_set('display_errors', 1);*/
 
-include_once("config.php");
+include_once("credentials.php");
+include_once(ROOT . "/config.php");
 include_once(ROOT . "/application/routes.php");
 include_once(ROOT . "/application/modules/vbfunctions.php");
 include_once(ROOT . "/application/modules/curl_agents.php");
@@ -698,7 +699,7 @@ function updateAlert($alert, $uid)
 }
 
 
-function updateLoa($id, $date, $reason)
+function addLoa($id, $date, $reason)
 {
     global $pdo;
     
@@ -1352,7 +1353,7 @@ function get_gen_pop($pid, $order_by_rank = false)
 
 
 
-function get_leaves_of_absence($gid) {
+function get_approved_loas($gid) {
 
     global $pdo, $member_info;
 
@@ -1363,7 +1364,34 @@ function get_leaves_of_absence($gid) {
             $query = "SELECT loa.member_id, loa.reason, loa.date_end, member.forum_name, rank.abbr as rank FROM loa
             LEFT JOIN member ON member.member_id = loa.member_id
             LEFT JOIN rank ON rank.id = member.rank_id
-            WHERE member.game_id = :gid AND loa.active = 1
+            WHERE member.game_id = :gid and loa.approved = 1
+            ORDER BY loa.date_end";
+
+            $query = $pdo->prepare($query);
+            $query->bindParam(':gid', $gid);
+            $query->execute();
+            $query = $query->fetchAll();
+
+        }
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+    return $query;
+}
+
+function get_pending_loas($gid) {
+
+    global $pdo, $member_info;
+
+    if (dbConnect()) {
+
+        try {
+
+            $query = "SELECT loa.member_id, loa.reason, loa.date_end, member.forum_name, rank.abbr as rank FROM loa
+            LEFT JOIN member ON member.member_id = loa.member_id
+            LEFT JOIN rank ON rank.id = member.rank_id
+            WHERE member.game_id = :gid and loa.approved = 0
             ORDER BY loa.date_end";
 
             $query = $pdo->prepare($query);
@@ -1411,6 +1439,42 @@ function member_has_loa($mid) {
 
 
 
+function approve_loa($id, $approvingId)
+{
+    global $pdo;
+    if (dbConnect()) {
+        try {
+            $stmt = $pdo->prepare('UPDATE loa SET approved = 1, approved_by = :approvingId WHERE member_id = :id');
+            $stmt->bindParam(':approvingId', $approvingId, PDO::PARAM_INT);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();            
+        }
+        catch (PDOException $e) {
+            return array('success' => false, 'message' => $e->getMessage());
+        }
+
+        return array('success' => true);
+    }
+}
+
+
+function revoke_loa($mid) {
+
+    global $pdo;
+    
+    if (dbConnect()) {
+        try {
+            $query = $pdo->prepare("DELETE FROM loa WHERE member_id = :mid LIMIT 1");
+            $query->execute(array(':mid' => $mid));
+        }
+        catch (PDOException $e) {
+            return array('success' => false, 'message' => $e->getMessage());
+        }
+    } 
+    return array('success' => true);
+
+}
+
 function count_expired_loas($gid) {
 
     global $pdo, $member_info;
@@ -1431,6 +1495,8 @@ function count_expired_loas($gid) {
     }
     return $query;
 }
+
+
 
 /**
  * fetches squad members based on member id
@@ -2264,7 +2330,7 @@ function get_daily_bf4_toplist($max) {
             $result = $query->fetchAll();
         }
         catch (PDOException $e) {
-            return false;
+            return array('success' => false, 'message' => $e->getMessage());
         }
 
         return $result;
@@ -2305,7 +2371,7 @@ function get_monthly_bf4_toplist($max) {
         }
 
         catch (PDOException $e) {
-            return false;
+            return array('success' => false, 'message' => $e->getMessage());
         }
 
         $data["players"] = $result;
@@ -2608,7 +2674,7 @@ function generate_division_structure() {
     $out .= "[tr][td][center]";
 
 
-    $loas = get_leaves_of_absence($game);
+    $loas = get_approved_loas($game);
     foreach ($loas as $member) {
         $date_end = date("M d, Y", strtotime($member['date_end']));
         $aod_url = "[url=" . CLANAOD . $member['member_id'] . "]";
