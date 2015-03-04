@@ -24,10 +24,14 @@ $(function() {
 
 
     $(":checkbox").click(function() {
-      $('.count-pm').text($(":checkbox:checked").length);
+        $('.count-pm').text($(":checkbox:checked").length);
     });
 
-    
+    $("#member-search").bind("keypress", function(e) {
+        if (e.keyCode == 13) {
+            return false;
+        }
+    });
 
     // powers live search for members
     $('#member-search').keyup(function(e) {
