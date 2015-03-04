@@ -62,7 +62,7 @@
 
 						<form class="navbar-form navbar-right" role="search">
 							<div class="form-group">
-								<input type='text' class='form-control' name='member-search' id='member-search' role='search' placeholder='Search for a player...' />
+								<input type='text' class='form-control' id='member-search' placeholder='Search for a player...' />
 								<div id='member-search-results' class='scroll'></div> 
 							</div>
 						</form>
