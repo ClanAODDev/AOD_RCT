@@ -1,8 +1,7 @@
 <?php
 
 if (!isset($_SESSION['secure_access']) || (isset($_SESSION['secure_access']) && $_SESSION['secure_access'] !== true)) { header("Location: /404/"); }
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+
 $root = ROOT;
 
 $breadcrumb = "
@@ -27,6 +26,7 @@ $revokeBtn = NULL;
 $approveBtn = NULL;
 $contactBtn = NULL;
 $ploaTable = NULL;
+$loaList = NULL;
 
 // fetch leaves of absence
 $appLoas = get_approved_loas($user_game);
@@ -56,8 +56,6 @@ if (count($pendLoas)) {
 			<td class='text-center' style='vertical-align: middle;'>{$status_icon}</td>
 			{$pendingActions}
 		</tr>";
-
-		$i++;
 	}
 
 	$ploaTable = "
@@ -98,7 +96,7 @@ if (count($appLoas)) {
 			{$activeActions}
 		</tr>";
 
-		$i++;
+
 	}
 
 }
