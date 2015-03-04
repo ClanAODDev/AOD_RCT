@@ -83,9 +83,9 @@ if (count($appLoas)) {
 	foreach ($appLoas as $member) {
 		$date_end = date("M d, Y", strtotime($member['date_end']));
 		$expired = ( strtotime($date_end) < strtotime('now')) ? true : false;
-		$comment = htmlentities($member['comment'], ENT_QUOTES);
+		$comment = (!is_empty($member['comment'])) ? htmlentities($member['comment'], ENT_QUOTES) : "Not available";
 		$date_end = ($expired) ? "<span class='text-danger' title='Expired'>{$date_end}</span>" : $date_end;
-		$approved_by = get_forum_name($member['approved_by']);
+		$approved_by = (!is_empty($member['approved_by'])) ? get_forum_name($member['approved_by']) : "Not available";
 		$status_icon = ($expired) ? "<h4><span class='label bg-danger'><i class='fa fa-times-circle' title='Expired'></i> Expired</span></h4>" : "<h4><span class='label bg-success'><i class='fa fa-check' title='Active'></i> Active</span></h4>";
 
 		$loaList .= "

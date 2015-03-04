@@ -229,6 +229,8 @@ $(function() {
 
     var view_active_loa = "<div class='viewer fadeIn animate'><div class='modal-header'><button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'><i class='fa fa-times-circle'></i></span></button><h4>Review Leave of Absence</h4></div><div class='modal-body'><p><strong>Approved by</strong>: <input class='form-control' id='approval' /></p><p><strong>Reason for request</strong>: <textarea class='form-control' style='resize:vertical;' id='comment' class='comment' /></p></div><div class='modal-footer'> <div class='btn-group'> <button type='button' class='btn btn-primary pm-btn'>PM Player</button><button type='button' class='btn btn-danger revoke-loa-btn'>Revoke</button>  <button type='button' data-dismiss='modal' class='btn'>Close</button></div></div></div></div>";
 
+
+
     // revoke LOA
     var revoke_confirm = "<div class='viewer fadeIn animate'><div class='modal-header'><button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'><i class='fa fa-times-circle'></i></span></button><h4>Confirm revoke leave of absence</h4></div><div class='modal-body'><p>Once a player's LOA is revoked, their status must be updated on the forums. Additionally, if this is a revocation, the member should be flagged for removal.</p></div><div class='modal-footer'> <div class='btn-group'><button type='button' data-dismiss='modal' class='btn btn-primary' id='delete'>Revoke LOA</button> <button type='button' data-dismiss='modal' class='btn'>Cancel</button></div></div></div></div>";
 
@@ -279,7 +281,7 @@ $(function() {
 
 
 
-    var add_loa = "<div class='viewer fadeIn animate'><div class='modal-header'><button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'><i class='fa fa-times-circle'></i></span></button><h4>Request Leave of Absence</h4></div><div class='modal-body'><strong>Reason for request</strong>: <textarea class='form-control' style='resize:vertical; min-height: 100px;' id='comment' name='comment' class='comment' required/></div><div class='modal-footer'><div class='btn-group'> <button type='button' data-dismiss='modal' class='btn'>Cancel</button> <button type='button' id='submit' class='btn btn-success'>Submit</button> </div></div></div></div>";
+    var add_loa = "<div class='viewer fadeIn animate'><div class='modal-header'><button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'><i class='fa fa-times-circle'></i></span></button><h4>Request Leave of Absence</h4></div><div class='modal-body'><strong>Reason for request</strong>: <textarea class='form-control' style='resize:vertical; min-height: 100px;' id='comment' name='comment' class='comment' placeholder='Provide an explanation for your leave of absence request' required></div><div class='modal-footer'><div class='btn-group'> <button type='button' data-dismiss='modal' class='btn'>Cancel</button> <button type='button' id='submit' class='btn btn-success'>Submit</button> </div></div></div></div>";
 
 
     // LOA ADD
