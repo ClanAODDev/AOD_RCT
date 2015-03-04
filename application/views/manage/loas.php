@@ -1,7 +1,8 @@
 <?php
 
 if (!isset($_SESSION['secure_access']) || (isset($_SESSION['secure_access']) && $_SESSION['secure_access'] !== true)) { header("Location: /404/"); }
-
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 $root = ROOT;
 
 $breadcrumb = "
@@ -83,9 +84,9 @@ if (count($appLoas)) {
 	foreach ($appLoas as $member) {
 		$date_end = date("M d, Y", strtotime($member['date_end']));
 		$expired = ( strtotime($date_end) < strtotime('now')) ? true : false;
-		$comment = (!is_empty($member['comment'])) ? htmlentities($member['comment'], ENT_QUOTES) : "Not available";
+		$comment = (!empty($member['comment'])) ? htmlentities($member['comment'], ENT_QUOTES) : "Not available";
 		$date_end = ($expired) ? "<span class='text-danger' title='Expired'>{$date_end}</span>" : $date_end;
-		$approved_by = (!is_empty($member['approved_by'])) ? get_forum_name($member['approved_by']) : "Not available";
+		$approved_by = (!empty($member['approved_by'])) ? get_forum_name($member['approved_by']) : "Not available";
 		$status_icon = ($expired) ? "<h4><span class='label bg-danger'><i class='fa fa-times-circle' title='Expired'></i> Expired</span></h4>" : "<h4><span class='label bg-success'><i class='fa fa-check' title='Active'></i> Active</span></h4>";
 
 		$loaList .= "
