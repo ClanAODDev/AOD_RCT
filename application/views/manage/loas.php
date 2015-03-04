@@ -26,7 +26,7 @@ $revokeBtn = NULL;
 $ploaTable = NULL;
 
 if ($userRole >= 2) {
-	$revokeBtn = "<button class='btn btn-danger revoke-loa-btn' title='Revoke LOA'><i class='fa fa-trash-o'></i></button>";
+	$revokeBtn = "<button class='btn btn-danger btn-sm revoke-loa-btn' title='Revoke LOA'>Revoke</button>";
 }
 
 // fetch leaves of absence
@@ -41,7 +41,7 @@ if (count($pendLoas)) {
 		$date_end = date("M d, Y", strtotime($member['date_end']));
 		$expired = ( strtotime($date_end) < strtotime('now')) ? true : false;
 		$status_icon =  "<h4><span class='label bg-warning'><i class='fa fa-clock-o' title='Pending'></i> Pending</span></h4>";
-		$contact = "<a class='btn btn-default btn-sm popup-link' href='" . PRIVMSG . "{$member['member_id']}'>PM</a>";
+		$contact = "<a class='btn btn-default btn-sm popup-link' href='" . PRIVMSG . "{$member['member_id']}'>Send PM</a>";
 		$approve = "<a class='btn btn-success btn-sm approve-loa-btn' href='#'>Approve</a>";
 
 		$ploaList .= "
@@ -50,7 +50,7 @@ if (count($pendLoas)) {
 			<td>{$member['reason']}</td>
 			<td>{$date_end}</td>
 			<td class='text-center' style='vertical-align: middle;'>{$status_icon}</td>
-			<td class='text-right loa-actions' style='opacity: .2;'><div class='btn-group'> {$contact} {$approve}</div></td>
+			<td class='text-right loa-actions' style='opacity: .2;'><div class='btn-group'>{$contact} {$approve}</div></td>
 		</tr>";
 
 		$i++;
@@ -73,7 +73,6 @@ if (count($pendLoas)) {
 			</tbody>
 		</table>
 	</div>";
-
 }
 
 
@@ -85,7 +84,7 @@ if (count($appLoas)) {
 		$expired = ( strtotime($date_end) < strtotime('now')) ? true : false;
 		$date_end = ($expired) ? "<span class='text-danger' title='Expired'>{$date_end}</span>" : $date_end;
 		$status_icon = ($expired) ? "<h4><span class='label bg-danger'><i class='fa fa-times-circle' title='Expired'></i> Expired</span></h4>" : "<h4><span class='label bg-success'><i class='fa fa-check' title='Active'></i> Active</span></h4>";
-		$contact = "<a class='btn btn-default btn-sm popup-link' href='" . PRIVMSG . "{$member['member_id']}'>PM</a>";
+		$contact = "<a class='btn btn-default btn-sm popup-link' href='" . PRIVMSG . "{$member['member_id']}'>Send PM</a>";
 
 		$loaList .= "
 		<tr data-id='{$member['member_id']}'>
@@ -152,7 +151,7 @@ $out = "
 						<td><input type='number' class='form-control' name='id' placeholder='Member id' required></input></td>
 						<td><input type='date' class='form-control' name='date' required></input></td>
 						<td><select class='form-control' name='reason' required><option>Military</option><option>School</option><option>Work</option><option>Medical</option><option>Personal</option></select></td>
-						<td class='text-center'><button class='btn btn-success' type='submit'>ADD <i class='fa fa-plus-circle'></i></button></td>
+						<td class='text-center'><button class='btn btn-success' type='submit'>ADD LOA</button></td>
 					</form>
 				</tr>
 			</tbody>

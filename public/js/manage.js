@@ -122,7 +122,7 @@ $(function() {
             data: $("#loa-update").serialize(),
             success: function(data) {
                 if (data.success) {
-                    var $newRow = $("<tr data-id='" + data.id + "'><td>" + data.name + "</td><td>" + data.reason + "</td><td>" + data.date + "</td><td class='text-center'><h4><span class='label bg-success'><i class='fa fa-check fa-lg' title='Active'></i> Active</span></h4></td><td class='text-center loa-actions' style='opacity: .2;'><div class='btn-group'><a class='btn btn-default popup-link' href='http://www.clanaod.net/forums/private.php?do=newpm&amp;u=" + data.id + "'>PM</a></div></td></tr>");
+                    var $newRow = $("<tr data-id='" + data.id + "'><td>" + data.name + "</td><td>" + data.reason + "</td><td>" + data.date + "</td><td class='text-center'><h4><span class='label bg-success'><i class='fa fa-check fa-lg' title='Active'></i> Active</span></h4></td><td class='text-right loa-actions' style='opacity: .2;'><div class='btn-group'><a class='btn btn-default popup-link' href='http://www.clanaod.net/forums/private.php?do=newpm&amp;u=" + data.id + "'>PM</a></div></td></tr>");
 
                     $("#loas tbody tr:last").after($newRow);
                     $newRow.effect("highlight", {}, 3000);
