@@ -282,7 +282,6 @@ a[disabled] { pointer-events: none; }
 #member-search-results.scroll {
   position: absolute;
   z-index: 1;
-  overflow-y: scroll;
   overflow-x: hidden;
   max-height: 300px;
 }
@@ -347,6 +346,7 @@ h2.pull-right {
   display: none;
   position: absolute;
   zoom: 1.6;
+  -moz-transform: scale(1.6);
   top: 3px;
 }
 
@@ -419,8 +419,8 @@ h2.pull-right {
 
 
 #squad, #squads, #platoons {
-  overflow-y: auto; 
-  max-height: 400px;
+  overflow-y: auto;
+  height: 300px;
 }
 
 

@@ -151,14 +151,15 @@ $out = "
 			<tbody>
 				<tr>
 					<form id='loa-update' action='#'>
-						<td><input type='number' class='form-control' name='id' placeholder='Member id' required></input></td>
-						<td><input type='date' class='form-control' name='date' placeholder='mm/dd/yyyy' required></input></td>
+						<td><input type='text' class='form-control' name='id' placeholder='Member id' required></input></td>
+						<td><input type='text' class='form-control' name='date' id='datepicker' placeholder='mm/dd/yyyy' required></input></td>
 						<td><select class='form-control' name='reason' required><option>Military</option><option>School</option><option>Work</option><option>Medical</option><option>Personal</option></select></td>
 						<td class='text-center'><button class='btn btn-block btn-success' type='submit'>ADD LOA</button></td>
 					</form>
 				</tr>
 			</tbody>
 		</table>
+		<link href='/public/css/jquery-ui-smooth.css' rel='stylesheet'>
 	</div>";
 
 

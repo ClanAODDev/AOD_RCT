@@ -145,11 +145,9 @@ if ($_POST && $_POST['id']) {
 
 		</div>
 		<div class='modal-footer'>
-			<div class='btn-group'>
-			<button data-dismiss='modal' class='btn btn-default'>Cancel</button> <button type='submit' class='btn btn-success'>Save Info</button> 
-			</div>
-				</form>
-		</div>
+			<button type='submit' class='btn btn-block btn-success'>Save Info</button> 
+		</form>
+	</div>
 
 	<script src='/public/js/view.js'></script>";
 

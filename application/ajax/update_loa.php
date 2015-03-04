@@ -5,7 +5,7 @@ include "../lib.php";
 $id = $_POST['id'];
 $member_id = $member_info['forum_id'];
 
-
+// removing loa
 if (isset($_POST['remove'])) {
 
 	// revoking an LOA
