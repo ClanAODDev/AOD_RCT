@@ -17,16 +17,12 @@
 	<script src="/public/js/libraries/dataTables.tableTools.min.js"></script>
 	<script src="/public/js/libraries/jquery.bootstrap.wizard.min.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="/public/css/lumen.min.css">		
-	<!--<link rel="stylesheet" type="text/css" href="/public/css/bootstrap.min.css"> -->	
-	<!--<link rel="stylesheet" type="text/css" href="/public/css/bootstrap-theme.min.css"> -->	
+	<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.2/lumen/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="/public/css/jquery.powertip.min.css">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet">	
 	<link href="//cdn.datatables.net/responsive/1.0.3/css/dataTables.responsive.css" rel="stylesheet">	
-
 	<link href="/public/css/jquery.dataTables.min.css" rel="stylesheet">
 	<link href="/public/css/dataTables.tableTools.css" rel="stylesheet">
-	
 	<link rel="stylesheet" type="text/css" href="/public/css/style.css">
 
 </head>
@@ -41,82 +37,83 @@
 		</div>
 	</div>
 
-	<div id="wrap">
-		<div class="push-top"></div>
-		
-		<div class="navbar navbar-default navbar-nav navbar-fixed-top" role="navigation">
-			<div class="container">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="/"><img src='/public/images/logo.svg' class='pull-left'  /> <strong class='logo'>AOD</strong> <small><?php echo APP_TITLE; ?></small></a>
-				</div>
 
-				<?php if (isLoggedIn()) { ?>
-				
-				<div class="navbar-collapse collapse">
+		<div id="wrap">
+			<div class="push-top"></div>
 
+			<div class="navbar navbar-default navbar-nav navbar-fixed-top" role="navigation">
+				<div class="container">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="/"><img src='/public/images/logo.svg' class='pull-left'  /> <strong class='logo'>AOD</strong> <small><?php echo APP_TITLE; ?></small></a>
+					</div>
 
+					<?php if (isLoggedIn()) { ?>
 
-
-					<form class="navbar-form navbar-right" role="search">
-						<div class="form-group">
-							<input type='text' class='form-control' name='member-search' id='member-search' role='search' placeholder='Search for a player...' />
-							<div id='member-search-results' class='scroll'></div> 
-						</div>
-					</form>
+					<div class="navbar-collapse collapse">
 
 
-					<ul class="nav navbar-nav navbar-left">
-
-						<li class="dropdown">
-
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">User CP<span class="caret"></span></a>
-							<ul class="dropdown-menu" role="menu">
-								<li><a href="/member/<?php echo $forumId; ?>"><?php echo $curUser ?><span class="pull-right"><?php echo $avatar; ?></span></a></li>
-								<li class="divider"></li>
-								<li><a href="#" data-toggle="pill" class="settings-btn"> Settings</a></li>
-								<li><a href="http://www.clanaod.net/forums/member.php?u=<?php echo $forumId; ?>" target="_blank"> Forum profile</a></li>
-								<li> <a href="/help" role="button">Help</a> </li>
-								<li class="divider"></li>
-								<li><a href="#" data-toggle="pill" class="logout-btn"><i class="fa fa-lock pull-right"></i> Logout</a></li>
-							</ul>
-						</li>						
-
-						<?php if ($userRole > 1) { ?>
-						<!--<li> <a href="/admin" role="button">Admin CP</a> </li>-->
-						<?php } ?>
 
 
-						<?php if ($userRole > 0) { ?>
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Tools<span class="caret"></span></a>
-
-							<ul class="dropdown-menu" role="menu">
-								<?php 
-								$roleName = getUserRoleName($userRole);
-								echo "<li class='disabled'><a href='#' disabled>{$roleName}</a></li><li class='divider'></li>";
-								foreach (build_user_tools($userRole) as $tool) { 
-									echo "<li><a href='{$tool['link']}' class='{$tool['class']}'>{$tool['title']}</a></li>";
-								} ?>
-							</ul>
-						</li>
-						<?php } ?>
-
-						<!-- divisions -->
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Divisions <span class="caret"></span></a>
-							<ul class="dropdown-menu" role="menu">
-								<?php echo $game_list ?>								
-							</ul>
-						</li>
+						<form class="navbar-form navbar-right" role="search">
+							<div class="form-group">
+								<input type='text' class='form-control' name='member-search' id='member-search' role='search' placeholder='Search for a player...' />
+								<div id='member-search-results' class='scroll'></div> 
+							</div>
+						</form>
 
 
-						<!-- notifications menu -->
+						<ul class="nav navbar-nav navbar-left">
+
+							<li class="dropdown">
+
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">User CP<span class="caret"></span></a>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="/member/<?php echo $forumId; ?>"><?php echo $curUser ?><span class="pull-right"><?php echo $avatar; ?></span></a></li>
+									<li class="divider"></li>
+									<li><a href="#" data-toggle="pill" class="settings-btn"> Settings</a></li>
+									<li><a href="http://www.clanaod.net/forums/member.php?u=<?php echo $forumId; ?>" target="_blank"> Forum profile</a></li>
+									<li> <a href="/help" role="button">Help</a> </li>
+									<li class="divider"></li>
+									<li><a href="#" data-toggle="pill" class="logout-btn"><i class="fa fa-lock pull-right"></i> Logout</a></li>
+								</ul>
+							</li>						
+
+							<?php if ($userRole > 1) { ?>
+							<!--<li> <a href="/admin" role="button">Admin CP</a> </li>-->
+							<?php } ?>
+
+
+							<?php if ($userRole > 0) { ?>
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Tools<span class="caret"></span></a>
+
+								<ul class="dropdown-menu" role="menu">
+									<?php 
+									$roleName = getUserRoleName($userRole);
+									echo "<li class='disabled'><a href='#' disabled>{$roleName}</a></li><li class='divider'></li>";
+									foreach (build_user_tools($userRole) as $tool) { 
+										echo "<li><a href='{$tool['link']}' class='{$tool['class']}'>{$tool['title']}</a></li>";
+									} ?>
+								</ul>
+							</li>
+							<?php } ?>
+
+							<!-- divisions -->
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Divisions <span class="caret"></span></a>
+								<ul class="dropdown-menu" role="menu">
+									<?php echo $game_list ?>								
+								</ul>
+							</li>
+
+
+							<!-- notifications menu -->
 
 						<!--
 						<li class="dropdown">

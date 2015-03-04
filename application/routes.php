@@ -37,6 +37,7 @@ function routing()
         // manage
         'manage/inactive' => "/manage/inactive-members",
         'manage/division' => "/manage/division",
+        'manage/loas' => "/manage/leaves-of-absence",
         
         // user
         'user/settings' => "/settings",

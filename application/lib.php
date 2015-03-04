@@ -14,7 +14,8 @@ die;
 error_reporting(E_ALL);
 ini_set('display_errors', 1);*/
 
-include_once("config.php");
+include_once("credentials.php");
+include_once(ROOT . "/config.php");
 include_once(ROOT . "/application/routes.php");
 include_once(ROOT . "/application/modules/vbfunctions.php");
 include_once(ROOT . "/application/modules/curl_agents.php");
@@ -58,9 +59,20 @@ if (isLoggedIn()) {
             $alerts_list .= "
             <div data-id='{$alert['id']}' data-user='{$myUserId}' class='alert-dismissable alert alert-{$alert['type']} fade in' role='alert'>
                 <button type='button' class='close' data-dismiss='alert'><span aria-hidden='true'>&times;</span><span class='sr-only'>Close</span></button>
-                {$alert['content']} </div>";
-            }
+                {$alert['content']} 
+            </div>";
         }
+    }
+
+
+    /**
+     * oblig alerts
+     */
+    $obligAlerts = NULL;
+    $loa_expired = count_expired_loas($user_game);
+    if ($loa_expired > 0 && $userRole >= 2) {
+        $obligAlerts = "<div class='alert alert-warning'><i class='fa fa-exclamation-triangle'></i> Your division has <strong>{$loa_expired}</strong> expired leaves of absence! <a href='/manage/leaves-of-absence' class='alert-link'>Manage leaves of absence</a></div>";
+    }
 
 
 
@@ -578,6 +590,9 @@ function userExists($string)
     }
 }
 
+
+
+
 function hasher($info, $encdata = false)
 {
     $strength = "10";
@@ -682,6 +697,36 @@ function updateAlert($alert, $uid)
         return false;
     }
 }
+
+
+function addLoa($id, $date, $reason)
+{
+    global $pdo;
+    
+    if (dbConnect()) {
+
+        try {
+            $query = $pdo->prepare("INSERT INTO loa ( member_id, date_end, reason ) VALUES ( :id, :date, :reason )");
+            $query->execute(array(
+                ':id' => $id,
+                ':date' => $date,
+                ':reason' => $reason
+                ));
+        }
+
+        catch (PDOException $e) {
+            if ($e->errorInfo[1] == 1062) {
+                return array('success' => false, 'message' => 'Member already has an LOA!');
+            } else {
+                return array('success' => false, 'message' => $e->getMessage());
+            }
+            
+        }
+        return array('success' => true);
+    } 
+    
+}
+
 
 
 function updateFlagged($id, $lid, $action)
@@ -1189,7 +1234,37 @@ function get_forum_name($mid)
 
 
 
-function get_member_name($name)
+function get_member_name($id)
+{
+
+    global $pdo;
+    
+    if (dbConnect()) {
+
+        try {
+
+            $query = "SELECT member.forum_name FROM member WHERE member.member_id = :id";
+            $query = $pdo->prepare($query);
+            $query->bindParam(':id', $id);
+            $query->execute();
+            $query = $query->fetchColumn();
+            
+        }
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+
+    if (count($query)) {
+        return $query;
+    } else {
+        return false;
+    }
+    
+}
+
+
+function search_name($name)
 {
 
     global $pdo;
@@ -1278,7 +1353,7 @@ function get_gen_pop($pid, $order_by_rank = false)
 
 
 
-function get_leaves_of_absence($gid) {
+function get_approved_loas($gid) {
 
     global $pdo, $member_info;
 
@@ -1289,7 +1364,8 @@ function get_leaves_of_absence($gid) {
             $query = "SELECT loa.member_id, loa.reason, loa.date_end, member.forum_name, rank.abbr as rank FROM loa
             LEFT JOIN member ON member.member_id = loa.member_id
             LEFT JOIN rank ON rank.id = member.rank_id
-            WHERE member.game_id = :gid";
+            WHERE member.game_id = :gid and loa.approved = 1
+            ORDER BY loa.date_end";
 
             $query = $pdo->prepare($query);
             $query->bindParam(':gid', $gid);
@@ -1303,6 +1379,124 @@ function get_leaves_of_absence($gid) {
     }
     return $query;
 }
+
+function get_pending_loas($gid) {
+
+    global $pdo, $member_info;
+
+    if (dbConnect()) {
+
+        try {
+
+            $query = "SELECT loa.member_id, loa.reason, loa.date_end, member.forum_name, rank.abbr as rank FROM loa
+            LEFT JOIN member ON member.member_id = loa.member_id
+            LEFT JOIN rank ON rank.id = member.rank_id
+            WHERE member.game_id = :gid and loa.approved = 0
+            ORDER BY loa.date_end";
+
+            $query = $pdo->prepare($query);
+            $query->bindParam(':gid', $gid);
+            $query->execute();
+            $query = $query->fetchAll();
+
+        }
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+    return $query;
+}
+
+
+
+
+function member_has_loa($mid) {
+
+    global $pdo;
+
+    if (dbConnect()) {
+
+        try {
+
+            $query = "SELECT count(*) WHERE member_id = :mid";
+            $query = $pdo->prepare($query);
+            $query->bindParam(':mid', $mid);
+            $query->execute();
+            $query = $query->fetch();
+
+        }
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+
+    if (count($query)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+
+function approve_loa($id, $approvingId)
+{
+    global $pdo;
+    if (dbConnect()) {
+        try {
+            $stmt = $pdo->prepare('UPDATE loa SET approved = 1, approved_by = :approvingId WHERE member_id = :id');
+            $stmt->bindParam(':approvingId', $approvingId, PDO::PARAM_INT);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();            
+        }
+        catch (PDOException $e) {
+            return array('success' => false, 'message' => $e->getMessage());
+        }
+
+        return array('success' => true);
+    }
+}
+
+
+function revoke_loa($mid) {
+
+    global $pdo;
+    
+    if (dbConnect()) {
+        try {
+            $query = $pdo->prepare("DELETE FROM loa WHERE member_id = :mid LIMIT 1");
+            $query->execute(array(':mid' => $mid));
+        }
+        catch (PDOException $e) {
+            return array('success' => false, 'message' => $e->getMessage());
+        }
+    } 
+    return array('success' => true);
+
+}
+
+function count_expired_loas($gid) {
+
+    global $pdo, $member_info;
+
+    if (dbConnect()) {
+
+        try {
+
+            $query = "SELECT count(*) FROM loa WHERE date_end < NOW()";
+            $query = $pdo->prepare($query);
+            $query->execute();
+            $query = $query->fetchColumn();
+
+        }
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+    return $query;
+}
+
+
 
 /**
  * fetches squad members based on member id
@@ -2136,7 +2330,7 @@ function get_daily_bf4_toplist($max) {
             $result = $query->fetchAll();
         }
         catch (PDOException $e) {
-            return false;
+            return array('success' => false, 'message' => $e->getMessage());
         }
 
         return $result;
@@ -2177,7 +2371,7 @@ function get_monthly_bf4_toplist($max) {
         }
 
         catch (PDOException $e) {
-            return false;
+            return array('success' => false, 'message' => $e->getMessage());
         }
 
         $data["players"] = $result;
@@ -2480,7 +2674,7 @@ function generate_division_structure() {
     $out .= "[tr][td][center]";
 
 
-    $loas = get_leaves_of_absence($game);
+    $loas = get_approved_loas($game);
     foreach ($loas as $member) {
         $date_end = date("M d, Y", strtotime($member['date_end']));
         $aod_url = "[url=" . CLANAOD . $member['member_id'] . "]";
