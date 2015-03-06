@@ -1534,7 +1534,7 @@ function count_pending_loas($gid) {
  * @param  int $mid member id
  * @return array    returns array if squad members
  */
-function get_my_squad($mid, $order_by_rank = false)
+function get_my_squad($mid, $division_structure_ordering = false)
 {
 
     global $pdo, $member_info;
@@ -1547,8 +1547,9 @@ function get_my_squad($mid, $order_by_rank = false)
             LEFT JOIN `rank` on member.rank_id = rank.id 
             WHERE member.squad_leader_id = :mid AND (member.status_id = 1 OR member.status_id = 999) AND member.position_id = 6";
 
-            if ($order_by_rank) {
-                $query .= " ORDER BY member.rank_id DESC, member.join_date ASC ";
+            // show squads with newest on bottom, sort by rank
+            if ($division_structure_ordering) {
+                $query .= " ORDER BY member.rank_id DESC, member.join_date DESC ";
             } else {
                 $query .= " ORDER BY member.last_activity ASC ";
             }
