@@ -66,12 +66,17 @@ if (isLoggedIn()) {
 
 
     /**
-     * oblig alerts
+     * LOA alerts
      */
-    $obligAlerts = NULL;
+    $loaAlerts = NULL;
     $loa_expired = count_expired_loas($user_game);
     if ($loa_expired > 0 && $userRole >= 2) {
-        $obligAlerts = "<div class='alert alert-warning'><i class='fa fa-exclamation-triangle'></i> Your division has <strong>{$loa_expired}</strong> expired leaves of absence! <a href='/manage/leaves-of-absence' class='alert-link'>Manage leaves of absence</a></div>";
+        $loaAlerts = "<div class='alert alert-warning'><i class='fa fa-clock-o'></i> Your division has <strong>{$loa_expired}</strong> expired leaves of absence! <a href='/manage/leaves-of-absence' class='alert-link'>Manage leaves of absence</a></div>";
+    }
+
+    $pending_loa = count_pending_loas($user_game);
+    if (count($pending_loa) && ($userRole > 2)) {
+        $loaAlerts .= "<div class='alert alert-info'><i class='fa fa-clock-o'></i> One or more LOAs are waiting for your approval! <a href='/manage/leaves-of-absence' class='alert-link'>Review leaves of absence</a></div>";
     }
 
 
@@ -1484,8 +1489,9 @@ function count_expired_loas($gid) {
 
         try {
 
-            $query = "SELECT count(*) FROM loa WHERE date_end < NOW()";
+            $query = "SELECT count(*) FROM loa WHERE date_end < NOW() AND game_id = :gid";
             $query = $pdo->prepare($query);
+            $query->bindParam(':gid', $gid, PDO::PARAM_INT);
             $query->execute();
             $query = $query->fetchColumn();
 
@@ -1496,6 +1502,30 @@ function count_expired_loas($gid) {
     }
     return $query;
 }
+
+
+function count_pending_loas($gid) {
+
+    global $pdo, $member_info;
+
+    if (dbConnect()) {
+
+        try {
+
+            $query = "SELECT count(*) FROM loa WHERE approved = 0 AND game_id = :gid";
+            $query = $pdo->prepare($query);
+            $query->bindParam(':gid', $gid, PDO::PARAM_INT);
+            $query->execute();
+            $query = $query->fetchColumn();
+
+        }
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+    return $query;
+}
+
 
 
 
