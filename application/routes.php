@@ -59,7 +59,7 @@ function routing()
     return $rules;
 }
 
-
+    // routing definitions use regex
     /*
     'picture'   => "/picture/(?'text'[^/]+)/(?'id'\d+)",    // '/picture/some-text/51'
     'album'     => "/album/(?'album'[\w\-]+)",              // '/album/album-slug'
