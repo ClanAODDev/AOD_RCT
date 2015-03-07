@@ -123,7 +123,7 @@ $(function() {
     });
 
 
-    $('#login').submit(function(e) {
+    /*$('#login').submit(function(e) {
         e.preventDefault();
 
         $.post("/application/ajax/login.php",
@@ -172,7 +172,7 @@ $(function() {
                 }
             }, "json");
 
-    });
+    });*/
 
 
     $('.fade-in').fadeIn('slow');
