@@ -148,7 +148,7 @@ $(function() {
 
     });
 
-
+*/
 
     $('#register').submit(function(e) {
         e.preventDefault();
@@ -172,7 +172,7 @@ $(function() {
                 }
             }, "json");
 
-    });*/
+    });
 
 
     $('.fade-in').fadeIn('slow');
