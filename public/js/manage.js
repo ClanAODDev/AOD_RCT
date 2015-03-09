@@ -98,7 +98,7 @@ $(function() {
     });
 
     var itemMoved, targetplatoon, sourcePlatoon;
-    $(".sortable").sortable({
+    $(".sortable-division").sortable({
         connectWith: 'ul',
         placeholder: "ui-state-highlight",
         receive: function(event, ui) {
