@@ -20,23 +20,25 @@ $(function() {
             platoon = $("#platoon").val(),
             sqdldr = $("#sqdldr").val(),
             blog = $("#battlelog").val(),
+            recruiter = $("#recruiter").val(),
             position = $("#position").val();
 
-        updateMember(uid, mid, fname, blog, platoon, sqdldr, position);
+        updateMember(uid, mid, fname, blog, platoon, sqdldr, position, recruiter);
     });
 
 });
 
-function updateMember(uid, mid, fname, blog, platoon, sqdldr, position) {
+function updateMember(uid, mid, fname, blog, platoon, sqdldr, position, recruiter) {
     setTimeout(function() {
-        $.post("/application/controllers/update_member.php", {
+        $.post("/application/ajax/update_member.php", {
                 uid: uid,
                 mid: mid,
                 fname: fname,
                 blog: blog,
                 platoon: platoon,
                 squad: sqdldr,
-                position: position
+                position: position,
+                recruiter: recruiter
             },
 
             function(data) {

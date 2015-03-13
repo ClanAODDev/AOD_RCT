@@ -40,10 +40,8 @@ if ($member = get_member($userId)) {
 	
 	// recruiter info
 	$recruiter_id = $member['recruiter'];
-	$recruiter_name = (($recruiter_id) != 0) ? ucwords(get_forum_name($recruiter_id)) : "Not set";
-	$recruiter = (($recruiter_id) != 0) ? "<a class='list-group-item text-right' href='/member/{$recruiter_id}'><span class='pull-left'><strong>Recruiter: </strong></span> <span class='text-muted'>{$recruiter_name}</span></a>" : "<li class='list-group-item text-right'><span class='pull-left'><strong>Recruiter: </strong></span> <span class='text-muted'>{$recruiter_name}</span></li>";
-
-
+	$recruiter_name = (($recruiter_id != 0) && $recruiter_name = get_forum_name($recruiter_id)) ? ucwords($recruiter_name) : "Not set or invalid";
+	$recruiter = (($recruiter_name) != "Not set or invalid") ? "<a class='list-group-item text-right' href='/member/{$recruiter_id}'><span class='pull-left'><strong>Recruiter: </strong></span> <span class='text-muted'>{$recruiter_name}</span></a>" : "<li class='list-group-item text-right'><span class='pull-left'><strong>Recruiter: </strong></span> <span class='text-muted'>{$recruiter_name}</span></li>";
 
 	// member activity greater than 14 days (warning)
 	if (strtotime($last_seen) < strtotime('-30 days')) {
@@ -100,6 +98,17 @@ if ($member = get_member($userId)) {
 		";
 	}
 
+	// loa infp
+	$loaStatus = NULL;
+	if ($status_id == 3) {
+		if (member_has_loa($member_id)) {
+			$loaStatus = "<div class='alert alert-warning'><i class='fa fa-clock-o fa-lg'></i>  <strong>{$name}</strong> currently has a leave of absence in place.</div>";
+		} else {
+			$loaStatus = "<div class='alert alert-danger'><i class='fa fa-exclamation-triangle fa-lg'></i>  <strong>{$name}</strong> is currently listed as having an LOA, but no LOA exists on file. Has this member's LOA been revoked?</div>";
+		}
+		
+	}
+
 
 	// profile data
 	$battlelog = (empty($battlelog_name)) ? NULL : "<a target='_blank' href='" . BATTLELOG . $battlelog_name . "' class='list-group-item'>Battlelog <span class='pull-right'><i class='text-info fa fa-external-link'></i></span></a>";
@@ -114,6 +123,7 @@ if ($member = get_member($userId)) {
 	$platoon_link = ($platoon_name) ? "<li><a href='/divisions/{$short_game_name}/{$platoon}'>{$platoon_name}</a></li>" : NULL;
 	$platoon_item = ($platoon_name) ? "<li class='list-group-item text-right'><span class='pull-left'><strong>Platoon: </strong></span> <span class='text-muted'>{$platoon_name}</span></li>" : NULL;
 
+	// page breadcrumb
 	$breadcrumb = "
 	<ul class='breadcrumb'>
 		<li><a href='/'>Home</a></li>
@@ -123,6 +133,7 @@ if ($member = get_member($userId)) {
 	</ul>
 	";
 
+	// member stuff
 	$avatar = get_user_avatar($member_id, 'large');
 	$privmsg = "<a class='btn btn-default btn-xs popup-link' href='" . PRIVMSG . $member_id . "' target='_blank'><i class='fa fa-comment'></i> Send PM</a>";
 	$email = "<a class='btn btn-default btn-xs popup-link' href='" . EMAIL . $member_id . "' target='_blank'><i class='fa fa-envelope'></i> Send Email</a>";
@@ -131,6 +142,7 @@ if ($member = get_member($userId)) {
 	$count_all_games = count_total_games($member_id, $first_date_in_range, $last_date_in_range);
 	$aod_games = count_aod_games($member_id, $first_date_in_range, $last_date_in_range);
 
+	// participation bar
 	$percent_aod = ($aod_games > 0 ) ? (($aod_games)/($count_all_games))*100 : NULL;
 	$percent_aod = number_format((float)$percent_aod, 2, '.', '');
 	$aod_bar = "<div class='progress text-center follow-tool' title='<small><center>{$aod_games} of {$count_all_games}<br />{$percent_aod}%</center></small>' style='width: 100%; margin: 0 auto; height: 30px; vertical-align:middle;'><div class='progress-bar progress-bar-" . getPercentageColor($percent_aod) . " progress-bar-striped active' role='progressbar' aria-valuenow='72' aria-valuemin='0' aria-valuemax='50' style='width: ". $percent_aod . "%'><span style='display: none;'>{$percent_aod}%</span></div></div>";
@@ -190,7 +202,8 @@ if ($member = get_member($userId)) {
 			<!--/end left side bar-->
 
 			<div class='col-md-9'>
-				
+				{$loaStatus}
+
 				<div class='panel panel-info'>
 					<div class='panel-heading'><strong>AOD Participation</strong><span class='badge pull-right'>{$aod_games} Games</span></div>
 					<div class='panel-body'>{$aod_bar}</div>

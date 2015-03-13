@@ -7,8 +7,9 @@ $my_squad = NULL;
 $my_platoon = NULL;
 
 
-
-
+/**
+ * alter home view based on user role
+ */
 
 // squad leader personnel view
 if ($userRole == 1) {
@@ -30,9 +31,8 @@ if ($userRole == 1) {
 				$status = 'muted';
 			}
 
-
 			$my_squad .= "
-			<a href='/member/{$id}' class='list-group-item'>{$rank} {$name}<small class='pull-right text-{$status}'>{$last_seen}</small></a>
+			<a href='/member/{$id}' class='list-group-item'><input type='checkbox' data-id='{$id}' style='margin-right: 10px; display: none;'>{$rank} {$name}<small class='pull-right text-{$status}'>{$last_seen}</small></a>
 			";
 		}
 	} else {
@@ -69,7 +69,7 @@ if ($userRole == 1) {
 					$last_seen = formatTime(strtotime($squad_member['last_activity']));
 					$status = lastSeenColored($last_seen);
 
-					$my_platoon .= "<a href='/member/{$id}' class='list-group-item'>{$rank} {$name}<small class='pull-right text-{$status}'>{$last_seen}</small></a>";
+					$my_platoon .= "<a href='/member/{$id}' class='list-group-item'><input type='checkbox' data-id='{$id}' class='pm-checkbox'><span class=' member-item'>{$rank} {$name}</span><small class='pull-right text-{$status}'>{$last_seen}</small></a>";
 				}
 
 				$my_platoon .= "</div>";
@@ -92,7 +92,7 @@ if ($userRole == 1) {
 					$last_seen = formatTime(strtotime($gen_member['last_activity']));
 					$status = lastSeenColored($last_seen);
 
-					$my_platoon .= "<a href='/member/{$id}' class='list-group-item'>{$rank} {$name}<small class='pull-right text-{$status}'>{$last_seen}</small></a>";
+					$my_platoon .= "<a href='/member/{$id}' class='list-group-item'><input type='checkbox' data-id='{$id}' class='pm-checkbox'><span class='member-item'>{$rank} {$name}</span><small class='pull-right text-{$status}'>{$last_seen}</small></a>";
 				}
 				$my_platoon .= "</div>";
 
@@ -140,12 +140,11 @@ if ($userRole == 1) {
 		if (count($toolsArray)) {
 			foreach($toolsArray as $tool) {
 				$disabled = ($tool['disabled']) ? 'disabled' : NULL;
-
 				$tools .= "
 				<a href='{$tool['link']}' class='list-group-item {$tool['class']} {$disabled}'>
 					<h4 class='pull-right text-muted'><i class='fa fa-{$tool['icon']} fa-lg'></i></h4>
 					<h4 class='list-group-item-heading'><strong>{$tool['title']}</strong></h4>
-					<p class='list-group-item-text'>{$tool['descr']}</p>
+					<p class='list-group-item-text text-muted'>{$tool['descr']}</p>
 				</a>";
 			}
 
@@ -169,123 +168,123 @@ $out .= "
 		<div class='col-md-12'>
 			<div class='jumbotron striped-bg'>
 				<h1>{$welcomeWord}, <strong>{$curUser}</strong>!</h1>
-<p>This is the activity tracker for the {$longname} division! Visit the help section for more information.</p>
-<p><a class='btn btn-primary btn-lg' href='/help'' role='button'>Learn more »</a></p>
-</div>
-</div> <!-- end col -->
-</div> <!-- end end row -->";
+				<p>This is the activity tracker for the {$longname} division! Visit the help section for more information.</p>
+				<p><a class='btn btn-primary btn-lg' href='/help'' role='button'>Learn more <i class='fa fa-arrow-right'></i></a></p>
+			</div>
+		</div> <!-- end col -->
+	</div> <!-- end end row -->";
 
-// alerts section
-$out .= "
-<div class='row'>
-	<div class='col-md-12'>
-		{$alerts_list}
-	</div>
-</div>";
+	// alerts section
+	$out .= "
+	<div class='row'>
+		<div class='col-md-12'>
+			{$obligAlerts}
+			{$alerts_list}
+			
+		</div>
+	</div>";
 
-// player search bar
-$out .= "
-<div class='row'>
-	<div class='col-md-12'>
-		<div class='panel panel-primary'>
-			<div class='panel-heading'><i class='fa fa-search fa-lg'></i> <strong>Player Search</strong></div>
-			<div class='panel-body'>
-				<input type='text' class='form-control input-lg' name='member-search' id='member-search' placeholder='Type a player name' />
-				<div id='member-search-results' class='scroll'></div> 
+
+
+	// division list
+	$out .= "
+	<div class='row'>
+		<div class='col-md-12'>
+			<div class='panel panel-default'>
+				<div class='panel-heading'><i class='fa fa-gamepad fa-lg pull-right text-muted'></i> <strong>Gaming Divisions</strong></div>
+				<div class='list-group'>
+					{$main_game_list}
+				</div>
 			</div>
 		</div>
-	</div>
-</div>";
+	</div>";
 
 
-
-// is user a regular member, no editing privileges?
-if ($userRole == 0) {
-	$out .= "
-	<div class='panel panel-info'>
-	<div class='panel-heading'>Welcome to the activity tracker!</div>
-		<div class='panel-body'>
-			<p>As a clan member, you have access to see the activity data for all members within the clan, so long as your particular division is supported by this tool. To get started, select your division from the \"divisions\" dropdown above.</p>
-			<p>To view a particular member, simply type their name in the search box above.</p>
+	// is user a regular member, no editing privileges?
+	if ($userRole == 0) {
+		$out .= "
+		<div class='panel panel-info'>
+			<div class='panel-heading'>Welcome to the activity tracker!</div>
+			<div class='panel-body'>
+				<p>As a clan member, you have access to see the activity data for all members within the clan, so long as your particular division is supported by this tool. To get started, select your division from the \"divisions\" dropdown above.</p>
+				<p>To view a particular member, simply type their name in the search box above.</p>
+			</div>
 		</div>
-	</div>
 
-	{$posts}";
-
-
-} else {
+		{$posts}";
 
 
+	} else {
 
 
 		// left side
-	$out .= "
-	<div class='row'>";
+		$out .= "
+		<div class='row'>";
 
 
 			// start leader tools
-		$out .= "
-		<div class='col-md-5'>
-			<div class='panel panel-primary'>
-				<div class='panel-heading'><strong>{$roleName} Quick Tools</strong></div>
-				<div class='list-group'>
-					{$tools}
+			$out .= "
+			<div class='col-md-5'>
+				<div class='panel panel-primary'>
+					<div class='panel-heading'><strong>{$roleName} Quick Tools</strong></div>
+					<div class='list-group'>
+						{$tools}
+					</div>
 				</div>
+				";
+
+
+
+				if ($userRole == 1) {
+
+					// squad
+					$out .= "
+					<div class='panel panel-default'>
+						<div class='panel-heading'><strong> Your Squad</strong> {$squadCount}<span class='pull-right text-muted'>Last seen</span></div>
+
+						<div class='list-group' id='squad'>
+							{$my_squad}
+
+						</div>
+						<div class='panel-footer'><button id='pm-checked' class='btn btn-success btn-sm toggle-pm pull-right' style='display: none;'>Send PM (<span class='count-pm'>0</span>)</button>  <button class='btn btn-default btn-sm toggle-pm pull-right'>PM MODE</button><div class='clearfix'></div></div>
+					</div>";
+
+				} else if ($userRole == 2) {
+
+					// platoon
+					$out .= "				
+					<div class='panel panel-default'>
+						<div class='panel-heading'><strong> Your Platoon</strong> {$platoonCount}<span class='pull-right text-muted'>Last seen</span></div>
+
+						<div class='list-group' id='squads'>
+
+							{$my_platoon}
+
+						</div>
+						<div class='panel-footer'><button id='pm-checked' class='btn btn-success btn-sm toggle-pm pull-right' style='display: none;'>Send PM (<span class='count-pm'>0</span>)</button>  <button class='btn btn-default btn-sm toggle-pm pull-right'>PM MODE</button><div class='clearfix'></div></div>
+					</div>";
+
+				}
+
+				$out .= "
+			</div>";
+
+
+			// announcements
+			$out .= "
+			<div class='col-md-7'>
+				{$posts}
 			</div>
 			";
 
-
-				// personnel view
-				// depending on user role (1 = squad leader, 2 = platoon leader)
-
-			if ($userRole == 1) {
-
-					// squad
-				$out .= "
-				<div class='panel panel-default'>
-					<div class='panel-heading'><strong> Your Squad</strong> {$squadCount}<span class='pull-right text-muted'>Last seen</span></div>
-
-					<div class='list-group' id='squad'>
-						{$my_squad}
-
-					</div>
-				</div>";
-			} else if ($userRole == 2) {
-
-					// platoon
-				$out .= "				
-				<div class='panel panel-default'>
-					<div class='panel-heading'><strong> Your Platoon</strong> {$platoonCount}<span class='pull-right text-muted'>Last seen</span></div>
-
-					<div class='list-group' id='squads'>
-
-						{$my_platoon}
-
-					</div>
-				</div>";
-
-			}
-
-			$out .= "
+			$out .="
 		</div>";
-		// end leader tools and info column
-
-
-		// announcements
-		$out .= "
-		<div class='col-md-7'>
-			{$posts}
-		</div>
-		";
-
-		$out .="
-	</div>";
 		// end announcements
 
-}
+	}
 
 	// end container
-$out .=" 
+	$out .=" 
 </div>";
 
 

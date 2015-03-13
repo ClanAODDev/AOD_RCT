@@ -20,7 +20,8 @@
 #
 #*******************************************************************************
 
-require_once "config.php";
+include_once("credentials.php");
+include_once(ROOT . "/config.php");
 
 $right_now = new DateTime("now");
 

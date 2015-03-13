@@ -23,6 +23,50 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 
 	$overall_aod_percent = array();
 	$overall_aod_games = array();
+
+	if ($userRole == 1 && $platoon_id == $user_platoon) {
+
+		$squad_members = get_my_squad($forumId);
+		$squadCount = ($squad_members) ? "(" . count($squad_members) . ")" : NULL;
+
+		if ($squad_members) {
+
+			foreach ($squad_members as $squad_member) {
+				$name = ucwords($squad_member['forum_name']);
+				$id = $squad_member['member_id'];
+				$rank = $squad_member['rank'];
+				$last_seen = formatTime(strtotime($squad_member['last_activity']));
+
+				// visual cue for inactive squad members
+				if (strtotime($last_seen) < strtotime('-30 days')) {
+					$status = 'danger';
+				} else if (strtotime($last_seen) < strtotime('-14 days')) {
+					$status = 'warning';
+				} else {
+					$status = 'muted';
+				}
+
+				$my_squad .= "
+				<a href='/member/{$id}' class='list-group-item'>{$rank} {$name}<small class='pull-right text-{$status}'>{$last_seen}</small></a>
+				";
+			}
+
+		} else {
+			$my_squad .= "<div class='panel-body'>Unfortunately it looks like you don't have any squad members!</div>";
+		}
+
+		$squad_table = "
+		<div class='panel panel-default'>
+			<div class='panel-heading'><strong> Your Squad</strong> {$squadCount}<span class='pull-right text-muted'>Last seen</span></div>
+
+			<div class='list-group' id='squad'>
+				{$my_squad}
+			</div>
+		</div>";
+	}
+
+
+
 	
 	$breadcrumb = "
 	<ul class='breadcrumb'>
@@ -47,7 +91,6 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 					<th class='text-center'><b>Last Active</b></th>
 					<th class='text-center tool' title='In AOD servers'><b>AOD</b></th>
 					<th class='text-center'><b>Overall</b></th>
-					<th class='nosearch text-center follow-tool' title='Percent Played on AOD Servers'><b>%</b></th>
 					<th class='col-hidden'><b>Rank Id</b></th>
 					<th class='col-hidden'><b>Last Login Date</b></th>
 				</tr>
@@ -70,7 +113,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 
 					$members_table .= "
 					<tr data-id='{$row['member_id']}'>
-						<td>" . memberColor(ucwords($row['forum_name']), $row['position_id']) . "</td>
+						<td><em>" . memberColor(ucwords($row['forum_name']), $row['position_id']) . "</em></td>
 						<td class='text-center hidden-xs hidden-sm'>{$rank}</td>
 						
 						<td class='text-center hidden-xs hidden-sm'>{$joindate}</td>
@@ -78,8 +121,6 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 						
 						<td class='text-center'>{$aod_games}</td>
 						<td class='text-center'>{$total_games}</td>
-
-						<td class='text-center'><div class='progress text-center follow-tool' title='<small><center>{$aod_games} of {$total_games}<br />{$percent_aod}%</center></small>' style='width: 100%; margin: 0 auto; height: 15px; vertical-align:middle;'><div class='progress-bar progress-bar-" . getPercentageColor($percent_aod) . " progress-bar-striped' role='progressbar' aria-valuenow='72' aria-valuemin='0' aria-valuemax='50' style='width: ". $percent_aod . "%'><span style='display: none;'>{$percent_aod}%</span></div></div></td>
 
 						<td class='text-center col-hidden'>" . $row['rank_id'] . "</td>
 						<td class='text-center col-hidden'>" . $row['last_activity'] . "</td>
@@ -134,7 +175,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 	// build page structure
 	$out .= "
 	<div class='container fade-in'>
-		<div class='row'>{$breadcrumb}</div>
+		{$breadcrumb}
 		<div class='row page-header'>
 			<div class='col-xs-7 platoon-name'>
 				<h2><img src='/public/images/game_icons/large/{$shortname}.png' /> <strong>{$platoon_name}</strong> <small class='platoon-number'>". ordSuffix($platoon). " Platoon</small></h2>
@@ -150,7 +191,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 		// members data table
 		$out .= "
 		<div class='row'>
-			<div class='col-md-3 hidden-xs'>
+			<div class='col-md-4 hidden-xs'>
 				<div class='panel panel-default'>
 					<div class='panel-heading'>Total Members</div>
 					<div class='panel-body count-detail-big striped-bg'><span class='count-animated'>{$member_count}</span>
@@ -163,33 +204,36 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 					</div>
 				</div>
 
-				<!--<div class='panel panel-default'>
-				<div class='panel-heading'>Game Inactivity</div>
-				<div class='panel-body count-detail-big striped-bg follow-tool' title='{$inactive_count} out of {$member_count} with < {$max} AOD games'>
-					<span class='count-animated percentage'>{$inactive_percent}</span>
-				</div>
-			</div>-->
-		</div>
+				
+				<!-- show squad if squad leader in platoon being viewed -->
+				{$squad_table}
 
 
-		<div class='col-md-9'>			
 
-			<div class='panel panel-default'>
-				<!-- Default panel contents -->
-				<div class='panel-heading'><div class='download-area hidden-xs'></div>Platoon members (last 30 days)<span></span></div>
-				<div class='panel-body border-bottom'><div id='playerFilter'></div>
-			</div> 
-			{$members_table}
-			<div class='panel-footer text-muted text-center' id='member-footer'></div>
-		</div>
-	</div>
 
-	";
+			</div>
+
+
+			<div class='col-md-8'>			
+
+				<div class='panel panel-default'>
+					<!-- Default panel contents -->
+					<div class='panel-heading'><div class='download-area hidden-xs'></div>Platoon members (last 30 days)<span></span></div>
+					<div class='panel-body border-bottom'><div id='playerFilter'></div>
+				</div> 
+				{$members_table}
+				<div class='panel-footer text-muted text-center' id='member-footer'></div>
+			</div>
+
+			
+		</div>";
+
+
 
 		// end container
-	$out .= "
-</div>
-";
+		$out .= "
+	</div>
+	";
 
 } else {
 

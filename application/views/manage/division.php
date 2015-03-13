@@ -18,7 +18,7 @@ foreach ($platoons as $platoon) {
 		<div class='panel panel-default'>
 			<div class='panel-heading'>{$platoon['platoon_name']} ({$gen_count})</div>
 			<div class='panel-body'>
-				<ul class='sortable' data-platoon-id='{$platoon['platoon_id']}' id='plt{$platoon['platoon_id']}'>";
+				<ul class='sortable-division' data-platoon-id='{$platoon['platoon_id']}' id='plt{$platoon['platoon_id']}'>";
 
 					foreach($gen_pop as $player) {
 						$platoonOut .= "<li class='ui-state-default draggable' data-id='{$player['member_id']}'>{$player['rank']} {$player['forum_name']}</li>";

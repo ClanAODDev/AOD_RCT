@@ -14,7 +14,8 @@ die;
 error_reporting(E_ALL);
 ini_set('display_errors', 1);*/
 
-include_once("config.php");
+include_once("credentials.php");
+include_once(ROOT . "/config.php");
 include_once(ROOT . "/application/routes.php");
 include_once(ROOT . "/application/modules/vbfunctions.php");
 include_once(ROOT . "/application/modules/curl_agents.php");
@@ -51,7 +52,6 @@ if (isLoggedIn()) {
     /**
      * generate alerts
      */
-    
     $alerts_list = NULL;
     $alerts      = get_alerts($myUserId);
     if (count($alerts)) {
@@ -59,30 +59,55 @@ if (isLoggedIn()) {
             $alerts_list .= "
             <div data-id='{$alert['id']}' data-user='{$myUserId}' class='alert-dismissable alert alert-{$alert['type']} fade in' role='alert'>
                 <button type='button' class='close' data-dismiss='alert'><span aria-hidden='true'>&times;</span><span class='sr-only'>Close</span></button>
-                {$alert['content']} </div>";
-            }
+                {$alert['content']} 
+            </div>";
         }
+    }
+
+
+    /**
+     * LOA alerts
+     */
+    $loaAlerts = NULL;
+    $loa_expired = count_expired_loas($user_game);
+    if ($loa_expired > 0 && $userRole >= 2) {
+        $loaAlerts = "<div class='alert alert-warning'><i class='fa fa-clock-o'></i> Your division has <strong>{$loa_expired}</strong> expired leaves of absence! <a href='/manage/leaves-of-absence' class='alert-link'>Manage leaves of absence</a></div>";
+    }
+
+    $pending_loa = count_pending_loas($user_game);
+    if (count($pending_loa) && ($userRole > 2)) {
+        $loaAlerts .= "<div class='alert alert-info'><i class='fa fa-clock-o'></i> One or more LOAs are waiting for your approval! <a href='/manage/leaves-of-absence' class='alert-link'>Review leaves of absence</a></div>";
+    }
+
+
 
     /**
      * generate game list for navigation and main page
      */
-    
-    $game_list    = NULL;
-    $game_options = "<option>Select a division</option>";
-    $divisions    = array();
-    $games        = get_games();
+    $main_game_list = NULL;
+    $game_list = NULL;
+    $divisions = array();
+    $games = get_games();
     
     foreach ($games as $game) {
         $shortname = strtolower($game['short_name']);
         $longname  = $game['full_name'];
+        $descr = $game['short_descr'];
         $game_list .= "<li><a href='/divisions/{$shortname}'><img src='/public/images/game_icons/tiny/{$shortname}.png' class='pull-right' /> {$longname}</a></li>";
-        $game_options .= "<option value='/divisions/{$shortname}'>{$longname}</option>";
+        $main_game_list .= "
+        <a href='/divisions/{$shortname}' class='list-group-item' style='padding-bottom: 18px;'>
+            <span class='pull-left' style='margin-right: 20px; vertical-align: middle;'><img src='/public/images/game_icons/large/{$shortname}.png' /></span>
+            <h4 class='list-group-item-heading'><strong>{$longname}</strong></h4>
+            <p class='list-group-item-text text-muted'>{$descr}</p>
+        </a>";
         $divisions[] = $shortname;
     }
 }
 
 $welcomes = array('Hey', 'Howdy', 'Yo', 'Hi');
 $welcomeWord = $welcomes[array_rand($welcomes)];
+
+
 
 /**
  * primary functions
@@ -298,7 +323,7 @@ function onlineUsers()
         if (dbConnect()) {
             try {
                 // grab active users in past 2 minutes
-                $sth = $pdo->prepare('SELECT member.id, username, role, idle FROM users LEFT JOIN member ON users.username = member.forum_name WHERE last_seen >= CURRENT_TIMESTAMP - INTERVAL 10 MINUTE ORDER BY idle, last_seen DESC');
+                $sth = $pdo->prepare('SELECT member.id, member.member_id, username, role, idle FROM users LEFT JOIN member ON users.username = member.forum_name WHERE last_seen >= CURRENT_TIMESTAMP - INTERVAL 10 MINUTE ORDER BY idle, last_seen DESC');
                 $sth->execute();
                 $users = $sth->fetchAll();
             }
@@ -570,6 +595,9 @@ function userExists($string)
     }
 }
 
+
+
+
 function hasher($info, $encdata = false)
 {
     $strength = "10";
@@ -676,6 +704,37 @@ function updateAlert($alert, $uid)
 }
 
 
+function addLoa($id, $date, $reason, $comment)
+{
+    global $pdo;
+    
+    if (dbConnect()) {
+
+        try {
+            $query = $pdo->prepare("INSERT INTO loa ( member_id, date_end, reason, comment ) VALUES ( :id, :date, :reason, :comment )");
+            $query->execute(array(
+                ':id' => $id,
+                ':date' => $date,
+                ':reason' => $reason,
+                ':comment' => $comment
+                ));
+        }
+
+        catch (PDOException $e) {
+            if ($e->errorInfo[1] == 1062) {
+                return array('success' => false, 'message' => 'Member already has an LOA!');
+            } else {
+                return array('success' => false, 'message' => $e->getMessage());
+            }
+            
+        }
+        return array('success' => true);
+    } 
+    
+}
+
+
+
 function updateFlagged($id, $lid, $action)
 {
     global $pdo;
@@ -729,7 +788,7 @@ function updateFlagged($id, $lid, $action)
 
 
 
-function updateMember($uid, $fname, $blog, $bf4db, $mid, $plt, $sqdldr, $position)
+function updateMember($uid, $fname, $blog, $bf4db, $mid, $plt, $sqdldr, $position, $recruiter)
 {
     global $pdo;
     
@@ -739,7 +798,7 @@ function updateMember($uid, $fname, $blog, $bf4db, $mid, $plt, $sqdldr, $positio
     
     
     // initial query
-    $query = "UPDATE member SET forum_name = :fname, battlelog_name = :blog, member_id = :mid, bf4db_id = :bf4db"; 
+    $query = "UPDATE member SET forum_name = :fname, battlelog_name = :blog, member_id = :mid, bf4db_id = :bf4db, recruiter = :recruiter"; 
     
     // check for defined values and append if set
     if (!is_null($plt)) {
@@ -764,7 +823,9 @@ function updateMember($uid, $fname, $blog, $bf4db, $mid, $plt, $sqdldr, $positio
                 ':blog' => $blog,
                 ':bf4db' => $bf4db,
                 ':mid' => $mid,
-                ':uid' => $uid
+                ':uid' => $uid,
+                ':recruiter' => $recruiter
+
                 );
             
             // only bind parameters if they are set
@@ -1166,13 +1227,50 @@ function get_forum_name($mid)
         catch (PDOException $e) {
             return "ERROR:" . $e->getMessage();
         }
+
+
     }
-    return $query;
+    
+    if (count($query)) {
+        return $query;
+    } else {
+        return false;
+    }
 }
 
 
 
-function get_member_name($name)
+function get_member_name($id)
+{
+
+    global $pdo;
+    
+    if (dbConnect()) {
+
+        try {
+
+            $query = "SELECT member.forum_name FROM member WHERE member.member_id = :id";
+            $query = $pdo->prepare($query);
+            $query->bindParam(':id', $id);
+            $query->execute();
+            $query = $query->fetchColumn();
+            
+        }
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+
+    if (count($query)) {
+        return $query;
+    } else {
+        return false;
+    }
+    
+}
+
+
+function search_name($name)
 {
 
     global $pdo;
@@ -1261,7 +1359,7 @@ function get_gen_pop($pid, $order_by_rank = false)
 
 
 
-function get_leaves_of_absence($gid) {
+function get_approved_loas($gid) {
 
     global $pdo, $member_info;
 
@@ -1269,10 +1367,11 @@ function get_leaves_of_absence($gid) {
 
         try {
 
-            $query = "SELECT loa.member_id, loa.reason, loa.date_end, member.forum_name, rank.abbr as rank FROM loa
+            $query = "SELECT loa.member_id, loa.reason, loa.date_end, loa.approved_by, loa.comment, member.forum_name, rank.abbr as rank FROM loa
             LEFT JOIN member ON member.member_id = loa.member_id
             LEFT JOIN rank ON rank.id = member.rank_id
-            WHERE member.game_id = :gid";
+            WHERE member.game_id = :gid and loa.approved = 1
+            ORDER BY loa.date_end";
 
             $query = $pdo->prepare($query);
             $query->bindParam(':gid', $gid);
@@ -1287,12 +1386,155 @@ function get_leaves_of_absence($gid) {
     return $query;
 }
 
+function get_pending_loas($gid) {
+
+    global $pdo, $member_info;
+
+    if (dbConnect()) {
+
+        try {
+
+            $query = "SELECT loa.member_id, loa.reason, loa.date_end, loa.comment, member.forum_name, rank.abbr as rank FROM loa
+            LEFT JOIN member ON member.member_id = loa.member_id
+            LEFT JOIN rank ON rank.id = member.rank_id
+            WHERE member.game_id = :gid and loa.approved = 0
+            ORDER BY loa.date_end";
+
+            $query = $pdo->prepare($query);
+            $query->bindParam(':gid', $gid);
+            $query->execute();
+            $query = $query->fetchAll();
+
+        }
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+    return $query;
+}
+
+
+
+
+function member_has_loa($mid) {
+
+    global $pdo;
+
+    if (dbConnect()) {
+
+        try {
+
+            $query = "SELECT count(*) WHERE member_id = :mid";
+            $query = $pdo->prepare($query);
+            $query->bindParam(':mid', $mid);
+            $query->execute();
+            $query = $query->fetch();
+
+        }
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+
+    if (count($query)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+
+
+function approve_loa($id, $approvingId)
+{
+    global $pdo;
+    if (dbConnect()) {
+        try {
+            $stmt = $pdo->prepare('UPDATE loa SET approved = 1, approved_by = :approvingId WHERE member_id = :id');
+            $stmt->bindParam(':approvingId', $approvingId, PDO::PARAM_INT);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();            
+        }
+        catch (PDOException $e) {
+            return array('success' => false, 'message' => $e->getMessage());
+        }
+
+        return array('success' => true);
+    }
+}
+
+
+function revoke_loa($mid) {
+
+    global $pdo;
+    
+    if (dbConnect()) {
+        try {
+            $query = $pdo->prepare("DELETE FROM loa WHERE member_id = :mid LIMIT 1");
+            $query->execute(array(':mid' => $mid));
+        }
+        catch (PDOException $e) {
+            return array('success' => false, 'message' => $e->getMessage());
+        }
+    } 
+    return array('success' => true);
+
+}
+
+function count_expired_loas($gid) {
+
+    global $pdo, $member_info;
+
+    if (dbConnect()) {
+
+        try {
+
+            $query = "SELECT count(*) FROM loa WHERE date_end < NOW() AND game_id = :gid";
+            $query = $pdo->prepare($query);
+            $query->bindParam(':gid', $gid, PDO::PARAM_INT);
+            $query->execute();
+            $query = $query->fetchColumn();
+
+        }
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+    return $query;
+}
+
+
+function count_pending_loas($gid) {
+
+    global $pdo, $member_info;
+
+    if (dbConnect()) {
+
+        try {
+
+            $query = "SELECT count(*) FROM loa WHERE approved = 0 AND game_id = :gid";
+            $query = $pdo->prepare($query);
+            $query->bindParam(':gid', $gid, PDO::PARAM_INT);
+            $query->execute();
+            $query = $query->fetchColumn();
+
+        }
+        catch (PDOException $e) {
+            return "ERROR:" . $e->getMessage();
+        }
+    }
+    return $query;
+}
+
+
+
+
 /**
  * fetches squad members based on member id
  * @param  int $mid member id
  * @return array    returns array if squad members
  */
-function get_my_squad($mid, $order_by_rank = false)
+function get_my_squad($mid, $division_structure_ordering = false)
 {
 
     global $pdo, $member_info;
@@ -1305,8 +1547,9 @@ function get_my_squad($mid, $order_by_rank = false)
             LEFT JOIN `rank` on member.rank_id = rank.id 
             WHERE member.squad_leader_id = :mid AND (member.status_id = 1 OR member.status_id = 999) AND member.position_id = 6";
 
-            if ($order_by_rank) {
-                $query .= " ORDER BY member.rank_id DESC, member.join_date ASC ";
+            // show squads with newest on bottom, sort by rank
+            if ($division_structure_ordering) {
+                $query .= " ORDER BY member.rank_id DESC, member.join_date DESC ";
             } else {
                 $query .= " ORDER BY member.last_activity ASC ";
             }
@@ -1369,7 +1612,7 @@ function get_my_inactives($id, $type, $flagged = NULL)
             $query = "SELECT member.id, member.forum_name, member.member_id, member.last_activity, member.battlelog_name, member.bf4db_id, inactive_flagged.flagged_by, member.squad_leader_id, member.forum_posts, member.join_date FROM `member` 
             LEFT JOIN `rank` ON member.rank_id = rank.id  
             LEFT JOIN `inactive_flagged` ON member.member_id = inactive_flagged.member_id          
-            WHERE (status_id = 1 OR status_id = 999) AND (last_activity < CURDATE() - INTERVAL 30 DAY AND status_id = 1) AND ";
+            WHERE (status_id = 1) AND (last_activity < CURDATE() - INTERVAL 30 DAY) AND ";
             
             switch ($type) {
                 case "sqd":
@@ -2108,7 +2351,7 @@ function parse_battlelog_reports($personaId) {
 
 
 function get_daily_bf4_toplist($max) {
-    $query = "SELECT forum_name, member_id, platoon.number, rank.abbr AS rank, (SELECT count(*) FROM activity WHERE activity.member_id = member.member_id AND (server LIKE 'AOD%' OR server LIKE ' AOD%') AND activity.datetime >= DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)) as aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id LEFT JOIN rank ON member.rank_id = rank.id WHERE status_id = 1 ORDER BY aod_games DESC LIMIT {$max}"; 
+    $query = "SELECT forum_name, member_id, platoon.number, rank.abbr AS rank, (SELECT count(*) FROM activity WHERE activity.member_id = member.member_id AND (server LIKE '%AOD%') AND activity.datetime >= DATE_SUB(CURRENT_DATE(), INTERVAL 1 DAY)) as aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id LEFT JOIN rank ON member.rank_id = rank.id WHERE status_id = 1 ORDER BY aod_games DESC LIMIT {$max}"; 
 
     if (dbConnect()) {
         global $pdo;
@@ -2119,7 +2362,7 @@ function get_daily_bf4_toplist($max) {
             $result = $query->fetchAll();
         }
         catch (PDOException $e) {
-            return false;
+            return array('success' => false, 'message' => $e->getMessage());
         }
 
         return $result;
@@ -2136,10 +2379,10 @@ function get_daily_bf4_toplist($max) {
 function get_monthly_bf4_toplist($max) {
 
     // monthly
-    $query = "SELECT forum_name, member_id, platoon.number, rank.abbr as rank, ( SELECT count(*) FROM activity WHERE activity.member_id = member.member_id AND (server LIKE 'AOD%' OR server LIKE ' AOD%') AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 30 day) AND CURRENT_TIMESTAMP ) AS aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id LEFT JOIN rank ON member.rank_id = rank.id WHERE status_id = 1 ORDER BY aod_games DESC LIMIT {$max}";
+    $query = "SELECT forum_name, member_id, platoon.number, rank.abbr as rank, ( SELECT count(*) FROM activity WHERE activity.member_id = member.member_id AND (server LIKE '%AOD%') AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 30 day) AND CURRENT_TIMESTAMP ) AS aod_games FROM member LEFT JOIN platoon ON member.platoon_id = platoon.id LEFT JOIN rank ON member.rank_id = rank.id WHERE status_id = 1 ORDER BY aod_games DESC LIMIT {$max}";
 
     // percentage query
-    $totalAODquery = "SELECT round((SELECT count(*) FROM activity WHERE (server LIKE 'AOD%' OR server LIKE ' AOD%') AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 30 day) AND CURRENT_TIMESTAMP) / count(*)*100, 1) FROM activity WHERE activity.datetime BETWEEN DATE_SUB( NOW(), INTERVAL 30 day ) AND CURRENT_TIMESTAMP";
+    $totalAODquery = "SELECT round((SELECT count(*) FROM activity WHERE (server LIKE '%AOD%') AND activity.datetime BETWEEN DATE_SUB(NOW(), INTERVAL 30 day) AND CURRENT_TIMESTAMP) / count(*)*100, 1) FROM activity WHERE activity.datetime BETWEEN DATE_SUB( NOW(), INTERVAL 30 day ) AND CURRENT_TIMESTAMP";
 
     global $pdo;
 
@@ -2160,7 +2403,7 @@ function get_monthly_bf4_toplist($max) {
         }
 
         catch (PDOException $e) {
-            return false;
+            return array('success' => false, 'message' => $e->getMessage());
         }
 
         $data["players"] = $result;
@@ -2203,7 +2446,7 @@ function count_aod_games($member_id, $bdate, $edate)
 
         # count total AOD games played for a single member
         try {
-            $query = "SELECT count(*) FROM activity WHERE member_id = :mid AND (server LIKE 'AOD%' OR server LIKE ' AOD%') AND datetime between :bdate AND :edate";
+            $query = "SELECT count(*) FROM activity WHERE member_id = :mid AND (server LIKE '%AOD%') AND datetime between :bdate AND :edate";
             $query = $pdo->prepare($query);
             $query->bindParam(':mid', $member_id);
             $query->bindParam(':bdate', $bdate);
@@ -2463,7 +2706,7 @@ function generate_division_structure() {
     $out .= "[tr][td][center]";
 
 
-    $loas = get_leaves_of_absence($game);
+    $loas = get_approved_loas($game);
     foreach ($loas as $member) {
         $date_end = date("M d, Y", strtotime($member['date_end']));
         $aod_url = "[url=" . CLANAOD . $member['member_id'] . "]";

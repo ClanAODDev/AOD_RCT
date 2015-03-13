@@ -1,6 +1,9 @@
 <?php
 if (!isset($_SESSION['secure_access']) || (isset($_SESSION['secure_access']) && $_SESSION['secure_access'] !== true)) { header("Location: /404/"); }
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 header('Content-Type: image/png');
 date_default_timezone_set('America/New_York');
 
@@ -41,9 +44,13 @@ try {
 	$daily   = get_daily_bf4_toplist(10);
 	$monthly = get_monthly_bf4_toplist(10);
 
-	if (!$daily || !$monthly) {
-		throw new Exception("Query could not be completed", 1);
+	if (!$daily) {
+		throw new Exception($daily['message'], 1);
 	}
+
+        if (!$monthly) {
+        throw new Exception($monthly['message'], 1);
+    }
 
 
     /**
@@ -105,14 +112,14 @@ try {
 }
 catch (Exception $e) {
 
-	$im = imagecreatefrompng("/public/images/stats_templates/top10/big-bg-error.png");
+	$im = imagecreatefrompng(ROOT . "/public/images/stats_templates/top10/big-bg-error.png");
 	imagettftext($im, 6, 0, 10, 320, $darkGrey, $tinyfont, strtoupper($e->getMessage()));
 
 }
 
 
 imagepng($im);
-imagepng($im, "/public/images/toplist-cache.png");
+imagepng($im, ROOT . "/public/images/toplist-cache.png");
 imagedestroy($im);
 
 /*
