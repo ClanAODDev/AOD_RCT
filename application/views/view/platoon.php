@@ -107,7 +107,7 @@ if ($platoon_id = get_platoon_id_from_number($platoon, $game_id)) {
 					$overall_aod_games[] = $aod_games;
 					$overall_aod_percent[] = $percent_aod;
 					$rank = $row['rank'];
-					$joindate = date("Y", strtotime($row['join_date']));
+					$joindate = date("M Y", strtotime($row['join_date']));
 					$lastActive = formatTime(strtotime($row['last_activity']));
 					$status = lastSeenColored($lastActive);
 
