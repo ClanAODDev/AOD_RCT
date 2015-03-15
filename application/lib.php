@@ -1549,7 +1549,7 @@ function get_my_squad($mid, $division_structure_ordering = false)
 
             // show squads with newest on bottom, sort by rank
             if ($division_structure_ordering) {
-                $query .= " ORDER BY member.rank_id DESC, member.join_date DESC ";
+                $query .= " ORDER BY member.rank_id DESC, member.join_date ASC";
             } else {
                 $query .= " ORDER BY member.last_activity ASC ";
             }
