@@ -1868,7 +1868,7 @@ function get_squad_leaders($gid, $pid = false, $order_by_rank = false)
             }
 
             if ($order_by_rank) {
-                $query .= " ORDER BY member.rank_id DESC, member.forum_name ASC ";
+                $query .= " ORDER BY member.join_date ASC, member.rank_id DESC, member.forum_name ASC ";
             } else {
                 $query .= "  ORDER BY platoon.id, forum_name";
             }
