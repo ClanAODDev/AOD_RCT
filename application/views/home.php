@@ -178,7 +178,7 @@ $out .= "
 	$out .= "
 	<div class='row'>
 		<div class='col-md-12'>
-			{$obligAlerts}
+			{$loaAlerts}
 			{$alerts_list}
 			
 		</div>
