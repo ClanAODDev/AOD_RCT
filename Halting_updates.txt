@@ -1,0 +1,1 @@
+This repository is deemed deprecated and no future updates will be made to it. Instead, all work will be devoted to the refactored "Division-Tracker" repository.
