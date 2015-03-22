@@ -78,8 +78,6 @@ $(function() {
                         $(".alert-box").stop().html("<div class='alert alert-success'><i class='fa fa-check'></i> " + message + "</div>").effect('highlight').delay(1000).fadeOut();
                     }
 
-
-
                 },
 
                 // fail: function()
@@ -307,7 +305,7 @@ $(function() {
                     data: $("#loa-update").serialize() + "&comment=" + comment,
                     success: function(data) {
                         if (data.success) {
-                            var $newRow = $("<tr data-id='" + data.id + "'><td>" + data.name + "</td><td>" + data.reason + "</td><td>" + data.date + "</td><td class='text-center'><h4><span class='label bg-warning'><i class='fa fa-check fa-lg' title='Pending'></i> Pending</span></h4></td></tr>");
+                            var $newRow = $("<tr data-id='" + data.id + "'><td>" + data.name + "</td><td>" + data.reason + "</td><td>" + data.date + "</td><td class='text-center'><h4><span class='label bg-warning'><i class='fa fa-check fa-lg' title='Pending'></i> Pending</span></h4></td><td></td></tr>");
 
                             $("#loas tbody tr:last").after($newRow);
                             $newRow.effect("highlight", {}, 3000);

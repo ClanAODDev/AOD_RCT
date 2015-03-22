@@ -74,8 +74,9 @@ if (isLoggedIn()) {
         $loaAlerts = "<div class='alert alert-warning'><i class='fa fa-clock-o'></i> Your division has <strong>{$loa_expired}</strong> expired leaves of absence! <a href='/manage/leaves-of-absence' class='alert-link'>Manage leaves of absence</a></div>";
     }
 
-    $pending_loa = count_pending_loas($user_game);
-    if (count($pending_loa) && ($userRole > 2)) {
+    $pendingLoa = intval(count_pending_loas($user_game));
+
+    if ($pendingLoa > 0 && $userRole >= 2) {
         $loaAlerts .= "<div class='alert alert-info'><i class='fa fa-clock-o'></i> One or more LOAs are waiting for your approval! <a href='/manage/leaves-of-absence' class='alert-link'>Review leaves of absence</a></div>";
     }
 
@@ -641,7 +642,7 @@ function getUserRoleName($role)
         $role = "Platoon Leader";
         break;
         case 3:
-        $role = "Division Commander";
+        $role = "Command Staff";
         break;
         case 4:
         $role = "Administrator";
@@ -910,7 +911,7 @@ function createMember($forum_name, $member_id, $battlelog_name, $bf4dbid, $plato
         try {
 
             // status of 999 is pending. Will reset to 1 when reflected as a new member via arch_sync
-            $query = $pdo->prepare("INSERT INTO member ( forum_name, member_id, battlelog_name, bf4db_id, platoon_id, position_id, squad_leader_id, game_id, rank_id, status_id, last_forum_login, last_activity, last_forum_post, recruiter ) VALUES ( :forum, :member_id, :battlelog, :bf4db, :platoon, :bf4_pos, :sqdldr, :game, :rank, 999, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, :sqdldr )         
+            $query = $pdo->prepare("INSERT INTO member ( forum_name, member_id, battlelog_name, bf4db_id, platoon_id, position_id, squad_leader_id, game_id, rank_id, status_id, join_date, last_forum_login, last_activity, last_forum_post, recruiter ) VALUES ( :forum, :member_id, :battlelog, :bf4db, :platoon, :bf4_pos, :sqdldr, :game, :rank, 999, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, :sqdldr )         
 
                 ON DUPLICATE KEY UPDATE
                 forum_name = :forum,
@@ -1543,13 +1544,11 @@ function get_my_squad($mid, $division_structure_ordering = false)
 
         try {
 
-            $query = "SELECT member.id, member.forum_name, member.member_id, member.last_activity, member.battlelog_name, member.bf4db_id, member.forum_posts, member.join_date, member.rank_id, rank.abbr as rank FROM `member` 
-            LEFT JOIN `rank` on member.rank_id = rank.id 
-            WHERE member.squad_leader_id = :mid AND (member.status_id = 1 OR member.status_id = 999) AND member.position_id = 6";
+            $query = "SELECT member.id, member.forum_name, member.member_id, member.last_activity, member.battlelog_name, member.bf4db_id, member.forum_posts, member.join_date, member.rank_id, rank.abbr as rank FROM `member` LEFT JOIN `rank` on member.rank_id = rank.id WHERE member.squad_leader_id = :mid AND (member.status_id = 1 OR member.status_id = 999) AND member.position_id = 6";
 
             // show squads with newest on bottom, sort by rank
             if ($division_structure_ordering) {
-                $query .= " ORDER BY member.rank_id DESC, member.join_date DESC ";
+                $query .= " ORDER BY member.rank_id DESC ";
             } else {
                 $query .= " ORDER BY member.last_activity ASC ";
             }
@@ -1868,7 +1867,7 @@ function get_squad_leaders($gid, $pid = false, $order_by_rank = false)
             }
 
             if ($order_by_rank) {
-                $query .= " ORDER BY member.rank_id DESC, member.forum_name ASC ";
+                $query .= " ORDER BY member.join_date ASC, member.rank_id DESC, member.forum_name ASC ";
             } else {
                 $query .= "  ORDER BY platoon.id, forum_name";
             }
@@ -2180,13 +2179,6 @@ function convertDivision($division)
     }
     return $id;
 }
-
-
-
-
-
-
-
 
 
 /**
@@ -2524,7 +2516,7 @@ function generate_division_structure() {
 
 
     // header
-    $out = "[table='width: 1000']";
+    $out = "[table='width: 1100']";
     $i = 1;
     $out .= "[tr][td]";
 
@@ -2575,7 +2567,7 @@ function generate_division_structure() {
      * ---------------------------
      */
 
-    $out .= "\r\n\r\n[table='width: 1100']";
+    $out .= "\r\n\r\n[table='width: 1200']";
 
     $platoons = get_platoons($game);
     foreach ($platoons as $platoon) {
@@ -2708,9 +2700,14 @@ function generate_division_structure() {
 
     $loas = get_approved_loas($game);
     foreach ($loas as $member) {
+
+        if ($i % 10 == 0) {
+            $out .= "[/td][td]";
+        }
+
         $date_end = date("M d, Y", strtotime($member['date_end']));
         $aod_url = "[url=" . CLANAOD . $member['member_id'] . "]";
-        $out .= "{$aod_url}{$member['rank']} {$member['forum_name']}[/url]\r\n[b]Ends[/b] {$date_end}\r\n{$member['reason']}\r\n\r\n";
+        $out .= "{$aod_url}{$member['rank']} {$member['forum_name']}[/url] -- {$date_end} -- {$member['reason']}\r\n";
 
         $i++;
 

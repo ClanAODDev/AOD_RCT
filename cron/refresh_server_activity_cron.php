@@ -53,7 +53,7 @@ if (DEBUG_MODE) echo $next_member."\n";
 
 # Read the member_id and bf4db_id from the member table.
 try {
-	$query = "SELECT member_id, bf4db_id FROM member WHERE id=".$next_member;
+	$query = "SELECT member_id, bf4db_id FROM member WHERE id={$next_member} AND status_id=1";
 	if (DEBUG_MODE) echo $query."\n";
 	$query = $pdo->prepare($query);
 	$query->execute();
