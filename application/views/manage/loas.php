@@ -32,7 +32,7 @@ $loaList = NULL;
 $appLoas = get_approved_loas($user_game);
 $pendLoas = get_pending_loas($user_game);
 
-if ($userRole >= 2) {
+if ($userRole >= 1) {
 	$pendingActions = "<td class='text-center loa-actions' style='opacity: .2;'><button class='btn btn-default btn-block view-pending-loa' title='Review LOA'>Review LOA</button></td>";
 	$activeActions = "<td class='text-center loa-actions' style='opacity: .2;'><button class='btn btn-default btn-block view-active-loa' title='Review LOA'>Review LOA</button></td>";
 }
@@ -114,7 +114,7 @@ $out = "
 
 
 	// pending loas
-	if ($userRole >= 2) {
+	if ($userRole >= 1) {
 		$out .= $ploaTable;
 	}
 	
