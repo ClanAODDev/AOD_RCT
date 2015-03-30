@@ -43,17 +43,8 @@ if ($member = get_member($userId)) {
 	$recruiter_name = (($recruiter_id != 0) && $recruiter_name = get_forum_name($recruiter_id)) ? ucwords($recruiter_name) : "Not set or invalid";
 	$recruiter = (($recruiter_name) != "Not set or invalid") ? "<a class='list-group-item text-right' href='/member/{$recruiter_id}'><span class='pull-left'><strong>Recruiter: </strong></span> <span class='text-muted'>{$recruiter_name}</span></a>" : "<li class='list-group-item text-right'><span class='pull-left'><strong>Recruiter: </strong></span> <span class='text-muted'>{$recruiter_name}</span></li>";
 
-	// member activity greater than 14 days (warning)
-	if (strtotime($last_seen) < strtotime('-30 days')) {
-		$alerts .= "<div class='alert alert-danger fade-in'><i class='fa fa-exclamation-triangle'></i> Player has not logged into the forums in {$wng_last_seen}!</div>";
-	} else if (strtotime($last_seen) < strtotime('-14 days')) {
-		$alerts .= "<div class='alert alert-warning fade-in'><i class='fa fa-exclamation-triangle'></i> Player has not logged into the forums in {$wng_last_seen}!</div>";
-	} 
 
-	// pending member warning
-	if ($status_id == 999) {
-		$alerts .= "<div class='alert alert-warning fade-in'><i class='fa fa-exclamation-triangle'></i> This member is pending, and will not have any forum specific information until their member status has been approved.</div>";
-	}
+
 
 	// server history
 	$games_list = get_player_games($member_id, $first_date_in_range, $last_date_in_range);
@@ -97,6 +88,25 @@ if ($member = get_member($userId)) {
 
 		";
 	}
+
+
+	// pending member warning
+	if ($status_id == 999) {
+
+		$alerts .= "<div class='alert alert-warning fade-in'><i class='fa fa-exclamation-triangle'></i> This member is pending, and will not have any forum specific information until their member status has been approved.</div>";
+
+	} else if ($status_id == 4) {
+
+		$alerts .= "<div class='alert alert-danger fade-in'><i class='fa fa-times-circle'></i> This remember is currently removed from the division and will not appear on the division structure until he is re-recruited and his member status is approved on the forums.</div>";
+	}
+
+	// member activity greater than 14 days (warning)
+	if (strtotime($last_seen) < strtotime('-30 days')) {
+		$alerts .= "<div class='alert alert-warning fade-in'><i class='fa fa-exclamation-triangle'></i> Player has not logged into the forums in {$wng_last_seen}!</div>";
+	} else if (strtotime($last_seen) < strtotime('-14 days')) {
+		$alerts .= "<div class='alert alert-info fade-in'><i class='fa fa-exclamation-triangle'></i> Player has not logged into the forums in {$wng_last_seen}!</div>";
+	} 
+
 
 	// loa infp
 	$loaStatus = NULL;
@@ -152,7 +162,6 @@ if ($member = get_member($userId)) {
 	<div class='container fade-in'>
 		{$breadcrumb}
 
-		{$alerts}
 		
 		<div class='page-header vertical-align'>
 			<div class='col-xs-1 hidden-sm hidden-xs'>{$avatar}</div>
@@ -163,6 +172,8 @@ if ($member = get_member($userId)) {
 				{$editPanel}
 			</div>
 		</div>
+
+		{$alerts}
 
 
 		<div class='row margin-top-20'>
