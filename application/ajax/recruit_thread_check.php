@@ -6,7 +6,7 @@ $out = NULL;
 
 if (isset($_GET['player']) && (isset($_GET['game']))) {
 
-	$player = $_GET['player'];
+	$player = trim($_GET['player']);
 	$game = $_GET['game'];
 
 	if (!empty($_GET['player']) && (!empty($_GET['game']))) {  
