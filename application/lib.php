@@ -1548,7 +1548,7 @@ function get_my_squad($mid, $division_structure_ordering = false)
 
             // show squads with newest on bottom, sort by rank
             if ($division_structure_ordering) {
-                $query .= " ORDER BY member.rank_id DESC ";
+                $query .= " ORDER BY member.rank_id DESC, member.join_date DESC ";
             } else {
                 $query .= " ORDER BY member.last_activity ASC ";
             }
@@ -1867,9 +1867,9 @@ function get_squad_leaders($gid, $pid = false, $order_by_rank = false)
             }
 
             if ($order_by_rank) {
-                $query .= " ORDER BY member.join_date ASC, member.rank_id DESC, member.forum_name ASC ";
+                $query .= " ORDER BY member.rank_id DESC ";
             } else {
-                $query .= "  ORDER BY platoon.id, forum_name";
+                $query .= " ORDER BY platoon.id, forum_name ";
             }
 
 
